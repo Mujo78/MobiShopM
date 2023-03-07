@@ -3,7 +3,7 @@
     "username": "root",
     "password": "root.2020",
     "database": "mobishopm",
-    "host": "127.0.0.1",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "test": {

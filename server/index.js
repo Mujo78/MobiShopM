@@ -14,10 +14,12 @@ const db = require("./models")
 const osobaRute = require("./routes/osoba-routes")
 const mobitelRute = require("./routes/mobitel-routes")
 const korisnikRute = require("./routes/korisnik-routes")
+const commentRute = require("./routes/comments-routes")
 
 app.use("/", osobaRute);
 app.use("/", mobitelRute);
 app.use("/", korisnikRute);
+app.use("/", commentRute);
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {

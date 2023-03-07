@@ -1,8 +1,11 @@
 const express = require("express")
-const {validationResult} = require("express-validator")
+const {validationResult, check} = require("express-validator")
 const router = express.Router()
 const {createMobitelValidator} = require("../validators/mobitel")
 const {Mobitel} = require("../models")
+const { adminMiddleware } = require("../middlewares/admin-check")
+const { authMiddleware } = require("../middlewares/auth-middleware")
+
 
 router.get("/mobiteli", async(req, res) => {
     const allOfThem = await Mobitel.findAll();
@@ -21,7 +24,7 @@ router.get("/mobiteli/:id", async(req, res) => {
     }
 })
 
-router.post("/post-mobitel",createMobitelValidator, async(req, res) => {
+router.post("/post-mobitel", adminMiddleware ,createMobitelValidator, async(req, res) => {
     try{
         const errors = validationResult(req);
 
@@ -39,7 +42,7 @@ router.post("/post-mobitel",createMobitelValidator, async(req, res) => {
 })
 
 
-router.post("/edit-mobitel/:id", async(req, res) =>{
+router.post("/edit-mobitel/:id", adminMiddleware ,async(req, res) =>{
     try{
         const id = req.params.id;
         const toUpdate = await Mobitel.findByPk(id);
@@ -74,7 +77,7 @@ router.post("/edit-mobitel/:id", async(req, res) =>{
     }
 })
 
-router.delete("/:id", async(req, res) => {
+router.delete("/:id", adminMiddleware ,async(req, res) => {
     const id = req.params.id;
     const toDelete = await Mobitel.findByPk(id);
     if(!toDelete){

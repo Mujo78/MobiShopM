@@ -2,12 +2,13 @@ const express = require("express")
 const router = express.Router();
 const bcrypt = require("bcrypt")
 const {validationResult} = require("express-validator")
-const {authMiddleware} = require("../middlewares/auth-middleware")
+const {adminMiddleware} = require("../middlewares/admin-check")
 
 const {Osoba, Korisnik} = require("../models")
 
-const {createOsobaValidator} = require("../validators/osoba");
+const {createOsobaValidator, createAdminValidator} = require("../validators/osoba");
 const { loginUser } = require("../validators/korisnik");
+
 
 router.get("/users", async(req, res) =>{
     const allUsers = await Osoba.findAll();
@@ -15,12 +16,12 @@ router.get("/users", async(req, res) =>{
     res.json(allUsers);
 })
 
-router.post("/registration",loginUser,createOsobaValidator, async(req, res) =>{
+router.post("/registration",createOsobaValidator, async(req, res) =>{
     try{
         const errors = validationResult(req);
 
         if(!errors.isEmpty()){
-            res.json(errors);
+            res.status(400).json(errors);
         }else{
             const {
                 ime, 
@@ -28,13 +29,12 @@ router.post("/registration",loginUser,createOsobaValidator, async(req, res) =>{
                 broj_telefona,
                 adresa,
                 grad,
+                username,
                 email,
                 spol,
                 password
             } = req.body;
 
-            let username = ime.toLowerCase() + "." +
-            prezime.toLowerCase();
             let hash = await bcrypt.hash(password, 10);
 
             const osoba = await Osoba.create({
@@ -61,7 +61,7 @@ router.post("/registration",loginUser,createOsobaValidator, async(req, res) =>{
     }
 })
 
-router.post("/add-admin",loginUser,createOsobaValidator,authMiddleware, async(req, res) =>{
+router.post("/add-admin",createAdminValidator, async(req, res) =>{
     try{
         const errors = validationResult(req);
 
@@ -79,8 +79,7 @@ router.post("/add-admin",loginUser,createOsobaValidator,authMiddleware, async(re
                 password
             } = req.body;
 
-            let username = ime.toLowerCase() + "." +
-            prezime.toLowerCase();
+            let username = ime.toLowerCase() + "." + prezime.toLowerCase();
             let hash = await bcrypt.hash(password, 10);
 
             const user = await Korisnik.findOne({where: {username: username}})
@@ -105,7 +104,7 @@ router.post("/add-admin",loginUser,createOsobaValidator,authMiddleware, async(re
 
 
 
-                return res.json(`Uspjesna dodavanje novog admina, username: ${ime}.`);
+                return res.json(`Uspjesna dodavanje novog admina, username: ${ime}.${prezime}`);
             }
         }
     }catch(error){
