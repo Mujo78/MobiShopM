@@ -25,7 +25,7 @@ export default function LoginModal(props){
       axios.post("http://localhost:3001/login", loginData)
       .then(response => {
         let responseData = response.data;
-        console.log(responseData);
+     
         localStorage.setItem("accessToken", response.data.accessToken);
         setAuthState({
           id: responseData.id,

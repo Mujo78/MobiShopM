@@ -44,12 +44,16 @@ router.post("/login",loginUser, async(req, res) => {
 router.get("/user", authMiddleware ,async(req, res) =>{
     const user = req.user;
     
-    const userForFront = await Korisnik.findOne({where: { id: user.id }}) 
+    const userForFront = await Korisnik.findOne({where: { id: user.id }})
 
-    return res.status(200).json({
-        id: userForFront.id,
-        username: userForFront.username,
-        RoleId: userForFront.RoleId
-    })
+    if(userForFront === null){
+        console.log("No user");
+    }else{
+        return res.status(200).json({
+            id: userForFront.id,
+            username: userForFront.username,
+            RoleId: userForFront.RoleId
+        })
+    }
 })
 module.exports = router;

@@ -75,17 +75,9 @@ exports.createAdminValidator = [
         .notEmpty()
         .withMessage(POST_BROJTELEFONA_OSOBA)
         .bail(),
-    check("password")
-        .notEmpty()
-        .withMessage(POST_PASSWORD_KORISNIK)
-        .bail(),
     check("grad")
         .notEmpty()
         .withMessage(POST_GRAD_OSOBA)
-        .bail(),
-    check("email")
-        .notEmpty()
-        .withMessage(POST_EMAIL_OSOBA)
         .bail(),
     check("spol")
         .notEmpty()

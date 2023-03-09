@@ -15,6 +15,10 @@ import MyCart from './pages/MyCart';
 import Setings from './pages/Setings';
 import axios from 'axios';
 import AdminMenu from './pages/AdminMenu';
+import Button from 'react-bootstrap/esm/Button';
+import Cart from './components/Cart';
+
+
 
 function App() {
   const [authState, setAuthState] = useState({
@@ -23,9 +27,12 @@ function App() {
     RoleId:0
   })
 
+  const [showCart, setShowCart] = useState(false);
+
+
+  const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    if(accessToken){
+    if(accessToken !== null){
 
     axios.get("http://localhost:3001/user", {
         headers: {
@@ -42,7 +49,14 @@ function App() {
         return <Home />
       })
     }
-  }, []);
+  }, [accessToken]);
+
+  function handleShowCart(){
+    setShowCart(true);
+  }
+  function handleCloseCart(){
+    setShowCart(false);
+  }
 
   return (
       <AuthContext.Provider value={{authState, setAuthState}}>
@@ -52,7 +66,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<Search />} />
-            <Route path="/models" element={<Models />} />
+            <Route path="/models/:brandName?" element={<Models />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path='/profile' element={<Profile />} />
@@ -61,7 +75,10 @@ function App() {
             <Route path='/admin-menu' element={<AdminMenu />} />
             <Route path='*' element={<PageNotFound />} />
           </Routes>
+          <Button onClick={handleShowCart} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="../images/cart.png" alt="cart" />
+          </Button>
         </Router>
+          <Cart show={showCart} onHide={handleCloseCart} />
     </div>
       </AuthContext.Provider>
   );

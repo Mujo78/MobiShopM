@@ -6,7 +6,10 @@ const {
     POST_RAM_MOBITEL,
     POST_PROCESOR_MOBITEL,
     POST_KAMERA_MOBITEL,
-    POST_NAZIV_MOBITEL
+    POST_NAZIV_MOBITEL,
+    POST_PHOTO_MOBITEL,
+    POST_OS_MOBITEL,
+    POST_MEMORY_MOBITEL
 } = require("../constants/mobitel-constants")
 
 exports.createMobitelValidator = [
@@ -17,6 +20,10 @@ exports.createMobitelValidator = [
     check("ram")
         .notEmpty()
         .withMessage(POST_RAM_MOBITEL)
+        .bail(),
+    check("internal")
+        .notEmpty()
+        .withMessage(POST_MEMORY_MOBITEL)
         .bail(),
     check("procesor")
         .notEmpty()
@@ -29,6 +36,14 @@ exports.createMobitelValidator = [
     check("baterija")
         .notEmpty()
         .withMessage(POST_BATERIJA_MOBITEL)
+        .bail(),
+    check("photo")
+        .notEmpty()
+        .withMessage(POST_PHOTO_MOBITEL)
+        .bail(),
+    check("os")
+        .notEmpty()
+        .withMessage(POST_OS_MOBITEL)
         .bail(),
     check("kamera")
         .notEmpty()

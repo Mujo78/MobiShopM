@@ -74,13 +74,14 @@ router.post("/add-admin",createAdminValidator, async(req, res) =>{
                 broj_telefona,
                 adresa,
                 grad,
-                email,
                 spol,
-                password
             } = req.body;
 
+
+            let password = ime.charAt(0).toUpperCase() + ime.slice(1) + "." + prezime.charAt(0).toUpperCase() + prezime.slice(1);;
             let username = ime.toLowerCase() + "." + prezime.toLowerCase();
             let hash = await bcrypt.hash(password, 10);
+            let email = `${username}@mobishopm.com`;
 
             const user = await Korisnik.findOne({where: {username: username}})
             if(user != null){

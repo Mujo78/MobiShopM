@@ -11,7 +11,7 @@ export default function Home(){
             <CarouselSlider />
         <br/>
         <Container style={{fontSize:"14px"}}>
-            <Row className="d-flex flex-row flex-wrap justify-content-between">
+            <Row className="d-flex flex-row flex-wrap justify-content-around align-items-center mb-5 mt-4">
                 <Col sm={1}>
                     <img src="../images/shop.png" alt="shop" />
                     </Col>
@@ -34,6 +34,9 @@ export default function Home(){
                     Do 36 rata</p>
                 </Col>
             </Row>
+        </Container>
+        <Container>
+            
         </Container>
 
             <Footer />
