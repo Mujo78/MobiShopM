@@ -73,7 +73,7 @@ export default function LoginModal(props){
                     autoFocus
                   />
                 </Form.Group>
-                {num > 0 && <ErrorFinder errorsLogin={errorsLogin} fieldName="username" />}
+                {num > 0 && <ErrorFinder err={errorsLogin} fieldName="username" />}
 
                 <Form.Group
                   className="mb-0"
@@ -88,7 +88,7 @@ export default function LoginModal(props){
                     autoFocus
                   />
                 </Form.Group>
-                {num > 0 && <ErrorFinder errorsLogin={errorsLogin} fieldName="password" />}
+                {num > 0 && <ErrorFinder err={errorsLogin} fieldName="password" />}
                 <Modal.Footer>
                   <Button variant="secondary" onClick={props.handleClose}>
                     Close

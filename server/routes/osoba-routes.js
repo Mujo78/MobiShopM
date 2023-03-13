@@ -66,7 +66,7 @@ router.post("/add-admin",createAdminValidator, async(req, res) =>{
         const errors = validationResult(req);
 
         if(!errors.isEmpty()){
-            res.json(errors);
+            return res.status(401).json(errors);
         }else{
             const {
                 ime, 
@@ -109,7 +109,22 @@ router.post("/add-admin",createAdminValidator, async(req, res) =>{
             }
         }
     }catch(error){
-        res.send("Error: " + error.message);
+        return res.status(401).json(error.message);
+    }
+})
+
+router.delete("/delete/:id", adminMiddleware ,async(req, res) => {
+    try{
+        const ids = req.params.id;
+        const toDelete = await Osoba.findOne({
+            where: {
+                id : ids
+            }
+        });
+        await toDelete.destroy();
+
+    }catch(error){
+        console.log(error);
     }
 })
 

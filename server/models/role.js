@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
 
     role.associate = models => {
         role.hasMany(models.Korisnik, {
-            onDelete: "cascade",
             foreignKey: {
                 name: "RoleId"
             }

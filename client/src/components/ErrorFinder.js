@@ -1,7 +1,7 @@
 
 
 export default function ErrorFinder(props){
-    const fieldError = props.errorsLogin.filter(n => n.param === props.fieldName);
+    const fieldError = props.err.filter(n => n.param === props.fieldName);
 
     if(fieldError.length === 0){
         return null;

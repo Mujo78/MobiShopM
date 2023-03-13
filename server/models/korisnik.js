@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) =>{
     })
 
     korisnik.associate = (models) =>{
-        korisnik.belongsTo(models.Osoba)
+        korisnik.belongsTo(models.Osoba, {
+            foreignKey:"OsobaId",
+            onDelete: "cascade"
+        })
     }
 
     return korisnik;

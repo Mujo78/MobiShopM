@@ -4,9 +4,10 @@ const router = express.Router()
 const {loginUser} = require("../validators/korisnik")
 const {sign} = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
-
-const {Korisnik} = require("../models")
+const {Op} = require("sequelize");
+const {Korisnik, Osoba} = require("../models")
 const { authMiddleware } = require("../middlewares/auth-middleware")
+const { adminMiddleware } = require("../middlewares/admin-check")
 
 router.post("/login",loginUser, async(req, res) => {
     const {username, password} = req.body;
@@ -56,4 +57,32 @@ router.get("/user", authMiddleware ,async(req, res) =>{
         })
     }
 })
+
+router.get("/all-admins",adminMiddleware, async(req, res) =>{
+    const currentUserId = req.user.id;
+    
+    try{
+        const allAdmins = await Korisnik.findAll({
+            where: {
+                id:{
+                  [Op.not]: currentUserId
+                },
+                RoleId: 1
+            }
+        })
+        if(!allAdmins || allAdmins.length === 0){
+
+            return res.status(401).json("Nema rezultata pretrage!");
+        }else{
+            const allAdminId = allAdmins.map(n => n.OsobaId);
+            const allAdminInfo = await Osoba.findAll({where: {id: allAdminId}})
+
+            return res.status(200).json(allAdminInfo);
+        }
+    }catch(error){
+        console.log(error);
+        return res.status(401).json(error);
+    }
+})
+
 module.exports = router;

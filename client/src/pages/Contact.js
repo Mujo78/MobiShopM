@@ -48,7 +48,7 @@ export default function Contact(){
         <div className='d-flex flex-column justify-content-center align-items-center'>
         <h1>Contact</h1>
         <br/>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} className="w-50">
                 <Form.Group className="mb-2">
                     <Form.Label>Ime</Form.Label>
                     <Form.Control
@@ -71,7 +71,7 @@ export default function Contact(){
                 {num > 0 && <ErrorFinder errorsLogin={errorData} fieldName="email" />}
                 </Form.Group>
                 <Form.Group className="mb-2">
-                    <Form.Label>Example textarea</Form.Label>
+                    <Form.Label>Comment</Form.Label>
                     <Form.Control 
                         as="textarea"
                         rows={4}

@@ -2,8 +2,13 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Image from "react-bootstrap/Image";
 import ListGroup from 'react-bootstrap/ListGroup';
+import { AuthContext } from '../helpers/AuthContext';
+import { useContext } from 'react';
+
 
 export default function MobileModal(props){
+
+  const {authState} = useContext(AuthContext);
 
     function addToCart(){
         console.log("Added!")
@@ -33,7 +38,7 @@ export default function MobileModal(props){
       </ListGroup>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={addToCart}>Add to cart</Button>
+        {authState.RoleId !== 1 && <Button onClick={addToCart}>Add to cart</Button>}
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>

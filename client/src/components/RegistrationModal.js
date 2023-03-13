@@ -79,7 +79,7 @@ export default function RegistrationModal(props){
                         onChange={handleChange}
                         name='ime' 
                         autoFocus />
-                     {num > 0 && <ErrorFinder errorsLogin={errorsLogin} fieldName="ime" />}
+                     {num > 0 && <ErrorFinder err={errorsLogin} fieldName="ime" />}
                   </div>
                   <div className="d-flex flex-column w-100">
                       <Form.Label>Prezime</Form.Label>
@@ -89,7 +89,7 @@ export default function RegistrationModal(props){
                         onChange={handleChange}
                         name='prezime' 
                         autoFocus />
-                      {num > 0 && <ErrorFinder errorsLogin={errorsLogin} fieldName="prezime" />}
+                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="prezime" />}
 
                   </div>
               </Form.Group>
@@ -103,7 +103,7 @@ export default function RegistrationModal(props){
                       name="broj_telefona"
                       placeholder="+387** *** ***" 
                       autoFocus />
-                      {num > 0 && <ErrorFinder errorsLogin={errorsLogin} fieldName="broj_telefona" />}
+                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="broj_telefona" />}
                 </div>
                 <div className="d-flex flex-column w-50">
                     <Form.Label>Spol</Form.Label>
@@ -116,7 +116,7 @@ export default function RegistrationModal(props){
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </Form.Select>
-                    {num > 0 && <ErrorFinder errorsLogin={errorsLogin} fieldName="spol" />}
+                    {num > 0 && <ErrorFinder err={errorsLogin} fieldName="spol" />}
                 </div>
             </Form.Group>
             <Form.Group className="d-flex mb-1">
@@ -128,7 +128,7 @@ export default function RegistrationModal(props){
                       value={registrationData.grad}
                       onChange={handleChange}
                       autoFocus />
-                      {num > 0 && <ErrorFinder errorsLogin={errorsLogin} fieldName="grad" />}
+                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="grad" />}
                 </div>
                 <div className="d-flex flex-column w-100">
                     <Form.Label>Adresa</Form.Label>
@@ -138,7 +138,7 @@ export default function RegistrationModal(props){
                       value={registrationData.adresa}
                       onChange={handleChange}
                       autoFocus />
-                      {num > 0 && <ErrorFinder errorsLogin={errorsLogin} fieldName="adresa" />}
+                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="adresa" />}
                 </div>
             </Form.Group>
             <Form.Group className="mb-1">
@@ -150,7 +150,7 @@ export default function RegistrationModal(props){
                   onChange={handleChange}
                   autoFocus
                 />
-                {num > 0 && <ErrorFinder errorsLogin={errorsLogin} fieldName="username" />}
+                {num > 0 && <ErrorFinder err={errorsLogin} fieldName="username" />}
               </Form.Group>
               <Form.Group className="mb-1">
                 <Form.Label>Email</Form.Label>
@@ -162,7 +162,7 @@ export default function RegistrationModal(props){
                   placeholder="name@example.com"
                   autoFocus
                 />
-                {num > 0 && <ErrorFinder errorsLogin={errorsLogin} fieldName="email" />}
+                {num > 0 && <ErrorFinder err={errorsLogin} fieldName="email" />}
               </Form.Group>
               <Form.Group
                 className="mb-1"
@@ -177,7 +177,7 @@ export default function RegistrationModal(props){
                   placeholder="***********"
                   autoFocus
                 />
-                {num > 0 && <ErrorFinder errorsLogin={errorsLogin} fieldName="password" />}
+                {num > 0 && <ErrorFinder err={errorsLogin} fieldName="password" />}
               </Form.Group>
               <Form.Group className="mb-1">
                 <Form.Label>Confirm Password</Form.Label>

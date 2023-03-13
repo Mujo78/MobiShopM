@@ -9,7 +9,8 @@ const {
     POST_NAZIV_MOBITEL,
     POST_PHOTO_MOBITEL,
     POST_OS_MOBITEL,
-    POST_MEMORY_MOBITEL
+    POST_MEMORY_MOBITEL,
+    POST_BRAND_MOBITEL
 } = require("../constants/mobitel-constants")
 
 exports.createMobitelValidator = [
@@ -52,6 +53,10 @@ exports.createMobitelValidator = [
     check("cijena")
         .notEmpty()
         .withMessage(POST_CIJENA_MOBITEL)
+        .bail(),
+    check("BrandId")
+        .notEmpty()
+        .withMessage(POST_BRAND_MOBITEL)
         .bail()
     
 ]

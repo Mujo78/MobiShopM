@@ -11,7 +11,11 @@ const brand = require("../models/brand")
 router.get("/mobiteli", async(req, res) => {
     try{
         const allOfThem = await Mobitel.findAll();
-        return res.json(allOfThem);
+        if(allOfThem === null){
+            return res.status(401).json("Nema mobitela na stanju.");
+        }else{
+            return res.status(200).json(allOfThem);        
+        }
     }catch(error){
         return res.status(401).json(error);
     }
@@ -31,18 +35,27 @@ router.get("/mobiteli/:brandName", async(req, res) => {
             }
         }
     }catch(error) {
-        return res.json("Nema rezultata pretrage!");
+        return res.json(error);
     }
 })
-
-router.get("/mobiteli/:id", async(req, res) => {
-    const id = req.params.id;
-    const allOfThemWithId = await Mobitel.findByPk(id);
-
-    if(allOfThemWithId == null){
-        res.json("Ne postoji takav mobitel u sistemu!");
-    }else{
-        res.json(allOfThemWithId);
+router.get("/mobile/:id", async(req, res) => {
+    try{
+        const id = req.params.id;
+        if(!id){
+            return res.json();
+        }else{
+            const brand = await Brand.findOne({where: {id: id}});
+            if(brand !== null){
+                const mobileBrand = await Mobitel.findAll({where: {BrandId: brand.id}});
+                if(!mobileBrand){
+                    return res.status(401).json("Nema rezultata pretrage!");
+                }else{
+                    return res.json(mobileBrand);
+                }
+             }
+        }
+    }catch(error) {
+        return res.json(error);
     }
 })
 
@@ -50,16 +63,16 @@ router.post("/post-mobitel", adminMiddleware ,createMobitelValidator, async(req,
     try{
         const errors = validationResult(req);
 
-        if(errors.isEmpty()){
+        if(!errors.isEmpty()){
+           return res.status(401).json(errors)
+        }else{
             const body = req.body;
             const newMobile = await Mobitel.create(body);
 
-            res.json(newMobile);
-        }else{
-            res.json(errors)
+            res.status(200).json(newMobile);
         }
     }catch(error){
-        res.json("Error: " + error);
+       return res.status(401).json(error);
     }
 })
 
@@ -103,17 +116,16 @@ router.post("/edit-mobitel/:id", adminMiddleware ,async(req, res) =>{
     }
 })
 
-router.delete("/:id", adminMiddleware ,async(req, res) => {
-    const id = req.params.id;
-    const toDelete = await Mobitel.findByPk(id);
-    if(!toDelete){
-        res.send("Vozilo ne postoji!");
-    }else{
-        const deleted = await Mobitel.destroy({
-            where: {id: id}
-        });
+router.delete("/delete-mob/:mobileName", adminMiddleware ,async(req, res) => {
+    try{
+        const mobileName = req.params.mobileName;
+        const toDelete = await Mobitel.findOne({where: {naziv:mobileName}});
 
-        res.send(`Mobitel: ${toDelete.naziv} uspješno obrisan!`);
+        await toDelete.destroy();
+        
+        res.status(200).json(`Mobitel: ${toDelete.naziv} uspješno obrisan!`);
+    }catch(error){
+        res.status(401).json(error);
     }
 })
 

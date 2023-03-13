@@ -60,9 +60,7 @@ export default function Navbars(){
                     {authState.id !== 0 ? 
                             <NavDropdown title={authState.username} id="basic-nav-dropdown" align="end"style={{right: 0, left:"auto"}}>
                             <NavDropdown.Item as={Link} to="/profile" >Profile</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/cart">
-                                Cart
-                            </NavDropdown.Item>
+                           {authState.RoleId !== 1 && <NavDropdown.Item as={Link} to="/cart">Cart</NavDropdown.Item>}
                             <NavDropdown.Item as={Link} to="/setings">Setings</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item>

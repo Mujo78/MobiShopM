@@ -17,7 +17,12 @@ import axios from 'axios';
 import AdminMenu from './pages/AdminMenu';
 import Button from 'react-bootstrap/esm/Button';
 import Cart from './components/Cart';
-
+import AddAdmin from './pages/AddAdmin';
+import DeleteAdmin from './pages/DeleteAdmin';
+import AddMobile from './pages/AddMobile';
+import EditMobile from './pages/EditMobile';
+import DeleteMobile from './pages/DeleteMobile';
+import AddBrand from './pages/AddBrand';
 
 
 function App() {
@@ -28,7 +33,6 @@ function App() {
   })
 
   const [showCart, setShowCart] = useState(false);
-
 
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
@@ -72,11 +76,19 @@ function App() {
             <Route path='/profile' element={<Profile />} />
             <Route path='/cart' element={<MyCart />} />
             <Route path='/setings' element={<Setings />} />
-            <Route path='/admin-menu' element={<AdminMenu />} />
             <Route path='*' element={<PageNotFound />} />
+
+              <Route path='/admin-menu' element={<AdminMenu />}>
+                <Route path='/admin-menu/add-admin' element={<AddAdmin />} />
+                <Route path='/admin-menu/delete-admin' element={<DeleteAdmin />} />
+                <Route path='/admin-menu/add-mobile' element={<AddMobile />} />
+                <Route path='/admin-menu/edit-mobile' element={<EditMobile />} />
+                <Route path='/admin-menu/delete-mobile' element={<DeleteMobile />} />
+                <Route path='/admin-menu/add-brand' element={<AddBrand />} />
+              </Route>
           </Routes>
-          <Button onClick={handleShowCart} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="../images/cart.png" alt="cart" />
-          </Button>
+        {authState.RoleId !== 1 && <Button onClick={handleShowCart} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="../images/cart.png" alt="cart" />
+          </Button>}
         </Router>
           <Cart show={showCart} onHide={handleCloseCart} />
     </div>

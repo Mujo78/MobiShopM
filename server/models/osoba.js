@@ -30,12 +30,12 @@ module.exports = (sequelize, DataTypes) => {
 
     })
 
-    osoba.associate = models => {
+    osoba.associate = (models) => {
         osoba.hasOne(models.Korisnik, {
-            onDelete: "cascade",
             foreignKey:{
-                name: "OsobaId"
-            }
+               name: "OsobaId"
+            },
+            onDelete: "cascade",
         });
     }
     return osoba;
