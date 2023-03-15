@@ -1,13 +1,21 @@
 const express = require("express");
 const { validationResult } = require("express-validator");
+const { adminMiddleware } = require("../middlewares/admin-check");
 const router = express.Router();
 const {Comments} = require("../models");
 const { createComment } = require("../validators/COMMENT.JS");
 
-router.get("/comments", async(req, res) => {
-    const allComments = await Comments.findAll();
-
-    return res.json(allComments);
+router.get("/comments",adminMiddleware, async(req, res) => {
+    try{
+        const allComments = await Comments.findAll();
+        if(allComments){
+            return res.status(200).json(allComments);
+        }else{
+            return res.status(401).json();
+        }
+    }catch(error){
+        return res.status(401).json(error);
+    }
 })
 
 router.get("/comments/:id", async(req, res) => {

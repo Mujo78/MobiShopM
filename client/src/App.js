@@ -23,6 +23,7 @@ import AddMobile from './pages/AddMobile';
 import EditMobile from './pages/EditMobile';
 import DeleteMobile from './pages/DeleteMobile';
 import AddBrand from './pages/AddBrand';
+import SeeComments from './pages/SeeComments';
 
 
 function App() {
@@ -85,6 +86,7 @@ function App() {
                 <Route path='/admin-menu/edit-mobile' element={<EditMobile />} />
                 <Route path='/admin-menu/delete-mobile' element={<DeleteMobile />} />
                 <Route path='/admin-menu/add-brand' element={<AddBrand />} />
+                <Route path='/admin-menu/see-comments' element={<SeeComments />} />
               </Route>
           </Routes>
         {authState.RoleId !== 1 && <Button onClick={handleShowCart} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="../images/cart.png" alt="cart" />

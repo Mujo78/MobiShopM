@@ -27,8 +27,7 @@ export default function DeleteMobile(){
             setErrorsBrands(err.response.data);
         })
     }
-    console.log(mobileData[1]);
-
+    
     const getMobilesForBrand = (id) =>{
         axios.get(`http://localhost:3001/mobile/${id}`)
         .then(response=> {

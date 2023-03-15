@@ -27,6 +27,14 @@ export default function AdminMenu(){
                 </ListGroup>
         </Accordion.Body>
       </Accordion.Item>
+      <Accordion.Item eventKey="2">
+        <Accordion.Header>Comments Menu</Accordion.Header>
+        <Accordion.Body>
+          <ListGroup variant='flush'>
+            <ListGroup.Item as={Link} to="/admin-menu/see-comments">See comments</ListGroup.Item>
+          </ListGroup>
+        </Accordion.Body>
+      </Accordion.Item>
     </Accordion>
     </div>
     <div className=' flex-grow-1 mt-4 mb-4 flex-wrap d-flex flex-column align-items-center justify-content-center'>

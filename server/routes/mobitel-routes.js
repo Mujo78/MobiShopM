@@ -21,6 +21,20 @@ router.get("/mobiteli", async(req, res) => {
     }
 })
 
+router.get("/mobitel/:id", async(req, res) => {
+    try{
+        const id = req.params.id;
+        const allOfThem = await Mobitel.findOne({where: {id: id}});
+        if(allOfThem === null){
+            return res.status(401).json("Error404");
+        }else{
+            return res.status(200).json(allOfThem);        
+        }
+    }catch(error){
+        return res.status(401).json(error);
+    }
+})
+
 router.get("/mobiteli/:brandName", async(req, res) => {
     try{
         const brandName = req.params.brandName;
@@ -77,42 +91,52 @@ router.post("/post-mobitel", adminMiddleware ,createMobitelValidator, async(req,
 })
 
 
-router.post("/edit-mobitel/:id", adminMiddleware ,async(req, res) =>{
+router.put("/edit-mobitel/:id", adminMiddleware, createMobitelValidator ,async(req, res) =>{
     try{
-        const id = req.params.id;
-        const toUpdate = await Mobitel.findByPk(id);
-
-        if(!toUpdate){
-            res.send("Nema takvog mobitela u sistemu!");
+        const err = validationResult(req);
+        if(!err.isEmpty()){
+            return res.status(401).json(err);
         }else{
-            const {
-                    naziv,
-                    ram,
-                    memory,
-                    procesor,
-                    velicinaEkrana,
-                    baterija,
-                    photo,
-                    kamera,
-                    cijena
-                } = req.body;
-                
-                if(naziv != null) toUpdate.naziv = naziv;
-                if(ram != null) toUpdate.ram = ram;
-                if(memory != null) toUpdate.memory = memory;
-                if(procesor != null) toUpdate.procesor = procesor;
-                if(velicinaEkrana != null) toUpdate.velicinaEkrana = velicinaEkrana;
-                if(baterija != null) toUpdate.baterija = baterija;
-                if(kamera != null) toUpdate.kamera = kamera;
-                if(photo != null) toUpdate.photo = photo;
-                if(cijena != null) toUpdate.cijena = cijena;
+            const id = req.params.id;
+            const toUpdate = await Mobitel.findOne({where: {id: id}});
 
-                const newUpdated = await toUpdate.save();
+            if(!toUpdate){
+                res.status(401).json("Nema takvog mobitela u sistemu!");
+            }else{
+                const {
+                        naziv,
+                        ram,
+                        internal,
+                        procesor,
+                        velicinaEkrana,
+                        baterija,
+                        photo,
+                        os,
+                        kamera,
+                        cijena,
+                        BrandId
+                    } = req.body;
 
-                res.send(newUpdated);
+
+                    if(naziv != null) toUpdate.naziv = naziv;
+                    if(ram != null) toUpdate.ram = ram;
+                    if(internal != null) toUpdate.internal = internal;
+                    if(procesor != null) toUpdate.procesor = procesor;
+                    if(velicinaEkrana != null) toUpdate.velicinaEkrana = velicinaEkrana;
+                    if(baterija != null) toUpdate.baterija = baterija;
+                    if(kamera != null) toUpdate.kamera = kamera;
+                    if(photo != null) toUpdate.photo = photo;
+                    if(os != null) toUpdate.os = os;
+                    if(cijena != null) toUpdate.cijena = cijena;
+                    if(BrandId != null) toUpdate.BrandId = BrandId;
+
+                    const newUpdated = await toUpdate.save();
+
+                    res.status(200).json(newUpdated);
+                }
             }
     }catch(error){
-        res.json(error.message)
+        res.status(401).json(error)
     }
 })
 
