@@ -40,15 +40,26 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DOUBLE,
             allowNull:false
         },
+        kolicina:{
+            type: DataTypes.INTEGER,
+            allowNull:false
+        },
         BrandId:{
             type: DataTypes.INTEGER,
             allowNull: false
         }
-
+        
     })
 
     mobitel.associate = (models) =>{
         mobitel.belongsTo(models.Brand)
+
+        mobitel.hasMany(models.Cart_item, {
+            foreignKey:{
+                name: "MobitelId"
+            },
+            onDelete: "cascade"
+        })
     }
 
     return mobitel;

@@ -3,16 +3,38 @@ import Modal from 'react-bootstrap/Modal';
 import Image from "react-bootstrap/Image";
 import ListGroup from 'react-bootstrap/ListGroup';
 import { AuthContext } from '../helpers/AuthContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
+import Form from "react-bootstrap/Form";
+import axios from 'axios';
+import {toast } from 'react-toastify';
 
 
 export default function MobileModal(props){
 
   const {authState} = useContext(AuthContext);
+  const [quantity, setQuantity] = useState(1);
 
-    function addToCart(){
-        console.log("Added!")
+  const handleQuantity = (event) =>{
+    const value = event.target.value;
+    setQuantity(value);
+  }
+
+    const addToCart = (id) =>{
+        axios.post(`http://localhost:3001/add-to-cart/${id}`, {quantity}, {
+          headers:{
+              'accessToken' : `Bearer ${localStorage.getItem("accessToken")}`
+          }
+        })
+        .then(() => toast.success("Product succesifully added to cart!"))
+        .catch(error => {
+            if(error.response.data.errors){
+              toast.error(error.response.data.errors)
+            }else{
+              toast.error(error.response.data)
+            }
+        })
     }
+
 
   return (
     <Modal show={props.show} onHide={props.onHide}
@@ -38,7 +60,15 @@ export default function MobileModal(props){
       </ListGroup>
       </Modal.Body>
       <Modal.Footer>
-        {authState.RoleId !== 1 && <Button onClick={addToCart}>Add to cart</Button>}
+        <Form.Control 
+          type="number"
+          className='w-25'
+          placeholder="Quantity"
+          min={1}
+          defaultValue={1}
+          max={10}
+          onChange={handleQuantity} />
+        {authState.RoleId !== 1 && <Button onClick={() => addToCart(props.data.id)}>Add to cart</Button>}
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>

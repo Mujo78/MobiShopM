@@ -23,7 +23,15 @@ module.exports = (sequelize, DataTypes) =>{
             foreignKey:"OsobaId",
             onDelete: "cascade"
         })
+
+        korisnik.hasMany(models.Cart, {
+            foreignKey: {
+                name: "KorisnikId"
+            },
+            onDelete: "cascade"
+        })
     }
+
 
     return korisnik;
 }

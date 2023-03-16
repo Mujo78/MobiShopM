@@ -10,7 +10,8 @@ const {
     POST_PHOTO_MOBITEL,
     POST_OS_MOBITEL,
     POST_MEMORY_MOBITEL,
-    POST_BRAND_MOBITEL
+    POST_BRAND_MOBITEL,
+    POST_QUANTITY_MOBITEL
 } = require("../constants/mobitel-constants")
 
 exports.createMobitelValidator = [
@@ -49,6 +50,10 @@ exports.createMobitelValidator = [
     check("kamera")
         .notEmpty()
         .withMessage(POST_KAMERA_MOBITEL)
+        .bail(),
+    check("kolicina")
+        .notEmpty()
+        .withMessage(POST_QUANTITY_MOBITEL)
         .bail(),
     check("cijena")
         .notEmpty()

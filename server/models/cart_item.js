@@ -3,8 +3,23 @@ module.exports = (sequelize, DataTypes) =>{
         quantity:{
             type: DataTypes.INTEGER,
             allowNull:false
+        },
+        CartId:{
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        MobitelId:{
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
     });
 
+    cart_items.associate = (models) =>{
+        cart_items.belongsTo(models.Cart);
+
+        cart_items.belongsTo(models.Mobitel, {
+            onDelete: "cascade"
+        });
+    }
     return cart_items;
 }

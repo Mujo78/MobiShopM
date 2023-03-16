@@ -1,14 +1,15 @@
-const POST_NAZIV_MOBITEL = "Polje naziv is required";
-const POST_RAM_MOBITEL = "Polje RAM is required";
-const POST_PROCESOR_MOBITEL = "Polje procesor is required";
-const POST_VELICINAEKRANA_MOBITEL = "Polje velicina ekrana is required";
-const POST_BATERIJA_MOBITEL = "Polje baterija is required";
-const POST_KAMERA_MOBITEL = "Polje kamera is required";
-const POST_CIJENA_MOBITEL = "Polje cijena is required";
-const POST_PHOTO_MOBITEL = "Polje photo is required";
-const POST_OS_MOBITEL = "Polje os is required";
-const POST_MEMORY_MOBITEL = "Polje memory is required";
-const POST_BRAND_MOBITEL = "Polje brand is required";
+const POST_NAZIV_MOBITEL = "Field name is required";
+const POST_RAM_MOBITEL = "Field RAM is required";
+const POST_PROCESOR_MOBITEL = "Field processor is required";
+const POST_VELICINAEKRANA_MOBITEL = "Field screen size is required";
+const POST_BATERIJA_MOBITEL = "Field battery is required";
+const POST_KAMERA_MOBITEL = "Field camera is required";
+const POST_CIJENA_MOBITEL = "Field price is required";
+const POST_PHOTO_MOBITEL = "Field photo is required";
+const POST_OS_MOBITEL = "Field OS is required";
+const POST_MEMORY_MOBITEL = "Field memory is required";
+const POST_BRAND_MOBITEL = "Field brand is required";
+const POST_QUANTITY_MOBITEL = "Field quantity is required";
 
 
 module.exports = {
@@ -17,5 +18,5 @@ module.exports = {
     POST_BATERIJA_MOBITEL,
     POST_KAMERA_MOBITEL, POST_CIJENA_MOBITEL,
     POST_PHOTO_MOBITEL,  POST_OS_MOBITEL, POST_MEMORY_MOBITEL,
-    POST_BRAND_MOBITEL
+    POST_BRAND_MOBITEL, POST_QUANTITY_MOBITEL
 }

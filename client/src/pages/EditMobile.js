@@ -136,7 +136,7 @@ export default function EditMobile(){
         <Form onSubmit={handleSubmit} className='mx-auto mt-4 d-flex flex-column align-items-center justify-content-center flex-wrap'>
         <Form.Group className='d-flex flex-wrap' >
             <div>
-                <img src={mobileData.photo === "" ? "" : mobileData.photo} alt=""  style={{width:"200px"}} className="" />
+                <img src={mobileData.photo === "" ? "" : mobileData.photo} alt=""  style={{width:"210px"}} className="mt-5" />
             </div>
             <div className='ms-3'>
                 <Form.Label>Name</Form.Label>
@@ -175,6 +175,18 @@ export default function EditMobile(){
                     value={mobileData.velicinaEkrana}
                 />
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="velicinaEkrana" />}
+
+                <Form.Label>Quantity</Form.Label>
+                <Form.Control 
+                    type="number" 
+                    autoFocus
+                    onChange={handleChange}
+                    placeholder='6.8"'
+                    name="kolicina"
+                    value={mobileData.kolicina}
+                />
+                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="kolicina" />}
+
 
            </div>
         </Form.Group>

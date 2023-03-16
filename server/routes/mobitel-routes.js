@@ -114,6 +114,7 @@ router.put("/edit-mobitel/:id", adminMiddleware, createMobitelValidator ,async(r
                         os,
                         kamera,
                         cijena,
+                        kolicina,
                         BrandId
                     } = req.body;
 
@@ -128,6 +129,7 @@ router.put("/edit-mobitel/:id", adminMiddleware, createMobitelValidator ,async(r
                     if(photo != null) toUpdate.photo = photo;
                     if(os != null) toUpdate.os = os;
                     if(cijena != null) toUpdate.cijena = cijena;
+                    if(kolicina != null) toUpdate.kolicina = kolicina;
                     if(BrandId != null) toUpdate.BrandId = BrandId;
 
                     const newUpdated = await toUpdate.save();

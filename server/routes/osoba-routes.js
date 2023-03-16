@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt")
 const {validationResult} = require("express-validator")
 const {adminMiddleware} = require("../middlewares/admin-check")
 
-const {Osoba, Korisnik} = require("../models")
+const {Osoba, Korisnik, Cart} = require("../models")
 
 const {createOsobaValidator, createAdminValidator} = require("../validators/osoba");
 const { loginUser } = require("../validators/korisnik");
@@ -52,6 +52,10 @@ router.post("/registration",createOsobaValidator, async(req, res) =>{
                 password: hash,
                 OsobaId: osoba.id,
                 RoleId: 2
+            });
+
+            const cart = await Cart.create({
+                KorisnikId: korisnik.id
             });
 
             return res.json(`Uspjesna registracija korisnika ${ime}.`);

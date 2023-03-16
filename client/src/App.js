@@ -10,6 +10,7 @@ import Contact from './pages/Contact';
 import PageNotFound from './pages/PageNotFound';
 import { useEffect, useState } from 'react';
 import { AuthContext } from './helpers/AuthContext';
+import 'react-toastify/dist/ReactToastify.css';
 import Profile from './pages/Profile';
 import MyCart from './pages/MyCart';
 import Setings from './pages/Setings';
@@ -24,6 +25,7 @@ import EditMobile from './pages/EditMobile';
 import DeleteMobile from './pages/DeleteMobile';
 import AddBrand from './pages/AddBrand';
 import SeeComments from './pages/SeeComments';
+import { ToastContainer } from 'react-toastify';
 
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
   })
 
   const [showCart, setShowCart] = useState(false);
+  const [errorCarts, setCartsErrors] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
@@ -56,17 +60,31 @@ function App() {
     }
   }, [accessToken]);
 
-  function handleShowCart(){
+  function handleShowCart(id){
+    getCartItems(id);
     setShowCart(true);
+
   }
   function handleCloseCart(){
     setShowCart(false);
   }
 
+  const getCartItems = (id) => {
+    axios.get(`http://localhost:3001/cart/${id}`, {
+      headers: {
+        'accessToken': `Bearer ${accessToken}`
+      }
+    })
+    .then(response => setCartItems(response.data))
+    .catch(error => setCartsErrors(error))
+  }
+  console.log(errorCarts);
+
   return (
       <AuthContext.Provider value={{authState, setAuthState}}>
     <div className="App">
         <Router>
+          <ToastContainer />
           <Navbars/>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -89,10 +107,10 @@ function App() {
                 <Route path='/admin-menu/see-comments' element={<SeeComments />} />
               </Route>
           </Routes>
-        {authState.RoleId !== 1 && <Button onClick={handleShowCart} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="../images/cart.png" alt="cart" />
+        {authState.RoleId !== 1 && <Button onClick={() => handleShowCart(authState.id)} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="../images/cart.png" alt="cart" />
           </Button>}
         </Router>
-          <Cart show={showCart} onHide={handleCloseCart} />
+          <Cart show={showCart} onHide={handleCloseCart} items={cartItems} err={errorCarts} />
     </div>
       </AuthContext.Provider>
   );

@@ -16,12 +16,18 @@ const mobitelRute = require("./routes/mobitel-routes")
 const korisnikRute = require("./routes/korisnik-routes")
 const commentRute = require("./routes/comments-routes")
 const brandRute = require("./routes/brand-routes")
+const cartRute = require("./routes/cart-routes")
+const cartItemRute = require("./routes/cart-items-routes")
+
 
 app.use("/", osobaRute);
 app.use("/", mobitelRute);
 app.use("/", korisnikRute);
-app.use("/", commentRute);;
+app.use("/", commentRute);
 app.use("/", brandRute);
+app.use("/", cartRute);
+app.use("/", cartItemRute);
+
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {

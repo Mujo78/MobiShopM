@@ -16,6 +16,7 @@ export default function AddMobile(){
         baterija:"",
         photo:"",
         os:"",
+        kolicina:"",
         kamera:"",
         cijena:"",
         BrandId:"",
@@ -31,7 +32,6 @@ export default function AddMobile(){
         .then(() => {
             const emptyData =  Object.fromEntries(Object.entries(mobileData).map(([key, value]) => [key, ""]))
             setMobileData(emptyData);
-        
             setErrors([]);
         })
         .catch(error=>{
@@ -198,22 +198,22 @@ export default function AddMobile(){
             {num > 0 && <ErrorFinder err={errors} fieldName="os"/>}
         </div>
     </Form.Group>
-    <Form.Group className='d-flex flex-wrap mb-3'>
+    <Form.Group className='d-flex flex-wrap'>
         <div className='me-3'>
-            <Form.Label>Camera</Form.Label>
+            <Form.Label>Quantity</Form.Label>
             <Form.Control 
-                type="text" 
+                type="number" 
                 autoFocus
-                name='kamera'
+                name='kolicina'
                 onChange={handleChange}
-                value={mobileData.kamera}
+                value={mobileData.kolicina}
                 />
-        {num > 0 && <ErrorFinder err={errors} fieldName="kamera"/>}
+        {num > 0 && <ErrorFinder err={errors} fieldName="kolicina"/>}
         </div>
         <div>
             <Form.Label>Price</Form.Label>
             <Form.Control 
-                type="text" 
+                type="number" 
                 autoFocus
                 placeholder='3000'
                 name='cijena'
@@ -222,6 +222,16 @@ export default function AddMobile(){
                 />
         {num > 0 && <ErrorFinder err={errors} fieldName="cijena"/>}
         </div>
+    </Form.Group>
+    <Form.Group className='d-flex flex-wrap w-100 mb-2'>
+    <Form.Label>Camera</Form.Label>
+            <Form.Control 
+                type="text" 
+                autoFocus
+                name='kamera'
+                onChange={handleChange}
+                value={mobileData.kamera}
+                />
     </Form.Group>
         <Form.Group>
             <Button style={{backgroundColor:"#219aeb"}} type="submit">
