@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ErrorFinder from '../components/ErrorFinder';
@@ -7,6 +7,7 @@ import ErrorFinder from '../components/ErrorFinder';
 
 export default function AddMobile(){
     const [errors, setErrors] = useState([]);
+    const [brands, setBrands] = useState([]);
     const [mobileData, setMobileData] = useState({
         naziv:"",
         ram:"",
@@ -21,6 +22,10 @@ export default function AddMobile(){
         cijena:"",
         BrandId:"",
     })
+    useEffect(() =>{
+        getBrands();
+    }, [])
+
     function handleSubmit(event){
         event.preventDefault();
 
@@ -38,6 +43,11 @@ export default function AddMobile(){
             setErrors(error.response.data.errors);
         })
     }
+    const getBrands = () =>{
+        axios.get("http://localhost:3001/brands")
+        .then(response => setBrands(response.data))
+        .catch(error => console.log(error))
+    }
     
     function handleChange(event){
         const name = event.target.name;
@@ -49,6 +59,8 @@ export default function AddMobile(){
         }))
         
     }
+
+    console.log(mobileData.BrandId);
     
     let num = errors.length;
 
@@ -71,19 +83,16 @@ export default function AddMobile(){
             </div>
             <div>
                 <Form.Label>Brand</Form.Label>
-                <Form.Select 
+                <Form.Select
                 aria-label="Default select example" 
-  
+                
                 name="BrandId"
                 onChange={handleChange}
                 value={mobileData.BrandId}>
-
-                    <option>- Choose one option -</option>
-                    <option value="1">Samsung</option>
-                    <option value="2">Apple</option>
-                    <option value="3">Huawei</option>
-                    <option value="4">Xiaomi</option>
-                    <option value="5">LG</option>
+                        <option value="">-- Choose one option --</option>
+                        {brands.map(n => (
+                            <option key={n.id} value={n.id}>{n.ime}</option>
+                        ))}
                 </Form.Select>
                 {num > 0 && <ErrorFinder err={errors} fieldName="BrandId"/>}
 
@@ -164,7 +173,7 @@ export default function AddMobile(){
             <Form.Control 
                 type="text" 
                 autoFocus
-                placeholder='6.8"'
+                placeholder='6.8'
                 name='velicinaEkrana'
                 onChange={handleChange}
                 value={mobileData.velicinaEkrana}
@@ -178,7 +187,7 @@ export default function AddMobile(){
             <Form.Control 
                 type="text" 
                 autoFocus
-                placeholder='5000mAh'
+                placeholder='5000'
                 name='baterija'
                 onChange={handleChange}
                 value={mobileData.baterija}

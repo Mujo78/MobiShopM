@@ -26,7 +26,7 @@ import DeleteMobile from './pages/DeleteMobile';
 import AddBrand from './pages/AddBrand';
 import SeeComments from './pages/SeeComments';
 import { ToastContainer } from 'react-toastify';
-
+import Overview from './pages/Overview';
 
 function App() {
   const [authState, setAuthState] = useState({
@@ -78,7 +78,7 @@ function App() {
     .then(response => setCartItems(response.data))
     .catch(error => setCartsErrors(error))
   }
-  console.log(errorCarts);
+
 
   return (
       <AuthContext.Provider value={{authState, setAuthState}}>
@@ -92,9 +92,12 @@ function App() {
             <Route path="/models/:brandName?" element={<Models />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/cart' element={<MyCart />} />
-            <Route path='/setings' element={<Setings />} />
+            
+              <Route path='/profile' element={<Profile />}>
+                <Route path='/profile/my-cart' element={<MyCart />} />
+                <Route path='/profile/setings' element={<Setings />} />
+                <Route path='/profile/overview' element={<Overview />} />
+              </Route>
             <Route path='*' element={<PageNotFound />} />
 
               <Route path='/admin-menu' element={<AdminMenu />}>

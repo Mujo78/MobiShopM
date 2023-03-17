@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull:false
         },
         velicinaEkrana:{
-            type: DataTypes.STRING(6),
+            type: DataTypes.DOUBLE,
             allowNull:false
         },
         photo:{
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         baterija:{
-            type: DataTypes.STRING(15),
+            type: DataTypes.DOUBLE,
             allowNull:false
         },
         os:{
