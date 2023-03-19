@@ -30,6 +30,13 @@ module.exports = (sequelize, DataTypes) =>{
             },
             onDelete: "cascade"
         })
+
+        korisnik.hasMany(models.Order, {
+            foreignKey:{
+                name: "KorisnikId"
+            },
+            onDelete: "cascade"
+        })
     }
 
 

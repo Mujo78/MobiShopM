@@ -12,7 +12,6 @@ router.post("/add-to-cart/:id", authMiddleware, async(req, res) => {
             console.log(user);
             return res.status(401).json();
         }else{
-
             const {
                 quantity
             } = req.body;
@@ -22,7 +21,12 @@ router.post("/add-to-cart/:id", authMiddleware, async(req, res) => {
                 res.status(401).json();
             }else{
                 const userWithCart = await Cart.findOne({where: {KorisnikId: user.id}})
-                const allCartItems = await Cart_item.findAll();
+                if(userWithCart === null){
+                    const userWithCart = await Cart.create({
+                        KorisnikId: user.id
+                    })
+                }
+                const allCartItems = await Cart_item.findAll({where: {CartId: userWithCart.id}});
                 const mobIds = allCartItems.map(n => n.dataValues.MobitelId);
                 if(!mobIds.includes(mobileWithId.id)){
                     const newCartItem = await Cart_item.create({
@@ -40,7 +44,8 @@ router.post("/add-to-cart/:id", authMiddleware, async(req, res) => {
         }
 
     }catch(error){
-        return res.status(401).json(error);
+        //return res.status(401).json(error);
+        console.log(error);
     }
 })
 

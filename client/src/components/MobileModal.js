@@ -14,6 +14,10 @@ export default function MobileModal(props){
   const {authState} = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
 
+  const [showOrderModal, setShowOrderModal] = useState(false);
+
+  const handleClose = () => setShowOrderModal(false);
+
   const handleQuantity = (event) =>{
     const value = event.target.value;
     setQuantity(value);
@@ -33,6 +37,10 @@ export default function MobileModal(props){
               toast.error(error.response.data)
             }
         })
+    }
+
+    const orderMobile = () => {
+      setShowOrderModal(true);
     }
 
 
@@ -60,6 +68,9 @@ export default function MobileModal(props){
       </ListGroup>
       </Modal.Body>
       <Modal.Footer>
+        
+        {authState.RoleId !== 1 && 
+          <>
         <Form.Control 
           type="number"
           className='w-25'
@@ -68,7 +79,11 @@ export default function MobileModal(props){
           defaultValue={1}
           max={10}
           onChange={handleQuantity} />
-        {authState.RoleId !== 1 && <Button onClick={() => addToCart(props.data.id)}>Add to cart</Button>}
+         <Button onClick={() => addToCart(props.data.id)}>Add to cart</Button>
+         <Button onClick={() => orderMobile()}>Buy now</Button>
+         </>
+         }
+
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>

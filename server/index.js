@@ -19,7 +19,8 @@ const brandRute = require("./routes/brand-routes")
 const cartRute = require("./routes/cart-routes")
 const cartItemRute = require("./routes/cart-items-routes")
 const searchRute = require("./routes/search-routes")
-
+const orderRute = require("./routes/order-routes")
+const orderItemRute = require("./routes/order-items-routes")
 
 
 app.use("/", osobaRute);
@@ -30,6 +31,8 @@ app.use("/", brandRute);
 app.use("/", cartRute);
 app.use("/", cartItemRute);
 app.use("/", searchRute);
+app.use("/", orderRute);
+app.use("/", orderItemRute);
 
 
 db.sequelize.sync().then(() => {
