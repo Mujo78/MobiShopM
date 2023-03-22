@@ -21,6 +21,21 @@ router.get("/mobiteli", async(req, res) => {
     }
 })
 
+
+router.get("/mobiteli-top-prices", async(req, res) => {
+    try{
+        const allOfThem = await Mobitel.findAll();
+        if(allOfThem === null){
+            return res.status(401).json("Nema mobitela na stanju.");
+        }else{
+            let topPrices = allOfThem.filter(m => m.cijena >= 1000).slice(0,5);
+            return res.status(200).json(topPrices);        
+        }
+    }catch(error){
+        return res.status(401).json(error);
+    }
+})
+
 router.get("/mobitel/:id", async(req, res) => {
     try{
         const id = req.params.id;

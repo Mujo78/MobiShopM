@@ -37,7 +37,8 @@ function App() {
 
   const [showCart, setShowCart] = useState(false);
   const [errorCarts, setCartsErrors] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItemsInfo, setCartItemsInfo] = useState([]);
+  const [infoPersonState, setInfoPersonState] = useState([]);
 
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
@@ -57,11 +58,23 @@ function App() {
       }).catch(error =>{
         return <Home />
       })
+
     }
-  }, [accessToken]);
+    if(authState.id !== 0){
+      getPersonInfo(authState.id);
+    } 
+  }, [accessToken, authState.id]);
+
+  const getPersonInfo = (id) => {
+    axios.get(`http://localhost:3001/person/${id}`)
+      .then(response => setInfoPersonState(response.data))
+      .catch(error => console.log(error))
+  }
+
+  console.log(authState.id)
 
   function handleShowCart(id){
-    getCartItems(id);
+    getCartItemsInfo(id);
     setShowCart(true);
 
   }
@@ -69,13 +82,13 @@ function App() {
     setShowCart(false);
   }
 
-  const getCartItems = (id) => {
+  const getCartItemsInfo = (id) => {
     axios.get(`http://localhost:3001/cart/${id}`, {
       headers: {
         'accessToken': `Bearer ${accessToken}`
       }
     })
-    .then(response => setCartItems(response.data))
+    .then(response => setCartItemsInfo(response.data))
     .catch(error => setCartsErrors(error))
   }
 
@@ -113,7 +126,7 @@ function App() {
         {authState.RoleId !== 1 && <Button onClick={() => handleShowCart(authState.id)} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="../images/cart.png" alt="cart" />
           </Button>}
         </Router>
-          <Cart show={showCart} onHide={handleCloseCart} items={cartItems} err={errorCarts} />
+          <Cart show={showCart} onHide={handleCloseCart} personData={infoPersonState} refreshData={()=> getCartItemsInfo(authState.id)} items={cartItemsInfo} err={errorCarts} />
     </div>
       </AuthContext.Provider>
   );

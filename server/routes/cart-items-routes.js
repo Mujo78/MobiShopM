@@ -7,7 +7,7 @@ const {Cart, Mobitel, Cart_item} = require("../models");
 router.delete("/delete-item/:id", authMiddleware, async(req, res) => {
     try{
         const id = req.params.id;
-        const toDelete = await Cart_item.findOne({where: {id: id}});
+        const toDelete = await Cart_item.findOne({where: {MobitelId: id}});
 
         await toDelete.destroy();
 

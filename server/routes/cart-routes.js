@@ -54,16 +54,34 @@ router.get("/cart/:id", authMiddleware, async(req, res) => {
         const id = req.params.id;
 
         const cartWithId = await Cart.findOne({where: {KorisnikId : id}})
-        const cartItemsForCart = await Cart_item.findAll({where: {CartId: cartWithId.id}});
+        const cartItemsForCart = await Cart_item.findAll({where: {CartId: cartWithId.id}, include: [Mobitel]});
         if(!cartItemsForCart){
             return res.json("Empty")
         }else{
-            const mobIds = cartItemsForCart.map(n => n.dataValues.MobitelId);
-            const mobilesFromCart = await Mobitel.findAll({where: {id: mobIds}})
-            console.log(mobilesFromCart);
-            console.log("Tu");
-            return res.status(200).json(mobilesFromCart);
+
+            const cartItems = cartItemsForCart.map(n =>{
+                const {Mobitel, quantity} = n;
+                const {id, naziv, ram, internal, cijena} = Mobitel;
+                return {
+                    id, naziv, ram, internal,cijena, quantity
+                }
+
+            })
+            return res.status(200).json(cartItems);
         }
+    }catch(error){
+        return res.status(401).json(error);
+    }
+})
+
+router.get("/cart/cart-items/:id", authMiddleware, async(req, res) =>{
+    try{
+        const id = req.params.id;
+
+        const cartWithId = await Cart.findOne({where: {KorisnikId: id}});
+        const cartItems = await Cart_item.findAll({where: {CartId: cartWithId.id}});
+
+        return res.status(200).json(cartItems);
     }catch(error){
         return res.status(401).json(error);
     }

@@ -16,6 +16,22 @@ router.get("/users", async(req, res) =>{
     res.json(allUsers);
 })
 
+router.get("/person/:id", async(req, res) => {
+    try{
+        const id = req.params.id;
+
+        if(id !== 0){
+            
+            const UserById = await Korisnik.findOne({where: {id: id}});
+            const PersonById = await Osoba.findOne({where: {id: UserById.OsobaId}});
+    
+            return res.status(201).json(PersonById);
+        }
+    }catch(error){
+        return res.status(401).json(error);
+    }
+})
+
 router.post("/registration",createOsobaValidator, async(req, res) =>{
     try{
         const errors = validationResult(req);

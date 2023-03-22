@@ -3,24 +3,25 @@ import Modal from 'react-bootstrap/Modal';
 import Image from "react-bootstrap/Image";
 import ListGroup from 'react-bootstrap/ListGroup';
 import { AuthContext } from '../helpers/AuthContext';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Form from "react-bootstrap/Form";
 import axios from 'axios';
 import {toast } from 'react-toastify';
+import OrderModal from './OrderModal';
 
 
 export default function MobileModal(props){
 
   const {authState} = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
-
+  const [personInfoState, setPersonInfoState] = useState([]);
   const [showOrderModal, setShowOrderModal] = useState(false);
 
   const handleClose = () => setShowOrderModal(false);
 
   const handleQuantity = (event) =>{
     const value = event.target.value;
-    setQuantity(value);
+    setQuantity(value);  
   }
 
     const addToCart = (id) =>{
@@ -42,6 +43,14 @@ export default function MobileModal(props){
     const orderMobile = () => {
       setShowOrderModal(true);
     }
+
+    useEffect(() =>{
+      if(authState.id !== 0){
+        axios.get(`http://localhost:3001/person/${authState.id}`)
+        .then(response => setPersonInfoState(response.data))
+        .catch(error => console.log(error))
+      }
+      },[authState.id])
 
 
   return (
@@ -86,6 +95,15 @@ export default function MobileModal(props){
 
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
+      {showOrderModal &&
+      <OrderModal 
+        show={showOrderModal}
+        handleClose={handleClose}
+        qnty={quantity}
+        data={props.data}
+        dataPerson={personInfoState}
+        />
+      }
     </Modal>
   );
 }
