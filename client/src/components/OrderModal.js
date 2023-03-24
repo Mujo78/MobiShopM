@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
@@ -7,6 +8,7 @@ import FormGroup from 'react-bootstrap/esm/FormGroup';
 import { toast } from 'react-toastify';
 
 export default function OrderModal(props){  
+
   const [infoFormState , setInfoFormState] = useState({
     name: props.dataPerson.ime,
     lastName: props.dataPerson.prezime,

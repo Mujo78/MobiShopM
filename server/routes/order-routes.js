@@ -1,4 +1,5 @@
-const express = require("express")
+const express = require("express");
+const { adminMiddleware } = require("../middlewares/admin-check");
 const router = express.Router();
 
 const {authMiddleware} = require("../middlewares/auth-middleware")
@@ -17,7 +18,12 @@ router.post("/buy-now-route/:id", authMiddleware, async(req, res) =>{
         const mobileWithSpecificId = await Mobitel.findOne({where: {id: id}});
         const loggedInUser = await Korisnik.findOne({where: {id: user.id}});
         const infoLoggedInUser = await Osoba.findOne({where: {id: loggedInUser.OsobaId}});
-        console.log(infoLoggedInUser);
+        const CartFromUser = await Cart.findOne({where: {KorisnikId: user.id}});
+        const CartItem = await Cart_item.findOne({
+            where: {
+                CartId: CartFromUser.id, 
+                MobitelId: mobileWithSpecificId.id
+            }});
 
         if(!mobileWithSpecificId){
             return res.json();
@@ -37,8 +43,14 @@ router.post("/buy-now-route/:id", authMiddleware, async(req, res) =>{
                 price: qnty*mobileWithSpecificId.cijena
             })
 
+            if(CartItem !== null){
+                await CartItem.destroy();
+            }
+
             newOrder.total_cost = newOrderItem.price;
             await newOrder.save();
+            mobileWithSpecificId.kolicina = mobileWithSpecificId.kolicina - qnty <= 0 ? 10 : mobileWithSpecificId.kolicina - qnty;
+            await mobileWithSpecificId.save(); 
             return res.status(200).json(newOrderItem);
         }
     }catch(error){
@@ -103,5 +115,53 @@ router.post("/order-from-cart/:cartId", authMiddleware, async (req, res) =>{
     }
 })
 
+router.get("/orders", adminMiddleware, async (req, res) =>{
+    try{
+
+        const allOrders = await Order.findAll({
+            where:{
+                order_status:"Pending"
+        }});
+        if(allOrders !== null){
+            return res.status(200).json(allOrders);
+        }
+
+    }catch(error){
+        console.log(error);
+    }
+})
+
+router.put("/order/:id", adminMiddleware, async(req, res) =>{
+    try{
+        const ids = req.params.id;
+        const toUpdate = await Order.findOne({where: {id: ids}});
+        if(toUpdate !== null){
+            toUpdate.order_status = "Shipped";
+
+            await toUpdate.save();
+
+            return res.status(200).json();
+        }
+
+    }catch(error){
+        return res.status(401).json(error);
+    }
+})
+router.put("/order-cancel/:id", adminMiddleware, async(req, res) =>{
+    try{
+        const ids = req.params.id;
+        const toUpdate = await Order.findOne({where: {id: ids}});
+        if(toUpdate !== null){
+            toUpdate.order_status = "Cancelled";
+
+            await toUpdate.save();
+
+            return res.status(200).json();
+        }
+
+    }catch(error){
+        return res.status(401).json(error);
+    }
+})
 module.exports = router;
 

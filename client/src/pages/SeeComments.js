@@ -12,6 +12,7 @@ export default function SeeComments(){
     const [showMore, setShowMore] = useState(false);
 
 
+
     const [newComm, setNewComm] = useState();
 
     const getComments = () => {
@@ -48,8 +49,20 @@ export default function SeeComments(){
         setShowMore(false);
     }
 
+    const replyComment = (id, name, email) => {
+        console.log(id, name, email);
+    }
 
-    console.log(newComm);
+    const deleteComment  = (id) =>{
+        axios.delete(`http://localhost:3001/delete-comment/${id}`, {
+            headers:{
+                'accessToken' : `Bearer ${localStorage.getItem("accessToken")}`
+            }
+        })
+        .then(getComments())
+        .catch(error => console.log(error))
+    }
+
     let numErr = errorComment.length;
 
     return(
@@ -84,8 +97,8 @@ export default function SeeComments(){
                                             </div> 
                                 : n.comment}
                     </td>
-                  <td><Button>Reply</Button></td>
-                  <td><Button>Delete</Button></td>
+                  <td><Button onClick={() => replyComment(n.id, n.email, n.ime)}>Reply</Button></td>
+                  <td><Button onClick={() => deleteComment(n.id)}>Delete</Button></td>
                 </tr>
               </tbody>
             ))}

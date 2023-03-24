@@ -23,6 +23,7 @@ export default function EditMobile(){
         photo:"",
         os:"",
         kamera:"",
+        kolicina:0,
         cijena:"",
         BrandId:""
     });
@@ -61,6 +62,7 @@ export default function EditMobile(){
             procesor:response.data.procesor,
             velicinaEkrana:response.data.velicinaEkrana,
             baterija:response.data.baterija,
+            kolicina:response.data.kolicina,
             photo:response.data.photo,
             os:response.data.os,
             kamera:response.data.kamera,
@@ -92,6 +94,7 @@ export default function EditMobile(){
                 baterija:response.data.baterija,
                 photo:response.data.photo,
                 os:response.data.os,
+                kolicina: response.data.kolicina,
                 kamera:response.data.kamera,
                 cijena:response.data.cijena,
                 BrandId:response.data.BrandId
@@ -181,7 +184,8 @@ export default function EditMobile(){
                     type="number" 
                     autoFocus
                     onChange={handleChange}
-                    placeholder='6.8"'
+                    min={1}
+                    max={10}
                     name="kolicina"
                     value={mobileData.kolicina}
                 />

@@ -5,7 +5,7 @@ const router = express.Router();
 const {Comments} = require("../models");
 const { createComment } = require("../validators/COMMENT.JS");
 
-router.get("/comments",adminMiddleware, async(req, res) => {
+router.get("/comments", async(req, res) => {
     try{
         const allComments = await Comments.findAll();
         if(allComments){
@@ -46,4 +46,19 @@ router.post("/post-comment",createComment, async(req, res) => {
     }
 })
 
+router.delete("/delete-comment/:id",adminMiddleware ,async(req,res) =>{
+    try{
+        const ids = req.params.id;
+
+        const CommentWithId = await Comments.findOne({where: {id: ids}});
+        if(CommentWithId !== null){
+            await CommentWithId.destroy();
+        }
+
+        return res.status(200).json();
+
+    }catch(error){
+        return res.status(401).json(error);
+    }
+})
 module.exports = router;

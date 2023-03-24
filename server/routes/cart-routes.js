@@ -2,7 +2,7 @@ const express = require("express");
 const { validationResult } = require("express-validator");
 const {authMiddleware } = require("../middlewares/auth-middleware");
 const router = express.Router();
-const {Cart, Mobitel, Cart_item} = require("../models");
+const {Cart, Mobitel, Cart_item, Korisnik} = require("../models");
 
 router.post("/add-to-cart/:id", authMiddleware, async(req, res) => {
     try{
@@ -44,30 +44,31 @@ router.post("/add-to-cart/:id", authMiddleware, async(req, res) => {
         }
 
     }catch(error){
-        //return res.status(401).json(error);
-        console.log(error);
+        return res.status(401).json(error);
     }
 })
 
 router.get("/cart/:id", authMiddleware, async(req, res) => {
     try{
         const id = req.params.id;
+        const user = req.user;
+        const Users = await Korisnik.findOne({where: {id: user.id}});
+        console.log(Users);
+        if(Users.RoleId !== 1){
 
-        const cartWithId = await Cart.findOne({where: {KorisnikId : id}})
-        const cartItemsForCart = await Cart_item.findAll({where: {CartId: cartWithId.id}, include: [Mobitel]});
-        if(!cartItemsForCart){
-            return res.json("Empty")
-        }else{
-
-            const cartItems = cartItemsForCart.map(n =>{
-                const {Mobitel, quantity} = n;
-                const {id, naziv, ram, internal, cijena} = Mobitel;
-                return {
-                    id, naziv, ram, internal,cijena, quantity
-                }
-
-            })
-            return res.status(200).json(cartItems);
+            const cartWithId = await Cart.findOne({where: {KorisnikId : id}})
+            const cartItemsForCart = await Cart_item.findAll({where: {CartId: cartWithId.id}, include: [Mobitel]});
+            if(cartItemsForCart !== null){
+                const cartItems = cartItemsForCart.map(n =>{
+                    const {Mobitel, quantity} = n;
+                    const {id, naziv, ram, internal, cijena} = Mobitel;
+                    return {
+                        id, naziv, ram, internal,cijena, quantity
+                    }
+    
+                })
+                return res.status(200).json(cartItems);
+            }
         }
     }catch(error){
         return res.status(401).json(error);

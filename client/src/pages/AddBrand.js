@@ -20,9 +20,14 @@ export default function AddBrand(){
                 'accessToken' : `Bearer ${localStorage.getItem("accessToken")}`
             }
         })
-        .then(() => setBrandName({
-            ime:""
-        }))
+        .then(() =>
+        {
+            
+            setBrandName({
+                ime:""
+            })
+            setErrors([]);    
+        })
         .catch(error => {
            setErrors(error.response.data.errors);
         })

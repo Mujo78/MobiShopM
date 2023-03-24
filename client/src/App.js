@@ -27,6 +27,7 @@ import AddBrand from './pages/AddBrand';
 import SeeComments from './pages/SeeComments';
 import { ToastContainer } from 'react-toastify';
 import Overview from './pages/Overview';
+import SeeOrders from './pages/SeeOrders';
 
 function App() {
   const [authState, setAuthState] = useState({
@@ -71,8 +72,6 @@ function App() {
       .catch(error => console.log(error))
   }
 
-  console.log(authState.id)
-
   function handleShowCart(id){
     getCartItemsInfo(id);
     setShowCart(true);
@@ -83,15 +82,16 @@ function App() {
   }
 
   const getCartItemsInfo = (id) => {
-    axios.get(`http://localhost:3001/cart/${id}`, {
-      headers: {
-        'accessToken': `Bearer ${accessToken}`
-      }
-    })
-    .then(response => setCartItemsInfo(response.data))
-    .catch(error => setCartsErrors(error))
+    if(id !== 0){
+      axios.get(`http://localhost:3001/cart/${id}`, {
+        headers: {
+          'accessToken': `Bearer ${accessToken}`
+        }
+      })
+      .then(response => setCartItemsInfo(response.data))
+      .catch(error => setCartsErrors(error))
+    }
   }
-
 
   return (
       <AuthContext.Provider value={{authState, setAuthState}}>
@@ -121,6 +121,7 @@ function App() {
                 <Route path='/admin-menu/delete-mobile' element={<DeleteMobile />} />
                 <Route path='/admin-menu/add-brand' element={<AddBrand />} />
                 <Route path='/admin-menu/see-comments' element={<SeeComments />} />
+                <Route path='/admin-menu/orders' element={<SeeOrders />} />
               </Route>
           </Routes>
         {authState.RoleId !== 1 && <Button onClick={() => handleShowCart(authState.id)} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="../images/cart.png" alt="cart" />

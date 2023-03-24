@@ -40,7 +40,7 @@ export default function Contact(){
                 [name]: value
             }})
     }
-
+    console.log(errorData);
     let num = errorData.length;
 
     return(
@@ -57,7 +57,7 @@ export default function Contact(){
                         value={commentData.ime}
                         onChange={handleChange}
                         autoFocus />
-                {num > 0 && <ErrorFinder errorsLogin={errorData} fieldName="ime" />}
+                {num > 0 && <ErrorFinder err={errorData} fieldName="ime" />}
                 </Form.Group>
                 <Form.Group className="mb-2">
                     <Form.Label>Email address</Form.Label>
@@ -68,7 +68,7 @@ export default function Contact(){
                         value={commentData.email}
                         onChange={handleChange}
                         autoFocus />
-                {num > 0 && <ErrorFinder errorsLogin={errorData} fieldName="email" />}
+                {num > 0 && <ErrorFinder err={errorData} fieldName="email" />}
                 </Form.Group>
                 <Form.Group className="mb-2">
                     <Form.Label>Comment</Form.Label>
@@ -79,7 +79,7 @@ export default function Contact(){
                         value={commentData.comment}
                         onChange={handleChange}
                         autoFocus />
-                {num > 0 && <ErrorFinder errorsLogin={errorData} fieldName="comment" />}
+                {num > 0 && <ErrorFinder err={errorData} fieldName="comment" />}
                 </Form.Group>
                 <Form.Group>
                     <Button type="submit" style={{backgroundColor:"#219aeb"}}>

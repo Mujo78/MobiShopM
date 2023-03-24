@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios';
-import { useContext, useState} from 'react';
+import { useContext, useEffect, useState} from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import ListGroup from 'react-bootstrap/esm/ListGroup';
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -29,6 +30,9 @@ export default function Cart(props){
     .catch(error => toast.error(error))
     
   }
+  useEffect(() => {
+    props.refreshData(authState.id);
+  }, [authState.id, showOrderForMobile])
 
   const orderSpecificPhone = (id) =>{
     setShowOrderForMobile(true);

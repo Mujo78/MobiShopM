@@ -241,10 +241,11 @@ export default function AddMobile(){
                 onChange={handleChange}
                 value={mobileData.kamera}
                 />
+                {num > 0 && <ErrorFinder err={errors} fieldName="kamera"/>}
     </Form.Group>
         <Form.Group>
             <Button style={{backgroundColor:"#219aeb"}} type="submit">
-            Add new Admin
+            Add new mobile
             </Button>
         </Form.Group>
     </Form>
