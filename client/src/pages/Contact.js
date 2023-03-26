@@ -40,7 +40,7 @@ export default function Contact(){
                 [name]: value
             }})
     }
-    console.log(errorData);
+
     let num = errorData.length;
 
     return(

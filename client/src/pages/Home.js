@@ -63,7 +63,7 @@ export default function Home(){
                 </Col>
                 <Col sm={3}>
                     <p><strong>Free delivery</strong> <br/>
-                    Delivery in 24h</p>
+                    Delivery in 24/48h</p>
                 </Col>
                 <Col sm={1}>
                     <img src="../images/cash.png" alt="shop" />

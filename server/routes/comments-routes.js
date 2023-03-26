@@ -53,9 +53,10 @@ router.delete("/delete-comment/:id",adminMiddleware ,async(req,res) =>{
         const CommentWithId = await Comments.findOne({where: {id: ids}});
         if(CommentWithId !== null){
             await CommentWithId.destroy();
+ 
+            return res.status(200).json();
         }
 
-        return res.status(200).json();
 
     }catch(error){
         return res.status(401).json(error);

@@ -101,27 +101,27 @@ function App() {
           <Navbars/>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/models/:brandName?" element={<Models />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="search" element={<Search />} />
+            <Route path="models/:brandName?" element={<Models />} />
+            <Route path="about" element={<About />} />
+            <Route path="contact" element={<Contact />} />
             
-              <Route path='/profile' element={<Profile />}>
-                <Route path='/profile/my-cart' element={<MyCart />} />
-                <Route path='/profile/setings' element={<Setings />} />
-                <Route path='/profile/overview' element={<Overview />} />
+              <Route path='profile' element={<Profile />}>
+                <Route path='.' element={<Overview />} />
+                <Route path='my-cart' element={<MyCart />} />
+                <Route path='setings' element={<Setings />} />
               </Route>
             <Route path='*' element={<PageNotFound />} />
 
-              <Route path='/admin-menu' element={<AdminMenu />}>
-                <Route path='/admin-menu/add-admin' element={<AddAdmin />} />
-                <Route path='/admin-menu/delete-admin' element={<DeleteAdmin />} />
-                <Route path='/admin-menu/add-mobile' element={<AddMobile />} />
-                <Route path='/admin-menu/edit-mobile' element={<EditMobile />} />
-                <Route path='/admin-menu/delete-mobile' element={<DeleteMobile />} />
-                <Route path='/admin-menu/add-brand' element={<AddBrand />} />
-                <Route path='/admin-menu/see-comments' element={<SeeComments />} />
-                <Route path='/admin-menu/orders' element={<SeeOrders />} />
+              <Route path='admin-menu' element={<AdminMenu />}>
+                <Route path='add-admin' element={<AddAdmin />} />
+                <Route path='delete-admin' element={<DeleteAdmin />} />
+                <Route path='add-mobile' element={<AddMobile />} />
+                <Route path='edit-mobile' element={<EditMobile />} />
+                <Route path='delete-mobile' element={<DeleteMobile />} />
+                <Route path='add-brand' element={<AddBrand />} />
+                <Route path='see-comments' element={<SeeComments />} />
+                <Route path='orders' element={<SeeOrders />} />
               </Route>
           </Routes>
         {authState.RoleId !== 1 && <Button onClick={() => handleShowCart(authState.id)} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="../images/cart.png" alt="cart" />

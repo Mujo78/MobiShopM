@@ -42,7 +42,6 @@ export default function Search(){
             to:""
         },
         BrandId:"All"
-
     })
     
     useEffect(() =>{
@@ -63,12 +62,16 @@ export default function Search(){
     const searchButton = () => {
         axios.post("http://localhost:3001/search", searchFormDataState)
         .then(response => {
+            console.log(response.data);
+            setInfo();
             setSearchResult(response.data)
+            
             setSearchFormDataState({naziv: "",ram:{ram16: false,ram12: false,ram8: false,ram6: false,ram4: false},
                                     velicinaEkrana:"",baterija:"",
                                     internal:{internal512: false,internal256: false,internal128: false,internal64: false,
                                             internal32: false,internal16: false,internal8: false, internal4: false},
-                                    os:"",cijena:{from:"",to:""},BrandId:"All"})}
+                                    os:"",cijena:{from:1,to:3000},BrandId:"All"})}
+            
         )
         .catch(error => setInfo(error.response.data))
     }
@@ -81,7 +84,7 @@ export default function Search(){
                                                     internal:{...n.internal, [name]:checked}}))
                     : 
             setSearchFormDataState(n => ({...n,
-                cijena:{...n.cijena, [name]: value=== "" ? parseInt(0) : parseInt(value)},
+                cijena:{...n.cijena, [name]: value==='' ? parseInt(0) : parseInt(value)},
                 [name]: type=== "range" ? 
                                 value === "" ? value.toString() : parseInt(value)
                             : value}))
@@ -94,8 +97,38 @@ export default function Search(){
     const mobitels = mobiteli.map(m => {
         return <Cards  key={m.id} mob={m}/>
     })
-    console.log(info);
-
+   
+    const uncheckRam = () => {
+        setSearchFormDataState(n => ({
+            ...n,
+            ram: Object.fromEntries(Object.keys(n.ram).map(k => [k, false]))
+        }))
+    }
+    const uncheckInternal = () => {
+        setSearchFormDataState(n => ({
+            ...n,
+            internal: Object.fromEntries(Object.keys(n.ram).map(k => [k, false]))
+        }))
+    }
+    const screenSizeRestart = () =>{
+        setSearchFormDataState(n => ({
+            ...n,
+            velicinaEkrana:""
+        }))
+    }
+    const batteryRestart = () =>{
+        setSearchFormDataState(n => ({
+            ...n,
+            baterija:""
+        }))
+    }
+    const osRestart = () => {
+        setSearchFormDataState(n => ({
+            ...n,
+            os:""
+        }))
+    }
+    console.log(searchFormDataState);
     return(
         <>
         <FormGroup className='d-flex w-75 ms-auto me-auto mb-4 mt-4 justify-content-center align-items-center'>
@@ -114,7 +147,7 @@ export default function Search(){
                     <Accordion.Item eventKey="0">
                         <Accordion.Header>RAM</Accordion.Header>
                         <Accordion.Body>
-                            <Form.Group className="mb-3">
+                            <Form.Group>
                                 <Form.Check
                                     type="checkbox" 
                                     label="16 GB"
@@ -152,6 +185,9 @@ export default function Search(){
                                     checked={searchFormDataState.ram.ram4}
                                     />
                             </Form.Group>
+                            <div className='d-flex justify-content-end'>
+                                <Button onClick={uncheckRam} variant='link' className='p-0'>Clear all</Button>                            
+                            </div>
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="1">
@@ -216,6 +252,9 @@ export default function Search(){
                                     checked={searchFormDataState.internal.internal4}
                                     />
                             </Form.Group>
+                            <div className='d-flex justify-content-end'>
+                                <Button  onClick={uncheckInternal} variant='link' className='p-0'>Clear all</Button>                            
+                            </div>
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="2">
@@ -226,11 +265,14 @@ export default function Search(){
                                 type="range"
                                 min={1.0}
                                 max={8.0}
-                                step={0.1}
+                                step={0.01}
                                 value={searchFormDataState.velicinaEkrana}
                                 name="velicinaEkrana"
                                 onChange={handleChange}
                             />
+                            <div className='d-flex justify-content-end'>
+                                <Button onClick={screenSizeRestart} variant='link' className='p-0'>Clear all</Button>                            
+                            </div>
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="3">
@@ -246,6 +288,9 @@ export default function Search(){
                                 name="baterija"
                                 onChange={handleChange}
                             />
+                            <div className='d-flex justify-content-end'>
+                                <Button onClick={batteryRestart} variant='link' className='p-0'>Clear all</Button>                            
+                            </div>
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="4">
@@ -277,6 +322,9 @@ export default function Search(){
                                     checked={searchFormDataState.os === "Other"}
                                 />
                             </Form.Group>
+                            <div className='d-flex justify-content-end'>
+                                <Button onClick={osRestart} variant='link' className='p-0'>Clear all</Button>                            
+                            </div>
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="5">
@@ -327,12 +375,10 @@ export default function Search(){
                 </Accordion>
                 <Button onClick={searchButton} className='mt-3'>Refresh data</Button>
             </Container>
-            <Container className='d-flex flex-wrap'>
-                {searchResult.length > 0 ? info.length > 0 ? 
-                
-                        <Alert variant='secondary'>{info}</Alert> : 
-                            <div>
-                        {data} </div> : <div> {mobitels} </div>}
+            <Container className='d-flex flex-row'>
+                {(searchResult ?? []).length > 0 ? 
+                    (info ?? []).length > 0 ? <Alert variant='secondary' className='d-flex justify-content-center align-items-center'>{info}</Alert> : <div className='d-flex flex-wrap'>{data}</div> 
+                    : <div className='d-flex flex-wrap'> {mobitels} </div>}
             </Container>
         </div>
         </>

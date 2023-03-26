@@ -11,8 +11,8 @@ export default function AdminMenu(){
         <Accordion.Header>Admin Menu</Accordion.Header>
         <Accordion.Body>
         <ListGroup variant='flush'>
-                    <ListGroup.Item as={Link} to="/admin-menu/add-admin">Add new Admin</ListGroup.Item>
-                    <ListGroup.Item as={Link} to="/admin-menu/delete-admin">Delete Admin</ListGroup.Item>
+                    <ListGroup.Item as={Link} to="add-admin">Add new Admin</ListGroup.Item>
+                    <ListGroup.Item as={Link} to="delete-admin">Delete Admin</ListGroup.Item>
                 </ListGroup>
         </Accordion.Body>
       </Accordion.Item>
@@ -20,10 +20,10 @@ export default function AdminMenu(){
         <Accordion.Header>Mobile Menu</Accordion.Header>
         <Accordion.Body>
         <ListGroup variant='flush'>
-                    <ListGroup.Item as={Link} to="/admin-menu/add-mobile">Add new mobile</ListGroup.Item>
-                    <ListGroup.Item as={Link} to="/admin-menu/edit-mobile"> Edit mobile</ListGroup.Item>
-                    <ListGroup.Item as={Link} to="/admin-menu/delete-mobile">Delete mobile</ListGroup.Item>
-                    <ListGroup.Item as={Link} to="/admin-menu/add-brand">Add new Brand</ListGroup.Item>
+                    <ListGroup.Item as={Link} to="add-mobile">Add new mobile</ListGroup.Item>
+                    <ListGroup.Item as={Link} to="edit-mobile"> Edit mobile</ListGroup.Item>
+                    <ListGroup.Item as={Link} to="delete-mobile">Delete mobile</ListGroup.Item>
+                    <ListGroup.Item as={Link} to="add-brand">Add new Brand</ListGroup.Item>
                 </ListGroup>
         </Accordion.Body>
       </Accordion.Item>
@@ -31,7 +31,7 @@ export default function AdminMenu(){
         <Accordion.Header>Comments Menu</Accordion.Header>
         <Accordion.Body>
           <ListGroup variant='flush'>
-            <ListGroup.Item as={Link} to="/admin-menu/see-comments">See comments</ListGroup.Item>
+            <ListGroup.Item as={Link} to="see-comments">See comments</ListGroup.Item>
           </ListGroup>
         </Accordion.Body>
       </Accordion.Item>
@@ -39,7 +39,7 @@ export default function AdminMenu(){
         <Accordion.Header>Orders Menu</Accordion.Header>
         <Accordion.Body>
           <ListGroup variant='flush'>
-            <ListGroup.Item as={Link} to="/admin-menu/orders">See orders</ListGroup.Item>
+            <ListGroup.Item as={Link} to="orders">See orders</ListGroup.Item>
           </ListGroup>
         </Accordion.Body>
       </Accordion.Item>

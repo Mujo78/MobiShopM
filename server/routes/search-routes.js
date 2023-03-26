@@ -57,7 +57,10 @@ router.post("/search", async(req, res) => {
         }
         // Battery
         if(baterija !== ""){
-            criteriaSearch.baterija = baterija;
+
+            criteriaSearch.baterija ={
+                [Op.between]: [baterija-500, baterija+500]
+            }
         }
         // OS -- doesnt working still
         if(os !== ""){
@@ -86,7 +89,7 @@ router.post("/search", async(req, res) => {
             }
         });
 
-        if(prices[1] !== 0){
+        if(prices[0] !== "" && prices[1]!== "" && prices[1] !== 0 && prices[1] !== undefined){
             criteriaSearch.cijena = {
                 [Op.between]: [prices[0], prices[1]]
             }

@@ -6,13 +6,13 @@ export default function Profile(){
         <>
         <Nav className="mt-3">
             <Nav.Item>
-                <Nav.Link as={Link} to="/profile/overview">Overview</Nav.Link>
+                <Nav.Link as={Link} to="." end>Overview</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-                <Nav.Link as={Link} to="/profile/my-cart">My cart</Nav.Link>
+                <Nav.Link as={Link} to="my-cart">My cart</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-            <Nav.Link as={Link} to="/profile/setings">Setings</Nav.Link>
+            <Nav.Link as={Link} to="setings">Setings</Nav.Link>
             </Nav.Item>
         </Nav>
 

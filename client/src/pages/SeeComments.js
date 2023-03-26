@@ -26,7 +26,7 @@ export default function SeeComments(){
     }
     useState(()=>{
         getComments();
-    }, [])
+    }, [comments])
 
     const showAllComment = (id, comment) => {
         let comLength = comment.length; // 176
@@ -49,8 +49,8 @@ export default function SeeComments(){
         setShowMore(false);
     }
 
-    const replyComment = (id, name, email) => {
-        console.log(id, name, email);
+    const replyComment = (email) => {
+        window.location.href = `mailto:${email}`
     }
 
     const deleteComment  = (id) =>{
@@ -59,7 +59,7 @@ export default function SeeComments(){
                 'accessToken' : `Bearer ${localStorage.getItem("accessToken")}`
             }
         })
-        .then(getComments())
+        .then(() => getComments())
         .catch(error => console.log(error))
     }
 
@@ -97,7 +97,7 @@ export default function SeeComments(){
                                             </div> 
                                 : n.comment}
                     </td>
-                  <td><Button onClick={() => replyComment(n.id, n.email, n.ime)}>Reply</Button></td>
+                  <td><Button onClick={() => replyComment(n.email)}>Reply</Button></td>
                   <td><Button onClick={() => deleteComment(n.id)}>Delete</Button></td>
                 </tr>
               </tbody>
