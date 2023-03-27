@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/esm/Container';
 import Form from 'react-bootstrap/Form';
 import ErrorFinder from '../components/ErrorFinder';
 import Footer from "../components/Footer";
@@ -44,8 +45,8 @@ export default function Contact(){
     let num = errorData.length;
 
     return(
-        <>
-        <div className='d-flex flex-column justify-content-center align-items-center'>
+        <Container>
+        <Container className='d-flex flex-column justify-content-center align-items-center'>
         <h1>Contact</h1>
         <br/>
             <Form onSubmit={handleSubmit} className="w-50">
@@ -87,9 +88,9 @@ export default function Contact(){
                     </Button>
                 </Form.Group>
         </Form>
-      </div>
+      </Container>
       <br/><br/>
       <Footer />
-      </>
+      </Container>
     )
 }

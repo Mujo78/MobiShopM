@@ -17,7 +17,7 @@ export default function Cards(props){
             <Card.Img variant="top" src={props.mob.photo} alt="photo" style={{ height:"220px" }} />
             <Card.Body>
               <Card.Title style={{fontSize:"11px"}}>{props.mob.naziv}</Card.Title>
-              <Card.Text className='p-0 mb-1'>{props.mob.cijena} KM</Card.Text>
+              <Card.Text className='p-0 mb-1' style={{color:"red"}}>{props.mob.cijena} KM</Card.Text>
               <Button variant="primary" onClick={handleShow}>
                 See more
               </Button>

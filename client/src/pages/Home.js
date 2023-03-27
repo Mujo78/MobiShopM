@@ -9,6 +9,7 @@ import Cards from "../components/Card";
 import {Carousel} from "react-responsive-carousel";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styled from 'styled-components';
+import useResponsive from "../components/useResponsive";
 
 
 const CustomCarousel = styled(Carousel)`
@@ -23,6 +24,7 @@ const CustomCarousel = styled(Carousel)`
 
 export default function Home(){
 
+    const {isMobile, isTablet} = useResponsive();
     const [topPricesState, setTopPricesState] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
     useEffect(() =>{
@@ -35,48 +37,57 @@ export default function Home(){
         .catch(error => console.log(error))
     }
 
-  const activeStyles = {
-    transform: 'scale(1.0)',
-    transition: 'all 0.3s ease-in-out'
-};
-  const styles = {
-    transform: 'scale(0.8)',
-    transition: 'all 0.3s ease-in-out'
-  };
+    const activeStyles = {
+        transform: 'scale(1.0)',
+        transition: 'all 0.3s ease-in-out',
+        display:"flex",
+        justifyContent :"center"
+    };
+    const styles = {
+        transform: 'scale(0.8)',
+        transition: 'all 0.3s ease-in-out',
+        filter: 'brightness(0.6) contrast(0.8) saturate(0.1) sepia(0.1) hue-rotate(65deg)',
+        opacity: '0.5'
+    };
+    let number;
+    if(isMobile){
+        number = 120;
+    }else if(isTablet){
+        number = 40
+    }else{
+        number = 20;
+    }
 
     return(
         <>
         <br/>
             <CarouselSlider />
         <br/>
-        <Container style={{fontSize:"14px"}}>
-            <Row className="d-flex flex-row flex-wrap justify-content-around align-items-center mb-5 mt-4">
-                <Col sm={1}>
-                    <img src="../images/shop.png" alt="shop" />
-                    </Col>
-                <Col sm={4}>
-                    <p><strong>Safe online shopping</strong> <br/>
-                    Device review before purchase</p>
+        <Container fluid>
+            <Row className="d-flex flex-row flex-wrap justify-content-center align-items-center my-4">
+                <Col sm={isTablet ? 0: 1} className="d-flex justify-content-center  me-1">
+                <img src="../images/shop.png" alt="shop" />
                 </Col>
-                <Col sm={1}>
-                    <img src="../images/shipping.png" alt="shop" />
+                <Col sm={isTablet ? 0:2} className="d-flex justify-content-center mt-3 mt-sm-0">
+                <p className="text-center text-sm-start"><strong>Safe online shopping</strong><br />Device review before purchase</p>
                 </Col>
-                <Col sm={3}>
-                    <p><strong>Free delivery</strong> <br/>
-                    Delivery in 24/48h</p>
+                <Col sm={isTablet ? 0:1} className="d-flex justify-content-center mt-3 me-1 mt-sm-0">
+                <img src="../images/shipping.png" alt="shipping" />
                 </Col>
-                <Col sm={1}>
-                    <img src="../images/cash.png" alt="shop" />
+                <Col sm={isTablet ? 0:2} className="d-flex justify-content-center mt-3 mt-sm-0">
+                <p className="text-center text-sm-start"><strong>Free delivery</strong><br />Delivery in 24/48h</p>
                 </Col>
-                <Col sm={2}>
-                    <p><strong>Possibility of purchase in installments</strong> <br/>
-                    Up to 36 installments</p>
+                <Col sm={isTablet ? 0:1} className="d-flex justify-content-center mt-3 me-1 mt-sm-0">
+                <img src="../images/cash.png" alt="cash" />
+                </Col>
+                <Col sm={isTablet ? 0:3} className="d-flex justify-content-center mt-3 mt-sm-2">
+                <p className="text-center text-sm-start"><strong>Possibility of purchase in installments</strong><br />Up to 36 installments</p>
                 </Col>
             </Row>
         </Container>
-        <Container className="mb-5">
+        <Container fluid className="mb-5">
 
-            <h3 style={{textDecoration:"underline"}}>Top prices</h3>
+            <h3 style={{textDecoration:"underline"}} className="mt-1">Top prices</h3>
             <CustomCarousel showArrows={true}
                     showStatus={false}
                     showThumbs={false}
@@ -86,17 +97,18 @@ export default function Home(){
                     stopOnHover={true}
                     infiniteLoop={true}
                     centerMode={true}
-                    centerSlidePercentage={20}
+                    centerSlidePercentage={number}
                     swipeable={true}
                     transitionTime={3000}
                     showIndicators={true}
                     onChange={i => i===topPricesState.length ?  setActiveIndex(topPricesState.length - 1 - (i % topPricesState.length)) : setActiveIndex(i)}
-                    selectedItem={activeIndex}>
-        {topPricesState.length && topPricesState.map((n, index) => (
-            <div key={n.id} style={activeIndex === index ? activeStyles : styles}>
-                <Cards mob={n} />
-                </div>
-                ))}
+                    selectedItem={activeIndex}
+                    >
+                        {topPricesState.length && topPricesState.map((n, index) => (
+                            <div key={n.id} style={activeIndex === index ? activeStyles : styles}>
+                                <Cards mob={n} />
+                            </div>))
+                        }
         
       </CustomCarousel>
         </Container>
