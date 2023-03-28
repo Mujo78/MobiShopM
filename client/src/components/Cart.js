@@ -34,7 +34,7 @@ export default function Cart(props){
     props.refreshData(authState.id);
   }, [authState.id, showOrderForMobile])
 
-  const orderSpecificPhone = (id) =>{
+  const orderSpecificPhone = () =>{
     setShowOrderForMobile(true);
   }
   const handleCloseOrderSpecificPhone = () => setShowOrderForMobile(false);
@@ -46,14 +46,14 @@ export default function Cart(props){
         <Offcanvas.Title>My Cart</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body className='d-flex flex-column'>
-        {authState.id === 0 ? "You have to be logged in to see your cart." : 
+        {authState.id === 0 ? <Alert variant='secondary' className='m-auto'>You have to be logged in to see your cart!</Alert> : 
           props.items.length !== 0 ?
           <ListGroup>
           {props.items.map(n => (
               <ListGroup.Item key={n.id}>
                   <h6>{n.naziv} ({n.internal}/{n.ram} GB)</h6>
                   <div className='d-flex'>
-                  <Button className='me-1' onClick={()=>orderSpecificPhone(n.id)}>Order</Button>
+                  <Button className='me-1' onClick={()=>orderSpecificPhone()}>Order</Button>
                   <Button onClick={() => deleteItem(n.id)} >Delete</Button>
                   <h3 className='mx-auto'>Q: {n.quantity}</h3>
                   </div>

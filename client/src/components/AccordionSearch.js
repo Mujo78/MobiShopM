@@ -15,10 +15,6 @@ export default function Accordions(props){
         .then(response => props.setBrands(response.data))
         .catch(error => console.log(error))
     }
-    const getMobiteli =() => {
-        axios.get("http://localhost:3001/mobiteli")
-        .then((response) => props.setMobiteli(response.data));
-    }
 
     const searchButton = () => {
         axios.post("http://localhost:3001/search", props.searchFormDataState)
@@ -54,7 +50,6 @@ export default function Accordions(props){
 
     useEffect(() =>{
         getBrands();
-        getMobiteli();
     }, [])
 
     const uncheckRam = () => {
@@ -89,7 +84,7 @@ export default function Accordions(props){
     }
 
 
-    const activeKeys = ["0","1","2"];
+    const activeKeys = ["0","1"];
     return(
         <Container className='w-100'>
         <FormGroup className='d-flex w-100 ms-auto me-auto mb-4 mt-4 justify-content-center align-items-center'>
@@ -104,7 +99,7 @@ export default function Accordions(props){
             {isMobile && <Button onClick={props.handleShowFilter} style={{backgroundColor:"#ffffff", color:"#219aeb"}}>Filters</Button>}
         </FormGroup>
         <Container className='w-100 fixed-left'>
-                <Accordion activeKey={activeKeys}>
+                <Accordion defaultActiveKey={activeKeys}>
                     <Accordion.Item eventKey="0">
                         <Accordion.Header>RAM</Accordion.Header>
                         <Accordion.Body>

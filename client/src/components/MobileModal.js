@@ -67,30 +67,32 @@ export default function MobileModal(props){
       <Modal.Body className='d-flex flex-wrap flex-row'>
         <Image src={props.data.photo} alt="photo" style={{width:"270px", height:"320px"}} />
         <ListGroup variant="flush">
-        <ListGroup.Item>Display: {props.data.velicinaEkrana}"</ListGroup.Item>
-        <ListGroup.Item>{props.data.internal}GB {props.data.ram}GB RAM</ListGroup.Item>
-        <ListGroup.Item>Processor: {props.data.procesor}</ListGroup.Item>
-        <ListGroup.Item>Baterry: {props.data.baterija} mAh</ListGroup.Item>
-        <ListGroup.Item>OS: {props.data.os}</ListGroup.Item>
-        <ListGroup.Item>Camera: {props.data.kamera}</ListGroup.Item>
-        <ListGroup.Item>Price: {props.data.cijena} KM</ListGroup.Item>
+        <ListGroup.Item><strong>Display:</strong> {props.data.velicinaEkrana}"</ListGroup.Item>
+        <ListGroup.Item><strong>Internal/RAM:</strong> {props.data.internal}GB {props.data.ram}GB RAM</ListGroup.Item>
+        <ListGroup.Item><strong>Processor:</strong> {props.data.procesor}</ListGroup.Item>
+        <ListGroup.Item><strong>Baterry:</strong> {props.data.baterija} mAh</ListGroup.Item>
+        <ListGroup.Item><strong>OS:</strong> {props.data.os}</ListGroup.Item>
+        <ListGroup.Item><strong>Camera:</strong> {props.data.kamera}</ListGroup.Item>
+        <ListGroup.Item><strong>Price:</strong> {props.data.cijena} KM</ListGroup.Item>
       </ListGroup>
       </Modal.Body>
       <Modal.Footer>
         
-        {authState.RoleId !== 1 && 
+        {authState.id !== 0 ?
+          authState.RoleId !== 1 && 
           <>
-        <Form.Control 
-          type="number"
-          className='w-25'
-          placeholder="Quantity"
-          min={1}
-          defaultValue={1}
-          max={10}
-          onChange={handleQuantity} />
-         <Button onClick={() => addToCart(props.data.id)}>Add to cart</Button>
-         <Button onClick={() => orderMobile()}>Buy now</Button>
+          <Form.Control 
+            type="number"
+            className='w-25'
+            placeholder="Quantity"
+            min={1}
+            defaultValue={1}
+            max={10}
+            onChange={handleQuantity} />
+          <Button onClick={() => addToCart(props.data.id)}>Add to cart</Button>
+          <Button onClick={() => orderMobile()}>Buy now</Button>
          </>
+         : <div></div>
          }
 
         <Button onClick={props.onHide}>Close</Button>

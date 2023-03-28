@@ -38,7 +38,7 @@ export default function Home(){
     }
 
     const activeStyles = {
-        transform: 'scale(1.0)',
+        transform: 'scale(0.9)',
         transition: 'all 0.3s ease-in-out',
         display:"flex",
         justifyContent :"center"

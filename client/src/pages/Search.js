@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/esm/Container';
 import Cards from '../components/Card';
 import Alert from "react-bootstrap/Alert";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import useResponsive from '../components/useResponsive';
 import Accordions from '../components/AccordionSearch';
+import Button from 'react-bootstrap/esm/Button';
+import Paginate from '../components/Paginate';
+import axios from 'axios';
 
 export default function Search(){
 
@@ -15,6 +18,14 @@ export default function Search(){
     const [info, setInfo] = useState();
     const [stateFilter, setStateFilter] = useState(false);
     const [mobiteli, setMobiteli] = useState([])
+
+    let num = isTablet ? 6 : 8;
+
+    const [perPage] = useState(num);
+    const [currentPage, setCurrentPage] = useState(1);
+    const indexOfLastRecord = currentPage * perPage;
+    const indexOfFirstRecord = indexOfLastRecord - perPage;
+    const nPages = Math.ceil(searchResult.length === 0 ? mobiteli.length / perPage : searchResult.length / perPage);
 
     const [searchFormDataState, setSearchFormDataState] = useState({
         naziv: "",
@@ -45,14 +56,28 @@ export default function Search(){
         BrandId:"All"
     })
 
+    const getMobiteli =() => {
+        axios.get("http://localhost:3001/mobiteli")
+        .then((response) => setMobiteli(response.data));
+    }
+
+    useEffect(() =>{
+        getMobiteli();
+    }, [])
     
 
-    const data = searchResult.map(n =>{
-        return <Cards  key={n.id} mob={n}/>
+    const data = 
+        searchResult
+            .slice(indexOfFirstRecord, indexOfLastRecord)
+            .map(n =>{
+                return <Cards  key={n.id} mob={n}/>
     })
 
-    const mobitels = mobiteli.map(m => {
-        return <Cards  key={m.id} mob={m}/>
+    const mobitels = 
+        mobiteli
+            .slice(indexOfFirstRecord, indexOfLastRecord)
+            .map(m => {
+                return <Cards  key={m.id} mob={m}/>
     })
    
 
@@ -60,14 +85,47 @@ export default function Search(){
     const handleCloseFilter = () => setStateFilter(false);
     const handleShowFilter = () => setStateFilter(true);
 
-
-    console.log(searchFormDataState);
     return(
         <>
         <div className='d-flex'>
             
             {isMobile ?
-            <Offcanvas show={stateFilter} onHide={handleCloseFilter} placement="end">
+            <Button onClick={handleShowFilter} style={{marginTop: "10px",position: "fixed",borderRadius: "150px", backgroundColor: "#ffffff", color:"#219aeb", right:0}}>Filter</Button>
+                :
+             <Container className='w-25'>
+            <Accordions 
+                setBrands={setBrands}
+                brands={brands}
+                searchFormDataState={searchFormDataState}
+                setInfo={setInfo}
+                setSearchResult={setSearchResult}
+                handleCloseFilter={handleCloseFilter}
+                setSearchFormDataState={setSearchFormDataState}
+            />
+            </Container>
+            }
+            <div className='d-flex flex-column w-75'>
+                <Container className='d-flex align-items-start justify-content-center flex-row mt-4'>
+                    {(searchResult ?? []).length > 0 ? 
+                        (info ?? []).length > 0 ?
+                        <div className='d-flex flex-column'>
+                            <Alert variant='secondary' className='d-flex justify-content-center align-items-center'>{info}</Alert> 
+                            <div className='d-flex flex-wrap justify-content-center align-items-center'>{data}</div> 
+                        </div>  
+                        : <div className='d-flex flex-wrap justify-content-center align-items-center'>{data}</div> 
+                    : <div className='d-flex flex-wrap justify-content-start align-items-center'> {mobitels} </div>}
+                        
+                </Container>
+                <div className="d-flex mt-auto justify-content-center mt-2">
+                <Paginate
+                    nPages = { nPages }
+                    currentPage = { currentPage } 
+                    setCurrentPage = { setCurrentPage }/>
+                </div>
+            </div>
+        </div>
+        
+        <Offcanvas show={stateFilter} onHide={handleCloseFilter} placement="end">
                 <Offcanvas.Header closeButton>
                     Search filters
                 </Offcanvas.Header>
@@ -75,7 +133,6 @@ export default function Search(){
                 <Accordions 
                     setBrands={setBrands}
                     brands={brands}
-                    setMobiteli={setMobiteli} 
                     searchFormDataState={searchFormDataState}
                     setInfo={setInfo}
                     handleShowFilter={handleShowFilter}
@@ -83,26 +140,7 @@ export default function Search(){
                     handleCloseFilter={handleCloseFilter}
                     setSearchFormDataState={setSearchFormDataState}
                     />
-             </Offcanvas.Body> </Offcanvas> :
-             <Container>
-            <Accordions 
-            setBrands={setBrands}
-            brands={brands}
-            setMobiteli={setMobiteli} 
-            searchFormDataState={searchFormDataState}
-            setInfo={setInfo}
-            setSearchResult={setSearchResult}
-            handleCloseFilter={handleCloseFilter}
-            setSearchFormDataState={setSearchFormDataState}
-            />
-            </Container>
-            }
-            <Container className='d-flex flex-row'>
-                {(searchResult ?? []).length > 0 ? 
-                    (info ?? []).length > 0 ? <Alert variant='secondary' className='d-flex justify-content-center align-items-center'>{info}</Alert> : <div className='d-flex flex-wrap align-items-center'>{data}</div> 
-                    : <div className='d-flex flex-wrap justify-content-center align-items-center'> {mobitels} </div>}
-            </Container>
-        </div>
+             </Offcanvas.Body> </Offcanvas>
         </>
     )
 }

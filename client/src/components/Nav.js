@@ -52,7 +52,7 @@ export default function Navbars(){
                     >
                         <Nav.Link as={Link} to="/">Home</Nav.Link>
                         <Nav.Link as={Link} to="/search">Search</Nav.Link>
-                        <Nav.Link as={Link} to="/models">Models</Nav.Link>
+                        <Nav.Link as={Link} to="/models">Brands</Nav.Link>
                         <Nav.Link as={Link} to="/about">About</Nav.Link>
                         <Nav.Link as={Link} to="/contact">Contact</Nav.Link>
                         {authState.RoleId === 1 ? <Nav.Link as={Link} to="/admin-menu">System</Nav.Link> : ""}

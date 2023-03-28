@@ -67,12 +67,12 @@ export default function RegistrationModal(props){
         <Modal show={props.show} onHide={props.handleClose}>
           <Modal.Body>
           <Modal.Header closeButton>
-            <Modal.Title>Log In</Modal.Title>
+            <Modal.Title>Sign Up</Modal.Title>
           </Modal.Header>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="d-flex mb-1">
                   <div className="d-flex flex-column me-3 w-100">
-                      <Form.Label>Ime</Form.Label>
+                      <Form.Label>Name</Form.Label>
                       <Form.Control 
                         type="text" 
                         value={registrationData.ime}
@@ -82,7 +82,7 @@ export default function RegistrationModal(props){
                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="ime" />}
                   </div>
                   <div className="d-flex flex-column w-100">
-                      <Form.Label>Prezime</Form.Label>
+                      <Form.Label>Last name</Form.Label>
                       <Form.Control 
                         type="text" 
                         value={registrationData.prezime}
@@ -95,7 +95,7 @@ export default function RegistrationModal(props){
               </Form.Group>
             <Form.Group className="d-flex mb-1">
                 <div className="d-flex flex-column me-3 w-100">
-                    <Form.Label>Broj telefona</Form.Label>
+                    <Form.Label>Phone number</Form.Label>
                     <Form.Control 
                       type='text' 
                       value={registrationData.broj_telefona}
@@ -106,7 +106,7 @@ export default function RegistrationModal(props){
                       {num > 0 && <ErrorFinder err={errorsLogin} fieldName="broj_telefona" />}
                 </div>
                 <div className="d-flex flex-column w-50">
-                    <Form.Label>Spol</Form.Label>
+                    <Form.Label>Gender</Form.Label>
                     <Form.Select 
                       aria-label="Default select example" 
                       value={registrationData.spol}
@@ -121,7 +121,7 @@ export default function RegistrationModal(props){
             </Form.Group>
             <Form.Group className="d-flex mb-1">
                 <div className="d-flex flex-column me-3 w-100">
-                    <Form.Label>Grad</Form.Label>
+                    <Form.Label>City</Form.Label>
                     <Form.Control 
                       type="text" 
                       name='grad'
@@ -131,7 +131,7 @@ export default function RegistrationModal(props){
                       {num > 0 && <ErrorFinder err={errorsLogin} fieldName="grad" />}
                 </div>
                 <div className="d-flex flex-column w-100">
-                    <Form.Label>Adresa</Form.Label>
+                    <Form.Label>Address</Form.Label>
                     <Form.Control 
                       type="text" 
                       name="adresa"

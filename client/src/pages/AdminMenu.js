@@ -4,7 +4,7 @@ import { Link, Outlet } from 'react-router-dom';
 
 export default function AdminMenu(){
     return(
-      <div className='d-flex flex-wrap flex-row' style={{backgroundColor:"#cce7e8"}}>
+      <div className='d-flex flex-wrap flex-row h-100' style={{backgroundColor:"#C0C0C0"}}>
         <div >
         <Accordion defaultActiveKey="0" flush>
       <Accordion.Item eventKey="0">

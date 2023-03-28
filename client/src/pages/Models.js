@@ -77,7 +77,7 @@ export default function Models(){
             <div className="d-flex justify-content-center flex-wrap">
                {data}
             </div>
-            <div className="d-flex justify-content-center mt-2">
+            <div className="d-flex mt-auto justify-content-center mt-2">
             <Paginate
                 nPages = { nPages }
                 currentPage = { currentPage } 
@@ -85,7 +85,7 @@ export default function Models(){
                 </div>
             </div>) : <h2>Loading</h2>}
         </div>
-        <Offcanvas show={showOffMobile} onHide={closeIt}>
+        <Offcanvas show={showOffMobile} placement="end" onHide={closeIt}>
                 <Offcanvas.Header closeButton>
                     Brands filter
                 </Offcanvas.Header>

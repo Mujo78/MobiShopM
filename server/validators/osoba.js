@@ -9,7 +9,8 @@ const{
     POST_GRAD_OSOBA,
     POST_USERNAME_KORISNIK,
     USER_ALREADY_EXISTS,
-    POST_PASSWORD_KORISNIK
+    POST_PASSWORD_KORISNIK,
+    POST_LETTERINPHONE_OSOBA
 } = require("../constants/osoba-constants")
 const {Korisnik} = require("../models")
 
@@ -29,7 +30,14 @@ exports.createOsobaValidator = [
     check("broj_telefona")
         .notEmpty()
         .withMessage(POST_BROJTELEFONA_OSOBA)
-        .bail(),
+        .custom((value) => {
+            if (value === "") {
+              return true;
+            }
+            return /^[0-9]+$/.test(value);
+          })
+          .withMessage(POST_LETTERINPHONE_OSOBA)
+          .bail(),
     check("password")
         .notEmpty()
         .withMessage(POST_PASSWORD_KORISNIK)
@@ -74,7 +82,14 @@ exports.createAdminValidator = [
     check("broj_telefona")
         .notEmpty()
         .withMessage(POST_BROJTELEFONA_OSOBA)
-        .bail(),
+        .custom((value) => {
+            if (value === "") {
+              return true;
+            }
+            return /^[0-9]+$/.test(value);
+          })
+          .withMessage(POST_LETTERINPHONE_OSOBA)
+          .bail(),
     check("grad")
         .notEmpty()
         .withMessage(POST_GRAD_OSOBA)
