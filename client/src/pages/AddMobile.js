@@ -9,17 +9,17 @@ export default function AddMobile(){
     const [errors, setErrors] = useState([]);
     const [brands, setBrands] = useState([]);
     const [mobileData, setMobileData] = useState({
-        naziv:"",
+        mobile_name:"",
         ram:"",
         internal:"",
-        procesor:"",
-        velicinaEkrana:"",
-        baterija:"",
+        processor:"",
+        screen_size:"",
+        battery:"",
         photo:"",
         os:"",
-        kolicina:"",
-        kamera:"",
-        cijena:"",
+        quantity:"",
+        camera:"",
+        price:"",
         BrandId:"",
     })
     useEffect(() =>{
@@ -29,7 +29,7 @@ export default function AddMobile(){
     function handleSubmit(event){
         event.preventDefault();
 
-        axios.post("http://localhost:3001/post-mobitel", mobileData, {
+        axios.post("http://localhost:3001/post-mobile", mobileData, {
             headers:{
                 'accessToken' : `Bearer ${localStorage.getItem("accessToken")}`
             }
@@ -68,17 +68,17 @@ export default function AddMobile(){
         <>
         <h1>Add new Mobile</h1>
         <Form onSubmit={handleSubmit} className=' d-flex flex-column align-items-center justify-content-center flex-wrap'>
-        <Form.Group className='d-flex flex-wrap' >
+        <Form.Group className='d-flex flex-wrap mt-2 mb-3' >
             <div className='me-3'>
                 <Form.Label>Name</Form.Label>
                 <Form.Control
                     type="text" 
                     autoFocus
-                    name='naziv'
+                    name='mobile_name'
                     onChange={handleChange}
-                    value={mobileData.naziv}
+                    value={mobileData.mobile_name}
                     />
-                {num > 0 && <ErrorFinder err={errors} fieldName="naziv"/>}
+                {num > 0 && <ErrorFinder err={errors} fieldName="mobile_name"/>}
 
             </div>
             <div>
@@ -91,7 +91,7 @@ export default function AddMobile(){
                 value={mobileData.BrandId}>
                         <option value="">-- Choose one option --</option>
                         {brands.map(n => (
-                            <option key={n.id} value={n.id}>{n.ime}</option>
+                            <option key={n.id} value={n.id}>{n.name}</option>
                         ))}
                 </Form.Select>
                 {num > 0 && <ErrorFinder err={errors} fieldName="BrandId"/>}
@@ -99,7 +99,7 @@ export default function AddMobile(){
            </div>
         </Form.Group>
 
-    <Form.Group className='d-flex flex-wrap'>
+    <Form.Group className='d-flex flex-wrap mb-3'>
         <div className='me-3'>
             <Form.Label>RAM</Form.Label>
                 <Form.Select 
@@ -143,7 +143,7 @@ export default function AddMobile(){
         </div>
         
     </Form.Group>
-    <Form.Group className='d-flex flex-wrap w-100'>
+    <Form.Group className='d-flex flex-wrap w-100 mb-3'>
         <Form.Label>Photo link</Form.Label>
             <Form.Control 
                 type="text" 
@@ -156,17 +156,17 @@ export default function AddMobile(){
 
     </Form.Group>
 
-    <Form.Group className='d-flex flex-wrap'>
+    <Form.Group className='d-flex flex-wrap mb-3'>
         <div className='me-3'>
         <Form.Label>Processor</Form.Label>
             <Form.Control 
                 type="text" 
                 autoFocus
-                name='procesor'
+                name='processor'
                 onChange={handleChange}
-                value={mobileData.procesor}
+                value={mobileData.processor}
                 />
-        {num > 0 && <ErrorFinder err={errors} fieldName="procesor"/>}
+        {num > 0 && <ErrorFinder err={errors} fieldName="processor"/>}
         </div>
         <div>
             <Form.Label>Screen size</Form.Label>
@@ -174,25 +174,25 @@ export default function AddMobile(){
                 type="text" 
                 autoFocus
                 placeholder='6.8'
-                name='velicinaEkrana'
+                name='screen_size'
                 onChange={handleChange}
-                value={mobileData.velicinaEkrana}
+                value={mobileData.screen_size}
                 />
-        {num > 0 && <ErrorFinder err={errors} fieldName="velicinaEkrana"/>}
+        {num > 0 && <ErrorFinder err={errors} fieldName="screen_size"/>}
         </div>
     </Form.Group>
-    <Form.Group className='d-flex flex-wrap'>
+    <Form.Group className='d-flex flex-wrap mb-3'>
         <div className='me-3'>
             <Form.Label>Baterry</Form.Label>
             <Form.Control 
                 type="text" 
                 autoFocus
                 placeholder='5000'
-                name='baterija'
+                name='battery'
                 onChange={handleChange}
-                value={mobileData.baterija}
+                value={mobileData.battery}
                 />
-        {num > 0 && <ErrorFinder err={errors} fieldName="baterija"/>}
+        {num > 0 && <ErrorFinder err={errors} fieldName="battery"/>}
         </div>
         <div>
             <Form.Label>OS</Form.Label>
@@ -207,17 +207,17 @@ export default function AddMobile(){
             {num > 0 && <ErrorFinder err={errors} fieldName="os"/>}
         </div>
     </Form.Group>
-    <Form.Group className='d-flex flex-wrap'>
+    <Form.Group className='d-flex flex-wrap mb-3'>
         <div className='me-3'>
             <Form.Label>Quantity</Form.Label>
             <Form.Control 
                 type="number" 
                 autoFocus
-                name='kolicina'
+                name='quantity'
                 onChange={handleChange}
-                value={mobileData.kolicina}
+                value={mobileData.quantity}
                 />
-        {num > 0 && <ErrorFinder err={errors} fieldName="kolicina"/>}
+        {num > 0 && <ErrorFinder err={errors} fieldName="quantity"/>}
         </div>
         <div>
             <Form.Label>Price</Form.Label>
@@ -225,23 +225,23 @@ export default function AddMobile(){
                 type="number" 
                 autoFocus
                 placeholder='3000'
-                name='cijena'
+                name='price'
                     onChange={handleChange}
-                    value={mobileData.cijena}
+                    value={mobileData.price}
                 />
-        {num > 0 && <ErrorFinder err={errors} fieldName="cijena"/>}
+        {num > 0 && <ErrorFinder err={errors} fieldName="price"/>}
         </div>
     </Form.Group>
-    <Form.Group className='d-flex flex-wrap w-100 mb-2'>
+    <Form.Group className='d-flex flex-wrap w-100 mb-3'>
     <Form.Label>Camera</Form.Label>
             <Form.Control 
                 type="text" 
                 autoFocus
-                name='kamera'
+                name='camera'
                 onChange={handleChange}
-                value={mobileData.kamera}
+                value={mobileData.camera}
                 />
-                {num > 0 && <ErrorFinder err={errors} fieldName="kamera"/>}
+                {num > 0 && <ErrorFinder err={errors} fieldName="camera"/>}
     </Form.Group>
         <Form.Group>
             <Button style={{backgroundColor:"#219aeb"}} type="submit">

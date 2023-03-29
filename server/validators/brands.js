@@ -6,11 +6,11 @@ const {
 const {Brand} = require("../models")
 
 exports.createNewBrand = [
-    check("ime")
+    check("name")
     .notEmpty()
     .withMessage(POST_BRAND_NAME)
     .custom(async n => {
-        const brands = await Brand.findOne({where: {ime: n}});
+        const brands = await Brand.findOne({where: {name: n}});
         if(brands != null){
             return Promise.reject(BRAND_ALREADY_EXISTS(n));
         }

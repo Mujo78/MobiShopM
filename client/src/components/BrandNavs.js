@@ -9,7 +9,7 @@ export default function BrandNav(props) {
   return (
     
     <ListGroup>
-        <ListGroup.Item style={{borderRadius: "0px", border:"none", width: isMobile ? "100%" : "50%"}} variant="secondary" action className="mb-2 text-center" as={Link} to={`/models/${props.b.ime}`} >{props.b.ime}</ListGroup.Item>
+        <ListGroup.Item style={{borderRadius: "0px", border:"none", width: isMobile ? "100%" : "50%"}} variant="secondary" action className="mb-2 text-center" as={Link} to={`/models/${props.b.name}`} >{props.b.name}</ListGroup.Item>
     </ListGroup>
   );
 }

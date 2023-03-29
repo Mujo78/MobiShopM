@@ -19,16 +19,15 @@ export default function Accordions(props){
     const searchButton = () => {
         axios.post("http://localhost:3001/search", props.searchFormDataState)
         .then(response => {
-            console.log(response.data);
             props.setInfo();
             props.setSearchResult(response.data)
             isMobile && props.handleCloseFilter();
             
-            props.setSearchFormDataState({naziv: "",ram:{ram16: false,ram12: false,ram8: false,ram6: false,ram4: false},
-                                    velicinaEkrana:"",baterija:"",
+            props.setSearchFormDataState({mobile_name: "",ram:{ram16: false,ram12: false,ram8: false,ram6: false,ram4: false},
+                                    screen_size:"",battery:"",
                                     internal:{internal512: false,internal256: false,internal128: false,internal64: false,
                                             internal32: false,internal16: false,internal8: false, internal4: false},
-                                    os:"",cijena:{from:1,to:3000},BrandId:"All"})}
+                                    os:"",price:{from:1,to:3000},BrandId:"All"})}
             
         )
         .catch(error => props.setInfo(error.response.data))
@@ -42,7 +41,7 @@ export default function Accordions(props){
                                                     internal:{...n.internal, [name]:checked}}))
                     : 
             props.setSearchFormDataState(n => ({...n,
-                cijena:{...n.cijena, [name]: value==='' ? parseInt(0) : parseInt(value)},
+                price:{...n.cijena, [name]: value==='' ? parseInt(0) : parseInt(value)},
                 [name]: type=== "range" ? 
                                 value === "" ? value.toString() : parseInt(value)
                             : value}))
@@ -67,13 +66,13 @@ export default function Accordions(props){
     const screenSizeRestart = () =>{
         props.setSearchFormDataState(n => ({
             ...n,
-            velicinaEkrana:""
+            screen_size:""
         }))
     }
     const batteryRestart = () =>{
         props.setSearchFormDataState(n => ({
             ...n,
-            baterija:""
+            battery:""
         }))
     }
     const osRestart = () => {
@@ -90,9 +89,9 @@ export default function Accordions(props){
         <FormGroup className='d-flex w-100 ms-auto me-auto mb-4 mt-4 justify-content-center align-items-center'>
             <Form.Control
                 type="text"
-                name="naziv"
+                name="mobile_name"
                 onChange={handleChange}
-                value={props.searchFormDataState.naziv}
+                value={props.searchFormDataState.mobile_name}
                 placeholder="Samsung Galaxy S23 Ultra 5G"
             />
             <Button onClick={searchButton} style={{backgroundColor:"#219aeb"}}>Search</Button>
@@ -220,14 +219,14 @@ export default function Accordions(props){
                     <Accordion.Item eventKey="2">
                         <Accordion.Header>Screen size</Accordion.Header>
                         <Accordion.Body className='text-center'>
-                            <Form.Label style={{fontSize:"15px"}} >{props.searchFormDataState.velicinaEkrana}"</Form.Label>
+                            <Form.Label style={{fontSize:"15px"}} >{props.searchFormDataState.screen_size}"</Form.Label>
                             <Form.Range
                                 type="range"
                                 min={1.0}
                                 max={8.0}
                                 step={0.01}
-                                value={props.searchFormDataState.velicinaEkrana}
-                                name="velicinaEkrana"
+                                value={props.searchFormDataState.screen_size}
+                                name="screen_size"
                                 onChange={handleChange}
                             />
                             <div className='d-flex justify-content-end'>
@@ -238,14 +237,14 @@ export default function Accordions(props){
                     <Accordion.Item eventKey="3">
                         <Accordion.Header>Battery</Accordion.Header>
                         <Accordion.Body className='text-center'>
-                            <Form.Label style={{fontSize:"15px"}} >{props.searchFormDataState.baterija} mAh</Form.Label>
+                            <Form.Label style={{fontSize:"15px"}} >{props.searchFormDataState.battery} mAh</Form.Label>
                             <Form.Range
                                 type="range"
                                 min={3000}
                                 max={6000}
                                 step={1}
-                                value={props.searchFormDataState.baterija}
-                                name="baterija"
+                                value={props.searchFormDataState.battery}
+                                name="battery"
                                 onChange={handleChange}
                             />
                             <div className='d-flex justify-content-end'>
@@ -314,7 +313,7 @@ export default function Accordions(props){
                                     type="number"
                                     name='from'
                                     min={0}
-                                    value={props.searchFormDataState.cijena.from}
+                                    value={props.searchFormDataState.price.from}
                                     onChange={handleChange}
                                 />
                             </Form.Group>
@@ -325,8 +324,8 @@ export default function Accordions(props){
                                 <Form.Control
                                     type="number"
                                     name='to'
-                                    min={props.searchFormDataState.cijena.from}
-                                    value={props.searchFormDataState.cijena.to}
+                                    min={props.searchFormDataState.price.from}
+                                    value={props.searchFormDataState.price.to}
                                     onChange={handleChange}
                                 />
                             </Form.Group>

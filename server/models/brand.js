@@ -1,13 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
     const brand = sequelize.define("Brand", {
-        ime:{
+        name:{
             type: DataTypes.STRING(100),
             allowNull:false
         }
     })
 
     brand.associate = models => {
-        brand.hasMany(models.Mobitel, {
+        brand.hasMany(models.Mobile, {
             onDelete: "cascade",
             foreignKey: {
                 name: "BrandId"

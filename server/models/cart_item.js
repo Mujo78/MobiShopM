@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) =>{
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        MobitelId:{
+        MobileId:{
             type: DataTypes.INTEGER,
             allowNull: false
         }
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) =>{
     cart_items.associate = (models) =>{
         cart_items.belongsTo(models.Cart);
 
-        cart_items.belongsTo(models.Mobitel, {
+        cart_items.belongsTo(models.Mobile, {
             onDelete: "cascade"
         });
     }

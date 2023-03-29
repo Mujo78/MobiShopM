@@ -2,13 +2,13 @@ const {check} = require("express-validator")
 const {
     POST_COMMENT,
     POST_EMAIL_COMMENT,
-    POST_IME_COMMENT
+    POST_NAME_COMMENT
 } = require("../constants/comment-constants")
 
 exports.createComment = [
-    check("ime")
+    check("name")
         .notEmpty()
-        .withMessage(POST_IME_COMMENT)
+        .withMessage(POST_NAME_COMMENT)
         .bail(),
     check("email")
         .notEmpty()

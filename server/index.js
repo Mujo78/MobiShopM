@@ -11,28 +11,28 @@ app.use(cors({
 }))
 const db = require("./models")
 
-const osobaRute = require("./routes/osoba-routes")
-const mobitelRute = require("./routes/mobitel-routes")
-const korisnikRute = require("./routes/korisnik-routes")
-const commentRute = require("./routes/comments-routes")
-const brandRute = require("./routes/brand-routes")
-const cartRute = require("./routes/cart-routes")
-const cartItemRute = require("./routes/cart-items-routes")
-const searchRute = require("./routes/search-routes")
-const orderRute = require("./routes/order-routes")
-const orderItemRute = require("./routes/order-items-routes")
+const personRutes = require("./routes/person-routes")
+const mobileRutes = require("./routes/mobile-routes")
+const userRutes = require("./routes/user-routes")
+const commentRutes = require("./routes/comments-routes")
+const brandRutes = require("./routes/brand-routes")
+const cartRutes = require("./routes/cart-routes")
+const cartItemRutes = require("./routes/cart-items-routes")
+const searchRutes = require("./routes/search-routes")
+const orderRutes = require("./routes/order-routes")
+const orderItemRutes = require("./routes/order-items-routes")
 
 
-app.use("/", osobaRute);
-app.use("/", mobitelRute);
-app.use("/", korisnikRute);
-app.use("/", commentRute);
-app.use("/", brandRute);
-app.use("/", cartRute);
-app.use("/", cartItemRute);
-app.use("/", searchRute);
-app.use("/", orderRute);
-app.use("/", orderItemRute);
+app.use("/", personRutes);
+app.use("/", mobileRutes);
+app.use("/", userRutes);
+app.use("/", commentRutes);
+app.use("/", brandRutes);
+app.use("/", cartRutes);
+app.use("/", cartItemRutes);
+app.use("/", searchRutes);
+app.use("/", orderRutes);
+app.use("/", orderItemRutes);
 
 
 db.sequelize.sync().then(() => {

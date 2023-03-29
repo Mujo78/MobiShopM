@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const order = sequelize.define("Order", {
-        KorisnikId:{
+        UserId:{
             type: DataTypes.INTEGER,
             allowNull: false
         },
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     order.associate = models => {
-        order.belongsTo(models.Korisnik);
+        order.belongsTo(models.User);
 
         order.hasMany(models.Order_item, {
             foreignKey:{

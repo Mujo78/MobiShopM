@@ -14,17 +14,17 @@ export default function EditMobile(){
     const [showForm, setShowForm] = useState(false);
     const [mobileData, setMobileData] = useState({
         id:"",
-        naziv:"",
+        mobile_name:"",
         ram:"",
         internal:"",
-        procesor:"",
-        velicinaEkrana:"",
-        baterija:"",
+        processor:"",
+        screen_size:"",
+        battery:"",
         photo:"",
         os:"",
-        kamera:"",
-        kolicina:0,
-        cijena:"",
+        camera:"",
+        quantity:0,
+        price:"",
         BrandId:""
     });
 
@@ -51,22 +51,22 @@ export default function EditMobile(){
     }
 
     const showDataForMobile = (id) => {
-        axios.get(`http://localhost:3001/mobitel/${id}`)
+        axios.get(`http://localhost:3001/mobile-phone/${id}`)
         .then((response) => {
         
         setMobileData({
             id:response.data.id,
-            naziv: response.data.naziv,
+            mobile_name: response.data.mobile_name,
             ram:response.data.ram,
             internal:response.data.internal,
-            procesor:response.data.procesor,
-            velicinaEkrana:response.data.velicinaEkrana,
-            baterija:response.data.baterija,
-            kolicina:response.data.kolicina,
+            processor:response.data.processor,
+            screen_size:response.data.screen_size,
+            battery:response.data.battery,
+            quantity:response.data.quantity,
             photo:response.data.photo,
             os:response.data.os,
-            kamera:response.data.kamera,
-            cijena:response.data.cijena,
+            camera:response.data.camera,
+            price:response.data.price,
             BrandId:response.data.BrandId
         })
         setShowForm(true)
@@ -77,7 +77,7 @@ export default function EditMobile(){
     const handleSubmit = (event) =>{
         event.preventDefault();
 
-        axios.put(`http://localhost:3001/edit-mobitel/${mobileData.id}`,mobileData, {
+        axios.put(`http://localhost:3001/edit-mobile/${mobileData.id}`,mobileData, {
             headers:{
                 'accessToken' : `Bearer ${localStorage.getItem("accessToken")}`
             }
@@ -86,17 +86,17 @@ export default function EditMobile(){
 
             setMobileData({
                 id:response.data.id,
-                naziv: response.data.naziv,
+                mobile_name: response.data.mobile_name,
                 ram:response.data.ram,
                 internal:response.data.internal,
-                procesor:response.data.procesor,
-                velicinaEkrana:response.data.velicinaEkrana,
-                baterija:response.data.baterija,
+                processor:response.data.processor,
+                screen_size:response.data.screen_size,
+                battery:response.data.battery,
                 photo:response.data.photo,
                 os:response.data.os,
-                kolicina: response.data.kolicina,
-                kamera:response.data.kamera,
-                cijena:response.data.cijena,
+                quantity: response.data.quantity,
+                camera:response.data.camera,
+                price:response.data.price,
                 BrandId:response.data.BrandId
             })
             setErrorsForm([]);
@@ -120,7 +120,7 @@ export default function EditMobile(){
         <ListGroup className="d-flex flex-row align-items-center justify-content-center">
             {allBrands.map(n => (
                 <Button key={n.id} variant="light" className="ms-3" onClick={() => getMobilesByBrands(n.id)}>
-                    <h6>{n.ime}</h6>
+                    <h6>{n.name}</h6>
                     </Button>
             )) }
         </ListGroup>
@@ -129,7 +129,7 @@ export default function EditMobile(){
             <ListGroup variant="flush" className="mt-4 w-25">
                 {allMobiles.map(m => (
                     <ListGroup.Item key={m.id} variant="light" className="d-flex flex-wrap justify-content-between align-items-center">
-                        <h6>{m.naziv}</h6>
+                        <h6>{m.mobile_name}</h6>
                         <Button onClick={() => showDataForMobile(m.id)}>Edit</Button>
                         </ListGroup.Item>
                 ))}
@@ -146,11 +146,11 @@ export default function EditMobile(){
                 <Form.Control
                     type="text" 
                     autoFocus
-                    name="naziv"
+                    name="mobile_name"
                     onChange={handleChange}
-                    value={mobileData.naziv}
+                    value={mobileData.mobile_name}
                     />
-                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="naziv" />}
+                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="mobile_name" />}
 
                 <Form.Label>Brand</Form.Label>
                 <Form.Select 
@@ -174,10 +174,10 @@ export default function EditMobile(){
                     autoFocus
                     onChange={handleChange}
                     placeholder='6.8"'
-                    name="velicinaEkrana"
-                    value={mobileData.velicinaEkrana}
+                    name="screen_size"
+                    value={mobileData.screen_size}
                 />
-                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="velicinaEkrana" />}
+                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="screen_size" />}
 
                 <Form.Label>Quantity</Form.Label>
                 <Form.Control 
@@ -186,10 +186,10 @@ export default function EditMobile(){
                     onChange={handleChange}
                     min={1}
                     max={10}
-                    name="kolicina"
-                    value={mobileData.kolicina}
+                    name="quantity"
+                    value={mobileData.quantity}
                 />
-                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="kolicina" />}
+                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="quantity" />}
 
 
            </div>
@@ -256,10 +256,10 @@ export default function EditMobile(){
                 type="text" 
                 autoFocus
                 onChange={handleChange}
-                name="procesor"
-                value={mobileData.procesor}
+                name="processor"
+                value={mobileData.processor}
                 />
-                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="procesor" />}
+                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="processor" />}
         </div>
         <div>
         <Form.Label>Baterry</Form.Label>
@@ -268,10 +268,10 @@ export default function EditMobile(){
                 autoFocus
                 onChange={handleChange}
                 placeholder='5000mAh'
-                name="baterija"
-                value={mobileData.baterija}
+                name="battery"
+                value={mobileData.battery}
                 />
-                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="baterija" />}
+                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="battery" />}
         </div>
     </Form.Group>
     <Form.Group className='d-flex flex-wrap'>
@@ -282,10 +282,10 @@ export default function EditMobile(){
                 autoFocus
                 onChange={handleChange}
                 placeholder='3000'
-                name="cijena"
-                value={mobileData.cijena}
+                name="price"
+                value={mobileData.price}
                 />
-                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="cijena" />}
+                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="price" />}
         </div>
         <div>
             <Form.Label>OS</Form.Label>
@@ -306,10 +306,10 @@ export default function EditMobile(){
                 type="text" 
                 autoFocus
                 onChange={handleChange}
-                name="kamera"
-                value={mobileData.kamera}
+                name="camera"
+                value={mobileData.camera}
                 />
-                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="kamera" />}
+                {numErr > 0 && <ErrorFinder err={errorForm} fieldName="camera" />}
        
         </Form.Group>
             <Form.Group>

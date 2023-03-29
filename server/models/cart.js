@@ -1,13 +1,13 @@
 module.exports = (sequelize, DataTypes) =>{
     const cart = sequelize.define("Cart", {
-        KorisnikId:{
+        UserId:{
             type: DataTypes.INTEGER,
             allowNull: false
         }
     });
 
     cart.associate = models => {
-        cart.belongsTo(models.Korisnik);
+        cart.belongsTo(models.User);
 
         cart.hasMany(models.Cart_item, {
             foreignKey:{

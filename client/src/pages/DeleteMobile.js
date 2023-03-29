@@ -74,19 +74,19 @@ export default function DeleteMobile(){
             {numErrorsBrands <= 0 ? brandsData.map(n => (
                 <Accordion key={n.id} className="me-2">
                 <Accordion.Item eventKey="0">
-                <AccordionButton onClick={()=> getMobilesForBrand(n.id)}>{n.ime}</AccordionButton>
+                <AccordionButton onClick={()=> getMobilesForBrand(n.id)}>{n.name}</AccordionButton>
                   <Accordion.Body>
                     <ListGroup>
                         <ListGroup.Item>
-                            <Button  onClick={() => deleteBrand(n.id, n.ime)}>Delete brand</Button>
+                            <Button  onClick={() => deleteBrand(n.id, n.name)}>Delete brand</Button>
                         </ListGroup.Item>
                         {numErrorsMobile <= 0 ?  mobileData[n.id] && mobileData[n.id].map(m => (
                             <ListGroup.Item key={m.id}>
                                 <div className="d-flex flex-column">
-                                    <h5>{m.naziv}</h5>
+                                    <h5>{m.mobile_name}</h5>
                                     <p>{m.internal}GB {m.ram}GB RAM</p>
                                 </div>
-                                <Button onClick={() =>deleteMobile(n.id,m.id, m.naziv)}>Delete mobile</Button>
+                                <Button onClick={() =>deleteMobile(n.id,m.id, m.mobile_name)}>Delete mobile</Button>
                             </ListGroup.Item>
                         ))  : <Alert variant="danger">{errorsMobile}</Alert>}
                     </ListGroup>

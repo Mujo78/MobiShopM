@@ -27,8 +27,9 @@ export default function DeleteAdmin(){
     }
     let num = errors.length;
 
-    const deleteAdmin = (id, username) => {
-        let answer = window.confirm(`Da li ste sigurni da želite obrisati korisnika: ${username}?`);
+    const deleteAdmin = (id, fName, lName) => {
+        let username = fName + "." + lName;
+        let answer = window.confirm(`Are you sure you want to delete: ${username}?`);
  
 
         if(answer){
@@ -45,6 +46,8 @@ export default function DeleteAdmin(){
         }
     }
 
+    console.log(adminData);
+
     return(
         <>
         <h1>Delete Admin</h1>
@@ -52,8 +55,8 @@ export default function DeleteAdmin(){
                {num <= 0 ?
                     adminData.map(n => ( <Card key={n.id} className="me-2">
                     <Card.Body className="d-flex align-items-center flex-wrap">
-                        <Card.Title className="me-2">{n.ime} {n.prezime}</Card.Title>
-                        <Button onClick={() => deleteAdmin(n.id, n.username)}>Delete</Button>
+                        <Card.Title className="me-2">{n.first_name} {n.last_name}</Card.Title>
+                        <Button onClick={() => deleteAdmin(n.id, n.first_name, n.last_name)}>Delete</Button>
                     </Card.Body>
                 </Card>)) : <Alert variant="danger">{errors}</Alert>
                 }

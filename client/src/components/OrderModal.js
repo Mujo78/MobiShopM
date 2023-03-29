@@ -10,13 +10,13 @@ import { toast } from 'react-toastify';
 export default function OrderModal(props){  
 
   const [infoFormState , setInfoFormState] = useState({
-    name: props.dataPerson.ime,
-    lastName: props.dataPerson.prezime,
-    city: props.dataPerson.grad,
-    address: props.dataPerson.adresa,
-    deviceName: props.data.naziv,
+    name: props.dataPerson.first_name,
+    lastName: props.dataPerson.last_name,
+    city: props.dataPerson.city,
+    address: props.dataPerson.address,
+    deviceName: props.data.mobile_name,
     quantity: props.qnty,
-    totalCost: props.qnty * props.data.cijena
+    totalCost: props.qnty * props.data.price
   })
 
   const [orderInfoState, setOrderInfoState] = useState({

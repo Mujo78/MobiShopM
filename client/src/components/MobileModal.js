@@ -61,19 +61,19 @@ export default function MobileModal(props){
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {props.data.naziv}
+          {props.data.mobile_name}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className='d-flex flex-wrap flex-row'>
         <Image src={props.data.photo} alt="photo" style={{width:"270px", height:"320px"}} />
         <ListGroup variant="flush">
-        <ListGroup.Item><strong>Display:</strong> {props.data.velicinaEkrana}"</ListGroup.Item>
+        <ListGroup.Item><strong>Display:</strong> {props.data.screen_size}"</ListGroup.Item>
         <ListGroup.Item><strong>Internal/RAM:</strong> {props.data.internal}GB {props.data.ram}GB RAM</ListGroup.Item>
-        <ListGroup.Item><strong>Processor:</strong> {props.data.procesor}</ListGroup.Item>
-        <ListGroup.Item><strong>Baterry:</strong> {props.data.baterija} mAh</ListGroup.Item>
+        <ListGroup.Item><strong>Processor:</strong> {props.data.processor}</ListGroup.Item>
+        <ListGroup.Item><strong>Baterry:</strong> {props.data.battery} mAh</ListGroup.Item>
         <ListGroup.Item><strong>OS:</strong> {props.data.os}</ListGroup.Item>
-        <ListGroup.Item><strong>Camera:</strong> {props.data.kamera}</ListGroup.Item>
-        <ListGroup.Item><strong>Price:</strong> {props.data.cijena} KM</ListGroup.Item>
+        <ListGroup.Item><strong>Camera:</strong> {props.data.camera}</ListGroup.Item>
+        <ListGroup.Item><strong>Price:</strong> {props.data.price} KM</ListGroup.Item>
       </ListGroup>
       </Modal.Body>
       <Modal.Footer>

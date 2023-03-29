@@ -1,5 +1,5 @@
 const {verify} = require("jsonwebtoken");
-const {Korisnik} = require("../models")
+const {User} = require("../models")
 
 
 exports.adminMiddleware = async (req, res, next) => {
@@ -12,9 +12,9 @@ exports.adminMiddleware = async (req, res, next) => {
         var payload = await verify(token.split("Bearer ")[1], process.env.SECRET);
         req.user = payload;
         
-        let korisnik = await Korisnik.findOne({where: {id: req.user.id}});
+        let user = await User.findOne({where: {id: req.user.id}});
     
-        if(korisnik.RoleId == 1){
+        if(user.RoleId == 1){
             next();
         }else{
             res.status(401).json();

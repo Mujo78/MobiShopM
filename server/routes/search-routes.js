@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const {Op} = require("sequelize");
-const {Mobitel} = require("../models");
+const {Mobile} = require("../models");
 
 
 
@@ -9,20 +9,20 @@ router.post("/search", async(req, res) => {
     try{
         const criteriaSearch = {};
         const {
-            naziv,
+            mobile_name,
             ram,
             internal,
-            velicinaEkrana,
-            baterija,
-            cijena,
+            screen_size,
+            battery,
+            price,
             BrandId,
             os,
         } = req.body;
 
         // Name search
-        if(naziv !== ""){
-            criteriaSearch.naziv ={
-                [Op.like] : `%${naziv}%`
+        if(mobile_name !== ""){
+            criteriaSearch.mobile_name ={
+                [Op.like] : `%${mobile_name}%`
             }
         }
         // RAM search
@@ -52,14 +52,14 @@ router.post("/search", async(req, res) => {
             }
         }
         // Screen size
-        if(velicinaEkrana !== ""){
-            criteriaSearch.velicinaEkrana = velicinaEkrana
+        if(screen_size !== ""){
+            criteriaSearch.screen_size = screen_size
         }
         // Battery
-        if(baterija !== ""){
+        if(battery !== ""){
 
-            criteriaSearch.baterija ={
-                [Op.between]: [baterija-500, baterija+500]
+            criteriaSearch.battery ={
+                [Op.between]: [battery-500, battery+500]
             }
         }
         // OS -- doesnt working still
@@ -83,14 +83,14 @@ router.post("/search", async(req, res) => {
         }
        // Price
        const prices = [];
-        Object.values(cijena).forEach(c => {
+        Object.values(price).forEach(c => {
             if(c >= 0){
                 prices.push(c);
             }
         });
 
         if(prices[0] !== "" && prices[1]!== "" && prices[1] !== 0 && prices[1] !== undefined){
-            criteriaSearch.cijena = {
+            criteriaSearch.price = {
                 [Op.between]: [prices[0], prices[1]]
             }
         }
@@ -99,16 +99,16 @@ router.post("/search", async(req, res) => {
             criteriaSearch.BrandId = BrandId
         }
         
-        const allPhones = await Mobitel.findAll({where: criteriaSearch})
+        const allPhones = await Mobile.findAll({where: criteriaSearch})
         if(allPhones.length === 0){
-            return res.status(401).json("Nema rezultata pretrage.");
+            return res.status(401).json("No search results!");
         }else{
             
             return res.status(200).json(allPhones);
         }
 
     }catch(error){
-        console.log(error);
+        return res.status(401).json(error);
     }
 })
 

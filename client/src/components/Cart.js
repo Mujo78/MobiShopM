@@ -51,7 +51,7 @@ export default function Cart(props){
           <ListGroup>
           {props.items.map(n => (
               <ListGroup.Item key={n.id}>
-                  <h6>{n.naziv} ({n.internal}/{n.ram} GB)</h6>
+                  <h6>{n.mobile_name} ({n.internal}/{n.ram} GB)</h6>
                   <div className='d-flex'>
                   <Button className='me-1' onClick={()=>orderSpecificPhone()}>Order</Button>
                   <Button onClick={() => deleteItem(n.id)} >Delete</Button>

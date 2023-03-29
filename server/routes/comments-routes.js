@@ -3,7 +3,7 @@ const { validationResult } = require("express-validator");
 const { adminMiddleware } = require("../middlewares/admin-check");
 const router = express.Router();
 const {Comments} = require("../models");
-const { createComment } = require("../validators/COMMENT.JS");
+const { createComment } = require("../validators/comment");
 
 router.get("/comments", async(req, res) => {
     try{

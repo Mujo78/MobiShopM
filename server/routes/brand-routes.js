@@ -10,7 +10,7 @@ router.get("/brands", async(req, res) =>{
 
         const allBrands = await Brand.findAll();
         if(allBrands === null){
-            return res.status(401).json("Nema brendova na stanju!");
+            return res.status(401).json("Not available!");
         }else{
 
             return res.status(200).json(allBrands);
@@ -23,11 +23,11 @@ router.get("/brands", async(req, res) =>{
 router.delete("/delete-brand/:brandName", adminMiddleware,async(req, res) =>{
     try{
         const brandName = req.params.brandName;
-        const toDelete = await Brand.findOne({where: {ime:brandName}});
+        const toDelete = await Brand.findOne({where: {name:brandName}});
 
         await toDelete.destroy();
         
-        res.status(200).json(`Brand: ${toDelete.ime} uspješno obrisan!`);
+        res.status(200).json(`Brand: ${toDelete.name} uspješno obrisan!`);
     }catch(error){
         res.status(401).json(error);
     }

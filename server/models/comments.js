@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const comments = sequelize.define("Comments", {
-        ime:{
+        name:{
             type: DataTypes.STRING(100),
             allowNull:false
         },

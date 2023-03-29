@@ -3,7 +3,7 @@ const { adminMiddleware } = require("../middlewares/admin-check");
 const router = express.Router();
 
 const {authMiddleware} = require("../middlewares/auth-middleware")
-const {Osoba, Korisnik,Order,Order_item, Cart,Cart_item, Mobitel} = require("../models")
+const {Persons, User,Order,Order_item, Cart,Cart_item, Mobile} = require("../models")
 
 
 router.post("/buy-now-route/:id", authMiddleware, async(req, res) =>{
@@ -15,32 +15,32 @@ router.post("/buy-now-route/:id", authMiddleware, async(req, res) =>{
             qnty
         } = req.body;
 
-        const mobileWithSpecificId = await Mobitel.findOne({where: {id: id}});
-        const loggedInUser = await Korisnik.findOne({where: {id: user.id}});
-        const infoLoggedInUser = await Osoba.findOne({where: {id: loggedInUser.OsobaId}});
-        const CartFromUser = await Cart.findOne({where: {KorisnikId: user.id}});
+        const mobileWithSpecificId = await Mobile.findOne({where: {id: id}});
+        const loggedInUser = await User.findOne({where: {id: user.id}});
+        const infoLoggedInUser = await Persons.findOne({where: {id: loggedInUser.PersonId}});
+        const CartFromUser = await Cart.findOne({where: {UserId: user.id}});
         const CartItem = await Cart_item.findOne({
             where: {
                 CartId: CartFromUser.id, 
-                MobitelId: mobileWithSpecificId.id
+                MobileId: mobileWithSpecificId.id
             }});
 
         if(!mobileWithSpecificId){
             return res.json();
         }else{
             const newOrder = await Order.create({
-                KorisnikId: user.id,
+                UserId: user.id,
                 total_cost: 0,
-                shipping_address: infoLoggedInUser.adresa,
+                shipping_address: infoLoggedInUser.address,
                 payment_info: payment_info,
                 order_status: "Pending"
             })
             
             const newOrderItem = await Order_item.create({
                 OrderId: newOrder.id,
-                MobitelId: id,
+                MobileId: id,
                 Quantity: qnty,
-                price: qnty*mobileWithSpecificId.cijena
+                price: qnty*mobileWithSpecificId.price
             })
 
             if(CartItem !== null){
@@ -49,7 +49,7 @@ router.post("/buy-now-route/:id", authMiddleware, async(req, res) =>{
 
             newOrder.total_cost = newOrderItem.price;
             await newOrder.save();
-            mobileWithSpecificId.kolicina = mobileWithSpecificId.kolicina - qnty <= 0 ? 10 : mobileWithSpecificId.kolicina - qnty;
+            mobileWithSpecificId.quantity = mobileWithSpecificId.quantity - qnty <= 0 ? 10 : mobileWithSpecificId.quantity - qnty;
             await mobileWithSpecificId.save(); 
             return res.status(200).json(newOrderItem);
         }
@@ -67,22 +67,20 @@ router.post("/order-from-cart/:cartId", authMiddleware, async (req, res) =>{
             payment_info
         } = req.body;
 
-        const loggedInUser = await Korisnik.findOne({where: {id: user.id}});
-        const infoLoggedInUser = await Osoba.findOne({where: {id: loggedInUser.OsobaId}});
+        const loggedInUser = await User.findOne({where: {id: user.id}});
+        const infoLoggedInUser = await Persons.findOne({where: {id: loggedInUser.PersonId}});
         
         const cartWithId = await Cart.findOne({where: {id: cartId}});
         const allCartItemsFromCart = await Cart_item.findAll({
             where:{ 
                 CartId: cartId
             },
-            include: [Mobitel]
+            include: [Mobile]
         });
-        console.log(allCartItemsFromCart);
-        console.log("OKS")
         const newOrder = await Order.create({
-            KorisnikId: user.id,
+            UserId: user.id,
             total_cost: 0,
-            shipping_address: infoLoggedInUser.adresa,
+            shipping_address: infoLoggedInUser.address,
             payment_info: payment_info,
             order_status: "Pending"
         })
@@ -90,16 +88,15 @@ router.post("/order-from-cart/:cartId", authMiddleware, async (req, res) =>{
         let total = 0;
 
         for(const item of allCartItemsFromCart){
-            total += item.Mobitel.cijena * item.quantity;
+            total += item.Mobile.price * item.quantity;
 
             await Order_item.create({
                 OrderId: newOrder.id,
-                MobitelId: item.Mobitel.id,
+                MobileId: item.Mobile.id,
                 Quantity: item.quantity,
-                price: item.quantity * item.Mobitel.cijena
+                price: item.quantity * item.Mobile.price
            })
         }
-        console.log("OK");
         newOrder.total_cost = total;
         await newOrder.save();
 
@@ -108,10 +105,9 @@ router.post("/order-from-cart/:cartId", authMiddleware, async (req, res) =>{
         await toDelete.destroy();
         }    
 
-        return res.json("Uredu je sve!");
+        return res.status(200).json();
     }catch(error){
-        //return res.json(error);
-        console.log(error);
+        return res.json(error);
     }
 })
 
@@ -163,5 +159,6 @@ router.put("/order-cancel/:id", adminMiddleware, async(req, res) =>{
         return res.status(401).json(error);
     }
 })
+
 module.exports = router;
 

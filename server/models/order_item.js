@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        MobitelId:{
+        MobileId:{
             type: DataTypes.INTEGER,
             allowNull: false
         },
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     order_items.associate = models => {
         order_items.belongsTo(models.Order);
 
-        order_items.belongsTo(models.Mobitel, {
+        order_items.belongsTo(models.Mobile, {
             onDelete: "cascade"
         });
     }

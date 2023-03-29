@@ -9,7 +9,7 @@ export default function AddBrand(){
 
     const [errors, setErrors] = useState([]);
     const [brandName, setBrandName] = useState({
-        ime:""
+        name:""
     });
 
     function handleSubmit(event){
@@ -24,7 +24,7 @@ export default function AddBrand(){
         {
             
             setBrandName({
-                ime:""
+                name:""
             })
             setErrors([]);    
         })
@@ -53,12 +53,12 @@ export default function AddBrand(){
                     <Form.Control 
                         type="text" 
                         placeholder="Samsung"
-                        name="ime"
-                        value={brandName.ime}
+                        name="name"
+                        value={brandName.name}
                         onChange={handleChangeName}
                         />
                 </Form.Group>
-                {num > 0 && <ErrorFinder err={errors} fieldName="ime"/>}
+                {num > 0 && <ErrorFinder err={errors} fieldName="name"/>}
                 <Form.Group className="mt-3">
                     <Button style={{backgroundColor:"#219aeb"}} type="submit">
                         Save

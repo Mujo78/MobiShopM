@@ -84,7 +84,7 @@ export default function SeeComments(){
                 <tbody key={n.id} >
                 <tr>
                   <td>{n.id}.</td>
-                  <td>{n.ime}</td>
+                  <td>{n.name}</td>
                   <td>{n.email}</td>
                   <td style={{fontSize:"12px"}}>
                         {n.comment.length >51 ? 

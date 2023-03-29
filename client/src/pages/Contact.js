@@ -10,7 +10,7 @@ import Footer from "../components/Footer";
 export default function Contact(){
 
     const [commentData, setCommentData] = useState({
-        ime:"",
+        name:"",
         email:"",
         comment:""
     })
@@ -21,7 +21,7 @@ export default function Contact(){
         axios.post("http://localhost:3001/post-comment", commentData)
         .then(() => {
             setCommentData({
-                ime:"",
+                name:"",
                 email:"",
                 comment:""
             })
@@ -46,19 +46,19 @@ export default function Contact(){
 
     return(
         <Container>
-        <Container className='d-flex flex-column justify-content-center align-items-center'>
+        <Container className='d-flex mt-5 mb-5 flex-column justify-content-center align-items-center'>
         <h1>Contact</h1>
         <br/>
             <Form onSubmit={handleSubmit} className="w-50">
                 <Form.Group className="mb-2">
-                    <Form.Label>Ime</Form.Label>
+                    <Form.Label>Name</Form.Label>
                     <Form.Control
                         type="text"
-                        name='ime'
-                        value={commentData.ime}
+                        name='name'
+                        value={commentData.name}
                         onChange={handleChange}
                         autoFocus />
-                {num > 0 && <ErrorFinder err={errorData} fieldName="ime" />}
+                {num > 0 && <ErrorFinder err={errorData} fieldName="name" />}
                 </Form.Group>
                 <Form.Group className="mb-2">
                     <Form.Label>Email address</Form.Label>

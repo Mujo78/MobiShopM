@@ -2,39 +2,38 @@ const express = require("express");
 const { validationResult } = require("express-validator");
 const {authMiddleware } = require("../middlewares/auth-middleware");
 const router = express.Router();
-const {Cart, Mobitel, Cart_item, Korisnik} = require("../models");
+const {Cart, Mobile, Cart_item, User} = require("../models");
 
 router.post("/add-to-cart/:id", authMiddleware, async(req, res) => {
     try{
         const id = req.params.id;
         const user = req.user;
         if(!user){
-            console.log(user);
             return res.status(401).json();
         }else{
             const {
                 quantity
             } = req.body;
     
-            const mobileWithId = await Mobitel.findOne({where: {id: id}});
+            const mobileWithId = await Mobile.findOne({where: {id: id}});
             if(!mobileWithId){
                 res.status(401).json();
             }else{
-                const userWithCart = await Cart.findOne({where: {KorisnikId: user.id}})
+                const userWithCart = await Cart.findOne({where: {UserId: user.id}})
                 if(userWithCart === null){
                     const userWithCart = await Cart.create({
-                        KorisnikId: user.id
+                        UserId: user.id
                     })
                 }
                 const allCartItems = await Cart_item.findAll({where: {CartId: userWithCart.id}});
-                const mobIds = allCartItems.map(n => n.dataValues.MobitelId);
+                const mobIds = allCartItems.map(n => n.dataValues.MobileId);
                 if(!mobIds.includes(mobileWithId.id)){
                     const newCartItem = await Cart_item.create({
                         quantity: quantity > 10 ? 10 : quantity,
                         CartId: userWithCart.id,
-                        MobitelId: mobileWithId.id
+                        MobileId: mobileWithId.id
                     })
-                    mobileWithId.kolicina = mobileWithId.kolicina - quantity === 0 ? 10 : mobileWithId.kolicina - quantity;
+                    mobileWithId.quantity = mobileWithId.quantity - quantity === 0 ? 10 : mobileWithId.quantity - quantity;
                     await mobileWithId.save();
                     return res.status(200).json(newCartItem);
                 }else{
@@ -52,18 +51,17 @@ router.get("/cart/:id", authMiddleware, async(req, res) => {
     try{
         const id = req.params.id;
         const user = req.user;
-        const Users = await Korisnik.findOne({where: {id: user.id}});
-        console.log(Users);
+        const Users = await User.findOne({where: {id: user.id}});
         if(Users.RoleId !== 1){
 
-            const cartWithId = await Cart.findOne({where: {KorisnikId : id}})
-            const cartItemsForCart = await Cart_item.findAll({where: {CartId: cartWithId.id}, include: [Mobitel]});
+            const cartWithId = await Cart.findOne({where: {UserId : id}})
+            const cartItemsForCart = await Cart_item.findAll({where: {CartId: cartWithId.id}, include: [Mobile]});
             if(cartItemsForCart !== null){
                 const cartItems = cartItemsForCart.map(n =>{
-                    const {Mobitel, quantity} = n;
-                    const {id, naziv, ram, internal, cijena} = Mobitel;
+                    const {Mobile, quantity} = n;
+                    const {id, mobile_name, ram, internal, price} = Mobile;
                     return {
-                        id, naziv, ram, internal,cijena, quantity
+                        id, mobile_name, ram, internal,price, quantity
                     }
     
                 })
@@ -79,7 +77,7 @@ router.get("/cart/cart-items/:id", authMiddleware, async(req, res) =>{
     try{
         const id = req.params.id;
 
-        const cartWithId = await Cart.findOne({where: {KorisnikId: id}});
+        const cartWithId = await Cart.findOne({where: {UserId: id}});
         const cartItems = await Cart_item.findAll({where: {CartId: cartWithId.id}});
 
         return res.status(200).json(cartItems);

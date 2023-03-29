@@ -34,7 +34,7 @@ export default function Models(){
         }).catch(error =>{
             console.log(error);
         })
-        axios.get(`http://localhost:3001/mobiteli${brandName ? `/${brandName}` : ""}`)
+        axios.get(`http://localhost:3001/mobiles${brandName ? `/${brandName}` : ""}`)
         .then(response => {
             setMobileData(response.data);
             isMobile && closeIt();
@@ -43,11 +43,14 @@ export default function Models(){
         })
     }, [brandName])
 
-    const data = mobileData
-        .slice(indexOfFirstRecord, indexOfLastRecord)
-        .map(n =>{
-        return <Cards  key={n.id} mob={n}/>
+    const data = 
+        mobileData
+            .slice(indexOfFirstRecord, indexOfLastRecord)
+            .map(n =>{
+                return <Cards  key={n.id} mob={n}/>
     })
+
+    console.log(mobileData);
 
     const brandsData = brands.map(n =>{
         return <BrandNav  key={n.id} b={n}/>

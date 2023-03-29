@@ -9,14 +9,14 @@ export default function RegistrationModal(props){
   const [errorsLogin, setErrors] = useState([])
 
   const[registrationData, setRegistrationData] = useState({
-    ime:"",
-    prezime:"",
-    broj_telefona:"",
-    adresa: "",
-    grad: "",
+    first_name:"",
+    last_name:"",
+    phone_number:"",
+    address: "",
+    city: "",
     username:"",
     email: "",
-    spol:"",
+    gender:"",
     password: "",
     confirmpassword: ""
   })
@@ -30,14 +30,14 @@ export default function RegistrationModal(props){
         console.log(`Username: ${registrationData.username}` );
         setErrors([]);
         setRegistrationData({
-          ime:"",
-          prezime:"",
-          broj_telefona:"",
-          adresa: "",
-          grad: "",
+          first_name:"",
+          last_name:"",
+          phone_number:"",
+          address: "",
+          city: "",
           username:"",
           email: "",
-          spol:"",
+          gender:"",
           password: "",
           confirmpassword: ""
         })
@@ -75,21 +75,21 @@ export default function RegistrationModal(props){
                       <Form.Label>Name</Form.Label>
                       <Form.Control 
                         type="text" 
-                        value={registrationData.ime}
+                        value={registrationData.first_name}
                         onChange={handleChange}
-                        name='ime' 
+                        name='first_name' 
                         autoFocus />
-                     {num > 0 && <ErrorFinder err={errorsLogin} fieldName="ime" />}
+                     {num > 0 && <ErrorFinder err={errorsLogin} fieldName="first_name" />}
                   </div>
                   <div className="d-flex flex-column w-100">
                       <Form.Label>Last name</Form.Label>
                       <Form.Control 
                         type="text" 
-                        value={registrationData.prezime}
+                        value={registrationData.last_name}
                         onChange={handleChange}
-                        name='prezime' 
+                        name='last_name' 
                         autoFocus />
-                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="prezime" />}
+                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="last_name" />}
 
                   </div>
               </Form.Group>
@@ -98,25 +98,25 @@ export default function RegistrationModal(props){
                     <Form.Label>Phone number</Form.Label>
                     <Form.Control 
                       type='text' 
-                      value={registrationData.broj_telefona}
+                      value={registrationData.phone_number}
                       onChange={handleChange}
-                      name="broj_telefona"
+                      name="phone_number"
                       placeholder="+387** *** ***" 
                       autoFocus />
-                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="broj_telefona" />}
+                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="phone_number" />}
                 </div>
                 <div className="d-flex flex-column w-50">
                     <Form.Label>Gender</Form.Label>
                     <Form.Select 
                       aria-label="Default select example" 
-                      value={registrationData.spol}
+                      value={registrationData.gender}
                       onChange={handleChange}
-                      name="spol">
+                      name="gender">
                         <option>Choose</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </Form.Select>
-                    {num > 0 && <ErrorFinder err={errorsLogin} fieldName="spol" />}
+                    {num > 0 && <ErrorFinder err={errorsLogin} fieldName="gender" />}
                 </div>
             </Form.Group>
             <Form.Group className="d-flex mb-1">
@@ -124,21 +124,21 @@ export default function RegistrationModal(props){
                     <Form.Label>City</Form.Label>
                     <Form.Control 
                       type="text" 
-                      name='grad'
-                      value={registrationData.grad}
+                      name='city'
+                      value={registrationData.city}
                       onChange={handleChange}
                       autoFocus />
-                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="grad" />}
+                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="city" />}
                 </div>
                 <div className="d-flex flex-column w-100">
                     <Form.Label>Address</Form.Label>
                     <Form.Control 
                       type="text" 
-                      name="adresa"
-                      value={registrationData.adresa}
+                      name="address"
+                      value={registrationData.address}
                       onChange={handleChange}
                       autoFocus />
-                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="adresa" />}
+                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="address" />}
                 </div>
             </Form.Group>
             <Form.Group className="mb-1">
@@ -189,7 +189,7 @@ export default function RegistrationModal(props){
                   placeholder="***********"
                   autoFocus
                 />
-                {registrationData.password === registrationData.confirmpassword ? "" : <p style={{fontSize:"12px", color:"red"}}>Šifre moraju biti jednake!</p>}
+                {registrationData.password === registrationData.confirmpassword ? "" : <p style={{fontSize:"12px", color:"red"}}>Passwords must be the same!</p>}
               
               </Form.Group>
             <Modal.Footer>

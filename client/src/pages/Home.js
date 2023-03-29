@@ -32,7 +32,7 @@ export default function Home(){
     }, [])
 
     const getTopPrices = ()=>{
-        axios.get("http://localhost:3001/mobiteli-top-prices")
+        axios.get("http://localhost:3001/mobiles-top-prices")
         .then(response => setTopPricesState(response.data))
         .catch(error => console.log(error))
     }
@@ -63,7 +63,7 @@ export default function Home(){
         <br/>
             <CarouselSlider />
         <br/>
-        <Container fluid>
+        <Container fluid className="mb-5">
             <Row className="d-flex flex-row flex-wrap justify-content-center align-items-center my-4">
                 <Col sm={isTablet ? 0: 1} className="d-flex justify-content-center  me-1">
                 <img src="../images/shop.png" alt="shop" />
@@ -85,9 +85,9 @@ export default function Home(){
                 </Col>
             </Row>
         </Container>
-        <Container fluid className="mb-5">
+        <Container fluid className="mb-5 mt-5">
 
-            <h3 style={{textDecoration:"underline"}} className="mt-1">Top prices</h3>
+            <h3 style={{textDecoration:"underline"}} className="mt-5">Top prices</h3>
             <CustomCarousel showArrows={true}
                     showStatus={false}
                     showThumbs={false}

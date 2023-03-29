@@ -13,17 +13,18 @@ const Image = styled.img`
     }
 `;
 
+
 export default function Footer(){
 
     const {isMobile} = useResponsive();
     return (
         <Container fluid style={{backgroundColor:"whitesmoke"}}>
            <Container fluid className='d-flex  flex-row flex-wrap'>
-                <Col sm={4}>
+                <Col sm={4} className="col">
                         <Row style={{fontFamily:"Audiowide", fontSize:"30px", color:"#219aeb"}}>MShop</Row>
                         <Row as={Link} to="/">Home</Row>
                         <Row as={Link} to="search">Search</Row>
-                        <Row as={Link} to="models">Models</Row>
+                        <Row as={Link} to="models">Brands</Row>
                         <Row as={Link} to="about">About</Row>
                         <Row as={Link} to="contact">Contact</Row>
                         
@@ -33,7 +34,7 @@ export default function Footer(){
                         <Row style={{color:"#219aeb"}}>{isMobile ? "_________________________________________" : "_________________________________________________"}</Row>
                         <Row>Viber | Whatssup : 062/432/102 - 033/111/222</Row>
                         <Row>Email: mshop@gmail.com</Row>
-                        <Row>Adresa: Sarajevska 34, 72270 Travnik</Row>
+                        <Row>Address: Sarajevska 34, 72270 Travnik</Row>
                         
                         <Link to={"https://twitter.com/?lang=en"}><Image src='../images/twitter.svg' alt='fb' /></Link>
                         <Link to={"https://hr-hr.facebook.com/"}><Image src='../images/facebook.svg' alt='fb' /></Link>

@@ -17,7 +17,7 @@ export default function Search(){
     const [searchResult, setSearchResult] = useState([]);
     const [info, setInfo] = useState();
     const [stateFilter, setStateFilter] = useState(false);
-    const [mobiteli, setMobiteli] = useState([])
+    const [mobiles, setMobiles] = useState([])
 
     let num = isTablet ? 6 : 8;
 
@@ -25,10 +25,10 @@ export default function Search(){
     const [currentPage, setCurrentPage] = useState(1);
     const indexOfLastRecord = currentPage * perPage;
     const indexOfFirstRecord = indexOfLastRecord - perPage;
-    const nPages = Math.ceil(searchResult.length === 0 ? mobiteli.length / perPage : searchResult.length / perPage);
+    const nPages = Math.ceil(searchResult.length === 0 ? mobiles.length / perPage : searchResult.length / perPage);
 
     const [searchFormDataState, setSearchFormDataState] = useState({
-        naziv: "",
+        mobile_name: "",
         ram:{
             ram16: false,
             ram12: false,
@@ -46,10 +46,10 @@ export default function Search(){
             internal8: false,
             internal4: false
         },
-        velicinaEkrana:"",
-        baterija:"",
+        screen_size:"",
+        battery:"",
         os:"",
-        cijena:{
+        price:{
             from:"",
             to:""
         },
@@ -57,8 +57,8 @@ export default function Search(){
     })
 
     const getMobiteli =() => {
-        axios.get("http://localhost:3001/mobiteli")
-        .then((response) => setMobiteli(response.data));
+        axios.get("http://localhost:3001/mobiles")
+        .then((response) => setMobiles(response.data));
     }
 
     useEffect(() =>{
@@ -74,14 +74,12 @@ export default function Search(){
     })
 
     const mobitels = 
-        mobiteli
+        mobiles
             .slice(indexOfFirstRecord, indexOfLastRecord)
             .map(m => {
                 return <Cards  key={m.id} mob={m}/>
     })
    
-
-
     const handleCloseFilter = () => setStateFilter(false);
     const handleShowFilter = () => setStateFilter(true);
 
