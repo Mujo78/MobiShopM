@@ -4,8 +4,11 @@ import Table from "react-bootstrap/Table";
 import Alert from "react-bootstrap/Alert";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
+import useResponsive from "../components/useResponsive";
 
 export default function SeeComments(){
+
+    const {isMobile} = useResponsive();
 
     const [comments, setComments] = useState([]);
     const [errorComment, setErrorComment] = useState([]);
@@ -29,7 +32,7 @@ export default function SeeComments(){
     }, [comments])
 
     const showAllComment = (id, comment) => {
-        let comLength = comment.length; // 176
+        let comLength = comment.length; 
         let oneRow = comLength / 50;
         console.log(oneRow);
 
@@ -66,10 +69,11 @@ export default function SeeComments(){
     let numErr = errorComment.length;
 
     return(
-        <Container>
+        <Container className={isMobile ? "w-100" : ""}>
         <h1>Comments</h1>
         {numErr <= 0 ?
-        <Table striped responsive>
+        <div className={isMobile ? `w-50` : `w-100`} style={{overflowX: "auto"}}>
+        <Table striped responsive={true} size={isMobile ? "sm" : ""}>
             <thead>
                 <tr>
                 <th>No.</th>
@@ -102,7 +106,7 @@ export default function SeeComments(){
                 </tr>
               </tbody>
             ))}
-            </Table> : <Alert variant="danger">{errorComment}</Alert>}
+            </Table> </div> : <Alert variant="danger">{errorComment}</Alert>}
         </Container>
     )
 }

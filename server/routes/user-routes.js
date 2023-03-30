@@ -72,7 +72,7 @@ router.get("/all-admins",adminMiddleware, async(req, res) =>{
         })
         if(!allAdmins || allAdmins.length === 0){
 
-            return res.status(401).json("Nema rezultata pretrage!");
+            return res.status(401).json("Nothing to show!");
         }else{
             const allAdminId = allAdmins.map(n => n.PersonId);
             const allAdminInfo = await Persons.findAll({where: {id: allAdminId}})

@@ -4,10 +4,12 @@ import Button from "react-bootstrap/esm/Button";
 import Container from "react-bootstrap/esm/Container";
 import Table from "react-bootstrap/esm/Table";
 import Alert from "react-bootstrap/Alert";
+import useResponsive from "../components/useResponsive";
 
 export default function SeeOrders(){
 
     const [ordersState, setOrdersState] = useState([]);
+    const {isMobile} = useResponsive();
 
     useEffect(() =>{
         getOrders();
@@ -45,10 +47,11 @@ export default function SeeOrders(){
 
     console.log(ordersState);
     return(
-        <Container>
+        <Container className={isMobile ? "w-100" : ""}>
             <h1>Orders</h1>
             {ordersState.length > 0 ?
-            <Table striped responsive>
+              <div className={isMobile ? `w-50` : `w-100`} style={{overflowX: "auto"}}>
+            <Table striped responsive={true} size={isMobile ? "sm" : ""}>
             <thead>
                 <tr>
                     <th>No.</th>
@@ -73,7 +76,7 @@ export default function SeeOrders(){
                 </tr>
               </tbody>
             ))}
-            </Table> : <Alert variant="info">0 orders left</Alert>}
+            </Table> </div> : <Alert variant="info">0 orders left</Alert>}
 
         </Container>
     )

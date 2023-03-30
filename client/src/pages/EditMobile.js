@@ -5,8 +5,11 @@ import Container from "react-bootstrap/esm/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from 'react-bootstrap/Form';
 import ErrorFinder from "../components/ErrorFinder";
+import useResponsive from "../components/useResponsive";
 
 export default function EditMobile(){
+
+    const {isMobile} = useResponsive();
 
     const [allBrands, setAllBrands] = useState([]);
     const [errorForm, setErrorsForm] = useState([]);
@@ -117,16 +120,16 @@ export default function EditMobile(){
     return(
         <Container>
         <h1>Edit Mobile</h1>
-        <ListGroup className="d-flex flex-row align-items-center justify-content-center">
+        <ListGroup className="d-flex flex-row flex-wrap align-items-center justify-content-center">
             {allBrands.map(n => (
-                <Button key={n.id} variant="light" className="ms-3" onClick={() => getMobilesByBrands(n.id)}>
+                <Button key={n.id} variant="light" className="ms-3 mt-2" onClick={() => getMobilesByBrands(n.id)}>
                     <h6>{n.name}</h6>
                     </Button>
             )) }
         </ListGroup>
 
         <Container className="d-flex flex-wrap">        
-            <ListGroup variant="flush" className="mt-4 w-25">
+            <ListGroup variant="flush" className={`mt-4 ${isMobile ? `w-100 `: `w-25`}`} style={{maxHeight:"120px", overflowY:"auto"}}>
                 {allMobiles.map(m => (
                     <ListGroup.Item key={m.id} variant="light" className="d-flex flex-wrap justify-content-between align-items-center">
                         <h6>{m.mobile_name}</h6>
@@ -137,11 +140,11 @@ export default function EditMobile(){
         
         {showForm &&
         <Form onSubmit={handleSubmit} className='mx-auto mt-4 d-flex flex-column align-items-center justify-content-center flex-wrap'>
-        <Form.Group className='d-flex flex-wrap' >
+        <Form.Group className='d-flex flex-wrap justify-content-center' >
             <div>
                 <img src={mobileData.photo === "" ? "" : mobileData.photo} alt=""  style={{width:"210px"}} className="mt-5" />
             </div>
-            <div className='ms-3'>
+            <div className={`${isMobile ? `w-100` : `ms-3`}`}>
                 <Form.Label>Name</Form.Label>
                 <Form.Control
                     type="text" 
@@ -207,7 +210,7 @@ export default function EditMobile(){
     </Form.Group>
 
     <Form.Group className='d-flex flex-wrap'>
-        <div className='me-3'>
+        <div className={`${isMobile ? `w-100` : `me-3`}`}>
             <Form.Label>RAM</Form.Label>
                 <Form.Select 
                 aria-label="Default select example" 
@@ -225,7 +228,7 @@ export default function EditMobile(){
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="ram" />}
 
         </div>
-        <div >
+        <div className={`${isMobile ? `w-100` : ``}`}>
             <Form.Label>Memory</Form.Label>
             <Form.Select 
                 aria-label="Default select example" 
@@ -250,7 +253,7 @@ export default function EditMobile(){
     
 
     <Form.Group className='d-flex flex-wrap'>
-        <div className='me-3'>
+        <div className={`${isMobile ? `w-100` : `me-3`}`}>
         <Form.Label>Processor</Form.Label>
             <Form.Control 
                 type="text" 
@@ -261,7 +264,7 @@ export default function EditMobile(){
                 />
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="processor" />}
         </div>
-        <div>
+        <div className={`${isMobile ? `w-100` : ``}`}>
         <Form.Label>Baterry</Form.Label>
             <Form.Control 
                 type="text" 
@@ -275,7 +278,7 @@ export default function EditMobile(){
         </div>
     </Form.Group>
     <Form.Group className='d-flex flex-wrap'>
-        <div className='me-3'>
+        <div className={`${isMobile ? `w-100` : `me-3`}`}>
             <Form.Label>Price</Form.Label>
             <Form.Control 
                 type="text" 
@@ -287,7 +290,7 @@ export default function EditMobile(){
                 />
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="price" />}
         </div>
-        <div>
+        <div className={`${isMobile ? `w-100` : ``}`}>
             <Form.Label>OS</Form.Label>
             <Form.Control 
                 type="text" 

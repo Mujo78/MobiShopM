@@ -27,15 +27,13 @@ export default function Home(){
     const {isMobile, isTablet} = useResponsive();
     const [topPricesState, setTopPricesState] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
-    useEffect(() =>{
-        getTopPrices();
-    }, [])
 
-    const getTopPrices = ()=>{
+
+    useEffect(() =>{
         axios.get("http://localhost:3001/mobiles-top-prices")
         .then(response => setTopPricesState(response.data))
         .catch(error => console.log(error))
-    }
+    }, [])
 
     const activeStyles = {
         transform: 'scale(0.9)',
@@ -63,7 +61,8 @@ export default function Home(){
         <br/>
             <CarouselSlider />
         <br/>
-        <Container fluid className="mb-5">
+        <br/>
+        <Container fluid>
             <Row className="d-flex flex-row flex-wrap justify-content-center align-items-center my-4">
                 <Col sm={isTablet ? 0: 1} className="d-flex justify-content-center  me-1">
                 <img src="../images/shop.png" alt="shop" />
@@ -85,7 +84,8 @@ export default function Home(){
                 </Col>
             </Row>
         </Container>
-        <Container fluid className="mb-5 mt-5">
+        <br/>
+        <Container fluid className="mb-5">
 
             <h3 style={{textDecoration:"underline"}} className="mt-5">Top prices</h3>
             <CustomCarousel showArrows={true}
@@ -112,6 +112,7 @@ export default function Home(){
         
       </CustomCarousel>
         </Container>
+        <br/>
 
             <Footer />
         </>

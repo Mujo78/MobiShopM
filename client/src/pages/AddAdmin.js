@@ -3,8 +3,11 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ErrorFinder from '../components/ErrorFinder';
+import useResponsive from '../components/useResponsive';
 
 export default function AddAdmin(){
+
+    const {isDesktop} = useResponsive();
 
     const [errorsData, setErrorsData] = useState([]);
     const [adminData, setAdminData] = useState({
@@ -50,9 +53,9 @@ export default function AddAdmin(){
     return(
         <>
             <h1>Add new Admin</h1>
-            <Form onSubmit={addAdmin} className='d-flex flex-column align-items-center justify-content-center flex-wrap'>
-                <Form.Group className='d-flex flex-wrap mb-3 mt-2' >
-                    <div className='me-3'>
+            <Form onSubmit={addAdmin} className={`d-flex flex-column  align-items-center flex-wrap justify-content-around w-75`}>
+                <Form.Group className={`d-flex ${isDesktop ? `w-50` : `w-100`} justify-content-around flex-wrap mb-3 mt-2`} >
+                    <div>
                         <Form.Label>First name</Form.Label>
                         <Form.Control 
                             type="text" 
@@ -76,8 +79,8 @@ export default function AddAdmin(){
                    </div>
                 </Form.Group>
 
-            <Form.Group className='d-flex flex-wrap mb-3'>
-                <div className='me-3'>
+            <Form.Group className={`d-flex ${isDesktop ? `w-50` : `w-100`} justify-content-around flex-wrap mb-3`}>
+                <div>
                     <Form.Label>Address</Form.Label>
                     <Form.Control 
                         type="text" 
@@ -101,8 +104,8 @@ export default function AddAdmin(){
                 </div>
             </Form.Group>
 
-            <Form.Group className='d-flex flex-wrap mb-4'>
-                <div className='me-3'>
+            <Form.Group className={`d-flex ${isDesktop ? `w-50` : `w-100`} justify-content-around flex-wrap mb-4`}>
+                <div>
                     <Form.Label>Phone number</Form.Label>
                     <Form.Control 
                         type="text" 
