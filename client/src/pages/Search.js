@@ -108,7 +108,7 @@ export default function Search(){
                         (info ?? []).length > 0 ?
                         <div className='d-flex flex-column'>
                             <Alert variant='secondary' className='d-flex justify-content-center align-items-center'>{info}</Alert> 
-                            <div className='d-flex flex-wrap justify-content-center align-items-center'>{data}</div> 
+                            <div className='d-flex flex-wrap justify-content-center align-items-center'>{mobitels}</div> 
                         </div>  
                         : <div className='d-flex flex-wrap justify-content-center align-items-center'>{data}</div> 
                     : <div className='d-flex flex-wrap justify-content-start align-items-center'> {mobitels} </div>}

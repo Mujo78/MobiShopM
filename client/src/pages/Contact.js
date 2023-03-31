@@ -5,9 +5,12 @@ import Container from 'react-bootstrap/esm/Container';
 import Form from 'react-bootstrap/Form';
 import ErrorFinder from '../components/ErrorFinder';
 import Footer from "../components/Footer";
+import useResponsive from '../components/useResponsive';
 
 
 export default function Contact(){
+
+    const {isTablet} = useResponsive();
 
     const [commentData, setCommentData] = useState({
         name:"",
@@ -90,7 +93,9 @@ export default function Contact(){
         </Form>
       </Container>
       <br/><br/>
-      <Footer />
+      <Container className={isTablet && "fixed-bottom b-0"} >
+        <Footer />
+      </Container>
       </Container>
     )
 }

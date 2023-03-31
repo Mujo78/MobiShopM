@@ -64,7 +64,7 @@ export default function Models(){
     }
     return(
         <>
-        <div className="d-flex flex-row mt-4 mb-4">
+        <div className="d-flex w-100 flex-row mt-4 mb-4">
             
             {isMobile ?
             <Button style={{position:"fixed", right: 0, borderRadius:"120px",textAlign:"center", backgroundColor:"#ffffff", color:"#219aeb"}} onClick={handleShowOff}>B</Button>
@@ -75,9 +75,10 @@ export default function Models(){
                 {brandsData}
             </div>}
             {mobileData ? 
-            (<div className="d-flex w-75 flex-column">
+            (
+            <div className="d-flex w-75 flex-column">
             
-            <div className="d-flex justify-content-center flex-wrap">
+            <div className={`d-flex ${isMobile ? `justify-content-center` : `justify-content-start`} align-items-center flex-row flex-wrap`}>
                {data}
             </div>
             <div className="d-flex mt-auto justify-content-center mt-2">

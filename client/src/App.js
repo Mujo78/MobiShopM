@@ -13,7 +13,7 @@ import { AuthContext } from './helpers/AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
 import Profile from './pages/Profile';
 import MyCart from './pages/MyCart';
-import Setings from './pages/Setings';
+import Wishlist from './pages/Wishlist';
 import axios from 'axios';
 import AdminMenu from './pages/AdminMenu';
 import Button from 'react-bootstrap/esm/Button';
@@ -28,6 +28,12 @@ import SeeComments from './pages/SeeComments';
 import { ToastContainer } from 'react-toastify';
 import Overview from './pages/Overview';
 import SeeOrders from './pages/SeeOrders';
+import Orders from './pages/Orders';
+import Info from './pages/Info';
+import ProfileData from './pages/ProfileData';
+import ChangePassword from './pages/ChangePassword';
+import DetailActivities from './pages/DetailActivities';
+import EditProfile from './pages/EditProfile';
 
 function App() {
   const [authState, setAuthState] = useState({
@@ -107,9 +113,16 @@ function App() {
             <Route path="contact" element={<Contact />} />
             
               <Route path='profile' element={<Profile />}>
-                <Route path='.' element={<Overview />} />
+                <Route index element={<Overview />}/>
+                <Route path='edit-profile' element={<EditProfile />}>
+                  <Route path='info' element={<Info />} />
+                  <Route path='profile-data' element={<ProfileData />} />
+                  <Route path='change-password' element={<ChangePassword/>} />
+                </Route>
+                <Route path='detail-activities' element={<DetailActivities />} />
                 <Route path='my-cart' element={<MyCart />} />
-                <Route path='setings' element={<Setings />} />
+                <Route path='orders' element={<Orders />} />
+                <Route path='wishlist' element={<Wishlist />} />
               </Route>
             <Route path='*' element={<PageNotFound />} />
 

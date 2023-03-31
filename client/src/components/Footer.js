@@ -16,7 +16,7 @@ const Image = styled.img`
 
 export default function Footer(){
 
-    const {isMobile} = useResponsive();
+    const {isMobile, isDesktop} = useResponsive();
     return (
         <Container fluid style={{backgroundColor:"whitesmoke"}}>
            <Container fluid className='d-flex  flex-row flex-wrap'>
@@ -31,7 +31,7 @@ export default function Footer(){
                 </Col>
                 <Col  sm={5}>
                         <Row style={{fontSize:"19px" ,color:"#219aeb"}}>Contact us</Row>
-                        <Row style={{color:"#219aeb"}}>{isMobile ? "_________________________________________" : "_________________________________________________"}</Row>
+                        <Row style={{color:"#219aeb"}}>{!isDesktop ? isMobile ? "__________________________________" : "__________________________________" : " _________________________________________________"}</Row>
                         <Row>Viber | Whatssup : 062/432/102 - 033/111/222</Row>
                         <Row>Email: mshop@gmail.com</Row>
                         <Row>Address: Sarajevska 34, 72270 Travnik</Row>
@@ -44,7 +44,7 @@ export default function Footer(){
                 </Col>
                 <Col sm={3}>
                         <Row style={{fontSize:"19px" ,color:"#219aeb"}}>Payment methods</Row>
-                        <Row style={{color:"#219aeb"}}>_________________________________________</Row>
+                        <Row style={{color:"#219aeb"}}>{!isDesktop ? isMobile ? "__________________________________" : "__________________________" : " _________________________________________"}</Row>
                         <Row>When delivering/picking up the device</Row>
                         <Row>Payment slip</Row>
                         <Row>Payment in installments</Row>
