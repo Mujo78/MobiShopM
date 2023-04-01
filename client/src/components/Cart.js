@@ -39,6 +39,11 @@ export default function Cart(props){
   }
   const handleCloseOrderSpecificPhone = () => setShowOrderForMobile(false);
 
+  const btnStyle ={
+      backgroundColor: "#219aeb",
+      border: "none",
+      borderRadius: 0
+  }
 
     return(
       <Offcanvas show={props.show} onHide={props.onHide}>
@@ -53,8 +58,8 @@ export default function Cart(props){
               <ListGroup.Item key={n.id}>
                   <h6>{n.mobile_name} ({n.internal}/{n.ram} GB)</h6>
                   <div className='d-flex'>
-                  <Button className='me-1' onClick={()=>orderSpecificPhone()}>Order</Button>
-                  <Button onClick={() => deleteItem(n.id)} >Delete</Button>
+                  <Button className='me-1' onClick={()=>orderSpecificPhone()} style={btnStyle}>Order</Button>
+                  <Button onClick={() => deleteItem(n.id)} style={btnStyle} >Delete</Button>
                   <h3 className='mx-auto'>Q: {n.quantity}</h3>
                   </div>
                   {showOrderForMobile &&
@@ -72,7 +77,7 @@ export default function Cart(props){
         }
       </Offcanvas.Body>
         <Offcanvas.Header>
-          <Button onClick={props.onHide} className='w-100'>Continue shopping</Button>
+          <Button onClick={props.onHide} style={btnStyle} className='w-100'>Continue shopping</Button>
         </Offcanvas.Header>
     </Offcanvas>
     )

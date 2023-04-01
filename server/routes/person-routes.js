@@ -3,8 +3,9 @@ const router = express.Router();
 const bcrypt = require("bcrypt")
 const {validationResult} = require("express-validator")
 const {adminMiddleware} = require("../middlewares/admin-check")
+const {authMiddleware} = require("../middlewares/auth-middleware")
 const {Persons, User, Cart} = require("../models")
-const {createPersonValidator, createAdminValidator} = require("../validators/person");
+const {createPersonValidator, createAdminValidator, editProfileValidator} = require("../validators/person");
 
 router.get("/users", async(req, res) =>{
     const allUsers = await Persons.findAll();
@@ -127,6 +128,48 @@ router.post("/add-admin",createAdminValidator, async(req, res) =>{
         return res.status(401).json(error.message);
     }
 })
+
+router.put("/edit-profile/:id",authMiddleware,editProfileValidator, async(req,res) => {
+    try{
+        const err = validationResult(req);
+        if(!err.isEmpty()){
+            return res.status(401).json(err);
+        }else{
+            const id = req.params.id;
+            const toUpdate = await Persons.findOne({where: {id: id}});
+
+            if(!toUpdate){
+                res.status(401).json("No such person in db!");
+            }else{
+                const {
+                        first_name,
+                        last_name,
+                        address,
+                        city,
+                        email,
+                        phone_number,
+                        gender,
+                    } = req.body;
+
+
+                    if(first_name != null) toUpdate.first_name = first_name;
+                    if(last_name != null) toUpdate.last_name = last_name;
+                    if(address != null) toUpdate.address = address;
+                    if(city != null) toUpdate.city = city;
+                    if(email != null) toUpdate.email = email;
+                    if(phone_number != null) toUpdate.phone_number = phone_number;
+                    if(gender != null) toUpdate.gender = gender;
+
+                    const newUpdated = await toUpdate.save();
+
+                    res.status(200).json(newUpdated);
+                }
+            }
+    }catch(error){
+        res.status(401).json(error)
+    }
+})
+
 
 router.delete("/delete/:id", adminMiddleware ,async(req, res) => {
     try{

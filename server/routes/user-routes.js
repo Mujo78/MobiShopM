@@ -1,7 +1,7 @@
 const express = require("express")
 const { validationResult } = require("express-validator")
 const router = express.Router()
-const {loginUser} = require("../validators/user")
+const {loginUser, editUsername, changePasswordValidator} = require("../validators/user")
 const {sign} = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const {Op} = require("sequelize");
@@ -40,6 +40,77 @@ router.post("/login",loginUser, async(req, res) => {
                     return res.status(401).json(errors);
                 }
             }
+})
+
+router.put("/edit-username/:id",editUsername,authMiddleware, async(req,res) => {
+    try{
+        const err = validationResult(req);
+        if(!err.isEmpty()){
+            return res.status(401).json(err);
+        }else{
+            const id = req.params.id;
+            const toUpdate = await User.findOne({where: {id: id}});
+
+            if(!toUpdate){
+                res.status(401).json("No such person in db!");
+            }else{
+                const {
+                        username
+                    } = req.body;
+
+                    if(username != null) toUpdate.username = username;
+
+                    const newUpdated = await toUpdate.save();
+                    res.status(200).json(newUpdated);
+                }
+            }
+    }catch(error){
+        res.status(401).json(error)
+    }
+})
+
+router.put("/change-password/:id", changePasswordValidator,authMiddleware, async(req,res) => {
+    try{
+        const errors = validationResult(req);
+
+        if(errors.isEmpty()){
+            const id = req.params.id;
+            const {
+                password,
+                newPassword,
+                confirmPassword
+            } = req.body;
+    
+            const UserById = await User.findOne({where: {id : id}});
+    
+            if(password !== '' && newPassword !== '' && confirmPassword !== ''){
+                const isPasswordValid = await bcrypt.compare(password, UserById.password);
+                if(isPasswordValid){
+                        if(newPassword !== confirmPassword){
+                            errors.errors.push({value: '', msg: 'The new password and confirm password do not match!', param: 'confirmPassword', location: 'body'})
+                            return res.status(401).json(errors);
+                        }else{
+                            let hash = await bcrypt.hash(newPassword, 10);
+            
+                            UserById.password = hash;
+            
+                            await UserById.save();
+                            return res.status(200).json();
+                        }
+                }else{
+                    errors.errors.push({value: '', msg: 'Invalid old password!', param: 'password', location: 'body'})
+                    return res.status(401).json(errors)
+                }
+            }else{
+                return res.status(401).json(errors);
+            }
+        }else{
+            return res.status(401).json(errors);
+        }
+
+    }catch{
+        return res.status(401).json(errors);
+    }
 })
 
 router.get("/user", authMiddleware ,async(req, res) =>{

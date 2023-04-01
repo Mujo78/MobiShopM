@@ -51,7 +51,12 @@ export default function MobileModal(props){
         .catch(error => console.log(error))
       }
       },[authState.id])
-
+    
+      const btnStyle ={
+        backgroundColor: "#219aeb",
+        border: "none",
+        borderRadius: 0
+      }
 
   return (
     <Modal show={props.show} onHide={props.onHide}
@@ -89,13 +94,13 @@ export default function MobileModal(props){
             defaultValue={1}
             max={10}
             onChange={handleQuantity} />
-          <Button onClick={() => addToCart(props.data.id)}>Add to cart</Button>
-          <Button onClick={() => orderMobile()}>Buy now</Button>
+          <Button onClick={() => addToCart(props.data.id)} style={btnStyle}>Add to cart</Button>
+          <Button onClick={() => orderMobile()} style={btnStyle}>Buy now</Button>
          </>
          : <div></div>
          }
 
-        <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={props.onHide} style={btnStyle}>Close</Button>
       </Modal.Footer>
       {showOrderModal &&
       <OrderModal 

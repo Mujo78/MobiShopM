@@ -100,3 +100,36 @@ exports.createAdminValidator = [
         .bail()
 ]
 
+exports.editProfileValidator = [
+    check("first_name")
+        .notEmpty()
+        .withMessage(POST_FIRSTNAME_PERSON)
+        .bail(),
+    check("last_name")
+        .notEmpty()
+        .withMessage(POST_LASTNAME_PERSON)
+        .bail(),
+    check("address")
+        .notEmpty()
+        .withMessage(POST_ADDRESS_PERSON)
+        .bail(),
+    check("phone_number")
+        .notEmpty()
+        .withMessage(POST_PHONENUMBER_PERSON)
+        .custom((value) => {
+            if (value === "") {
+            return true;
+            }
+            return /^[0-9]+$/.test(value);
+        })
+        .withMessage(POST_LETTERINPHONE_PERSON)
+        .bail(),
+    check("city")
+        .notEmpty()
+        .withMessage(POST_CITY_PERSON)
+        .bail(),
+    check("gender")
+        .notEmpty()
+        .withMessage(POST_GENDER_PERSON)
+        .bail()
+]

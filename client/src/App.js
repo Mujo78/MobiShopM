@@ -32,7 +32,6 @@ import Orders from './pages/Orders';
 import Info from './pages/Info';
 import ProfileData from './pages/ProfileData';
 import ChangePassword from './pages/ChangePassword';
-import DetailActivities from './pages/DetailActivities';
 import EditProfile from './pages/EditProfile';
 
 function App() {
@@ -46,6 +45,7 @@ function App() {
   const [errorCarts, setCartsErrors] = useState([]);
   const [cartItemsInfo, setCartItemsInfo] = useState([]);
   const [infoPersonState, setInfoPersonState] = useState([]);
+
 
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
@@ -100,7 +100,7 @@ function App() {
   }
 
   return (
-      <AuthContext.Provider value={{authState, setAuthState}}>
+      <AuthContext.Provider value={{authState, setAuthState, infoPersonState, setInfoPersonState}}>
     <div className="App">
         <Router>
           <ToastContainer />
@@ -115,11 +115,10 @@ function App() {
               <Route path='profile' element={<Profile />}>
                 <Route index element={<Overview />}/>
                 <Route path='edit-profile' element={<EditProfile />}>
-                  <Route path='info' element={<Info />} />
+                  <Route index element={<Info />} />
                   <Route path='profile-data' element={<ProfileData />} />
-                  <Route path='change-password' element={<ChangePassword/>} />
+                  <Route path='change-password' element={<ChangePassword />} />
                 </Route>
-                <Route path='detail-activities' element={<DetailActivities />} />
                 <Route path='my-cart' element={<MyCart />} />
                 <Route path='orders' element={<Orders />} />
                 <Route path='wishlist' element={<Wishlist />} />
@@ -137,7 +136,7 @@ function App() {
                 <Route path='orders' element={<SeeOrders />} />
               </Route>
           </Routes>
-        {authState.RoleId !== 1 && <Button onClick={() => handleShowCart(authState.id)} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="../images/cart.png" alt="cart" />
+        {authState.RoleId !== 1 && <Button onClick={() => handleShowCart(authState.id)} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="/images/cart.png" alt="cart" />
           </Button>}
         </Router>
           <Cart show={showCart} onHide={handleCloseCart} personData={infoPersonState} refreshData={()=> getCartItemsInfo(authState.id)} items={cartItemsInfo} err={errorCarts} />

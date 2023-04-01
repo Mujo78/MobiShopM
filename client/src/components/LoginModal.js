@@ -55,6 +55,15 @@ export default function LoginModal(props){
           [name] : value
       }})
     }
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+      setShowPassword(n => !n);
+    };
+    const showHideImagePass = !showPassword ? "/images/see.svg" : "/images/hide.svg";
+  
+
       return (
         <>
           <Modal show={props.show} onHide={props.handleClose}>
@@ -79,21 +88,30 @@ export default function LoginModal(props){
                   className="mb-0"
                 >
                   <Form.Label>Password</Form.Label>
+                  <div className="input-group">
                   <Form.Control
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name='password'
                     value={loginData.password}
                     onChange={handleChange}
                     placeholder="***********"
                     autoFocus
                   />
+                  <button
+                  className="btn btn-outline-secondary"
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                >
+                  <img style={{height:"20px"}} src={showHideImagePass} alt="seehide" />
+                  </button>
+                  </div>
                 </Form.Group>
                 {num > 0 && <ErrorFinder err={errorsLogin} fieldName="password" />}
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={props.handleClose}>
+                  <Button variant="secondary" style={{border: "none", borderRadius: 0}} onClick={props.handleClose}>
                     Close
                   </Button>
-                  <Button variant="primary" type='submit'>
+                  <Button variant="primary" style={{backgroundColor: "#219aeb", border: "none", borderRadius: 0}} type='submit'>
                     Log In
                   </Button>
                 </Modal.Footer>

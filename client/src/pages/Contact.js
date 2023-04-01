@@ -86,7 +86,7 @@ export default function Contact(){
                 {num > 0 && <ErrorFinder err={errorData} fieldName="comment" />}
                 </Form.Group>
                 <Form.Group>
-                    <Button type="submit" style={{backgroundColor:"#219aeb"}}>
+                    <Button type="submit" style={{backgroundColor: "#219aeb", border: "none", borderRadius: 0}}>
                         Submit
                     </Button>
                 </Form.Group>

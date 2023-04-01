@@ -94,7 +94,7 @@ export default function Accordions(props){
                 value={props.searchFormDataState.mobile_name}
                 placeholder="Samsung Galaxy S23 Ultra 5G"
             />
-            <Button onClick={searchButton} style={{backgroundColor:"#219aeb"}}>Search</Button>
+            <Button onClick={searchButton} style={{backgroundColor: "#219aeb", border: "none", borderRadius: 0}}>Search</Button>
             {isMobile && <Button onClick={props.handleShowFilter} style={{backgroundColor:"#ffffff", color:"#219aeb"}}>Filters</Button>}
         </FormGroup>
         <Container className='w-100 fixed-left'>
@@ -332,7 +332,7 @@ export default function Accordions(props){
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
-                <Button onClick={searchButton} className='mt-3'>Refresh data</Button>
+                <Button onClick={searchButton} style={{backgroundColor: "#219aeb", border: "none", borderRadius: 0}} className='mt-3'>Refresh data</Button>
             </Container>
             </Container>
     )

@@ -12,7 +12,7 @@ export default function EditProfile(){
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link as={Link} to="info">Info</Nav.Link>
+              <Nav.Link as={Link} to=".">Info</Nav.Link>
               <Nav.Link as={Link} to="profile-data">Profile</Nav.Link>
               <Nav.Link as={Link} to="change-password">Password</Nav.Link>
             </Nav>

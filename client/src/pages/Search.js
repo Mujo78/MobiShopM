@@ -90,7 +90,7 @@ export default function Search(){
             {isMobile ?
             <Button onClick={handleShowFilter} style={{marginTop: "10px",position: "fixed",borderRadius: "150px", backgroundColor: "#ffffff", color:"#219aeb", right:0}}>Filter</Button>
                 :
-             <Container className='w-25'>
+             <Container className='w-25 mb-5'>
             <Accordions 
                 setBrands={setBrands}
                 brands={brands}

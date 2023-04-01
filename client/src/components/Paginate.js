@@ -27,7 +27,9 @@ export default function Paginate(props){
                     key={n}
                     onClick={() => props.setCurrentPage(n)}
                     active={props.currentPage === n ? true: false}
-                >{n}</Pagination.Item>
+                >
+                    {n}
+                </Pagination.Item>
                 ))}
                 <Pagination.Next onClick={nextPage} />
                 <Pagination.Last onClick={lastPage} />

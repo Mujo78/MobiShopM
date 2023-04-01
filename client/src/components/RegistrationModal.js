@@ -21,6 +21,22 @@ export default function RegistrationModal(props){
     confirmpassword: ""
   })
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(n => !n);
+  };
+  const showHideImagePass = !showPassword ? "/images/see.svg" : "/images/hide.svg";
+
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(n => !n);
+  };
+  const showHideImageConfirm = !showConfirmPassword ? "/images/see.svg" : "/images/hide.svg";
+
+  
+
   function handleSubmit(event){
     event.preventDefault();
 
@@ -169,35 +185,53 @@ export default function RegistrationModal(props){
                 
               >
                 <Form.Label>Password</Form.Label>
+                <div className="input-group">
                 <Form.Control
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={registrationData.password}
                   name="password"
                   onChange={handleChange}
                   placeholder="***********"
                   autoFocus
                 />
+                 <button
+                  className="btn btn-outline-secondary"
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                >
+                  <img style={{height:"20px"}} src={showHideImagePass} alt="seehide" />
+                  </button>
+                </div>
                 {num > 0 && <ErrorFinder err={errorsLogin} fieldName="password" />}
               </Form.Group>
               <Form.Group className="mb-1">
                 <Form.Label>Confirm Password</Form.Label>
+                <div className="input-group">
                 <Form.Control
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   value={registrationData.confirmpassword}
                   name="confirmpassword"
                   onChange={handleChange}
                   placeholder="***********"
                   autoFocus
                 />
+                 <button
+                            className="btn btn-outline-secondary"
+                            type="button"
+                            onClick={toggleConfirmPasswordVisibility}
+                            >
+                                <img style={{height:"20px"}} src={showHideImageConfirm} alt="seehide" />
+                            </button>
+                </div>
                 {registrationData.password === registrationData.confirmpassword ? "" : <p style={{fontSize:"12px", color:"red"}}>Passwords must be the same!</p>}
               
               </Form.Group>
             <Modal.Footer>
               
-            <Button variant="secondary" onClick={props.handleClose}>
+            <Button variant="secondary" style={{border: "none", borderRadius: 0}} onClick={props.handleClose}>
               Close
             </Button>
-            <Button variant="primary" type='submit'>
+            <Button variant="primary" style={{backgroundColor: "#219aeb", border: "none", borderRadius: 0}} type='submit'>
               Sign Up
             </Button>
           </Modal.Footer>

@@ -46,6 +46,12 @@ export default function OrderModal(props){
     }).catch(error => console.log(error))
     }
 
+    const btnStyle ={
+      backgroundColor: "#219aeb",
+      border: "none",
+      borderRadius: 0
+    }
+
     return(
         <Modal show={props.show} onHide={props.handleClose} animation={true}>
         <Modal.Header closeButton>
@@ -158,10 +164,10 @@ export default function OrderModal(props){
           </FormGroup>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={BuyIt}>
+          <Button variant="primary" onClick={BuyIt} style={btnStyle}>
             Order
           </Button>
-          <Button variant="secondary" onClick={props.handleClose}>
+          <Button variant="secondary" onClick={props.handleClose} style={{borderRadius: 0}}>
             Close
           </Button>
         </Modal.Footer>
