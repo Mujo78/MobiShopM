@@ -37,6 +37,7 @@ export default function Models(){
         axios.get(`http://localhost:3001/mobiles${brandName ? `/${brandName}` : ""}`)
         .then(response => {
             setMobileData(response.data);
+            setCurrentPage(1);
             isMobile && closeIt();
         }).catch(error =>{
             console.log(error);
@@ -49,8 +50,6 @@ export default function Models(){
             .map(n =>{
                 return <Cards  key={n.id} mob={n}/>
     })
-
-    console.log(mobileData);
 
     const brandsData = brands.map(n =>{
         return <BrandNav  key={n.id} b={n}/>

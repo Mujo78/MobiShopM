@@ -33,7 +33,7 @@ router.post("/add-to-cart/:id", authMiddleware, async(req, res) => {
                         CartId: userWithCart.id,
                         MobileId: mobileWithId.id
                     })
-                    mobileWithId.quantity = mobileWithId.quantity - quantity === 0 ? 10 : mobileWithId.quantity - quantity;
+                    mobileWithId.quantity === 0 ? 10 : mobileWithId.quantity;
                     await mobileWithId.save();
                     return res.status(200).json(newCartItem);
                 }else{
@@ -59,9 +59,9 @@ router.get("/cart/:id", authMiddleware, async(req, res) => {
             if(cartItemsForCart !== null){
                 const cartItems = cartItemsForCart.map(n =>{
                     const {Mobile, quantity} = n;
-                    const {id, mobile_name, ram, internal, price} = Mobile;
+                    const {id, mobile_name, ram, internal, price, photo} = Mobile;
                     return {
-                        id, mobile_name, ram, internal,price, quantity
+                        id, mobile_name, ram, internal,price, quantity, photo
                     }
     
                 })

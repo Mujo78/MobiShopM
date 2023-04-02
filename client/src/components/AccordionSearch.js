@@ -21,6 +21,7 @@ export default function Accordions(props){
         .then(response => {
             props.setInfo();
             props.setSearchResult(response.data)
+            props.setCurrentPage(1);
             isMobile && props.handleCloseFilter();
             
             props.setSearchFormDataState({mobile_name: "",ram:{ram16: false,ram12: false,ram8: false,ram6: false,ram4: false},

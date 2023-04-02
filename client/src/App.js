@@ -84,6 +84,7 @@ function App() {
 
   }
   function handleCloseCart(){
+    getCartItemsInfo(authState.id);
     setShowCart(false);
   }
 
@@ -100,7 +101,7 @@ function App() {
   }
 
   return (
-      <AuthContext.Provider value={{authState, setAuthState, infoPersonState, setInfoPersonState}}>
+      <AuthContext.Provider value={{authState, setAuthState, infoPersonState, setInfoPersonState, cartItemsInfo,setCartItemsInfo}}>
     <div className="App">
         <Router>
           <ToastContainer />
@@ -136,10 +137,10 @@ function App() {
                 <Route path='orders' element={<SeeOrders />} />
               </Route>
           </Routes>
-        {authState.RoleId !== 1 && <Button onClick={() => handleShowCart(authState.id)} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="/images/cart.png" alt="cart" />
+        {authState.RoleId !== 1 && <Button onClick={() => handleShowCart(authState.id)} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="/images/cart.png" alt="cart" style={{height: "60px", padding: "10px"}} />
           </Button>}
         </Router>
-          <Cart show={showCart} onHide={handleCloseCart} personData={infoPersonState} refreshData={()=> getCartItemsInfo(authState.id)} items={cartItemsInfo} err={errorCarts} />
+          <Cart show={showCart} onHide={handleCloseCart} personData={infoPersonState} refreshData={()=> getCartItemsInfo(authState.id)} err={errorCarts} />
     </div>
       </AuthContext.Provider>
   );

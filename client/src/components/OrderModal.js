@@ -138,7 +138,7 @@ export default function OrderModal(props){
           </Form.Group>
           <FormGroup className='d-flex justify-content-around'>
             <div className='d-flex flex-column align-items-center'>
-              <img src='./images/shipping.png'  alt='shipping' />
+              <img src='/images/shipping.png'  alt='shipping' />
             <Form.Check
                type="radio" 
                label="While delivery"
@@ -149,7 +149,7 @@ export default function OrderModal(props){
               />
             </div>
             <div className='d-flex flex-column align-items-center'>
-            <img src='./images/creditcard.png' alt='card' />
+            <img src='/images/creditcard.png' alt='card' />
               <Form.Check
                 disabled
                 type="radio"

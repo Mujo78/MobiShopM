@@ -1,5 +1,9 @@
+import MyOrdersCard from "../components/MyOrdersCard";
+
 export default function Orders(){
     return(
-        <h1>Orders</h1>
+        <>
+            <MyOrdersCard />
+        </>
     )
 }

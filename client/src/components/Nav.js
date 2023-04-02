@@ -59,13 +59,28 @@ export default function Navbars(){
                             {authState.RoleId === 1 ? <Nav.Link as={Link} to="admin-menu">System</Nav.Link> : ""}
                         </Nav>
                         {authState.id !== 0 ? 
-                            <NavDropdown title={authState.username} id="basic-nav-dropdown"  align={isDesktop ? "end" : "start"} style={{right: 0, left:"auto"}}>
-                                <NavDropdown.Item as={Link} to="/profile" variant="secondary">Profile</NavDropdown.Item>
+                            authState.id !== 1 &&
+                        <Nav>
+                            <Nav.Link as={Link} to="/profile/wishlist">
+                                <img src="/images/wishlist.png" alt="wishlist" style={{height: "20px"}} />
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/profile/my-cart">
+                                <img src="/images/cart.png" alt="cart" style={{height: "20px"}} />
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="profile">
+                                <img src="/images/user.png" alt="profile" style={{height: "20px"}} />
+                            </Nav.Link>
+                            <NavDropdown  align={isDesktop ? "end" : "start"} style={{right: 0, left:"auto"}}>
+                                <NavDropdown.Item as={Link} to="/profile" variant="secondary">
+                                    Profile
+                                </NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item>
                                     <Button style={{width:"inherit", height:"inherit", backgroundColor: "#219aeb", border: "none", borderRadius: 0}} onClick={logOutFunction}>Log Out</Button>
                                 </NavDropdown.Item>
-                            </NavDropdown> : 
+                            </NavDropdown>
+                        </Nav>
+                             : 
                             <div> 
                                 <Button onClick={handleShowLogin} style={{borderRadius: 0}} variant="btn btn-outline-light me-2 text-nowrap">Log In</Button>
                                 <Button onClick={handleShowReg} style={{borderRadius: 0}} variant="btn btn-outline-light me-2 text-nowrap">Sign Up</Button>

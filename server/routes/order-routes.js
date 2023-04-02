@@ -160,5 +160,54 @@ router.put("/order-cancel/:id", adminMiddleware, async(req, res) =>{
     }
 })
 
+router.get("/order-items/:id",authMiddleware, async(req, res) => {
+    try{
+
+        const id = req.params.id;
+
+        const OrdersUser = await Order.findAll({where: {UserId: id}});
+        if(OrdersUser){
+            const allIds = OrdersUser.map(n => n.id);
+
+            const OrderItems = await Order_item.findAll({where: {OrderId: allIds}, include: [Mobile, Order]});
+            if(OrderItems !== null){
+                const AllInfo = OrderItems.map(m => {
+                    const {Mobile, Order, id, createdAt, updatedAt} = m;
+                    const {order_status} = Order;
+                    const {mobile_name,ram, internal, camera,processor, os,price,screen_size, battery, photo} = Mobile;
+                    return{
+                        id ,screen_size, mobile_name, order_status,ram, internal, camera,processor, os,price, battery ,createdAt, updatedAt, photo
+                    }
+                })
+                return res.status(200).json(AllInfo);
+            }
+
+        }
+
+    }catch(error){
+        return res.status(401).json(error);
+        
+    }
+})
+
+router.delete("/delete-order-item/:id", authMiddleware, async(req, res) => {
+    try{
+
+        const id = req.params.id;
+
+        const OrderUser = await Order.findOne({where: {id: id}});
+        if(OrderUser){
+            const Item = await Order_item.findOne({where: {OrderId : OrderUser.id}});
+
+            await Item.destroy();
+
+            return res.status(200).json();
+        }
+
+    }catch(error){
+        return res.status(401).json(error);
+    }
+})
+
 module.exports = router;
 

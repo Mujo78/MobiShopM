@@ -96,6 +96,7 @@ export default function Search(){
                 brands={brands}
                 searchFormDataState={searchFormDataState}
                 setInfo={setInfo}
+                setCurrentPage={setCurrentPage}
                 setSearchResult={setSearchResult}
                 handleCloseFilter={handleCloseFilter}
                 setSearchFormDataState={setSearchFormDataState}

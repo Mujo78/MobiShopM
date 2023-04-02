@@ -12,7 +12,7 @@ import OrderModal from './OrderModal';
 
 export default function Cart(props){
 
-  const {authState} = useContext(AuthContext);
+  const {authState, cartItemsInfo} = useContext(AuthContext);
   const [showOrderForMobile, setShowOrderForMobile] = useState(false);
 
   const deleteItem = (id) =>{
@@ -52,9 +52,9 @@ export default function Cart(props){
       </Offcanvas.Header>
       <Offcanvas.Body className='d-flex flex-column'>
         {authState.id === 0 ? <Alert variant='secondary' className='m-auto'>You have to be logged in to see your cart!</Alert> : 
-          props.items.length !== 0 ?
+          cartItemsInfo.length !== 0 ?
           <ListGroup>
-          {props.items.map(n => (
+          {cartItemsInfo.map(n => (
               <ListGroup.Item key={n.id}>
                   <h6>{n.mobile_name} ({n.internal}/{n.ram} GB)</h6>
                   <div className='d-flex'>
