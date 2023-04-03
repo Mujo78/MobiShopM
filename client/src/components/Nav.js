@@ -11,6 +11,14 @@ import RegistrationModal from "./RegistrationModal";
 import { AuthContext } from "../helpers/AuthContext";
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import useResponsive from "./useResponsive";
+import styled from "styled-components";
+
+export const Image = styled.img
+`
+ &:hover{
+    transform: scale(1.2);
+ }
+`
 
 export default function Navbars(){
 
@@ -62,13 +70,13 @@ export default function Navbars(){
                             authState.id !== 1 &&
                         <Nav>
                             <Nav.Link as={Link} to="/profile/wishlist">
-                                <img src="/images/wishlist.png" alt="wishlist" style={{height: "20px"}} />
+                                <Image src="/images/wishlist.png" alt="wishlist" style={{height: "20px"}} />
                             </Nav.Link>
                             <Nav.Link as={Link} to="/profile/my-cart">
-                                <img src="/images/cart.png" alt="cart" style={{height: "20px"}} />
+                                <Image src="/images/carts.png" alt="cart" style={{height: "20px"}} />
                             </Nav.Link>
                             <Nav.Link as={Link} to="profile">
-                                <img src="/images/user.png" alt="profile" style={{height: "20px"}} />
+                                <Image src="/images/user.png" alt="profile" style={{height: "20px"}} />
                             </Nav.Link>
                             <NavDropdown  align={isDesktop ? "end" : "start"} style={{right: 0, left:"auto"}}>
                                 <NavDropdown.Item as={Link} to="/profile" variant="secondary">

@@ -53,7 +53,7 @@ export default function Contact(){
         <h1>Contact</h1>
         <br/>
             <Form onSubmit={handleSubmit} className="w-50">
-                <Form.Group className="mb-2">
+                <Form.Group className="mb-3">
                     <Form.Label>Name</Form.Label>
                     <Form.Control
                         type="text"
@@ -63,7 +63,7 @@ export default function Contact(){
                         autoFocus />
                 {num > 0 && <ErrorFinder err={errorData} fieldName="name" />}
                 </Form.Group>
-                <Form.Group className="mb-2">
+                <Form.Group className="mb-3">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control 
                         type="email" 

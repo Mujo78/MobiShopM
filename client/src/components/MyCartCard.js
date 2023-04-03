@@ -9,9 +9,8 @@ import Alert from "react-bootstrap/Alert";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { toast } from "react-toastify";
+import { Image } from "./Nav";
 
 const CustomListGroupItem = styled(ListGroup.Item)
 `
@@ -19,6 +18,10 @@ const CustomListGroupItem = styled(ListGroup.Item)
         color: #C0C0C0;
         font-family: sans-serif;
         font-size: 13px;
+    }
+
+    h6 {
+        margin: 0;
     }
 `
 
@@ -108,7 +111,7 @@ export default function MyCartCard(){
                         <Col sm={2}>
                             <h6>{n.quantity}</h6>
                         </Col>
-                        <Col sm={2}>
+                        <Col sm={2} >
                             <h6>{n.price*n.quantity} KM</h6>
                         </Col>
                         <Col sm={1}>
@@ -117,7 +120,7 @@ export default function MyCartCard(){
                         <Col sm={2}>
                             
                             <Button onClick={() => deleteFromCart(n.id)} style={{backgroundColor: "transparent", border:"none"}}>
-                                <FontAwesomeIcon icon={faTimes} style={{color: "#c0c0c0"}} />
+                                <Image src="/images/trash.png" alt="trash" style={{height: "20px"}} />
                             </Button>
                         </Col>
                     </div>

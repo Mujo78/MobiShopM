@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { AuthContext } from '../helpers/AuthContext';
 import Alert from "react-bootstrap/Alert";
 import OrderModal from './OrderModal';
+import { Image } from './Nav';
 
 
 export default function Cart(props){
@@ -48,19 +49,21 @@ export default function Cart(props){
     return(
       <Offcanvas show={props.show} onHide={props.onHide}>
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title>My Cart</Offcanvas.Title>
+        <Offcanvas.Title className='mx-auto'>My cart</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body className='d-flex flex-column'>
         {authState.id === 0 ? <Alert variant='secondary' className='m-auto'>You have to be logged in to see your cart!</Alert> : 
           cartItemsInfo.length !== 0 ?
           <ListGroup>
           {cartItemsInfo.map(n => (
-              <ListGroup.Item key={n.id}>
+              <ListGroup.Item key={n.id} className='mt-2' style={{border: "1px solid #C0C0C0"}}>
                   <h6>{n.mobile_name} ({n.internal}/{n.ram} GB)</h6>
                   <div className='d-flex'>
                   <Button className='me-1' onClick={()=>orderSpecificPhone()} style={btnStyle}>Order</Button>
-                  <Button onClick={() => deleteItem(n.id)} style={btnStyle} >Delete</Button>
                   <h3 className='mx-auto'>Q: {n.quantity}</h3>
+                  <Button className='ms-auto' onClick={() => deleteItem(n.id)} style={{backgroundColor: "transparent", border:"none"}} >
+                    <Image src="/images/trash.png" alt="trash" style={{height: "20px"}} />
+                  </Button>
                   </div>
                   {showOrderForMobile &&
                     <OrderModal 

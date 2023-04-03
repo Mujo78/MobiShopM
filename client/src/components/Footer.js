@@ -36,9 +36,9 @@ export default function Footer(){
                         <Row>Email: mshop@gmail.com</Row>
                         <Row>Address: Sarajevska 34, 72270 Travnik</Row>
                         
-                        <Link to={"https://twitter.com/?lang=en"}><Image src='../images/twitter.svg' alt='fb' /></Link>
-                        <Link to={"https://hr-hr.facebook.com/"}><Image src='../images/facebook.svg' alt='fb' /></Link>
-                        <Link to={"https://www.instagram.com/"}><Image src='../images/instagram.svg' alt='fb' /></Link>
+                        <Link to={"https://twitter.com/?lang=en"}><Image src='../images/twitter.svg' alt='fb' style={{height: "50px"}} /></Link>
+                        <Link to={"https://hr-hr.facebook.com/"}><Image src='../images/facebook.svg' alt='fb' style={{height: "50px"}}/></Link>
+                        <Link to={"https://www.instagram.com/"}><Image src='../images/instagram.svg' alt='fb' style={{height: "50px"}}/></Link>
                         
                         
                 </Col>

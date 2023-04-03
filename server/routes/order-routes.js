@@ -31,7 +31,7 @@ router.post("/buy-now-route/:id", authMiddleware, async(req, res) =>{
             const newOrder = await Order.create({
                 UserId: user.id,
                 total_cost: 0,
-                shipping_address: infoLoggedInUser.address,
+                shipping_address: infoLoggedInUser.city + "," + infoLoggedInUser.address,
                 payment_info: payment_info,
                 order_status: "Pending"
             })

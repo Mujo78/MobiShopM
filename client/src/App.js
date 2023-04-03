@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Home from './pages/Home';
 import Search from './pages/Search';
-import Navbars from './components/Nav';
+import Navbars, { Image } from './components/Nav';
 import Models from './pages/Models';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -137,7 +137,7 @@ function App() {
                 <Route path='orders' element={<SeeOrders />} />
               </Route>
           </Routes>
-        {authState.RoleId !== 1 && <Button onClick={() => handleShowCart(authState.id)} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <img src="/images/cart.png" alt="cart" style={{height: "60px", padding: "10px"}} />
+        {authState.RoleId !== 1 && <Button onClick={() => handleShowCart(authState.id)} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <Image src="/images/cart.png" alt="cart" style={{height: "60px", padding: "10px"}} />
           </Button>}
         </Router>
           <Cart show={showCart} onHide={handleCloseCart} personData={infoPersonState} refreshData={()=> getCartItemsInfo(authState.id)} err={errorCarts} />
