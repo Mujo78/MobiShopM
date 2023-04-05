@@ -6,7 +6,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { Link, useParams } from "react-router-dom";
 import BrandNav from "../components/BrandNavs";
 import Offcanvas from "react-bootstrap/Offcanvas";
-
+import Container from "react-bootstrap/esm/Container";
 import Cards from "../components/Card";
 import Paginate from "../components/Paginate";
 import useResponsive from "../components/useResponsive";
@@ -63,42 +63,42 @@ export default function Models(){
     }
     return(
         <>
-        <div className="d-flex w-100 flex-row mt-4 mb-4">
+        <Container className={`d-flex p-0  ${isMobile ? `ms-0` : `ms-4`} me-0 w-100 flex-row mt-4 mb-4`}>
             
             {isMobile ?
             <Button style={{position:"fixed", right: 0, borderRadius:"120px",textAlign:"center", backgroundColor:"#ffffff", color:"#219aeb"}} onClick={handleShowOff}>B</Button>
-            : <div className="d-flex flex-column w-25 jusify-center">
+            : <Container className="d-flex p-0 flex-column w-25 jusify-center">
                 <ListGroup>
                     <ListGroup.Item className="mb-2 text-center w-50" as={Link} to={`/models`} style={{borderRadius: "0px", border:"none"}} variant="secondary" action>All</ListGroup.Item>
                 </ListGroup>
                 {brandsData}
-            </div>}
+            </Container>}
             {mobileData ? 
             (
-            <div className="d-flex w-75 flex-column">
+            <Container fluid className="d-flex w-75 p-0 flex-column">
             
-            <div className={`d-flex ${isMobile ? `justify-content-center` : `justify-content-start`} align-items-center flex-row flex-wrap`}>
+            <Container fluid className={`d-flex mb-3 ${isMobile ? `justify-content-center` : `justify-content-start`} align-items-center p-0 flex-row flex-wrap`}>
                {data}
-            </div>
-            <div className="d-flex mt-auto justify-content-center mt-2">
+            </Container>
+            <Container className="d-flex p-0 mt-auto justify-content-center mt-3">
             <Paginate
                 nPages = { nPages }
                 currentPage = { currentPage } 
                 setCurrentPage = { setCurrentPage }/>
-                </div>
-            </div>) : <h2>Loading</h2>}
-        </div>
+                </Container>
+            </Container>) : <h2>Loading</h2>}
+        </Container>
         <Offcanvas show={showOffMobile} placement="end" onHide={closeIt}>
                 <Offcanvas.Header closeButton>
                     Brands filter
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    <div className="d-flex flex-column w-100 jusify-center">
+                    <Container className="d-flex flex-column w-100 jusify-center">
                         <ListGroup>
                             <ListGroup.Item className="mb-2 text-center w-100" as={Link} to={`/models`} style={{borderRadius: "0px", border:"none"}} variant="secondary" action>All</ListGroup.Item>
                         </ListGroup>
                         {brandsData}
-                    </div>
+                    </Container>
                 </Offcanvas.Body>
                 <Offcanvas.Header>
                     <Button className="w-100" onClick={closeIt}>Continue</Button>

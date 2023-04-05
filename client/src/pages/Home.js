@@ -56,6 +56,8 @@ export default function Home(){
         number = 20;
     }
 
+    let nameOfClass = "d-flex justify-content-center";
+
     return(
         <>
         <br/>
@@ -63,23 +65,23 @@ export default function Home(){
         <br/>
         <br/>
         <Container fluid>
-            <Row className="d-flex flex-row flex-wrap justify-content-center align-items-center my-4">
-                <Col sm={isTablet ? 0: 1} className="d-flex justify-content-center  me-1">
+            <Row className={`${nameOfClass} flex-row flex-wrap align-items-center my-4`}>
+                <Col sm={isTablet ? 0: 1} className={`${nameOfClass}  me-1`}>
                 <img src="../images/shop.png" alt="shop" />
                 </Col>
-                <Col sm={isTablet ? 0:2} className="d-flex justify-content-center mt-3 mt-sm-0">
+                <Col sm={isTablet ? 0:2} className={`${nameOfClass} mt-3 mt-sm-0`}>
                 <p className="text-center text-sm-start"><strong>Safe online shopping</strong><br />Device review before purchase</p>
                 </Col>
-                <Col sm={isTablet ? 0:1} className="d-flex justify-content-center mt-3 me-1 mt-sm-0">
+                <Col sm={isTablet ? 0:1} className={`${nameOfClass} mt-3 me-1 mt-sm-0`}>
                 <img src="../images/shipping.png" alt="shipping" />
                 </Col>
-                <Col sm={isTablet ? 0:2} className="d-flex justify-content-center mt-3 mt-sm-0">
+                <Col sm={isTablet ? 0:2} className={`${nameOfClass} mt-3 mt-sm-0`}>
                 <p className="text-center text-sm-start"><strong>Free delivery</strong><br />Delivery in 24/48h</p>
                 </Col>
-                <Col sm={isTablet ? 0:1} className="d-flex justify-content-center mt-3 me-1 mt-sm-0">
+                <Col sm={isTablet ? 0:1} className={`${nameOfClass} mt-3 me-1 mt-sm-0`}>
                 <img src="../images/cash.png" alt="cash" />
                 </Col>
-                <Col sm={isTablet ? 0:3} className="d-flex justify-content-center mt-3 mt-sm-2">
+                <Col sm={isTablet ? 0:3} className={`${nameOfClass} mt-3 mt-sm-2`}>
                 <p className="text-center text-sm-start"><strong>Possibility of purchase in installments</strong><br />Up to 36 installments</p>
                 </Col>
             </Row>
@@ -105,9 +107,9 @@ export default function Home(){
                     selectedItem={activeIndex}
                     >
                         {topPricesState.length && topPricesState.map((n, index) => (
-                            <div key={n.id} style={activeIndex === index ? activeStyles : styles}>
+                            <Container key={n.id} style={activeIndex === index ? activeStyles : styles}>
                                 <Cards mob={n} />
-                            </div>))
+                            </Container>))
                         }
         
       </CustomCarousel>

@@ -8,7 +8,7 @@ import useResponsive from "../components/useResponsive";
 import ListGroup from "react-bootstrap/ListGroup";
 
 
-const CustomDiv = styled.div
+const CustomContainer = styled(Container)
 `
     .btn {
         border-radius: 0;
@@ -23,10 +23,10 @@ const CustomDiv = styled.div
     }
 `
 
-export default function Profile(props){
+export default function Profile(){
 
     const {authState, infoPersonState, setAuthState} = useContext(AuthContext);
-    const {isMobile} = useResponsive();
+    const {isMobile, isTablet, isDesktop} = useResponsive();
     const navigate = useNavigate();
 
     useEffect(() =>{
@@ -35,7 +35,6 @@ export default function Profile(props){
         }
     }, [navigate])
 
-    //Need to make it work!
     function logOutFunction(){
         localStorage.removeItem("accessToken");
         setAuthState({
@@ -56,34 +55,35 @@ export default function Profile(props){
         marginBottom:"1px",
         border:"none"
     }
+    let nameOfClass = "text-center w-100";
     return(
-        <div>
+        <Container fluid className="p-0">
             <Container fluid className="w-100" style={{backgroundColor:"#DCDCDC", fontFamily:"sans-serif" }}>
-                <div className="mt-3 pt-5 ps-5 pb-5">
+                <Container className="mt-3 pt-5 pb-5">
                     <h1>{name}</h1>
-                    <CustomDiv className="ctn d-flex">
+                    <CustomContainer className="p-0 d-flex">
                         <h5>{infoPersonState.city}, {infoPersonState.address}</h5>
                         <Button onClick={logOutFunction} className={`btn ms-auto ${isMobile ? `me-0 mt-1` : `me-5`}`}>Log out</Button>
-                    </CustomDiv>
-                </div>
+                    </CustomContainer>
+                </Container>
             </Container>
 
-            <Container className="d-flex w-100">
-                <div className="w-25">
-                    <ListGroup className="mt-5 w-100">
-                        <ListGroup.Item className="text-center w-100" as={NavLink} end to={`.`} style={styles} variant="secondary" action>Profile</ListGroup.Item>
-                        <ListGroup.Item className="text-center w-100" as={NavLink} end to={`edit-profile`} style={styles} variant="secondary" action>Edit profile</ListGroup.Item>
+            <Container className={`d-flex ${!isDesktop && `flex-wrap p-0`} w-100`}>
+                <Container className={!isDesktop ? `w-100` : "w-25"}>
+                    <ListGroup className={`${isTablet && `d-flex flex-row` } mt-5 w-100`}>
+                        <ListGroup.Item className={nameOfClass} as={NavLink} end to={`.`} style={styles} variant="secondary" action>Profile</ListGroup.Item>
+                        <ListGroup.Item className={nameOfClass} as={NavLink} end to={`edit-profile`} style={styles} variant="secondary" action>Edit profile</ListGroup.Item>
                         {authState.RoleId !==1 && <> 
-                            <ListGroup.Item className="text-center w-100" as={NavLink} to={`my-cart`} style={styles} variant="secondary" action>Cart</ListGroup.Item>
-                            <ListGroup.Item className="text-center w-100" as={NavLink} to={`orders`} style={styles} variant="secondary" action>Orders</ListGroup.Item> </>
-                        }<ListGroup.Item className="text-center w-100" as={NavLink} to={`wishlist`} style={styles} variant="secondary" action>Wishlist</ListGroup.Item>
-                        <ListGroup.Item className="text-center w-100" onClick={deleteMyAcc}  as={Button} style={{borderRadius: "0px", border:"none"}} variant="danger" action>Delete account</ListGroup.Item>
+                            <ListGroup.Item className={nameOfClass} as={NavLink} to={`my-cart`} style={styles} variant="secondary" action>Cart</ListGroup.Item>
+                            <ListGroup.Item className={nameOfClass} as={NavLink} to={`orders`} style={styles} variant="secondary" action>Orders</ListGroup.Item> </>
+                        }<ListGroup.Item className={nameOfClass} as={NavLink} to={`wishlist`} style={styles} variant="secondary" action>Wishlist</ListGroup.Item>
+                        <ListGroup.Item className={nameOfClass} onClick={deleteMyAcc}  as={Button} style={{borderRadius: "0px", border:"none"}} variant="danger" action>{isTablet ? "Delete Acc" : "Delete account"}</ListGroup.Item>
                     </ListGroup>
-                </div>
-                <div className="w-75 mx-auto mt-5 ms-5">
+                </Container>
+                <Container className={`${!isDesktop ? `w-100 ms-1` : `w-75 ms-5`} mt-5 `}>
                     <Outlet />
-                </div>
+                </Container>
         </Container>
-        </div>
+        </Container>
     )
 }

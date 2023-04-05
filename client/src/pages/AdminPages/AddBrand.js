@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState } from "react";
 import axios from "axios";
-import ErrorFinder from "../components/ErrorFinder";
+import ErrorFinder from "../../components/ErrorFinder";
 
 export default function AddBrand(){
 

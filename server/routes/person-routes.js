@@ -171,7 +171,7 @@ router.put("/edit-profile/:id",authMiddleware,editProfileValidator, async(req,re
 })
 
 
-router.delete("/delete/:id", adminMiddleware ,async(req, res) => {
+router.delete("/delete/:id" ,async(req, res) => {
     try{
         const ids = req.params.id;
         const toDelete = await Persons.findOne({

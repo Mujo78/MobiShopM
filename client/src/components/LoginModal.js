@@ -7,9 +7,10 @@ import Modal from 'react-bootstrap/Modal';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../helpers/AuthContext';
 import ErrorFinder from './ErrorFinder';
+import Container from 'react-bootstrap/esm/Container';
 
 
-export default function LoginModal(props){
+export default function LoginModal({handleClose, show}){
 
     const {setAuthState} = useContext(AuthContext);
     const [errorsLogin, setErrors] = useState([]);
@@ -33,7 +34,7 @@ export default function LoginModal(props){
           RoleId: responseData.RoleId
         })
         setErrors([]);
-        props.handleClose();
+        handleClose();
         navigate("/");
       }).catch(error => {
         if(error){
@@ -66,7 +67,7 @@ export default function LoginModal(props){
 
       return (
         <>
-          <Modal show={props.show} onHide={props.handleClose}>
+          <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Log In</Modal.Title>
             </Modal.Header>
@@ -88,7 +89,7 @@ export default function LoginModal(props){
                   className="mb-0"
                 >
                   <Form.Label>Password</Form.Label>
-                  <div className="input-group">
+                  <Container className="input-group p-0">
                   <Form.Control
                     type={showPassword ? "text" : "password"}
                     name='password'
@@ -104,11 +105,11 @@ export default function LoginModal(props){
                 >
                   <img style={{height:"20px"}} src={showHideImagePass} alt="seehide" />
                   </button>
-                  </div>
+                  </Container>
                 </Form.Group>
                 {num > 0 && <ErrorFinder err={errorsLogin} fieldName="password" />}
                 <Modal.Footer>
-                  <Button variant="secondary" style={{border: "none", borderRadius: 0}} onClick={props.handleClose}>
+                  <Button variant="secondary" style={{border: "none", borderRadius: 0}} onClick={handleClose}>
                     Close
                   </Button>
                   <Button variant="primary" style={{backgroundColor: "#219aeb", border: "none", borderRadius: 0}} type='submit'>

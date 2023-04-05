@@ -4,7 +4,8 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from "axios";
 import ErrorFinder from './ErrorFinder';
-export default function RegistrationModal(props){
+import Container from 'react-bootstrap/esm/Container';
+export default function RegistrationModal({handleClose, handleOpen, show}){
 
   const [errorsLogin, setErrors] = useState([])
 
@@ -42,7 +43,7 @@ export default function RegistrationModal(props){
 
     axios.post("http://localhost:3001/registration", registrationData)
     .then(() => {
-        props.handleClose();
+        handleClose();
         console.log(`Username: ${registrationData.username}` );
         setErrors([]);
         setRegistrationData({
@@ -57,10 +58,9 @@ export default function RegistrationModal(props){
           password: "",
           confirmpassword: ""
         })
-        props.handleOpen();
+        handleOpen();
     })
     .catch(error => {
-      console.log(error)
       setErrors(error.response.data.errors);
     });
     
@@ -80,14 +80,14 @@ export default function RegistrationModal(props){
   }
     return(
         <>
-        <Modal show={props.show} onHide={props.handleClose}>
+        <Modal show={show} onHide={handleClose}>
           <Modal.Body>
           <Modal.Header closeButton>
             <Modal.Title>Sign Up</Modal.Title>
           </Modal.Header>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="d-flex mb-1">
-                  <div className="d-flex flex-column me-3 w-100">
+                  <Container className="d-flex flex-column p-0 w-100">
                       <Form.Label>Name</Form.Label>
                       <Form.Control 
                         type="text" 
@@ -96,8 +96,8 @@ export default function RegistrationModal(props){
                         name='first_name' 
                         autoFocus />
                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="first_name" />}
-                  </div>
-                  <div className="d-flex flex-column w-100">
+                  </Container>
+                  <Container className="d-flex flex-column p-0 ms-2 w-100">
                       <Form.Label>Last name</Form.Label>
                       <Form.Control 
                         type="text" 
@@ -107,10 +107,10 @@ export default function RegistrationModal(props){
                         autoFocus />
                       {num > 0 && <ErrorFinder err={errorsLogin} fieldName="last_name" />}
 
-                  </div>
+                  </Container>
               </Form.Group>
             <Form.Group className="d-flex mb-1">
-                <div className="d-flex flex-column me-3 w-100">
+                <Container className="d-flex flex-column p-0 w-100">
                     <Form.Label>Phone number</Form.Label>
                     <Form.Control 
                       type='text' 
@@ -120,8 +120,8 @@ export default function RegistrationModal(props){
                       placeholder="+387** *** ***" 
                       autoFocus />
                       {num > 0 && <ErrorFinder err={errorsLogin} fieldName="phone_number" />}
-                </div>
-                <div className="d-flex flex-column w-50">
+                </Container>
+                <Container className="d-flex flex-column p-0 ms-2 w-50">
                     <Form.Label>Gender</Form.Label>
                     <Form.Select 
                       aria-label="Default select example" 
@@ -133,10 +133,10 @@ export default function RegistrationModal(props){
                         <option value="Female">Female</option>
                     </Form.Select>
                     {num > 0 && <ErrorFinder err={errorsLogin} fieldName="gender" />}
-                </div>
+                </Container>
             </Form.Group>
             <Form.Group className="d-flex mb-1">
-                <div className="d-flex flex-column me-3 w-100">
+                <Container className="d-flex flex-column p-0 w-100">
                     <Form.Label>City</Form.Label>
                     <Form.Control 
                       type="text" 
@@ -145,8 +145,8 @@ export default function RegistrationModal(props){
                       onChange={handleChange}
                       autoFocus />
                       {num > 0 && <ErrorFinder err={errorsLogin} fieldName="city" />}
-                </div>
-                <div className="d-flex flex-column w-100">
+                </Container>
+                <Container className="d-flex flex-column p-0 ms-2 w-100">
                     <Form.Label>Address</Form.Label>
                     <Form.Control 
                       type="text" 
@@ -155,7 +155,7 @@ export default function RegistrationModal(props){
                       onChange={handleChange}
                       autoFocus />
                       {num > 0 && <ErrorFinder err={errorsLogin} fieldName="address" />}
-                </div>
+                </Container>
             </Form.Group>
             <Form.Group className="mb-1">
                 <Form.Label>Username</Form.Label>
@@ -185,7 +185,7 @@ export default function RegistrationModal(props){
                 
               >
                 <Form.Label>Password</Form.Label>
-                <div className="input-group">
+                <Container className="input-group p-0">
                 <Form.Control
                   type={showPassword ? "text" : "password"}
                   value={registrationData.password}
@@ -201,12 +201,12 @@ export default function RegistrationModal(props){
                 >
                   <img style={{height:"20px"}} src={showHideImagePass} alt="seehide" />
                   </button>
-                </div>
+                </Container>
                 {num > 0 && <ErrorFinder err={errorsLogin} fieldName="password" />}
               </Form.Group>
               <Form.Group className="mb-1">
                 <Form.Label>Confirm Password</Form.Label>
-                <div className="input-group">
+                <Container className="input-group p-0">
                 <Form.Control
                   type={showConfirmPassword ? "text" : "password"}
                   value={registrationData.confirmpassword}
@@ -222,13 +222,13 @@ export default function RegistrationModal(props){
                             >
                                 <img style={{height:"20px"}} src={showHideImageConfirm} alt="seehide" />
                             </button>
-                </div>
+                </Container>
                 {registrationData.password === registrationData.confirmpassword ? "" : <p style={{fontSize:"12px", color:"red"}}>Passwords must be the same!</p>}
               
               </Form.Group>
             <Modal.Footer>
               
-            <Button variant="secondary" style={{border: "none", borderRadius: 0}} onClick={props.handleClose}>
+            <Button variant="secondary" style={{border: "none", borderRadius: 0}} onClick={handleClose}>
               Close
             </Button>
             <Button variant="primary" style={{backgroundColor: "#219aeb", border: "none", borderRadius: 0}} type='submit'>

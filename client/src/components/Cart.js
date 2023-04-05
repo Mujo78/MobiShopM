@@ -11,7 +11,7 @@ import OrderModal from './OrderModal';
 import { Image } from './Nav';
 
 
-export default function Cart(props){
+export default function Cart({show, onHide, personData, refreshData}){
 
   const {authState, cartItemsInfo} = useContext(AuthContext);
   const [showOrderForMobile, setShowOrderForMobile] = useState(false);
@@ -26,13 +26,13 @@ export default function Cart(props){
     })
     .then(() =>{
       toast.success("Item is deleted successfully.")
-      props.refreshData(authState.id);
+      refreshData(authState.id);
     })
     .catch(error => toast.error(error))
     
   }
   useEffect(() => {
-    props.refreshData(authState.id);
+    refreshData(authState.id);
   }, [authState.id, showOrderForMobile])
 
   const orderSpecificPhone = () =>{
@@ -47,7 +47,7 @@ export default function Cart(props){
   }
 
     return(
-      <Offcanvas show={props.show} onHide={props.onHide}>
+      <Offcanvas show={show} onHide={onHide}>
       <Offcanvas.Header closeButton>
         <Offcanvas.Title className='mx-auto'>My cart</Offcanvas.Title>
       </Offcanvas.Header>
@@ -71,7 +71,7 @@ export default function Cart(props){
                       handleClose={handleCloseOrderSpecificPhone}
                       data={n}
                       qnty={n.quantity}
-                      dataPerson={props.personData}
+                      dataPerson={personData}
                       />}
               </ListGroup.Item>
 
@@ -80,7 +80,7 @@ export default function Cart(props){
         }
       </Offcanvas.Body>
         <Offcanvas.Header>
-          <Button onClick={props.onHide} style={btnStyle} className='w-100'>Continue shopping</Button>
+          <Button onClick={onHide} style={btnStyle} className='w-100'>Continue shopping</Button>
         </Offcanvas.Header>
     </Offcanvas>
     )

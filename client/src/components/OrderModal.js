@@ -6,22 +6,23 @@ import {useState } from 'react';
 import Form from "react-bootstrap/Form";
 import FormGroup from 'react-bootstrap/esm/FormGroup';
 import { toast } from 'react-toastify';
+import Container from 'react-bootstrap/esm/Container';
 
-export default function OrderModal(props){  
+export default function OrderModal({dataPerson, data, qnty, show, handleClose}){  
 
-  const [infoFormState , setInfoFormState] = useState({
-    name: props.dataPerson.first_name,
-    lastName: props.dataPerson.last_name,
-    city: props.dataPerson.city,
-    address: props.dataPerson.address,
-    deviceName: props.data.mobile_name,
-    quantity: props.qnty,
-    totalCost: props.qnty * props.data.price
+  const [infoFormState] = useState({
+    name: dataPerson.first_name,
+    lastName: dataPerson.last_name,
+    city: dataPerson.city,
+    address: dataPerson.address,
+    deviceName: data.mobile_name,
+    quantity: qnty,
+    totalCost: qnty * data.price
   })
 
   const [orderInfoState, setOrderInfoState] = useState({
     payment_info: "Delivery",
-    qnty: props.qnty
+    qnty: qnty
   })
   const handleChange = (event) =>{
     const {name, value} = event.target;
@@ -34,14 +35,14 @@ export default function OrderModal(props){
 
   const BuyIt = () =>{
     
-    axios.post(`http://localhost:3001/buy-now-route/${props.data.id}`, orderInfoState, {
+    axios.post(`http://localhost:3001/buy-now-route/${data.id}`, orderInfoState, {
       headers:{
         'accessToken' : `Bearer ${localStorage.getItem("accessToken")}`
       }
     })
     .then(() =>{
       toast.success("Product(s) succesifully ordered.");
-      props.handleClose();
+      handleClose();
 
     }).catch(error => console.log(error))
     }
@@ -53,13 +54,13 @@ export default function OrderModal(props){
     }
 
     return(
-        <Modal show={props.show} onHide={props.handleClose} animation={true}>
+        <Modal show={show} onHide={handleClose} animation={true}>
         <Modal.Header closeButton>
           <Modal.Title>Order details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group className='d-flex'>
-            <div className='w-100 me-2'>
+            <Container className='p-0 w-100'>
           <Form.Label>Name</Form.Label>
             <Form.Control
               type='text'
@@ -68,8 +69,8 @@ export default function OrderModal(props){
               value={infoFormState.name}
             >
             </Form.Control>
-            </div>
-            <div className='w-100 ms-2'>
+            </Container>
+            <Container className='w-100 ms-2 p-0'>
             <Form.Label>Last name</Form.Label>
             <Form.Control
               type='text'
@@ -78,10 +79,10 @@ export default function OrderModal(props){
               value={infoFormState.lastName}
             >
             </Form.Control>
-            </div>
+            </Container>
           </Form.Group>
           <Form.Group className='d-flex mt-2'>
-            <div className='w-100 me-2'>
+            <Container className='w-100 p-0'>
           <Form.Label>City</Form.Label>
             <Form.Control
               type='text'
@@ -90,8 +91,8 @@ export default function OrderModal(props){
               value={infoFormState.city}
             >
             </Form.Control>
-            </div>
-            <div className='w-100 ms-2'>
+            </Container>
+            <Container className='w-100 p-0 ms-2'>
             <Form.Label>Address</Form.Label>
             <Form.Control
               type='text'
@@ -100,10 +101,10 @@ export default function OrderModal(props){
               value={infoFormState.address}
             >
             </Form.Control>
-            </div>
+            </Container>
           </Form.Group>
           <Form.Group className='d-flex mt-2'>
-            <div className='w-100'>
+            <Container className='w-100 p-0'>
           <Form.Label>Device name</Form.Label>
             <Form.Control
               type='text'
@@ -112,10 +113,10 @@ export default function OrderModal(props){
               value={infoFormState.deviceName}
             >
             </Form.Control>
-            </div>
+            </Container>
           </Form.Group>
           <Form.Group className='d-flex mt-2'>
-            <div className='w-100 me-2'>
+            <Container className='w-100 p-0'>
           <Form.Label>Quantity</Form.Label>
             <Form.Control
               type='text'
@@ -124,8 +125,8 @@ export default function OrderModal(props){
               value={infoFormState.quantity}
             >
             </Form.Control>
-            </div>
-            <div className='w-100 ms-2'>
+            </Container>
+            <Container className='w-100 p-0 ms-2'>
             <Form.Label>Total cost</Form.Label>
             <Form.Control
               type='text'
@@ -134,10 +135,10 @@ export default function OrderModal(props){
               value={infoFormState.totalCost}
             >
             </Form.Control>
-            </div>
+            </Container>
           </Form.Group>
           <FormGroup className='d-flex justify-content-around'>
-            <div className='d-flex flex-column align-items-center'>
+            <Container className='d-flex p-0 flex-column align-items-center'>
               <img src='/images/shipping.png'  alt='shipping' />
             <Form.Check
                type="radio" 
@@ -147,8 +148,8 @@ export default function OrderModal(props){
                onChange={handleChange}
                checked={orderInfoState.payment_info === "Delivery"}
               />
-            </div>
-            <div className='d-flex flex-column align-items-center'>
+            </Container>
+            <Container className='p-0 d-flex flex-column align-items-center'>
             <img src='/images/creditcard.png' alt='card' />
               <Form.Check
                 disabled
@@ -160,14 +161,14 @@ export default function OrderModal(props){
                 checked={orderInfoState.payment_info === "Card"}
               />
               
-            </div>
+            </Container>
           </FormGroup>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={BuyIt} style={btnStyle}>
             Order
           </Button>
-          <Button variant="secondary" onClick={props.handleClose} style={{borderRadius: 0}}>
+          <Button variant="secondary" onClick={handleClose} style={{borderRadius: 0}}>
             Close
           </Button>
         </Modal.Footer>

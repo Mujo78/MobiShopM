@@ -4,8 +4,8 @@ import Button from "react-bootstrap/esm/Button";
 import Container from "react-bootstrap/esm/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from 'react-bootstrap/Form';
-import ErrorFinder from "../components/ErrorFinder";
-import useResponsive from "../components/useResponsive";
+import ErrorFinder from "../../components/ErrorFinder";
+import useResponsive from "../../components/useResponsive";
 
 export default function EditMobile(){
 

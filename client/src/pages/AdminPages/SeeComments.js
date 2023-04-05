@@ -4,7 +4,7 @@ import Table from "react-bootstrap/Table";
 import Alert from "react-bootstrap/Alert";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
-import useResponsive from "../components/useResponsive";
+import useResponsive from "../../components/useResponsive";
 
 export default function SeeComments(){
 

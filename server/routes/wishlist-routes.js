@@ -1,10 +1,8 @@
 const express = require("express");
-const { adminMiddleware } = require("../middlewares/admin-check");
 const router = express.Router();
 
 const {authMiddleware} = require("../middlewares/auth-middleware")
-const {Wishlist, Wish_item} = require("../models");
-
+const {Wishlist, Wish_item, Mobile} = require("../models");
 
 
 router.post("/add-to-wishlist/:id",authMiddleware, async(req,res) =>{
@@ -27,6 +25,7 @@ router.post("/add-to-wishlist/:id",authMiddleware, async(req,res) =>{
         return res.status(200).json(newWishItem);
 
     }catch(error){
+        console.log(error);
         return res.status(401).json(error);
     }
 })
@@ -43,11 +42,32 @@ router.delete("/delete-wishitem/:id", authMiddleware, async(req, res) =>{
 
             return res.status(200).json();
         }
-
-        return res.status(401).json();
-
     }catch(error){
         console.log(error)
+    }
+})
+
+router.get("/wish-items",authMiddleware, async(req, res) =>{
+    try{
+
+        const id = req.user.id;
+
+        const wishFromUser = await Wishlist.findOne({where: {UserId: id}});
+        const itemsFromUsersWish = await Wish_item.findAll({where: {WishlistId : wishFromUser.id}, include : [Mobile]})
+
+        const info = itemsFromUsersWish.map(n => {
+            const {id, WishlistId, MobileId, Mobile} = n;
+            const {mobile_name, ram, internal,price, photo, processor} = Mobile;
+
+            return {
+                id, WishlistId, MobileId,mobile_name,price, ram, internal, photo, processor
+            }
+        })
+        return res.status(200).json(info);
+
+
+    }catch(error){
+        console.log(error);
     }
 })
 module.exports = router;

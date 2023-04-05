@@ -4,7 +4,7 @@ import Button from "react-bootstrap/esm/Button";
 import Container from "react-bootstrap/esm/Container";
 import Table from "react-bootstrap/esm/Table";
 import Alert from "react-bootstrap/Alert";
-import useResponsive from "../components/useResponsive";
+import useResponsive from "../../components/useResponsive";
 
 export default function SeeOrders(){
 

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
-import useResponsive from "../components/useResponsive";
+import useResponsive from "../../components/useResponsive";
 
 
 export default function DeleteAdmin(){

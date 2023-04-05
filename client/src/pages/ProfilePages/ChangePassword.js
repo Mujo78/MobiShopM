@@ -4,9 +4,10 @@ import Form from 'react-bootstrap/Form';
 import styled from "styled-components";
 import { useContext, useState } from "react";
 import axios from "axios";
-import { AuthContext } from "../helpers/AuthContext";
+import { AuthContext } from "../../helpers/AuthContext";
 import { toast } from "react-toastify";
-import ErrorFinder from "../components/ErrorFinder";
+import ErrorFinder from "../../components/ErrorFinder";
+import useResponsive from "../../components/useResponsive";
 
 const CustomFromGroup = styled(Form.Group)`
   label {
@@ -18,6 +19,7 @@ const CustomFromGroup = styled(Form.Group)`
 export default function ChangePassword(){
 
     const {authState} = useContext(AuthContext);
+    const {isMobile} = useResponsive();
     const [showOldPassword, setShowOldPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [errorState, setErrorState] = useState([]);
@@ -125,7 +127,7 @@ export default function ChangePassword(){
                          {num > 0 && <ErrorFinder err={errorState} fieldName="confirmPassword" />}
                 </div>
             </CustomFromGroup>
-                <Button style={{backgroundColor:"#219aeb", border: "none", borderRadius: 0}} type="submit">
+                <Button style={{backgroundColor:"#219aeb", border: "none", borderRadius: 0}} type="submit" className={isMobile ? "w-100" : "w-25"}>
                     Save changes
                 </Button>
             </Form>

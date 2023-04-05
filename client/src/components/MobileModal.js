@@ -10,7 +10,7 @@ import {toast } from 'react-toastify';
 import OrderModal from './OrderModal';
 
 
-export default function MobileModal(props){
+export default function MobileModal({data, onHide, show}){
 
   const {authState} = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
@@ -59,26 +59,26 @@ export default function MobileModal(props){
       }
 
   return (
-    <Modal show={props.show} onHide={props.onHide}
+    <Modal show={show} onHide={onHide}
       size="xl"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {props.data.mobile_name}
+          {data.mobile_name}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className='d-flex flex-wrap flex-row'>
-        <Image src={props.data.photo} alt="photo" style={{width:"270px", height:"320px"}} />
+        <Image src={data.photo} alt="photo" style={{width:"270px", height:"320px"}} />
         <ListGroup variant="flush">
-        <ListGroup.Item><strong>Display:</strong> {props.data.screen_size}"</ListGroup.Item>
-        <ListGroup.Item><strong>Internal/RAM:</strong> {props.data.internal}GB {props.data.ram}GB RAM</ListGroup.Item>
-        <ListGroup.Item><strong>Processor:</strong> {props.data.processor}</ListGroup.Item>
-        <ListGroup.Item><strong>Baterry:</strong> {props.data.battery} mAh</ListGroup.Item>
-        <ListGroup.Item><strong>OS:</strong> {props.data.os}</ListGroup.Item>
-        <ListGroup.Item><strong>Camera:</strong> {props.data.camera}</ListGroup.Item>
-        <ListGroup.Item><strong>Price:</strong> {props.data.price} KM</ListGroup.Item>
+        <ListGroup.Item><strong>Display:</strong> {data.screen_size}"</ListGroup.Item>
+        <ListGroup.Item><strong>Internal/RAM:</strong> {data.internal}GB {data.ram}GB RAM</ListGroup.Item>
+        <ListGroup.Item><strong>Processor:</strong> {data.processor}</ListGroup.Item>
+        <ListGroup.Item><strong>Baterry:</strong> {data.battery} mAh</ListGroup.Item>
+        <ListGroup.Item><strong>OS:</strong> {data.os}</ListGroup.Item>
+        <ListGroup.Item><strong>Camera:</strong> {data.camera}</ListGroup.Item>
+        <ListGroup.Item><strong>Price:</strong> {data.price} KM</ListGroup.Item>
       </ListGroup>
       </Modal.Body>
       <Modal.Footer>
@@ -94,20 +94,20 @@ export default function MobileModal(props){
             defaultValue={1}
             max={10}
             onChange={handleQuantity} />
-          <Button onClick={() => addToCart(props.data.id)} style={btnStyle}>Add to cart</Button>
+          <Button onClick={() => addToCart(data.id)} style={btnStyle}>Add to cart</Button>
           <Button onClick={() => orderMobile()} style={btnStyle}>Buy now</Button>
          </>
-         : <div></div>
+         : <></>
          }
 
-        <Button onClick={props.onHide} style={btnStyle}>Close</Button>
+        <Button onClick={onHide} style={btnStyle}>Close</Button>
       </Modal.Footer>
       {showOrderModal &&
       <OrderModal 
         show={showOrderModal}
         handleClose={handleClose}
         qnty={quantity}
-        data={props.data}
+        data={data}
         dataPerson={personInfoState}
         />
       }

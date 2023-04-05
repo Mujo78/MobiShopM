@@ -7,7 +7,10 @@ module.exports = (sequelize, DataTypes) =>{
     });
 
     cart.associate = models => {
-        cart.belongsTo(models.User);
+        cart.belongsTo(models.User, {
+            foreignKey: 'UserId',
+            onDelete: 'cascade'
+        });
 
         cart.hasMany(models.Cart_item, {
             foreignKey:{

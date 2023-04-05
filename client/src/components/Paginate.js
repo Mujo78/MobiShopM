@@ -19,11 +19,11 @@ export default function Paginate(props){
     }
     return(
             <Pagination>
-                <Pagination.First onClick={firstPage} />
-                <Pagination.Prev onClick={prevPage}  />
+                <Pagination.First className="ms-2" onClick={firstPage} />
+                <Pagination.Prev className="ms-2" onClick={prevPage}  />
                 {pageNumbers.map(n => (
 
-                <Pagination.Item
+                <Pagination.Item className="ms-2" style={{backgroundColor: "#219aeb"}}
                     key={n}
                     onClick={() => props.setCurrentPage(n)}
                     active={props.currentPage === n ? true: false}
@@ -31,8 +31,8 @@ export default function Paginate(props){
                     {n}
                 </Pagination.Item>
                 ))}
-                <Pagination.Next onClick={nextPage} />
-                <Pagination.Last onClick={lastPage} />
+                <Pagination.Next className="ms-2" onClick={nextPage} />
+                <Pagination.Last className="ms-2" onClick={lastPage} />
             </Pagination>
     )
 }

@@ -46,7 +46,7 @@ export default function Navbars(){
     }
 
     return(
-        <div>
+        <>
             <Alert />
             <Navbar expand="lg" style={{backgroundColor: "#219aeb"}}>
                 <Container fluid>
@@ -89,16 +89,16 @@ export default function Navbars(){
                             </NavDropdown>
                         </Nav>
                              : 
-                            <div> 
+                            <> 
                                 <Button onClick={handleShowLogin} style={{borderRadius: 0}} variant="btn btn-outline-light me-2 text-nowrap">Log In</Button>
                                 <Button onClick={handleShowReg} style={{borderRadius: 0}} variant="btn btn-outline-light me-2 text-nowrap">Sign Up</Button>
-                            </div>
+                            </>
                         }
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
             <LoginModal show={show} handleClose={handleCloseLogin} />
             <RegistrationModal show={showReg} handleClose={handleCloseReg} handleOpen={handleShowLogin} />
-        </div>
+        </>
     )
 }

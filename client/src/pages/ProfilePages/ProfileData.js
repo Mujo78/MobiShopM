@@ -3,10 +3,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import styled from "styled-components";
 import { useContext, useState } from "react";
-import { AuthContext } from "../helpers/AuthContext";
-import ErrorFinder from "../components/ErrorFinder";
+import { AuthContext } from "../../helpers/AuthContext";
+import ErrorFinder from "../../components/ErrorFinder";
 import axios from "axios";
 import { toast } from "react-toastify";
+import useResponsive from "../../components/useResponsive";
 
 const CustomDiv = styled.div`
   label {
@@ -19,6 +20,7 @@ export default function ProfileData(){
 
     const {authState, setAuthState} = useContext(AuthContext);
     const [errorState, setErrorState] = useState([]);
+    const {isMobile} = useResponsive();
 
     const handleChange = (event) =>{
         const {name, value} = event.target;
@@ -61,7 +63,7 @@ export default function ProfileData(){
                         />
                         {num > 0 && <ErrorFinder err={errorState} fieldName="username" />}
                     </CustomDiv>
-                    <Button style={{backgroundColor:"#219aeb", borderRadius: 0, border:"none"}} type="submit">
+                    <Button style={{backgroundColor:"#219aeb", borderRadius: 0, border:"none"}} type="submit" className={isMobile ? "w-100" : "w-25"}>
                         Save changes
                     </Button>
                 </Form>

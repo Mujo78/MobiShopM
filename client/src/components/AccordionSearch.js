@@ -9,7 +9,7 @@ import axios from 'axios';
 import useResponsive from './useResponsive';
 
 export default function Accordions(props){
-    const {isMobile} = useResponsive();
+    const {isMobile, isTablet} = useResponsive();
     const getBrands = () =>{
         axios.get("http://localhost:3001/brands")
         .then(response => props.setBrands(response.data))
@@ -32,6 +32,8 @@ export default function Accordions(props){
             
         )
         .catch(error => props.setInfo(error.response.data))
+
+        isMobile && props.handleCloseFilter();
     }
 
     const handleChange = (event) =>{
@@ -83,8 +85,12 @@ export default function Accordions(props){
         }))
     }
 
+    const styles = {
+        backgroundColor: "#219aeb",
+        border: "none",
+        borderRadius: 0
+    }
 
-    const activeKeys = ["0","1"];
     return(
         <Container className='w-100'>
         <FormGroup className='d-flex w-100 ms-auto me-auto mb-4 mt-4 justify-content-center align-items-center'>
@@ -95,11 +101,10 @@ export default function Accordions(props){
                 value={props.searchFormDataState.mobile_name}
                 placeholder="Samsung Galaxy S23 Ultra 5G"
             />
-            <Button onClick={searchButton} style={{backgroundColor: "#219aeb", border: "none", borderRadius: 0}}>Search</Button>
-            {isMobile && <Button onClick={props.handleShowFilter} style={{backgroundColor:"#ffffff", color:"#219aeb"}}>Filters</Button>}
+            <Button onClick={searchButton} style={styles}>Search</Button>
         </FormGroup>
         <Container className='w-100 fixed-left'>
-                <Accordion defaultActiveKey={activeKeys}>
+                <Accordion defaultActiveKey="0">
                     <Accordion.Item eventKey="0">
                         <Accordion.Header>RAM</Accordion.Header>
                         <Accordion.Body>
@@ -141,16 +146,16 @@ export default function Accordions(props){
                                     checked={props.searchFormDataState.ram.ram4}
                                     />
                             </Form.Group>
-                            <div className='d-flex justify-content-end'>
+                            <Container className='d-flex justify-content-end'>
                                 <Button onClick={uncheckRam} variant='link' className='p-0'>Clear all</Button>                            
-                            </div>
+                            </Container>
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="1">
                         <Accordion.Header>Memory</Accordion.Header>
                         <Accordion.Body>
-                        <Form.Group className="mb-3 d-flex flex-wrap">
-                            <div className='me-4'>
+                        <Form.Group className="mb-3 d-flex flex-row flex-wrap">
+                            <Container className={`p-0 m-0 ${isTablet ? `w-100` : `w-50`}`}>
                                 <Form.Check
                                     type="checkbox" 
                                     label="512 GB"
@@ -180,8 +185,8 @@ export default function Accordions(props){
                                     onChange={handleChange}
                                     checked={props.searchFormDataState.internal.internal64}
                                     />
-                                </div>
-                                <div>
+                                </Container>
+                                <Container className={`p-0 ${isTablet ? `w-100` : `w-50`}`}>
                                 <Form.Check 
                                     type="checkbox" 
                                     label="32 GB"
@@ -210,11 +215,11 @@ export default function Accordions(props){
                                     onChange={handleChange}
                                     checked={props.searchFormDataState.internal.internal4}
                                     />
-                                    </div>
+                                    </Container>
                             </Form.Group>
-                            <div className='d-flex justify-content-end'>
+                            <Container className='d-flex justify-content-end'>
                                 <Button  onClick={uncheckInternal} variant='link' className='p-0'>Clear all</Button>                            
-                            </div>
+                            </Container>
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="2">
@@ -230,9 +235,9 @@ export default function Accordions(props){
                                 name="screen_size"
                                 onChange={handleChange}
                             />
-                            <div className='d-flex justify-content-end'>
+                            <Container className='d-flex justify-content-end'>
                                 <Button onClick={screenSizeRestart} variant='link' className='p-0'>Clear all</Button>                            
-                            </div>
+                            </Container>
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="3">
@@ -248,9 +253,9 @@ export default function Accordions(props){
                                 name="battery"
                                 onChange={handleChange}
                             />
-                            <div className='d-flex justify-content-end'>
+                            <Container className='d-flex justify-content-end'>
                                 <Button onClick={batteryRestart} variant='link' className='p-0'>Clear all</Button>                            
-                            </div>
+                            </Container>
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="4">
@@ -282,9 +287,9 @@ export default function Accordions(props){
                                     checked={props.searchFormDataState.os === "Other"}
                                 />
                             </Form.Group>
-                            <div className='d-flex justify-content-end'>
+                            <Container className='d-flex justify-content-end'>
                                 <Button onClick={osRestart} variant='link' className='p-0'>Clear all</Button>                            
-                            </div>
+                            </Container>
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="5">
@@ -333,7 +338,7 @@ export default function Accordions(props){
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
-                <Button onClick={searchButton} style={{backgroundColor: "#219aeb", border: "none", borderRadius: 0}} className='mt-3'>Refresh data</Button>
+                <Button onClick={searchButton} style={styles} className='mt-3'>Refresh data</Button>
             </Container>
             </Container>
     )

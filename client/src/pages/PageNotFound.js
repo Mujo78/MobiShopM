@@ -46,10 +46,10 @@ export default function PageNotFound() {
   };
 
   return (
-    <div className="d-flex flex-column justify-content-center w-100 align-items-center" style={{ height: "60vh" }}>
+    <Container fluid className="d-flex p-0 m-0 flex-column justify-content-center align-items-center" style={{ height: "60vh" }}>
       <h1 style={{ fontSize: "225px", color: "#C0C0C0", padding: 0, margin: 0 }}>404</h1>
       <h1 style={{ fontWeight: "bold" }}>OOPS! PAGE NOT FOUND</h1>
-      <p style={{ marginBottom: "30px" }}>Sorry, the page you're looking for doesn't exist. If you think something is broken, report the problem</p>
+      <p style={{ marginBottom: "30px" }}>Sorry, the page you're looking for doesn't exist. If you think something is broken, report the problem.</p>
       <CustomContainer className="btnDiv align-items-center d-flex justify-content-center">
         <Button as={Link} to={"/"} className="b1" style={stylesBtn}>
           RETURN HOME
@@ -58,6 +58,6 @@ export default function PageNotFound() {
           REPORT PROBLEM
         </Button>
       </CustomContainer>
-    </div>
+    </Container>
   );
 }

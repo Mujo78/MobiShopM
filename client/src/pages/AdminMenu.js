@@ -54,7 +54,7 @@ export default function AdminMenu(){
   };
 
     return(
-      <div className='d-flex flex-wrap flex-column' style={{backgroundColor:"#C0C0C0"}}>
+      <Container fluid className='p-0 d-flex flex-wrap flex-column' style={{backgroundColor:"#C0C0C0"}}>
         <Navbar bg="light" expand="lg"  className={isMobile ? "w-100" : "w-100"}>
       <Container>
         <Navbar.Brand as={Link} to={"/admin-menu"}>Mshop System</Navbar.Brand>
@@ -81,9 +81,9 @@ export default function AdminMenu(){
         </Navbar.Collapse>
       </Container>
     </Navbar>
-    <div className='mt-3 mb-4 flex-wrap d-flex flex-column align-items-center justify-content-center'>
+    <Container className=' p-0 mt-3 mb-4 flex-wrap d-flex flex-column align-items-center justify-content-center'>
       <Outlet />
-    </div>
-    </div>
+    </Container>
+    </Container>
     )
 }

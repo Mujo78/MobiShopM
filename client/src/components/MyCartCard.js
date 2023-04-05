@@ -11,6 +11,8 @@ import Row from "react-bootstrap/esm/Row";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { Image } from "./Nav";
+import useResponsive from "./useResponsive";
+import Container from "react-bootstrap/esm/Container";
 
 const CustomListGroupItem = styled(ListGroup.Item)
 `
@@ -29,6 +31,7 @@ export default function MyCartCard(){
 
     const {authState, infoPersonState, cartItemsInfo, setCartItemsInfo} = useContext(AuthContext);
     const [showOrderModal, setShowOrderModal] = useState(false);
+    const {isMobile, isTablet} = useResponsive();
     const handleClose = () => {
         getCartItemsInfo();
         setShowOrderModal(false);
@@ -58,7 +61,6 @@ export default function MyCartCard(){
               }
             })
             .then(() =>{
-              toast.success("Item is deleted successfully.")
               getCartItemsInfo();
             })
             .catch(error => toast.error(error))
@@ -73,6 +75,7 @@ export default function MyCartCard(){
         <>
         {cartItemsInfo.length > 0 ?
         <ListGroup className="mb-5" variant="flush" style={{maxHeight:"470px", overflowX: "hidden", overflowY:"auto"}}>
+            {!isMobile &&
             <CustomListGroupItem className="w-100 justify-content-end p-0 m-0 d-flex flex-wrap">
                             <Row className="d-flex w-75 justify-content-end">
                             <Col style={{flex: "0.15"}}>
@@ -94,36 +97,36 @@ export default function MyCartCard(){
                             </Col>
                             </Row>
                     
-            </CustomListGroupItem>
-            
+            </CustomListGroupItem>}
+
                 {cartItemsInfo.map(n => (
-                <CustomListGroupItem key={n.id} className="w-100 mt-2 mb-2 d-flex justify-content-start align-items-center text-center" style={{border: "1px solid #219aeb", borderRadius: 0}}>
-                    <div className="d-flex align-items-center w-25">
+                <CustomListGroupItem key={n.id} className={`w-100 mt-2 mb-2 d-flex justify-content-start ${isMobile && `flex-column`} align-items-center text-center`} style={{border: "1px solid #219aeb", borderRadius: 0}}>
+                    <Container className={`d-flex p-0 align-items-center ${isMobile ? "w-100" : "w-25"}`}>
                         <Col>
                             <img src={n.photo} alt="img" style={{height: "80px"}} />
                         </Col>
                         <h6 className="ms-3">{n.mobile_name}</h6>
-                    </div>
-                    <div className="d-flex w-75 align-items-center justify-content-end">
-                        <Col sm={2}>
+                    </Container>
+                    <Container className={`d-flex ${isMobile ? `w-100  justify-content-around` : `w-75 justify-content-end` } p-0 align-items-center`}>
+                        {!isMobile && <Col sm={2}>
                             <h6>{n.price} KM</h6>
-                        </Col>
+                        </Col>}
                         <Col sm={2}>
-                            <h6>{n.quantity}</h6>
+                            <h6>{isMobile && "Q:"} {n.quantity}</h6>
                         </Col>
                         <Col sm={2} >
-                            <h6>{n.price*n.quantity} KM</h6>
+                            <h6>{isMobile && "T:"} {n.price*n.quantity} KM</h6>
                         </Col>
-                        <Col sm={1}>
+                        <Col sm={isTablet? 2:1}>
                             <Button style={{backgroundColor: "#219aeb", borderRadius: 0, border: "none"}} onClick={handleShow} >Order</Button>
                         </Col>
-                        <Col sm={2}>
+                        <Col sm={isTablet? 1: 2}>
                             
                             <Button onClick={() => deleteFromCart(n.id)} style={{backgroundColor: "transparent", border:"none"}}>
                                 <Image src="/images/trash.png" alt="trash" style={{height: "20px"}} />
                             </Button>
                         </Col>
-                    </div>
+                    </Container>
                     <OrderModal 
             show={showOrderModal}
             handleClose={handleClose}

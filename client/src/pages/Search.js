@@ -85,7 +85,7 @@ export default function Search(){
 
     return(
         <>
-        <div className='d-flex'>
+        <Container className='d-flex p-0 m-0'>
             
             {isMobile ?
             <Button onClick={handleShowFilter} style={{marginTop: "10px",position: "fixed",borderRadius: "150px", backgroundColor: "#ffffff", color:"#219aeb", right:0}}>Filter</Button>
@@ -103,26 +103,26 @@ export default function Search(){
             />
             </Container>
             }
-            <div className='d-flex flex-column w-75'>
+            <Container className='d-flex flex-column w-75'>
                 <Container className='d-flex align-items-start justify-content-center flex-row mt-4'>
                     {(searchResult ?? []).length > 0 ? 
                         (info ?? []).length > 0 ?
-                        <div className='d-flex flex-column'>
+                        <Container className='d-flex flex-column'>
                             <Alert variant='secondary' className='d-flex justify-content-center align-items-center'>{info}</Alert> 
-                            <div className='d-flex flex-wrap justify-content-center align-items-center'>{mobitels}</div> 
-                        </div>  
-                        : <div className='d-flex flex-wrap justify-content-center align-items-center'>{data}</div> 
-                    : <div className='d-flex flex-wrap justify-content-start align-items-center'> {mobitels} </div>}
+                            <Container className='d-flex flex-wrap p-0 justify-content-center align-items-center'>{mobitels}</Container> 
+                        </Container>  
+                        : <Container className='d-flex flex-wrap justify-content-center align-items-center'>{data}</Container> 
+                    : <Container className='d-flex flex-wrap justify-content-start align-items-center'> {mobitels} </Container>}
                         
                 </Container>
-                <div className="d-flex mt-auto justify-content-center mt-2">
+                <Container className="d-flex mt-auto justify-content-center p-0 mt-2">
                 <Paginate
                     nPages = { nPages }
                     currentPage = { currentPage } 
                     setCurrentPage = { setCurrentPage }/>
-                </div>
-            </div>
-        </div>
+                </Container>
+            </Container>
+        </Container>
         
         <Offcanvas show={stateFilter} onHide={handleCloseFilter} placement="end">
                 <Offcanvas.Header closeButton>

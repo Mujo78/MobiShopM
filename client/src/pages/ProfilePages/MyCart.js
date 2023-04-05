@@ -1,5 +1,5 @@
-import MyCartCard from "../components/MyCartCard";
-import { AuthContext } from '../helpers/AuthContext';
+import MyCartCard from "../../components/MyCartCard";
+import { AuthContext } from '../../helpers/AuthContext';
 import { useContext } from "react";
 
 

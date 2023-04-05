@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import ErrorFinder from '../components/ErrorFinder';
-import useResponsive from '../components/useResponsive';
+import ErrorFinder from '../../components/ErrorFinder';
+import useResponsive from '../../components/useResponsive';
 
 
 export default function AddMobile(){

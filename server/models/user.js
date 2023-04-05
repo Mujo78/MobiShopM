@@ -37,6 +37,13 @@ module.exports = (sequelize, DataTypes) =>{
             },
             onDelete: "cascade"
         })
+
+        user.hasMany(models.Wishlist, {
+            foreignKey:{
+                name: "UserId"
+            },
+            onDelete: "cascade"
+        })
     }
 
 
