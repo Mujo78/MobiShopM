@@ -4,6 +4,8 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import useResponsive from "../../components/useResponsive";
+import { Image } from "../../components/Nav";
+import Container from "react-bootstrap/esm/Container";
 
 
 export default function DeleteAdmin(){
@@ -51,17 +53,19 @@ export default function DeleteAdmin(){
     return(
         <>
         <h1>Delete Admin</h1>
-        <div className="d-flex flex-wrap justify-content-center mt-4">
+        <Container className="d-flex flex-wrap justify-content-center mt-4">
                {num <= 0 ?
                     adminData.map(n => ( <Card key={n.id} className={isMobile ? "w-100" : "me-2"}>
                     <Card.Body className={`d-flex ${isMobile ? `justify-content-center` : ""}  align-items-center flex-wrap`}>
-                        <Card.Title className="me-2">{n.first_name} {n.last_name}</Card.Title>
-                        <Button onClick={() => deleteAdmin(n.id, n.first_name, n.last_name)}>Delete</Button>
+                        <Card.Title className="me-2 mt-2">{n.first_name} {n.last_name}</Card.Title>
+                        <Button onClick={() => deleteAdmin(n.id, n.first_name, n.last_name)} className="p-0" style={{backgroundColor: "transparent", border: "none"}}>
+                            <Image src="/images/trash.png" style={{height: "20px"}} />
+                            </Button>
                     </Card.Body>
                 </Card>)) : <Alert variant="danger">{errors < 0 ? "Nothing to delete" : errors}</Alert>
                 }
             
-        </div>
+        </Container>
         </>
 
     )

@@ -63,6 +63,19 @@ export default function Wishlist(){
         .catch(error => toast.error(error.response.data))
     }
 
+    const stylesone ={
+        border:"none", 
+        borderRadius: 0,
+        fontSize: "13px",
+        backgroundColor: "#219aeb"
+    }
+
+    const stylestwo = {
+        backgroundColor: "transparent",
+        border:"none"
+    }
+    const nameOfClass = "d-flex align-items-center";
+
     return(
         <>
             <h3>Wishlist</h3>
@@ -92,25 +105,25 @@ export default function Wishlist(){
                             </p>
                         </Col>
                         {!isMobile ? <>
-                        <Col sm={2} className="d-flex align-items-center">
-                            <Button onClick={() => addToCart(m.MobileId)} className="p-2 mt-1" style={{border:"none", borderRadius: 0, fontSize: "13px", backgroundColor: "#219aeb"}}>
+                        <Col sm={2} className={nameOfClass}>
+                            <Button onClick={() => addToCart(m.MobileId)} className="p-2 mt-1" style={stylesone}>
                                 Add To Cart
                             </Button>
                         </Col>
-                        <Col sm={1} className="d-flex align-items-center">
-                            <Button onClick={() => deleteWishItem(m.MobileId)} style={{backgroundColor: "transparent", border:"none"}}>
+                        <Col sm={1} className={nameOfClass}>
+                            <Button onClick={() => deleteWishItem(m.MobileId)} style={stylestwo}>
                                 <Image src="/images/trash.png" style={{height: "20px"}} />
                             </Button>
                         </Col>
                         </> : <>
-                        <Row sm={2} className="d-flex align-items-center">
+                        <Row sm={2} className={nameOfClass}>
                             <Col style={{flex: "1.40"}}>
-                            <Button className="w-100" onClick={() => addToCart(m.MobileId)} style={{border:"none", borderRadius: 0, fontSize: "13px", backgroundColor: "#219aeb"}}>
+                            <Button className="w-100" onClick={() => addToCart(m.MobileId)} style={stylesone}>
                                 Add To Cart
                             </Button>
                             </Col>
                             <Col style={{flex: "0.20"}}>
-                            <Button onClick={() => deleteWishItem(m.MobileId)} style={{backgroundColor: "transparent", border:"none"}}>
+                            <Button onClick={() => deleteWishItem(m.MobileId)} style={stylestwo}>
                                 <Image src="/images/trash.png" style={{height: "20px"}} />
                             </Button>
                             </Col>
@@ -122,7 +135,7 @@ export default function Wishlist(){
                 ))}
             </ListGroup>
 
-            <Container className="d-flex justify-content-center align-items-end mt-auto">
+            <Container className="d-flex justify-content-center mb-3 mt-auto">
                     <Paginate 
                         nPages = { nPages }
                         currentPage = { currentPage } 

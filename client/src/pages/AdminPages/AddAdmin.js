@@ -4,10 +4,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ErrorFinder from '../../components/ErrorFinder';
 import useResponsive from '../../components/useResponsive';
+import Container from 'react-bootstrap/esm/Container';
 
 export default function AddAdmin(){
 
-    const {isDesktop} = useResponsive();
+    const {isDesktop, isMobile} = useResponsive();
 
     const [errorsData, setErrorsData] = useState([]);
     const [adminData, setAdminData] = useState({
@@ -55,7 +56,7 @@ export default function AddAdmin(){
             <h1>Add new Admin</h1>
             <Form onSubmit={addAdmin} className={`d-flex flex-column  align-items-center flex-wrap justify-content-around w-75`}>
                 <Form.Group className={`d-flex ${isDesktop ? `w-50` : `w-100`} justify-content-around flex-wrap mb-3 mt-2`} >
-                    <div>
+                    <Container  className={isMobile ? 'w-100 p-0 mb-3' : 'w-50'}>
                         <Form.Label>First name</Form.Label>
                         <Form.Control 
                             type="text" 
@@ -65,8 +66,8 @@ export default function AddAdmin(){
                             value={adminData.first_name}
                             />
                             {num > 0 && <ErrorFinder err={errorsData} fieldName="first_name"/>}
-                    </div>
-                    <div>
+                    </Container>
+                    <Container className={isMobile ? 'w-100 p-0' : 'w-50'}>
                         <Form.Label>Last name</Form.Label>
                         <Form.Control 
                             type="text" 
@@ -76,11 +77,11 @@ export default function AddAdmin(){
                             value={adminData.last_name}
                             />
                        {num > 0 && <ErrorFinder err={errorsData} fieldName="last_name"/>}
-                   </div>
+                   </Container>
                 </Form.Group>
 
             <Form.Group className={`d-flex ${isDesktop ? `w-50` : `w-100`} justify-content-around flex-wrap mb-3`}>
-                <div>
+                <Container className={isMobile ? 'w-100 p-0' : 'w-50'}>
                     <Form.Label>Address</Form.Label>
                     <Form.Control 
                         type="text" 
@@ -90,8 +91,8 @@ export default function AddAdmin(){
                         value={adminData.address}
                         />
                     {num > 0 && <ErrorFinder err={errorsData} fieldName="address"/>}
-                </div>
-                <div>
+                </Container>
+                <Container className={isMobile ? 'w-100 p-0' : 'w-50'}>
                     <Form.Label>City</Form.Label>
                     <Form.Control 
                         type="text" 
@@ -101,11 +102,11 @@ export default function AddAdmin(){
                             value={adminData.city}
                         />
                     {num > 0 && <ErrorFinder err={errorsData} fieldName="city"/>}
-                </div>
+                </Container>
             </Form.Group>
 
             <Form.Group className={`d-flex ${isDesktop ? `w-50` : `w-100`} justify-content-around flex-wrap mb-4`}>
-                <div>
+                <Container className={isMobile ? 'w-100 p-0' : 'w-75'}>
                     <Form.Label>Phone number</Form.Label>
                     <Form.Control 
                         type="text" 
@@ -115,8 +116,8 @@ export default function AddAdmin(){
                         value={adminData.phone_number}
                         />
                     {num > 0 && <ErrorFinder err={errorsData} fieldName="phone_number"/>}
-                </div>
-                <div>
+                </Container>
+                <Container className={isMobile ? 'w-100 p-0' : 'w-25'}>
                     <Form.Label>Gender</Form.Label>
                     <Form.Select 
                         aria-label="Default select example" 
@@ -129,10 +130,10 @@ export default function AddAdmin(){
                         </Form.Select>
                     {num  > 0 && <ErrorFinder err={errorsData} fieldName="gender"/>}
 
-                </div>
+                </Container>
             </Form.Group>
          
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" style={{backgroundColor: "#219aeb", border: "none"}}>
                 Add new Admin
             </Button>
             </Form>

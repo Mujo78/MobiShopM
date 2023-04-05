@@ -133,18 +133,18 @@ export default function EditMobile(){
                 {allMobiles.map(m => (
                     <ListGroup.Item key={m.id} variant="light" className="d-flex flex-wrap justify-content-between align-items-center">
                         <h6>{m.mobile_name}</h6>
-                        <Button onClick={() => showDataForMobile(m.id)}>Edit</Button>
+                        <Button onClick={() => showDataForMobile(m.id)} style={{backgroundColor: "#219aeb", border: "none"}}>Edit</Button>
                         </ListGroup.Item>
                 ))}
             </ListGroup>
         
         {showForm &&
         <Form onSubmit={handleSubmit} className='mx-auto mt-4 d-flex flex-column align-items-center justify-content-center flex-wrap'>
-        <Form.Group className='d-flex flex-wrap justify-content-center' >
-            <div>
+        <Form.Group className='d-flex w-100 flex-wrap justify-content-around align-items-center' >
+            <Container className="p-2 w-50 m-0 justify-content-center d-flex">
                 <img src={mobileData.photo === "" ? "" : mobileData.photo} alt=""  style={{width:"210px"}} className="mt-5" />
-            </div>
-            <div className={`${isMobile ? `w-100` : `ms-3`}`}>
+            </Container>
+            <Container className={`${isMobile ? `w-100 p-0` : `w-50 p-0`}`}>
                 <Form.Label>Name</Form.Label>
                 <Form.Control
                     type="text" 
@@ -155,23 +155,20 @@ export default function EditMobile(){
                     />
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="mobile_name" />}
 
-                <Form.Label>Brand</Form.Label>
-                <Form.Select 
+                <Form.Label className="mt-2">Brand</Form.Label>
+                <Form.Select
                     aria-label="Default select example" 
                     name="BrandId"
                     onChange={handleChange}
                     value={mobileData.BrandId}>
-
-                        <option>- Choose one option -</option>
-                        <option value="1">Samsung</option>
-                        <option value="2">Apple</option>
-                        <option value="3">Huawei</option>
-                        <option value="4">Xiaomi</option>
-                        <option value="5">LG</option>
+                        <option value="">- Choose one option -</option>
+                        {allBrands.map(n => (
+                            <option key={n.id} value={n.id}>{n.name}</option>
+                        ))}
                 </Form.Select>
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="BrandId" />}
 
-                <Form.Label>Screen size</Form.Label>
+                <Form.Label className="mt-2">Screen size</Form.Label>
                 <Form.Control 
                     type="text" 
                     autoFocus
@@ -182,7 +179,7 @@ export default function EditMobile(){
                 />
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="screen_size" />}
 
-                <Form.Label>Quantity</Form.Label>
+                <Form.Label className="mt-2">Quantity</Form.Label>
                 <Form.Control 
                     type="number" 
                     autoFocus
@@ -195,7 +192,7 @@ export default function EditMobile(){
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="quantity" />}
 
 
-           </div>
+           </Container>
         </Form.Group>
         <Form.Group className='d-flex flex-wrap w-100'>
         <Form.Label>Photo link</Form.Label>
@@ -209,9 +206,9 @@ export default function EditMobile(){
             {numErr > 0 && <ErrorFinder err={errorForm} fieldName="photo" />}
     </Form.Group>
 
-    <Form.Group className='d-flex flex-wrap'>
-        <div className={`${isMobile ? `w-100` : `me-3`}`}>
-            <Form.Label>RAM</Form.Label>
+    <Form.Group className={`d-flex ${isMobile && 'flex-wrap'} flex-row w-100`}>
+        <Container className="w-100 p-0">
+            <Form.Label className="mt-2">RAM</Form.Label>
                 <Form.Select 
                 aria-label="Default select example" 
                 onChange={handleChange}
@@ -227,9 +224,9 @@ export default function EditMobile(){
                 </Form.Select>
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="ram" />}
 
-        </div>
-        <div className={`${isMobile ? `w-100` : ``}`}>
-            <Form.Label>Memory</Form.Label>
+        </Container>
+        <Container className={`${isMobile ? `` : `ms-2`} w-100 p-0`}>
+            <Form.Label className="mt-2">Memory</Form.Label>
             <Form.Select 
                 aria-label="Default select example" 
                 onChange={handleChange}
@@ -247,14 +244,14 @@ export default function EditMobile(){
                     <option value="4">4</option>
                 </Form.Select>
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="internal" />}
-        </div>
+        </Container>
         
     </Form.Group>
     
 
-    <Form.Group className='d-flex flex-wrap'>
-        <div className={`${isMobile ? `w-100` : `me-3`}`}>
-        <Form.Label>Processor</Form.Label>
+    <Form.Group className={`d-flex ${isMobile && 'flex-wrap'} w-100`}>
+        <Container className={`${isMobile ? `` : `me-2`} w-100 p-0`}>
+        <Form.Label className="mt-2">Processor</Form.Label>
             <Form.Control 
                 type="text" 
                 autoFocus
@@ -263,9 +260,9 @@ export default function EditMobile(){
                 value={mobileData.processor}
                 />
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="processor" />}
-        </div>
-        <div className={`${isMobile ? `w-100` : ``}`}>
-        <Form.Label>Baterry</Form.Label>
+        </Container>
+        <Container className={`${isMobile ? `w-100` : `w-50`} p-0`}>
+        <Form.Label className="mt-2">Baterry</Form.Label>
             <Form.Control 
                 type="text" 
                 autoFocus
@@ -275,11 +272,11 @@ export default function EditMobile(){
                 value={mobileData.battery}
                 />
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="battery" />}
-        </div>
+        </Container>
     </Form.Group>
-    <Form.Group className='d-flex flex-wrap'>
-        <div className={`${isMobile ? `w-100` : `me-3`}`}>
-            <Form.Label>Price</Form.Label>
+    <Form.Group className={`d-flex ${isMobile && `flex-wrap`} w-100`}>
+        <Container className={`${isMobile ? `w-100` : ` w-50 me-2`} p-0`}>
+            <Form.Label className="mt-2">Price</Form.Label>
             <Form.Control 
                 type="text" 
                 autoFocus
@@ -289,9 +286,9 @@ export default function EditMobile(){
                 value={mobileData.price}
                 />
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="price" />}
-        </div>
-        <div className={`${isMobile ? `w-100` : ``}`}>
-            <Form.Label>OS</Form.Label>
+        </Container>
+        <Container className="w-100 p-0">
+            <Form.Label className="mt-2">OS</Form.Label>
             <Form.Control 
                 type="text" 
                 autoFocus
@@ -301,10 +298,10 @@ export default function EditMobile(){
                value={mobileData.os}
                 />
                 {numErr > 0 && <ErrorFinder err={errorForm} fieldName="os" />}
-        </div>
+        </Container>
     </Form.Group>
     <Form.Group className='d-flex flex-wrap mb-3 w-100'>
-            <Form.Label>Camera</Form.Label>
+            <Form.Label className="mt-2">Camera</Form.Label>
             <Form.Control 
                 type="text" 
                 autoFocus
@@ -316,7 +313,7 @@ export default function EditMobile(){
        
         </Form.Group>
             <Form.Group>
-                <Button style={{backgroundColor:"#219aeb"}} type="submit">
+                <Button style={{backgroundColor:"#219aeb", border:"none"}} type="submit">
                 Save changes
                 </Button>
             </Form.Group>

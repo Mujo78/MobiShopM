@@ -4,9 +4,11 @@ import Form from 'react-bootstrap/Form';
 import { useState } from "react";
 import axios from "axios";
 import ErrorFinder from "../../components/ErrorFinder";
+import useResponsive from "../../components/useResponsive";
 
 export default function AddBrand(){
 
+    const {isMobile} = useResponsive();
     const [errors, setErrors] = useState([]);
     const [brandName, setBrandName] = useState({
         name:""
@@ -59,8 +61,8 @@ export default function AddBrand(){
                         />
                 </Form.Group>
                 {num > 0 && <ErrorFinder err={errors} fieldName="name"/>}
-                <Form.Group className="mt-3">
-                    <Button style={{backgroundColor:"#219aeb"}} type="submit">
+                <Form.Group className='mt-3'>
+                    <Button style={{backgroundColor:"#219aeb", border: "none"}} className={` ${isMobile ? "w-100" : "w-25"}`} type="submit">
                         Save
                     </Button>
                 </Form.Group>

@@ -46,7 +46,6 @@ function App() {
   const [cartItemsInfo, setCartItemsInfo] = useState([]);
   const [infoPersonState, setInfoPersonState] = useState([]);
 
-
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
     if(accessToken !== null){
@@ -137,8 +136,13 @@ function App() {
                 <Route path='orders' element={<SeeOrders />} />
               </Route>
           </Routes>
-        {authState.RoleId !== 1 && <Button onClick={() => handleShowCart(authState.id)} className="position-fixed bottom-0 mb-5 rounded-pill" style={{backgroundColor:"transparent", border:"5px solid #219AEB"}}>  <Image src="/images/cart.png" alt="cart" style={{height: "60px", padding: "10px"}} />
-          </Button>}
+        {authState.RoleId !== 1 && 
+        <Button 
+          onClick={() => handleShowCart(authState.id)} 
+          className="position-fixed mb-5 ms-4 rounded-pill" 
+          style={{backgroundColor:"transparent", bottom: 0, left: 0, border:"5px solid #219AEB"}}>  
+            <Image src="/images/cart.png" alt="cart" style={{height: "60px", padding: "10px"}} />
+        </Button>}
         </Router>
           <Cart show={showCart} onHide={handleCloseCart} personData={infoPersonState} refreshData={()=> getCartItemsInfo(authState.id)} err={errorCarts} />
     </div>

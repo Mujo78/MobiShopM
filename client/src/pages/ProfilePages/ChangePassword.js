@@ -76,9 +76,9 @@ export default function ChangePassword(){
             <h3>Password change</h3>
             <Form className="mb-5" onSubmit={changePassword}>
             <CustomFromGroup className="mb-3">
-                <div className="mb-3">
+                <Container className="mb-3 p-0">
                     <Form.Label>Old password</Form.Label>
-                    <div className="input-group">
+                    <Container className="input-group p-0">
                         <Form.Control
                         type={showOldPassword ? "text" : "password"}
                         placeholder="Old password"
@@ -86,19 +86,20 @@ export default function ChangePassword(){
                         onChange={handleChange}
                         name="password"
                         />
-                            <button
+                            <Button
                             className="btn btn-outline-secondary"
                             type="button"
+                            variant="light"
                             onClick={toggleOldPasswordVisibility}
                             >
                                 <img style={{height:"20px"}} src={showHideImageOld} alt="seehide" />
-                            </button>
-                    </div>
+                            </Button>
+                    </Container>
                     {num > 0 && <ErrorFinder err={errorState} fieldName="password" />}
-                </div>
-                <div className="mb-3">
+                </Container>
+                <Container className="mb-3 p-0">
                     <Form.Label>New password</Form.Label>
-                    <div className="input-group">
+                    <Container className="input-group p-0">
                         <Form.Control
                         type={showNewPassword ? "text" : "password"}
                         placeholder="New password"
@@ -106,17 +107,18 @@ export default function ChangePassword(){
                         value={passwords.newPassword}
                         name="newPassword"
                         />
-                            <button
+                            <Button
                             className="btn btn-outline-secondary"
                             type="button"
+                            variant="light"
                             onClick={toggleNewPasswordVisibility}
                             >
                                 <img style={{height:"20px"}} src={showHideImageNew} alt="seehide" />
-                            </button>
-                    </div>
+                            </Button>
+                    </Container>
                     {num > 0 && <ErrorFinder err={errorState} fieldName="newPassword" />}
-                </div>
-                <div>
+                </Container>
+                <Container className="p-0">
                     <Form.Label>Confirm new password</Form.Label>
                         <Form.Control
                         type="password"
@@ -125,7 +127,7 @@ export default function ChangePassword(){
                         placeholder="New password"
                         name="confirmPassword" />
                          {num > 0 && <ErrorFinder err={errorState} fieldName="confirmPassword" />}
-                </div>
+                </Container>
             </CustomFromGroup>
                 <Button style={{backgroundColor:"#219aeb", border: "none", borderRadius: 0}} type="submit" className={isMobile ? "w-100" : "w-25"}>
                     Save changes

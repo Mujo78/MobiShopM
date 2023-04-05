@@ -67,7 +67,7 @@ export default function Info(){
                         {num > 0 && <ErrorFinder err={errorState} fieldName="first_name" />}
 
                     </CustomDiv>
-                    <CustomDiv className={isMobile ? "w-100" : "w-50"}>
+                    <CustomDiv className={isMobile ? "w-100" : "w-50 ms-2"}>
                         <Form.Label>Last name</Form.Label>
                         <Form.Control 
                             type="text"

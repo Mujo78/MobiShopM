@@ -4,11 +4,12 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ErrorFinder from '../../components/ErrorFinder';
 import useResponsive from '../../components/useResponsive';
+import Container from 'react-bootstrap/esm/Container';
 
 
 export default function AddMobile(){
 
-    const {isMobile} = useResponsive();
+    const {isMobile, isDesktop} = useResponsive();
 
     const [errors, setErrors] = useState([]);
     const [brands, setBrands] = useState([]);
@@ -64,16 +65,14 @@ export default function AddMobile(){
         
     }
 
-    console.log(mobileData.BrandId);
-    
     let num = errors.length;
 
     return(
         <>
         <h1>Add new Mobile</h1>
-        <Form onSubmit={handleSubmit} className={`d-flex ${isMobile ? `w-75` : `w-50`} flex-column align-items-center justify-content-center flex-wrap`}>
-        <Form.Group className='d-flex flex-wrap mb-3 align-items-center justify-content-center w-100 mt-2 mb-3' >
-            <div className={`${isMobile ? `w-100` : `w-50 me-1` }`}>
+        <Form onSubmit={handleSubmit} className={`d-flex ${!isDesktop ? `w-75` : `w-50`} flex-column align-items-center justify-content-center flex-wrap`}>
+        <Form.Group className={`d-flex ${isMobile && `flex-wrap`} mb-3 align-items-center justify-content-center w-100 mt-2 mb-3`} >
+            <Container className={`${isMobile ? `` : `me-2` } w-100 p-0`}>
                 <Form.Label>Name</Form.Label>
                 <Form.Control
                     type="text" 
@@ -84,8 +83,8 @@ export default function AddMobile(){
                     />
                 {num > 0 && <ErrorFinder err={errors} fieldName="mobile_name"/>}
 
-            </div>
-            <div  className={`${isMobile ? `w-100` : `w-25` }`}>
+            </Container>
+            <Container  className={`${isMobile ? `w-100 mt-2` : `w-50` } p-0`}>
                 <Form.Label>Brand</Form.Label>
                 <Form.Select
                 aria-label="Default select example" 
@@ -100,11 +99,11 @@ export default function AddMobile(){
                 </Form.Select>
                 {num > 0 && <ErrorFinder err={errors} fieldName="BrandId"/>}
 
-           </div>
+           </Container>
         </Form.Group>
 
-    <Form.Group className={`d-flex flex-wrap mb-3 ${isMobile ? `w-100` : `w-75` }`}>
-        <div className={`${isMobile ? `w-100` : `w-50`}`}>
+    <Form.Group className={`d-flex mb-3 ${isMobile ? `flex-wrap` : `` } w-100`}>
+        <Container className="w-100 p-0">
             <Form.Label>RAM</Form.Label>
                 <Form.Select 
                 aria-label="Default select example" 
@@ -122,8 +121,8 @@ export default function AddMobile(){
                 </Form.Select>
                 {num > 0 && <ErrorFinder err={errors} fieldName="ram"/>}
 
-        </div>
-        <div className={`${isMobile ? `w-100` : `w-50`}`}>
+        </Container>
+        <Container className={`${isMobile ? `mt-2` : `ms-2`} w-100 p-0`}>
             <Form.Label>Memory</Form.Label>
             <Form.Select 
                 aria-label="Default select example" 
@@ -144,10 +143,10 @@ export default function AddMobile(){
                 </Form.Select>
                 {num > 0 && <ErrorFinder err={errors} fieldName="internal"/>}
 
-        </div>
+        </Container>
         
     </Form.Group>
-    <Form.Group className={` d-flex flex-wrap mb-3 ${isMobile ? `w-100` : `w-75`}`}>
+    <Form.Group className={` d-flex flex-wrap mb-3 w-100`}>
     <Form.Label>Camera</Form.Label>
             <Form.Control 
                 type="text" 
@@ -159,8 +158,8 @@ export default function AddMobile(){
                 {num > 0 && <ErrorFinder err={errors} fieldName="camera"/>}
     </Form.Group>
     
-    <Form.Group className='d-flex w-100 justify-content-center flex-wrap mb-3'>
-        <div className={`${isMobile ? `w-100`  : `w-50 me-1`}`}>
+    <Form.Group className={`d-flex w-100 justify-content-center  ${isMobile && `flex-wrap`} mb-3`}>
+        <Container className="w-100 p-0">
         <Form.Label>Processor</Form.Label>
             <Form.Control 
                 type="text" 
@@ -170,8 +169,8 @@ export default function AddMobile(){
                 value={mobileData.processor}
                 />
         {num > 0 && <ErrorFinder err={errors} fieldName="processor"/>}
-        </div>
-        <div className={`${isMobile ? `w-100`  : `w-25 me-1`}`}>
+        </Container>
+        <Container className={`${isMobile ? `w-100`  : `w-50 ms-2`} p-0`}>
             <Form.Label>Screen size</Form.Label>
             <Form.Control 
                 type="text" 
@@ -182,10 +181,10 @@ export default function AddMobile(){
                 value={mobileData.screen_size}
                 />
         {num > 0 && <ErrorFinder err={errors} fieldName="screen_size"/>}
-        </div>
+        </Container>
     </Form.Group>
-    <Form.Group className={`d-flex flex-wrap mb-3 ${isMobile ? `w-100`  : `w-75`}`}>
-        <div className={`${isMobile ? `w-100`  : `w-50`}`}>
+    <Form.Group className={`d-flex mb-3 ${isMobile ? `flex-wrap`  : ``} w-100`}>
+        <Container className={`${isMobile ? `w-100`  : `w-50`} p-0`}>
             <Form.Label>Baterry</Form.Label>
             <Form.Control 
                 type="text" 
@@ -196,8 +195,8 @@ export default function AddMobile(){
                 value={mobileData.battery}
                 />
         {num > 0 && <ErrorFinder err={errors} fieldName="battery"/>}
-        </div>
-        <div className={`${isMobile ? `w-100`  : `w-50`}`}>
+        </Container>
+        <Container className={`${isMobile ? `w-100`  : `w-50 ms-2`} p-0`}>
             <Form.Label>OS</Form.Label>
             <Form.Control 
                 type="text" 
@@ -208,10 +207,10 @@ export default function AddMobile(){
                 value={mobileData.os}
                 />
             {num > 0 && <ErrorFinder err={errors} fieldName="os"/>}
-        </div>
+        </Container>
     </Form.Group>
-    <Form.Group className='d-flex justify-content-center w-100 flex-wrap mb-3'>
-        <div className={`${isMobile ? `w-100`  : `w-25 me-1`}`}>
+    <Form.Group className={`d-flex justify-content-center w-100 ${isMobile && `flex-wrap`} mb-3`}>
+        <Container className={`${isMobile ? `w-100`  : `w-50 me-1`} p-0`}>
             <Form.Label>Quantity</Form.Label>
             <Form.Control 
                 type="number" 
@@ -221,8 +220,8 @@ export default function AddMobile(){
                 value={mobileData.quantity}
                 />
         {num > 0 && <ErrorFinder err={errors} fieldName="quantity"/>}
-        </div>
-        <div className={`${isMobile ? `w-100`  : `w-50`}`}>
+        </Container>
+        <Container className={`${isMobile ? `w-100`  : `w-100`} p-0`}>
             <Form.Label>Price</Form.Label>
             <Form.Control 
                 type="number" 
@@ -233,9 +232,9 @@ export default function AddMobile(){
                     value={mobileData.price}
                 />
         {num > 0 && <ErrorFinder err={errors} fieldName="price"/>}
-        </div>
+        </Container>
     </Form.Group>
-        <Form.Group className={`d-flex flex-wrap ${isMobile ? `w-100`  : `w-75`} mb-3`}>
+        <Form.Group className="w-100 mb-3">
             <Form.Label>Photo link</Form.Label>
                 <Form.Control 
                     type="text" 
@@ -248,7 +247,7 @@ export default function AddMobile(){
 
         </Form.Group>
         <Form.Group>
-            <Button style={{backgroundColor:"#219aeb"}} type="submit">
+            <Button style={{backgroundColor:"#219aeb", border: "none"}} type="submit">
             Add new mobile
             </Button>
         </Form.Group>

@@ -9,7 +9,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import useResponsive from "../../components/useResponsive";
 
-const CustomDiv = styled.div`
+const CustomDiv = styled(Container)`
   label {
     color: #C0C0C0;
     font-size: 12px;
@@ -53,7 +53,7 @@ export default function ProfileData(){
             <h3>Edit profile</h3>
             <Container>
                 <Form onSubmit={handleSubmit}>
-                    <CustomDiv className="mb-3">
+                    <CustomDiv className="mb-3 p-0">
                         <Form.Label>Username</Form.Label>
                         <Form.Control 
                             type="text"
