@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ListGroup from "react-bootstrap/esm/ListGroup";
 import { toast } from "react-toastify";
 import Col from "react-bootstrap/esm/Col";
@@ -9,10 +9,12 @@ import { Image } from "../../components/Nav";
 import useResponsive from "../../components/useResponsive";
 import Container from "react-bootstrap/esm/Container";
 import Paginate from "../../components/Paginate";
+import { AuthContext } from "../../helpers/AuthContext";
 
 export default function Wishlist(){
 
     const [wishState, setWishState] = useState([]);
+    const {authState} = useContext(AuthContext);
     const [quantity] = useState(1);
     const {isMobile, isTablet} = useResponsive();
     const [perPage] = useState(isTablet ? 5 : 4);
@@ -23,16 +25,18 @@ export default function Wishlist(){
 
     useEffect(() =>{
         getWishItems()
-    }, [])
+    }, [authState])
 
     const getWishItems = () => {
-      axios.get(`http://localhost:3001/wish-items`, {
-          headers:{
-            'accessToken' : `Bearer ${localStorage.getItem("accessToken")}`
-          }
-        })
-        .then((response) => setWishState(response.data))
-        .catch(error => toast.error(error))
+        if(authState.RoleId === 2 && authState.id !== 0){
+            axios.get(`http://localhost:3001/wish-items`, {
+                headers:{
+                  'accessToken' : `Bearer ${localStorage.getItem("accessToken")}`
+                }
+              })
+              .then((response) => setWishState(response.data))
+              .catch(error => toast.error(error))
+        }
     }
 
     const deleteWishItem = (id) => {

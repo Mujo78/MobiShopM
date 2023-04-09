@@ -1,4 +1,4 @@
-import {useEffect, useState } from 'react';
+import {useContext, useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/esm/Button';
 import MobileModal from './MobileModal';
@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/esm/Col';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import useResponsive from './useResponsive';
+import { AuthContext } from '../helpers/AuthContext';
 
 const CustomCard = styled(Card)
 `
@@ -24,6 +25,7 @@ export default function Cards({mob : {photo, mobile_name, price, id}, mob}){
     const [modalShow, setModalShow] = useState(false);
     const [heartState, setheartState] = useState(false);
     const [wishListState, setWishListState] = useState([]);
+    const {authState} = useContext(AuthContext);
     const {isMobile} = useResponsive();
 
     const handleHeartFillTrue = (id) => {
@@ -62,13 +64,15 @@ export default function Cards({mob : {photo, mobile_name, price, id}, mob}){
     }, [])
 
     const getWishItems = () => {
-      axios.get(`http://localhost:3001/wish-items`, {
-          headers:{
-            'accessToken' : `Bearer ${localStorage.getItem("accessToken")}`
-          }
-        })
-        .then((response) => setWishListState(response.data))
-        .catch(error => toast.error(error))
+      if(authState.id !== 0 && authState.RoleId === 2){
+        axios.get(`http://localhost:3001/wish-items`, {
+            headers:{
+              'accessToken' : `Bearer ${localStorage.getItem("accessToken")}`
+            }
+          })
+          .then((response) => setWishListState(response.data))
+          .catch(error => toast.error(error))
+      }
     }
 
     const handleShow = () => setModalShow(true);
@@ -91,16 +95,18 @@ export default function Cards({mob : {photo, mobile_name, price, id}, mob}){
                 <Col className={isMobile && 'w-50'}>
                   <Card.Text className='p-0' style={{color:"red", fontSize: "12px"}}>{price} KM</Card.Text>                
                 </Col>
-                <Col sm={4} className={isMobile && 'w-25 me-3'}>
-                    { wishListState.some(n => n.MobileId === id) ?
-                      <Button onClick={() => handleHeartEmptyFalse(id)} style={styles} className='p-0 mb-1'>
-                        <Image src="/images/filled.png" style={{height: "20px"}} />
-                      </Button> :
-                      <Button onClick={() => handleHeartFillTrue(id)} style={styles} className='p-0 mb-1'>
-                        <Image src="/images/empty.png" style={{height: "20px"}} />
-                      </Button>
-                    }
-                </Col>
+                {authState.RoleId === 2 && 
+                  <Col sm={4} className={isMobile && 'w-25 me-3'}>
+                      { wishListState.some(n => n.MobileId === id) ?
+                        <Button onClick={() => handleHeartEmptyFalse(id)} style={styles} className='p-0 mb-1'>
+                          <Image src="/images/filled.png" style={{height: "20px"}} />
+                        </Button> :
+                        <Button onClick={() => handleHeartFillTrue(id)} style={styles} className='p-0 mb-1'>
+                          <Image src="/images/empty.png" style={{height: "20px"}} />
+                        </Button>
+                      }
+                  </Col>
+                }
                 </Row>
               </>
             </Card.Body>

@@ -75,9 +75,9 @@ export default function Profile(){
                         <ListGroup.Item className={nameOfClass} as={NavLink} end to={`edit-profile`} style={styles} variant="secondary" action>Edit profile</ListGroup.Item>
                         {authState.RoleId !==1 && <> 
                             <ListGroup.Item className={nameOfClass} as={NavLink} to={`my-cart`} style={styles} variant="secondary" action>Cart</ListGroup.Item>
-                            <ListGroup.Item className={nameOfClass} as={NavLink} to={`orders`} style={styles} variant="secondary" action>Orders</ListGroup.Item> </>
-                        }<ListGroup.Item className={nameOfClass} as={NavLink} to={`wishlist`} style={styles} variant="secondary" action>Wishlist</ListGroup.Item>
-                        <ListGroup.Item className={nameOfClass} onClick={deleteMyAcc}  as={Button} style={{borderRadius: "0px", border:"none"}} variant="danger" action>{isTablet ? "Delete Acc" : "Delete account"}</ListGroup.Item>
+                            <ListGroup.Item className={nameOfClass} as={NavLink} to={`orders`} style={styles} variant="secondary" action>Orders</ListGroup.Item> 
+                        <ListGroup.Item className={nameOfClass} as={NavLink} to={`wishlist`} style={styles} variant="secondary" action>Wishlist</ListGroup.Item></>
+                        }<ListGroup.Item className={nameOfClass} onClick={deleteMyAcc}  as={Button} style={{borderRadius: "0px", border:"none"}} variant="danger" action>{isTablet ? "Delete Acc" : "Delete account"}</ListGroup.Item>
                     </ListGroup>
                 </Container>
                 <Container className={`${!isDesktop ? `w-100 ms-1` : `w-75 ms-5`} mt-5 `}>

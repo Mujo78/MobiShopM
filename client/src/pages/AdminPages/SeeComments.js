@@ -5,15 +5,21 @@ import Alert from "react-bootstrap/Alert";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
 import useResponsive from "../../components/useResponsive";
+import Paginate from "../../components/Paginate";
 
 export default function SeeComments(){
 
-    const {isMobile} = useResponsive();
+    const {isMobile, isTablet} = useResponsive();
 
     const [comments, setComments] = useState([]);
     const [errorComment, setErrorComment] = useState([]);
     const [showMore, setShowMore] = useState(false);
 
+    const [perPage] = useState(isTablet ? 9 : 6);
+    const [currentPage, setCurrentPage] = useState(1);
+    const indexOfLastRecord = currentPage * perPage;
+    const indexOfFirstRecord = indexOfLastRecord - perPage;
+    const nPages = Math.ceil(comments.length / perPage);
 
 
     const [newComm, setNewComm] = useState();
@@ -69,10 +75,10 @@ export default function SeeComments(){
     let numErr = errorComment.length;
 
     return(
-        <Container className={isMobile ? "w-100" : ""}>
+        <Container fluid className={isMobile ? "w-100 p-0 mt-2" : "w-100 p-0 m-0 mt-2"}>
         <h1>Comments</h1>
         {numErr <= 0 ?
-        <div className={isMobile ? `w-50` : `w-100`} style={{overflowX: "auto"}}>
+        <Container fluid className={isMobile ? `w-100  p-0` : `w-100 m-0 p-0`} style={{overflowX: "auto"}}>
         <Table striped responsive={true} size={isMobile ? "sm" : ""}>
             <thead>
                 <tr>
@@ -84,7 +90,9 @@ export default function SeeComments(){
                 <th>Delete</th>
                 </tr>
             </thead>
-            {comments.map(n =>( 
+            {comments
+            .slice(indexOfFirstRecord, indexOfLastRecord)
+            .map(n =>( 
                 <tbody key={n.id} >
                 <tr>
                   <td>{n.id}.</td>
@@ -93,12 +101,12 @@ export default function SeeComments(){
                   <td style={{fontSize:"12px"}}>
                         {n.comment.length >51 ? 
                             !showMore ?
-                                <div className="d-flex  align-items-center"> {n.comment.substring(0,55)}
+                                <Container className="d-flex p-0  align-items-center"> {n.comment.substring(0,55)}
                                     <Button className="p-0 text-muted" variant="link" onClick={() => showAllComment(n.id, n.comment)}>...read more</Button>
-                                </div> : <div>
+                                </Container> : <Container className="p-0">
                                             {newComm}
                                             <Button variant="link" style={{fontSize:"12px"}}  className="p-0 text-muted" onClick={showLess}>...show less</Button>
-                                            </div> 
+                                            </Container> 
                                 : n.comment}
                     </td>
                   <td><Button onClick={() => replyComment(n.email)}>Reply</Button></td>
@@ -106,7 +114,14 @@ export default function SeeComments(){
                 </tr>
               </tbody>
             ))}
-            </Table> </div> : <Alert variant="danger">{errorComment}</Alert>}
+            </Table> </Container> : <Alert variant="danger">{errorComment}</Alert>}
+
+            <Container className="d-flex justify-content-center">
+                <Paginate
+                    nPages = { nPages }
+                    currentPage = { currentPage } 
+                    setCurrentPage = { setCurrentPage }/>
+            </Container>
         </Container>
     )
 }

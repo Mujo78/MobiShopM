@@ -33,21 +33,24 @@ import Info from './pages/ProfilePages/Info';
 import ProfileData from './pages/ProfilePages/ProfileData';
 import ChangePassword from './pages/ProfilePages/ChangePassword';
 import EditProfile from './pages/ProfilePages/EditProfile';
+import AuthRequired from './helpers/AuthRequired';
+import AdminAuthRequired from './helpers/AdminAuthRequired';
+import UserRequired from './helpers/UserRequired';
 
 function App() {
+  
+  const [showCart, setShowCart] = useState(false);
+  const [errorCarts, setCartsErrors] = useState([]);
+  const [cartItemsInfo, setCartItemsInfo] = useState([]);
+  const [infoPersonState, setInfoPersonState] = useState([]);
+  
   const [authState, setAuthState] = useState({
     id: 0,
     username: "",
     RoleId:0
   })
-
-  const [showCart, setShowCart] = useState(false);
-  const [errorCarts, setCartsErrors] = useState([]);
-  const [cartItemsInfo, setCartItemsInfo] = useState([]);
-  const [infoPersonState, setInfoPersonState] = useState([]);
-
-  const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
     if(accessToken !== null){
 
     axios.get("http://localhost:3001/user", {
@@ -55,11 +58,10 @@ function App() {
           'accessToken': `Bearer ${accessToken}`
         }
       }).then(response => {
-        let user = response.data;
         setAuthState({
-          id: user.id,
-          username: user.username,
-          RoleId: user.RoleId
+          id: response.data.id,
+          username: response.data.username,
+          RoleId: response.data.RoleId
         })
       }).catch(error =>{
         return <Home />
@@ -69,7 +71,7 @@ function App() {
     if(authState.id !== 0){
       getPersonInfo(authState.id);
     } 
-  }, [accessToken, authState.id]);
+  }, [authState.id]);
 
   const getPersonInfo = (id) => {
     axios.get(`http://localhost:3001/person/${id}`)
@@ -91,7 +93,7 @@ function App() {
     if(id !== 0){
       axios.get(`http://localhost:3001/cart/${id}`, {
         headers: {
-          'accessToken': `Bearer ${accessToken}`
+          'accessToken': `Bearer ${localStorage.getItem("accessToken")}`
         }
       })
       .then(response => setCartItemsInfo(response.data))
@@ -99,6 +101,7 @@ function App() {
     }
   }
 
+  console.log(authState);
   return (
       <AuthContext.Provider value={{authState, setAuthState, infoPersonState, setInfoPersonState, cartItemsInfo,setCartItemsInfo}}>
     <div className="App">
@@ -112,6 +115,8 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             
+            {authState.id !== 0 && (
+              <Route element={<AuthRequired />}>
               <Route path='profile' element={<Profile />}>
                 <Route index element={<Overview />}/>
                 <Route path='edit-profile' element={<EditProfile />}>
@@ -119,12 +124,18 @@ function App() {
                   <Route path='profile-data' element={<ProfileData />} />
                   <Route path='change-password' element={<ChangePassword />} />
                 </Route>
-                <Route path='my-cart' element={<MyCart />} />
-                <Route path='orders' element={<Orders />} />
-                <Route path='wishlist' element={<Wishlist />} />
+                <Route element={<UserRequired />}>
+                  <Route path='my-cart' element={<MyCart />} />
+                  <Route path='orders' element={<Orders />} />
+                  <Route path='wishlist' element={<Wishlist />} />
+                </Route>
               </Route>
+              </Route>
+            )}
             <Route path='*' element={<PageNotFound />} />
 
+            {authState.id !==0 && 
+            <Route element={<AdminAuthRequired />}>
               <Route path='admin-menu' element={<AdminMenu />}>
                 <Route path='add-admin' element={<AddAdmin />} />
                 <Route path='delete-admin' element={<DeleteAdmin />} />
@@ -135,6 +146,7 @@ function App() {
                 <Route path='see-comments' element={<SeeComments />} />
                 <Route path='orders' element={<SeeOrders />} />
               </Route>
+            </Route>}
           </Routes>
         {authState.RoleId !== 1 && 
         <Button 

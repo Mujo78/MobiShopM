@@ -67,14 +67,19 @@ export default function Navbars(){
                             {authState.RoleId === 1 ? <Nav.Link as={Link} to="admin-menu">System</Nav.Link> : ""}
                         </Nav>
                         {authState.id !== 0 ? 
-                            authState.id !== 1 &&
                         <Nav>
-                            <Nav.Link as={Link} to="/profile/wishlist">
-                                <Image src="/images/wishlist.png" alt="wishlist" style={{height: "20px"}} />
-                            </Nav.Link>
-                            <Nav.Link as={Link} to="/profile/my-cart">
-                                <Image src="/images/carts.png" alt="cart" style={{height: "20px"}} />
-                            </Nav.Link>
+                            {authState.RoleId === 2 ?
+                            <>
+                                <Nav.Link as={Link} to="/profile/wishlist">
+                                    <Image src="/images/wishlist.png" alt="wishlist" style={{height: "20px"}} />
+                                </Nav.Link>
+                                <Nav.Link as={Link} to="/profile/my-cart">
+                                    <Image src="/images/carts.png" alt="cart" style={{height: "20px"}} />
+                                </Nav.Link>
+                            </>
+                            :
+                            <></>    
+                            }
                             <Nav.Link as={Link} to="profile">
                                 <Image src="/images/user.png" alt="profile" style={{height: "20px"}} />
                             </Nav.Link>
