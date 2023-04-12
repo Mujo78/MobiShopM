@@ -10,6 +10,7 @@ import useResponsive from "../../components/useResponsive";
 import Container from "react-bootstrap/esm/Container";
 import Paginate from "../../components/Paginate";
 import { AuthContext } from "../../helpers/AuthContext";
+import Alert from "react-bootstrap/Alert";
 
 export default function Wishlist(){
 
@@ -48,7 +49,6 @@ export default function Wishlist(){
         })
         .then(() => {
             getWishItems();
-            toast.success("Item successfully deleted!")
         })
         .catch(error => console.log(error))
     }
@@ -139,12 +139,12 @@ export default function Wishlist(){
                 ))}
             </ListGroup>
 
-            <Container className="d-flex justify-content-center mb-3 mt-auto">
+            {wishState.length > 0 ? <Container className="d-flex justify-content-center mb-3 mt-auto">
                     <Paginate 
                         nPages = { nPages }
                         currentPage = { currentPage } 
                         setCurrentPage = { setCurrentPage }/>
-                 </Container>
+                 </Container> : <Alert variant="secondary" className="mt-5">Your wishlist is empty!</Alert>}
         </>
     )
 }

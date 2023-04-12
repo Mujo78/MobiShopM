@@ -3,8 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 
 import ListGroup from 'react-bootstrap/ListGroup';
-import { Link, useParams } from "react-router-dom";
-import BrandNav from "../components/BrandNavs";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Container from "react-bootstrap/esm/Container";
 import Cards from "../components/Card";
@@ -14,18 +13,23 @@ import Button from "react-bootstrap/esm/Button";
 
 export default function Models(){
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const brandIdFilter = searchParams.get("brand_id"); 
+    const location = useLocation();
+
+    
+
+
     const {isMobile, isTablet} = useResponsive();
     const [showOffMobile, setShowOffMobile] = useState(false);
     const [mobileData, setMobileData] = useState([]);
     const [brands, setBrands] = useState([]);
-    const {brandName} = useParams();
     let num = isTablet ? 6 : 8
 
     const [perPage] = useState(num);
     const [currentPage, setCurrentPage] = useState(1);
     const indexOfLastRecord = currentPage * perPage;
     const indexOfFirstRecord = indexOfLastRecord - perPage;
-    const nPages = Math.ceil(mobileData.length / perPage);
 
     useEffect(() => {
         axios.get("http://localhost:3001/brands")
@@ -34,7 +38,7 @@ export default function Models(){
         }).catch(error =>{
             console.log(error);
         })
-        axios.get(`http://localhost:3001/mobiles${brandName ? `/${brandName}` : ""}`)
+        axios.get(`http://localhost:3001/mobiles`)
         .then(response => {
             setMobileData(response.data);
             setCurrentPage(1);
@@ -42,18 +46,27 @@ export default function Models(){
         }).catch(error =>{
             console.log(error);
         })
-    }, [brandName])
+    }, [searchParams])
 
-    const data = 
-        mobileData
+    const filteredData = brandIdFilter && 
+        mobileData.filter(m => m.BrandId === parseInt(brandIdFilter));
+
+    const data = (brandIdFilter ? filteredData : mobileData)
             .slice(indexOfFirstRecord, indexOfLastRecord)
             .map(n =>{
                 return <Cards  key={n.id} mob={n}/>
     })
+    const nPages = Math.ceil(brandIdFilter ? filteredData.length / perPage : mobileData.length / perPage);
 
-    const brandsData = brands.map(n =>{
-        return <BrandNav  key={n.id} b={n}/>
-    })
+    const genNewSearcParam = (key, value) =>{
+        const sp = new URLSearchParams(searchParams)
+        if (value === null) {
+            sp.delete(key)
+        } else {
+            sp.set(key, value)
+        }
+        return `?${sp.toString()}`
+    }
 
     const handleShowOff = () =>{
         setShowOffMobile(true);
@@ -69,9 +82,28 @@ export default function Models(){
             <Button style={{position:"fixed", right: 0, borderRadius:"120px",textAlign:"center", backgroundColor:"#ffffff", color:"#219aeb"}} onClick={handleShowOff}>B</Button>
             : <Container className="d-flex p-0 flex-column w-25 jusify-center">
                 <ListGroup>
-                    <ListGroup.Item className="mb-2 text-center w-50" as={Link} to={`/models`} style={{borderRadius: "0px", border:"none"}} variant="secondary" action>All</ListGroup.Item>
+                    <ListGroup.Item 
+                        className="mb-2 text-center w-50" 
+                        as={Link} 
+                        to="." 
+                        style={{borderRadius: "0px", border:"none"}} 
+                        variant="secondary" 
+                        action>
+                            All
+                    </ListGroup.Item>
+                    {brands.map(n =>
+                        <ListGroup.Item key={n.id}
+                                style={{borderRadius: "0px", border:"none"}} 
+                                variant="secondary" 
+                                action 
+                                className="mb-2 text-center w-50" 
+                                as={Link} 
+                                to={genNewSearcParam("brand_id", n.id)} >
+                                    {n.name}
+                        </ListGroup.Item>
+                    )}
                 </ListGroup>
-                {brandsData}
+                
             </Container>}
             {mobileData ? 
             (
@@ -94,10 +126,30 @@ export default function Models(){
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                     <Container className="d-flex flex-column w-100 jusify-center">
-                        <ListGroup>
-                            <ListGroup.Item className="mb-2 text-center w-100" as={Link} to={`/models`} style={{borderRadius: "0px", border:"none"}} variant="secondary" action>All</ListGroup.Item>
-                        </ListGroup>
-                        {brandsData}
+                    <ListGroup>
+                    <ListGroup.Item 
+                        className="mb-2 text-center w-100" 
+                        as={Link} 
+                        to="."
+                        onClick={closeIt}
+                        style={{borderRadius: "0px", border:"none"}} 
+                        variant="secondary" 
+                        action>
+                            All
+                    </ListGroup.Item>
+                    {brands.map(n =>
+                        <ListGroup.Item key={n.id}
+                                style={{borderRadius: "0px", border:"none"}} 
+                                variant="secondary" 
+                                action 
+                                className="mb-2 text-center w-100" 
+                                as={Link}
+                                onClick={closeIt}
+                                to={genNewSearcParam("brand_id", n.id)} >
+                                    {n.name}
+                        </ListGroup.Item>
+                    )}
+                </ListGroup>
                     </Container>
                 </Offcanvas.Body>
                 <Offcanvas.Header>

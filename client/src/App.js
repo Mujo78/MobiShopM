@@ -101,7 +101,6 @@ function App() {
     }
   }
 
-  console.log(authState);
   return (
       <AuthContext.Provider value={{authState, setAuthState, infoPersonState, setInfoPersonState, cartItemsInfo,setCartItemsInfo}}>
     <div className="App">

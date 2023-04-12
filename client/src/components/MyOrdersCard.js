@@ -65,6 +65,14 @@ export default function MyOrdersCard() {
         getData();
     }, [authState.id])
 
+    const betterLook = (date) =>{
+        const dates = date.slice(0,10);
+        const time = date.slice(11, 22);
+
+        return dates + '/' + time;
+    }
+
+    const sortedOrders = myOrders.length > 0 && myOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     return(
         <>
@@ -72,8 +80,8 @@ export default function MyOrdersCard() {
             <p style={{fontSize: "13px"}}>{myOrders.length} {myOrders.length > 0 ? "ITEMS" : "ITEM" }</p>
 
             <ListGroup>
-                {myOrders && 
-                    myOrders
+                {sortedOrders && 
+                    sortedOrders
                     .slice(indexOfFirstRecord, indexOfLastRecord)
                     .map(n => (
                         <ListGroup.Item key={n.id} className="mb-2 d-flex justify-content-between align-items-center" style={{border: "1px solid #219aeb", borderRadius: 0}}>
@@ -93,9 +101,9 @@ export default function MyOrdersCard() {
                                 <Col>
                                 {
                                     n.order_status === "Pending" ? 
-                                        <p className="m-0"><span style={{color: "#c0c0c0", fontSize: "22px"}}>•</span> {n.order_status} <br/> <span style={{fontSize: "10px"}}>{n.updatedAt}</span></p> : 
-                                        n.order_status === "Shipped" ? <p className="m-0"><span style={{color: "green", fontSize: "22px"}}>•</span> {n.order_status}<br/><span style={{fontSize: "10px"}}>{n.updatedAt}</span></p> :
-                                        <p className="m-0"><span style={{color: "red", fontSize: "22px"}}>•</span> {n.order_status}<br/> <span style={{fontSize: "10px"}}>{n.updatedAt}</span></p>
+                                        <p className="m-0"><span style={{color: "#c0c0c0", fontSize: "22px"}}>•</span> {n.order_status} <br/> <span style={{fontSize: "10px"}}>{betterLook(n.updatedAt)}</span></p> : 
+                                        n.order_status === "Shipped" ? <p className="m-0"><span style={{color: "green", fontSize: "22px"}}>•</span> {n.order_status}<br/><span style={{fontSize: "10px"}}>{betterLook(n.updatedAt)}</span></p> :
+                                        <p className="m-0"><span style={{color: "red", fontSize: "22px"}}>•</span> {n.order_status}<br/> <span style={{fontSize: "10px"}}>{betterLook(n.updatedAt)}</span></p>
                                 }
                                 </Col>
                             
@@ -105,15 +113,15 @@ export default function MyOrdersCard() {
                                 <Col>
                                 {
                                     n.order_status === "Pending" ? 
-                                        <p style={{}}><span style={{color: "#c0c0c0", fontSize: "22px"}}>•</span> {n.order_status} on {!isMobile && n.createdAt}</p> : 
-                                        n.order_status === "Shipped" ? <p><span style={{color: "green", fontSize: "22px"}}>•</span> {n.order_status} on {!isMobile && n.updatedAt}</p> :
-                                        <p><span style={{color: "red", fontSize: "22px"}}>•</span> {n.order_status} on {!isMobile && n.updatedAt}</p>
+                                        <p style={{}}><span style={{color: "#c0c0c0", fontSize: "22px"}}>•</span> {n.order_status} on {!isMobile && betterLook(n.createdAt)}</p> : 
+                                        n.order_status === "Shipped" ? <p><span style={{color: "green", fontSize: "22px"}}>•</span> {n.order_status} on {!isMobile && betterLook(n.updatedAt)}</p> :
+                                        <p><span style={{color: "red", fontSize: "22px"}}>•</span> {n.order_status} on {!isMobile && betterLook(n.updatedAt)}</p>
                                 }
                                 </Col>
                                 </>
-                                <>
-                                <img src={n.photo} alt="img" style={{height: "100px"}} />
-                                </>
+                                    <>
+                                        <img src={n.photo} alt="img" style={{height: "100px"}} />
+                                    </>
                                 </>
                                 }
                             <OrderInfo 

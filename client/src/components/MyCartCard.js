@@ -31,15 +31,13 @@ export default function MyCartCard(){
 
     const {authState, infoPersonState, cartItemsInfo, setCartItemsInfo} = useContext(AuthContext);
     const [showOrderModal, setShowOrderModal] = useState(false);
+    const [specificPhone, setSpecificPhone] = useState(null);
     const {isMobile, isTablet} = useResponsive();
+    
     const handleClose = () => {
-        getCartItemsInfo();
+        getCartItemsInfo(); 
         setShowOrderModal(false);
     }
-    const handleShow = () =>{
-        getCartItemsInfo(); 
-        setShowOrderModal(true)
-    };
 
     const getCartItemsInfo = () => {
         if(authState.id !== 0){
@@ -70,6 +68,11 @@ export default function MyCartCard(){
       useEffect(() =>{
         getCartItemsInfo();
       }, [])
+
+      const orderSpecificPhone = (n) =>{
+        setSpecificPhone(n);
+        setShowOrderModal(true);
+      }
 
     return(
         <>
@@ -118,7 +121,7 @@ export default function MyCartCard(){
                             <h6>{isMobile && "T:"} {n.price*n.quantity} KM</h6>
                         </Col>
                         <Col sm={isTablet? 2:1}>
-                            <Button style={{backgroundColor: "#219aeb", borderRadius: 0, border: "none"}} onClick={handleShow} >Order</Button>
+                            <Button style={{backgroundColor: "#219aeb", borderRadius: 0, border: "none"}} onClick={()=>orderSpecificPhone(n)} >Order</Button>
                         </Col>
                         <Col sm={isTablet? 1: 2}>
                             
@@ -127,13 +130,14 @@ export default function MyCartCard(){
                             </Button>
                         </Col>
                     </Container>
-                    <OrderModal 
-            show={showOrderModal}
-            handleClose={handleClose}
-            qnty={n.quantity}
-            data={n}
-            dataPerson={infoPersonState}
-            />
+                    {showOrderModal &&
+                    <OrderModal
+                        show={showOrderModal}
+                        handleClose={handleClose}
+                        data={specificPhone}
+                        dataPerson={infoPersonState}
+                    />
+                    }
                 </CustomListGroupItem>
         ))} </ListGroup>: 
             <Alert className="mt-5 text-center" variant="secondary">Cart is empty</Alert>

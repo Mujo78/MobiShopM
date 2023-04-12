@@ -106,7 +106,7 @@ export default function MobileModal({data, onHide, show}){
       <OrderModal 
         show={showOrderModal}
         handleClose={handleClose}
-        qnty={quantity}
+        qntys={quantity}
         data={data}
         dataPerson={personInfoState}
         />

@@ -303,7 +303,7 @@ export default function Accordions(props){
                                 value={props.searchFormDataState.BrandId}>
                                         <option value="All">All</option>
                                         {props.brands.map(n => (
-                                            <option key={n.id} value={n.id}>{n.ime}</option>
+                                            <option key={n.id} value={n.id}>{n.name}</option>
                                         ))}
                                 </Form.Select>
                         </Accordion.Body>

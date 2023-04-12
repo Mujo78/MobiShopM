@@ -15,6 +15,7 @@ export default function Cart({show, onHide, personData, refreshData}){
 
   const {authState, cartItemsInfo} = useContext(AuthContext);
   const [showOrderForMobile, setShowOrderForMobile] = useState(false);
+  const [specificPhone, setSpecificPhone] = useState(null);
 
   const deleteItem = (id) =>{
     console.log("Deleted " + id);
@@ -35,10 +36,15 @@ export default function Cart({show, onHide, personData, refreshData}){
     refreshData(authState.id);
   }, [authState.id, showOrderForMobile])
 
-  const orderSpecificPhone = () =>{
+  const orderSpecificPhone = (n) =>{
+    setSpecificPhone(n);
     setShowOrderForMobile(true);
   }
-  const handleCloseOrderSpecificPhone = () => setShowOrderForMobile(false);
+  const handleCloseOrderSpecificPhone = () => {
+    setShowOrderForMobile(false)
+  };
+
+  console.log(specificPhone);
 
   const btnStyle ={
       backgroundColor: "#219aeb",
@@ -59,7 +65,7 @@ export default function Cart({show, onHide, personData, refreshData}){
               <ListGroup.Item key={n.id} className='mt-2' style={{border: "1px solid #C0C0C0"}}>
                   <h6>{n.mobile_name} ({n.internal}/{n.ram} GB)</h6>
                   <div className='d-flex'>
-                  <Button className='me-1' onClick={()=>orderSpecificPhone()} style={btnStyle}>Order</Button>
+                  <Button className='me-1' onClick={()=>orderSpecificPhone(n)} style={btnStyle}>Order</Button>
                   <h3 className='mx-auto'>Q: {n.quantity}</h3>
                   <Button className='ms-auto' onClick={() => deleteItem(n.id)} style={{backgroundColor: "transparent", border:"none"}} >
                     <Image src="/images/trash.png" alt="trash" style={{height: "20px"}} />
@@ -69,8 +75,7 @@ export default function Cart({show, onHide, personData, refreshData}){
                     <OrderModal 
                       show={showOrderForMobile}
                       handleClose={handleCloseOrderSpecificPhone}
-                      data={n}
-                      qnty={n.quantity}
+                      data={specificPhone}
                       dataPerson={personData}
                       />}
               </ListGroup.Item>

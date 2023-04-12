@@ -5,7 +5,7 @@ export default function CarouselSlider() {
   return (
     <Carousel>
       <Carousel.Item>
-        <Link to={`/models/Apple`}>
+        <Link to={`/models?brand_id=2`}>
         <img
           className="d-block w-100"
           src="../images/Iphones.png"
@@ -14,7 +14,7 @@ export default function CarouselSlider() {
         </Link>
       </Carousel.Item>
       <Carousel.Item>
-      <Link to={`/models/Samsung`}>
+      <Link to={`/models?brand_id=1`}>
         <img
           className="d-block w-100"
           src="../images/S22s.png"
@@ -23,7 +23,7 @@ export default function CarouselSlider() {
         </Link>
       </Carousel.Item>
       <Carousel.Item>
-      <Link to={`/models/Xiaomi`}>
+      <Link to={`/models?brand_id=3`}>
         <img
           className="d-block w-100"
           src="../images/Xiaomis.png"

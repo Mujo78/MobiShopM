@@ -2,27 +2,18 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import {useState } from 'react';
+import {useEffect, useState } from 'react';
 import Form from "react-bootstrap/Form";
 import FormGroup from 'react-bootstrap/esm/FormGroup';
 import { toast } from 'react-toastify';
 import Container from 'react-bootstrap/esm/Container';
 
-export default function OrderModal({dataPerson, data, qnty, show, handleClose}){  
+export default function OrderModal({dataPerson, data,qntys, show, handleClose}){  
 
-  const [infoFormState] = useState({
-    name: dataPerson.first_name,
-    lastName: dataPerson.last_name,
-    city: dataPerson.city,
-    address: dataPerson.address,
-    deviceName: data.mobile_name,
-    quantity: qnty,
-    totalCost: qnty * data.price
-  })
-
+  console.log(data.quantity)
   const [orderInfoState, setOrderInfoState] = useState({
     payment_info: "Delivery",
-    qnty: qnty
+    qnty: qntys === null ? data.quantity : qntys
   })
   const handleChange = (event) =>{
     const {name, value} = event.target;
@@ -33,9 +24,9 @@ export default function OrderModal({dataPerson, data, qnty, show, handleClose}){
     }))
   }
 
-  const BuyIt = () =>{
+  const BuyIt = (id) =>{
     
-    axios.post(`http://localhost:3001/buy-now-route/${data.id}`, orderInfoState, {
+    axios.post(`http://localhost:3001/buy-now-route/${id}`, orderInfoState, {
       headers:{
         'accessToken' : `Bearer ${localStorage.getItem("accessToken")}`
       }
@@ -53,8 +44,13 @@ export default function OrderModal({dataPerson, data, qnty, show, handleClose}){
       borderRadius: 0
     }
 
+    
+
     return(
-        <Modal show={show} onHide={handleClose} animation={true}>
+        <Modal 
+            show={show} 
+            onHide={handleClose}
+            animation={true}>
         <Modal.Header closeButton>
           <Modal.Title>Order details</Modal.Title>
         </Modal.Header>
@@ -66,7 +62,7 @@ export default function OrderModal({dataPerson, data, qnty, show, handleClose}){
               type='text'
               disabled
               name='name'
-              value={infoFormState.name}
+              value={dataPerson.first_name}
             >
             </Form.Control>
             </Container>
@@ -76,7 +72,7 @@ export default function OrderModal({dataPerson, data, qnty, show, handleClose}){
               type='text'
               disabled
               name='lastName'
-              value={infoFormState.lastName}
+              value={dataPerson.last_name}
             >
             </Form.Control>
             </Container>
@@ -88,7 +84,7 @@ export default function OrderModal({dataPerson, data, qnty, show, handleClose}){
               type='text'
               disabled
               name='city'
-              value={infoFormState.city}
+              value={dataPerson.city}
             >
             </Form.Control>
             </Container>
@@ -98,7 +94,7 @@ export default function OrderModal({dataPerson, data, qnty, show, handleClose}){
               type='text'
               disabled
               name='address'
-              value={infoFormState.address}
+              value={dataPerson.address}
             >
             </Form.Control>
             </Container>
@@ -110,7 +106,7 @@ export default function OrderModal({dataPerson, data, qnty, show, handleClose}){
               type='text'
               disabled
               name='deviceName'
-              value={infoFormState.deviceName}
+              value={data.mobile_name}
             >
             </Form.Control>
             </Container>
@@ -122,7 +118,7 @@ export default function OrderModal({dataPerson, data, qnty, show, handleClose}){
               type='text'
               disabled
               name='quantity'
-              value={infoFormState.quantity}
+              value={qntys === null ? data.quantity : qntys}
             >
             </Form.Control>
             </Container>
@@ -132,7 +128,7 @@ export default function OrderModal({dataPerson, data, qnty, show, handleClose}){
               type='text'
               disabled
               name='totalCost'
-              value={infoFormState.totalCost}
+              value={data.price * (qntys === null ? data.quantity : qntys)}
             >
             </Form.Control>
             </Container>
@@ -165,7 +161,7 @@ export default function OrderModal({dataPerson, data, qnty, show, handleClose}){
           </FormGroup>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={BuyIt} style={btnStyle}>
+          <Button variant="primary" onClick={() => BuyIt(data.id)} style={btnStyle}>
             Order
           </Button>
           <Button variant="secondary" onClick={handleClose} style={{borderRadius: 0}}>

@@ -12,7 +12,7 @@ router.get("/mobiles", async(req, res) => {
     try{
         const allOfThem = await Mobile.findAll();
         if(allOfThem === null){
-            return res.status(401).json("Nema mobitela na stanju.");
+            return res.status(401).json("Not available!");
         }else{
             return res.status(200).json(allOfThem);        
         }
