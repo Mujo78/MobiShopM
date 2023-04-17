@@ -1,7 +1,9 @@
 {
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --inspect index.js"
+    "start": "npm-run-all --parallel start:**",
+    "start:server": "nodemon --inspect index.js",
+    "start:seed": "npx sequelize db:seed:all"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -10,7 +12,7 @@
     "express": "^4.18.2",
     "express-validator": "^6.14.3",
     "jsonwebtoken": "^9.0.0",
-    "mysql2": "^3.1.0",
-    "sequelize": "^6.28.0"
+    "mysql2": "^3.2.3",
+    "sequelize": "^6.31.0"
   }
 }

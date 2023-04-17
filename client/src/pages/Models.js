@@ -3,24 +3,21 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 
 import ListGroup from 'react-bootstrap/ListGroup';
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Container from "react-bootstrap/esm/Container";
 import Cards from "../components/Card";
 import Paginate from "../components/Paginate";
 import useResponsive from "../components/useResponsive";
 import Button from "react-bootstrap/esm/Button";
+import Alert from "react-bootstrap/esm/Alert";
 
 export default function Models(){
 
     const [searchParams, setSearchParams] = useSearchParams();
     const brandIdFilter = searchParams.get("brand_id"); 
-    const location = useLocation();
 
-    
-
-
-    const {isMobile, isTablet} = useResponsive();
+    const {isMobile, isTablet, isDesktop} = useResponsive();
     const [showOffMobile, setShowOffMobile] = useState(false);
     const [mobileData, setMobileData] = useState([]);
     const [brands, setBrands] = useState([]);
@@ -105,7 +102,7 @@ export default function Models(){
                 </ListGroup>
                 
             </Container>}
-            {mobileData ? 
+            {mobileData.length > 0 ? 
             (
             <Container fluid className="d-flex w-75 p-0 flex-column">
             
@@ -118,7 +115,7 @@ export default function Models(){
                 currentPage = { currentPage } 
                 setCurrentPage = { setCurrentPage }/>
                 </Container>
-            </Container>) : <h2>Loading</h2>}
+            </Container>) : <Alert className={`${isDesktop ? `w-75` : `w-100`} text-center`}>Our store is currently empty!</Alert>}
         </Container>
         <Offcanvas show={showOffMobile} placement="end" onHide={closeIt}>
                 <Offcanvas.Header closeButton>

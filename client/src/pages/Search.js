@@ -11,7 +11,7 @@ import axios from 'axios';
 
 export default function Search(){
 
-    const {isMobile, isTablet} = useResponsive();
+    const {isMobile, isTablet, isDesktop} = useResponsive();
 
     const [brands, setBrands] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
@@ -115,12 +115,13 @@ export default function Search(){
                     : <Container className='d-flex flex-wrap justify-content-start align-items-center'> {mobitels} </Container>}
                         
                 </Container>
-                <Container className="d-flex mt-auto justify-content-center p-0 mt-2">
+
+                {mobiles.length > 0 ? <Container className="d-flex mt-auto justify-content-center p-0 mt-2">
                 <Paginate
                     nPages = { nPages }
                     currentPage = { currentPage } 
                     setCurrentPage = { setCurrentPage }/>
-                </Container>
+                </Container> : <Alert className={`${isDesktop ? `w-75` : `w-100`} text-center`}>Our store is currently empty!</Alert>}
             </Container>
         </Container>
         

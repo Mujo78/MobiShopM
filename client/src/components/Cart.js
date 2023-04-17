@@ -44,8 +44,6 @@ export default function Cart({show, onHide, personData, refreshData}){
     setShowOrderForMobile(false)
   };
 
-  console.log(specificPhone);
-
   const btnStyle ={
       backgroundColor: "#219aeb",
       border: "none",

@@ -13,16 +13,12 @@ export default function SeeComments(){
 
     const [comments, setComments] = useState([]);
     const [errorComment, setErrorComment] = useState([]);
-    const [showMore, setShowMore] = useState(false);
 
     const [perPage] = useState(isTablet ? 9 : 6);
     const [currentPage, setCurrentPage] = useState(1);
     const indexOfLastRecord = currentPage * perPage;
     const indexOfFirstRecord = indexOfLastRecord - perPage;
     const nPages = Math.ceil(comments.length / perPage);
-
-
-    const [newComm, setNewComm] = useState();
 
     const getComments = () => {
         axios.get("http://localhost:3001/comments", {
@@ -36,27 +32,6 @@ export default function SeeComments(){
     useState(()=>{
         getComments();
     }, [comments])
-
-    const showAllComment = (id, comment) => {
-        let comLength = comment.length; 
-        let oneRow = comLength / 50;
-        console.log(oneRow);
-
-        let newCom = "";
-        let num = 0;
-
-        for(let i = 0;i <= oneRow; i++){
-            newCom += comment.substring(num, num+50) + "\n";
-            num = num + 50;
-            console.log(i);
-        }
-
-        setNewComm(newCom);
-        setShowMore(true);
-    }
-    const showLess = () =>{
-        setShowMore(false);
-    }
 
     const replyComment = (email) => {
         window.location.href = `mailto:${email}`
@@ -85,7 +60,7 @@ export default function SeeComments(){
                 <th>No.</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Comment</th>
+                <th style={{width: "500px", padding:0, paddingBottom: 7}}>Comment</th>
                 <th>Reply</th>
                 <th>Delete</th>
                 </tr>
@@ -98,16 +73,18 @@ export default function SeeComments(){
                   <td>{n.id}.</td>
                   <td>{n.name}</td>
                   <td>{n.email}</td>
-                  <td style={{fontSize:"12px"}}>
-                        {n.comment.length >51 ? 
-                            !showMore ?
-                                <Container className="d-flex p-0  align-items-center"> {n.comment.substring(0,55)}
-                                    <Button className="p-0 text-muted" variant="link" onClick={() => showAllComment(n.id, n.comment)}>...read more</Button>
-                                </Container> : <Container className="p-0">
-                                            {newComm}
-                                            <Button variant="link" style={{fontSize:"12px"}}  className="p-0 text-muted" onClick={showLess}>...show less</Button>
-                                            </Container> 
-                                : n.comment}
+                  <td style={{fontSize:"12px", height: "40px", padding: 0}}>
+                        {n.comment.length >50 ? (
+                            <Container style={{maxHeight:"32px",wordWrap: "break-word", overflowY:"auto",width: "500px", overflowX:"hidden", padding: 0}}>
+                                {n.comment}
+                            </Container>)
+                            : 
+                            (
+                            <Container style={{padding: 0}}>
+                                {n.comment}
+                            </Container>
+                        )}
+                           
                     </td>
                   <td><Button onClick={() => replyComment(n.email)}>Reply</Button></td>
                   <td><Button onClick={() => deleteComment(n.id)}>Delete</Button></td>

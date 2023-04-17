@@ -5,5 +5,5 @@ export default function useResponsive(){
     const isTablet = useMediaQuery({minWidth: 768, maxWidth: 991})
     const isDesktop = useMediaQuery({minWidth: 991})
 
-    return {isMobile, isTablet, isDesktop }
+    return {isMobile, isTablet, isDesktop}
 }

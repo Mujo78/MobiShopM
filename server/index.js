@@ -9,6 +9,7 @@ app.use(express.json());
 app.use(cors({
     origin: "*"
 }))
+
 const db = require("./models")
 
 const personRutes = require("./routes/person-routes")

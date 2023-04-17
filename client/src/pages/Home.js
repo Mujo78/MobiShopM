@@ -41,12 +41,14 @@ export default function Home(){
         display:"flex",
         justifyContent :"center"
     };
+
     const styles = {
         transform: 'scale(0.8)',
         transition: 'all 0.3s ease-in-out',
         filter: 'brightness(0.6) contrast(0.8) saturate(0.1) sepia(0.1) hue-rotate(65deg)',
         opacity: '0.5'
     };
+
     let number;
     if(isMobile){
         number = 120;
@@ -60,37 +62,53 @@ export default function Home(){
 
     return(
         <>
-        <br/>
-            <CarouselSlider />
-        <br/>
-        <br/>
-        <Container fluid>
-            <Row className={`${nameOfClass} flex-row flex-wrap align-items-center my-4`}>
-                <Col sm={isTablet ? 0: 1} className={`${nameOfClass}  me-1`}>
-                <img src="../images/shop.png" alt="shop" />
-                </Col>
-                <Col sm={isTablet ? 0:2} className={`${nameOfClass} mt-3 mt-sm-0`}>
-                <p className="text-center text-sm-start"><strong>Safe online shopping</strong><br />Device review before purchase</p>
-                </Col>
-                <Col sm={isTablet ? 0:1} className={`${nameOfClass} mt-3 me-1 mt-sm-0`}>
-                <img src="../images/shipping.png" alt="shipping" />
-                </Col>
-                <Col sm={isTablet ? 0:2} className={`${nameOfClass} mt-3 mt-sm-0`}>
-                <p className="text-center text-sm-start"><strong>Free delivery</strong><br />Delivery in 24/48h</p>
-                </Col>
-                <Col sm={isTablet ? 0:1} className={`${nameOfClass} mt-3 me-1 mt-sm-0`}>
-                <img src="../images/cash.png" alt="cash" />
-                </Col>
-                <Col sm={isTablet ? 0:3} className={`${nameOfClass} mt-3 mt-sm-2`}>
-                <p className="text-center text-sm-start"><strong>Possibility of purchase in installments</strong><br />Up to 36 installments</p>
-                </Col>
-            </Row>
-        </Container>
-        <br/>
-        <Container fluid className="mb-5">
-
-            <h3 style={{textDecoration:"underline"}} className="mt-5">Top prices</h3>
-            <CustomCarousel showArrows={true}
+            <br/>
+                <CarouselSlider />
+            <br/><br/>
+            <Container fluid>
+                <Row className={`${nameOfClass} flex-row flex-wrap align-items-center my-4`}>
+                    <Col sm={isTablet ? 0: 1} className={`${nameOfClass}  me-1`}>
+                        <img src="../images/shop.png" alt="shop" />
+                    </Col>
+                    <Col sm={isTablet ? 0:2} className={`${nameOfClass} mt-3 mt-sm-0`}>
+                        <p className="text-center text-sm-start">
+                            <strong>
+                                Safe online shopping
+                            </strong><br />
+                            Device review before purchase
+                        </p>
+                    </Col>
+                    <Col sm={isTablet ? 0:1} className={`${nameOfClass} mt-3 me-1 mt-sm-0`}>
+                        <img src="../images/shipping.png" alt="shipping" />
+                    </Col>
+                    <Col sm={isTablet ? 0:2} className={`${nameOfClass} mt-3 mt-sm-0`}>
+                        <p className="text-center text-sm-start">
+                            <strong>
+                                Free delivery
+                            </strong><br />
+                            Delivery in 24/48h
+                        </p>
+                    </Col>
+                    <Col sm={isTablet ? 0:1} className={`${nameOfClass} mt-3 me-1 mt-sm-0`}>
+                        <img src="../images/cash.png" alt="cash" />
+                    </Col>
+                    <Col sm={isTablet ? 0:3} className={`${nameOfClass} mt-3 mt-sm-2`}>
+                        <p className="text-center text-sm-start">
+                            <strong>
+                                Possibility of purchase in installments
+                            </strong><br />
+                                Up to 36 installments
+                        </p>
+                    </Col>
+                </Row>
+            </Container>
+            <br/>
+            <Container fluid className="mb-5">
+                <h3 style={{textDecoration:"underline"}} className="mt-5">
+                    Top prices
+                </h3>
+                <CustomCarousel 
+                    showArrows={true}
                     showStatus={false}
                     showThumbs={false}
                     emulateTouch={true}
@@ -104,18 +122,17 @@ export default function Home(){
                     transitionTime={3000}
                     showIndicators={true}
                     onChange={i => i===topPricesState.length ?  setActiveIndex(topPricesState.length - 1 - (i % topPricesState.length)) : setActiveIndex(i)}
-                    selectedItem={activeIndex}
-                    >
-                        {topPricesState.length && topPricesState.map((n, index) => (
-                            <Container key={n.id} style={activeIndex === index ? activeStyles : styles}>
-                                <Cards mob={n} />
-                            </Container>))
-                        }
-        
-      </CustomCarousel>
-        </Container>
-        <br/>
-
+                    selectedItem={activeIndex}>
+                            {
+                                topPricesState.length && topPricesState.map((n, index) => (
+                                        <Container key={n.id} style={activeIndex === index ? activeStyles : styles}>
+                                            <Cards mob={n} />
+                                        </Container>
+                                    ))
+                            }
+                </CustomCarousel>
+            </Container>
+            <br/>
             <Footer />
         </>
     )

@@ -6,6 +6,8 @@ import Button from "react-bootstrap/esm/Button";
 import styled from "styled-components";
 import useResponsive from "../components/useResponsive";
 import ListGroup from "react-bootstrap/ListGroup";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 
 const CustomContainer = styled(Container)
@@ -46,8 +48,22 @@ export default function Profile(){
     }
 
     const deleteMyAcc = () => {
-        console.log("Delete acc")
+        try{
+            const answer = window.confirm("Are you sure you want to delete your account?");
+
+            if(answer){
+                axios.delete(`http://localhost:3001/delete/${authState.id}`,{
+                    headers:{
+                        'accessToken' : `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                })
+                logOutFunction();
+            }
+        }catch(error){
+            toast.error(error.message)
+        }
     }
+    
     const name = infoPersonState.first_name + " " + infoPersonState.last_name;
 
     const styles = {

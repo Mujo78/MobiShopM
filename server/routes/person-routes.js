@@ -169,20 +169,21 @@ router.put("/edit-profile/:id",authMiddleware,editProfileValidator, async(req,re
         res.status(401).json(error)
     }
 })
-
-
-router.delete("/delete/:id" ,async(req, res) => {
+router.delete("/delete/:id", authMiddleware ,async(req, res) => {
     try{
+        
         const ids = req.params.id;
+        const UserWithId = await User.findOne({where: {id: ids}});
         const toDelete = await Persons.findOne({
             where: {
-                id : ids
+                id : UserWithId.PersonId
             }
         });
         await toDelete.destroy();
 
     }catch(error){
-        console.log(error);
+        console.log(error)
+        //res.status(401).json(error)
     }
 })
 
