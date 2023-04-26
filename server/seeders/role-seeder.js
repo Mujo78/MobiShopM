@@ -1,18 +1,24 @@
 'use strict';
+const {Role} = require("../models")
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface) {
-    await queryInterface.bulkInsert('Roles', [
-      {
-        id: 1,
-        name: 'Admin'
-      },
-      {
-        id: 2,
-        name: 'User'
-      }
-    ])
+
+    const adminRoles = await Role.findAll();
+
+    if(adminRoles.length === 0){
+      await queryInterface.bulkInsert('Roles', [
+        {
+          id: 1,
+          name: 'Admin'
+        },
+        {
+          id: 2,
+          name: 'User'
+        }
+      ])
+    }
   },
 
   async down (queryInterface) {

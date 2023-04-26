@@ -37,6 +37,10 @@ import AuthRequired from './helpers/AuthRequired';
 import AdminAuthRequired from './helpers/AdminAuthRequired';
 import UserRequired from './helpers/UserRequired';
 
+export function loader(){
+  return 
+}
+
 function App() {
   
   const [showCart, setShowCart] = useState(false);

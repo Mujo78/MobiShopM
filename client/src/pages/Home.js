@@ -11,7 +11,6 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styled from 'styled-components';
 import useResponsive from "../components/useResponsive";
 
-
 const CustomCarousel = styled(Carousel)`
 .carousel .control-dots .dot{
     background-color: #219aeb;
@@ -27,7 +26,6 @@ export default function Home(){
     const {isMobile, isTablet} = useResponsive();
     const [topPricesState, setTopPricesState] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
-
 
     useEffect(() =>{
         axios.get("http://localhost:3001/mobiles-top-prices")
@@ -103,7 +101,8 @@ export default function Home(){
                 </Row>
             </Container>
             <br/>
-            <Container fluid className="mb-5">
+            {topPricesState.length > 0 && (
+                <Container fluid className="mb-5">
                 <h3 style={{textDecoration:"underline"}} className="mt-5">
                     Top prices
                 </h3>
@@ -131,7 +130,9 @@ export default function Home(){
                                     ))
                             }
                 </CustomCarousel>
-            </Container>
+                </Container>
+            )}
+           
             <br/>
             <Footer />
         </>

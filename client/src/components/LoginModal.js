@@ -73,7 +73,7 @@ export default function LoginModal({handleClose, show}){
             </Modal.Header>
             <Modal.Body>
               <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-0">
+                <Form.Group className="mb-2">
                   <Form.Label>Username</Form.Label>
                   <Form.Control
                     type="text"
