@@ -137,12 +137,13 @@ export default function MyOrdersCard() {
                 }
             </ListGroup>
 
+                {myOrders.length > 0 && 
                 <Container className="d-flex justify-content-center mt-2">
                     <Paginate 
                         nPages = { nPages }
                         currentPage = { currentPage } 
                         setCurrentPage = { setCurrentPage }/>
-                 </Container>
+                 </Container>}
         </>
     )
 }
