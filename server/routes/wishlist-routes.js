@@ -53,17 +53,19 @@ router.get("/wish-items",authMiddleware, async(req, res) =>{
         const id = req.user.id;
 
         const wishFromUser = await Wishlist.findOne({where: {UserId: id}});
-        const itemsFromUsersWish = await Wish_item.findAll({where: {WishlistId : wishFromUser.id}, include : [Mobile]})
-
-        const info = itemsFromUsersWish.map(n => {
-            const {id, WishlistId, MobileId, Mobile} = n;
-            const {mobile_name, ram, internal,price, photo, processor} = Mobile;
-
-            return {
-                id, WishlistId, MobileId,mobile_name,price, ram, internal, photo, processor
-            }
-        })
-        return res.status(200).json(info);
+        if(wishFromUser !== null){
+            const itemsFromUsersWish = await Wish_item.findAll({where: {WishlistId : wishFromUser.id}, include : [Mobile]})
+    
+            const info = itemsFromUsersWish.map(n => {
+                const {id, WishlistId, MobileId, Mobile} = n;
+                const {mobile_name, ram, internal,price, photo, processor} = Mobile;
+    
+                return {
+                    id, WishlistId, MobileId,mobile_name,price, ram, internal, photo, processor
+                }
+            })
+            return res.status(200).json(info);
+        }
 
 
     }catch(error){
