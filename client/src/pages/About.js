@@ -47,9 +47,6 @@ const Cols = styled(Col)
 export default function About(){
     
     const {isMobile} = useResponsive();
-    const cl = {
-        id: 1
-    }
 
     return(
         <>
