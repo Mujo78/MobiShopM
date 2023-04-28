@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { redirect, Outlet } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 
 export default function UserRequired(){
@@ -10,13 +10,13 @@ export default function UserRequired(){
         if(!ac){
             if(authState.RoleId !== 2){
                 return (
-                    <Navigate to='*' />
+                    redirect("*")
                 )
             }
         }else if(ac){
             if(authState.RoleId !== 2){
                 return (
-                    <Navigate to='*' />
+                    redirect("*")
                 )
             }
         }

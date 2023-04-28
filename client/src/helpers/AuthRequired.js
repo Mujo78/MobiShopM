@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { redirect, Outlet } from "react-router-dom";
 
 export default function AuthRequired(){
     
@@ -6,7 +6,7 @@ export default function AuthRequired(){
 
     if(!isLoggedIn){
         return(
-            <Navigate to="*" />
+            redirect("*")
         )
     }
 

@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { AuthContext } from "./AuthContext"
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet, redirect } from "react-router-dom";
 
 export default function AdminAuthRequired(){
     const {authState} = useContext(AuthContext);
@@ -9,13 +9,13 @@ export default function AdminAuthRequired(){
         if(!ac){
             if(authState.RoleId !== 1){
                 return (
-                    <Navigate to='*' replace />
+                    redirect("*")
                 )
             }
         }else if(ac){
             if(authState.RoleId !== 1){
                 return (
-                    <Navigate to='*' replace />
+                    redirect("*")
                 )
             }
         }
