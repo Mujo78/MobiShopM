@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import ListGroup from "react-bootstrap/esm/ListGroup";
 import { toast } from "react-toastify";
+import { useSearchParams } from "react-router-dom";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import Button from "react-bootstrap/esm/Button";
@@ -14,12 +15,15 @@ import Alert from "react-bootstrap/Alert";
 
 export default function Wishlist(){
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = searchParams.get("page");
+
     const [wishState, setWishState] = useState([]);
     const {authState} = useContext(AuthContext);
     const [quantity] = useState(1);
     const {isMobile, isTablet} = useResponsive();
     const [perPage] = useState(isTablet ? 5 : 4);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(parseInt(page) ? parseInt(page) : 1);
     const indexOfLastRecord = currentPage * perPage;
     const indexOfFirstRecord = indexOfLastRecord - perPage;
     const nPages = Math.ceil(wishState.length / perPage);
@@ -79,6 +83,24 @@ export default function Wishlist(){
         border:"none"
     }
     const nameOfClass = "d-flex align-items-center";
+
+    const genNewSearcParam = (key, value) =>{
+        const sp = new URLSearchParams(searchParams)
+        if (value === null) {
+            sp.delete(key)
+        } else {
+            sp.set(key, value)
+        }
+
+        return `?${sp.toString()}`
+    }
+
+    const refreshSearchParam = (n) => {
+        setSearchParams(n);
+    }
+    const refreshPageNumber = (m) => {
+        setCurrentPage(m)
+    }
 
     return(
         <>
@@ -143,7 +165,10 @@ export default function Wishlist(){
                     <Paginate 
                         nPages = { nPages }
                         currentPage = { currentPage } 
-                        setCurrentPage = { setCurrentPage }/>
+                        refreshPageNumber = { refreshPageNumber }
+                        genNewSearcParam = {genNewSearcParam}
+                        refreshSearchParam = {refreshSearchParam}
+                        />
                  </Container> : <Alert variant="secondary" className="mt-5">Your wishlist is empty!</Alert>}
         </>
     )

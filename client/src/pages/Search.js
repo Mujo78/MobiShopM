@@ -8,10 +8,14 @@ import Accordions from '../components/AccordionSearch';
 import Button from 'react-bootstrap/esm/Button';
 import Paginate from '../components/Paginate';
 import axios from 'axios';
+import { useSearchParams } from 'react-router-dom';
 
 export default function Search(){
 
     const {isMobile, isTablet, isDesktop} = useResponsive();
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = searchParams.get("page");
 
     const [brands, setBrands] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
@@ -22,7 +26,7 @@ export default function Search(){
     let num = isTablet ? 6 : 8;
 
     const [perPage] = useState(num);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(parseInt(page) ? parseInt(page) : 1);
     const indexOfLastRecord = currentPage * perPage;
     const indexOfFirstRecord = indexOfLastRecord - perPage;
     const nPages = Math.ceil(searchResult.length === 0 ? mobiles.length / perPage : searchResult.length / perPage);
@@ -83,6 +87,26 @@ export default function Search(){
     const handleCloseFilter = () => setStateFilter(false);
     const handleShowFilter = () => setStateFilter(true);
 
+
+    const genNewSearcParam = (key, value) =>{
+        const sp = new URLSearchParams(searchParams)
+        if (value === null) {
+            sp.delete(key)
+        } else {
+            sp.set(key, value)
+        }
+
+        return `?${sp.toString()}`
+    }
+
+    const refreshSearchParam = (n) => {
+        setSearchParams(n);
+    }
+
+    const refreshPageNumber = (m) => {
+        setCurrentPage(m)
+    }
+
     return(
         <>
         <Container className='d-flex p-0 m-0'>
@@ -120,7 +144,9 @@ export default function Search(){
                 <Paginate
                     nPages = { nPages }
                     currentPage = { currentPage } 
-                    setCurrentPage = { setCurrentPage }/>
+                    refreshPageNumber = { refreshPageNumber }
+                    genNewSearcParam = {genNewSearcParam}
+                    refreshSearchParam = {refreshSearchParam}/>
                 </Container> : <Alert className={`${isDesktop ? `w-75` : `w-100`} text-center`}>Our store is currently empty!</Alert>}
             </Container>
         </Container>

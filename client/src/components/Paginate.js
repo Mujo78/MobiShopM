@@ -1,22 +1,33 @@
+import { useEffect } from "react";
 import Pagination from "react-bootstrap/Pagination";
 
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+
 export default function Paginate(props){
+
     
     const pageNumbers = [...Array(props.nPages+1).keys()].slice(1);
     const nextPage = () => {
         if(props.currentPage !== props.nPages) 
-        props.setCurrentPage(props.currentPage + 1)
+        props.refreshPageNumber(props.currentPage + 1)
     }
     const prevPage = () => {
         if(props.currentPage !== 1) 
-        props.setCurrentPage(props.currentPage - 1)
+        props.refreshPageNumber(props.currentPage - 1)
     }
     const lastPage = () => {
-        props.setCurrentPage(props.nPages)
+        props.refreshPageNumber(props.nPages)
     }
     const firstPage = () => {
-        props.setCurrentPage(props.nPages - pageNumbers.length + 1)
+        props.refreshPageNumber(props.nPages - pageNumbers.length + 1)
     }
+
+    useEffect(() => {
+        const newOne = props.genNewSearcParam("page", props.currentPage)
+        props.refreshSearchParam(newOne)
+    }, [props.currentPage])
+
+
     return(
             <Pagination>
                 <Pagination.First className="ms-2" onClick={firstPage} />
@@ -25,7 +36,11 @@ export default function Paginate(props){
 
                 <Pagination.Item className="ms-2" style={{backgroundColor: "#219aeb"}}
                     key={n}
-                    onClick={() => props.setCurrentPage(n)}
+                    onClick={() => {
+                        props.refreshPageNumber(n)
+                        const newOne = props.genNewSearcParam("page", n)
+                        props.refreshSearchParam(newOne)
+                    }}
                     active={props.currentPage === n ? true: false}
                 >
                     {n}

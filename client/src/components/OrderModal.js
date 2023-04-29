@@ -10,10 +10,10 @@ import Container from 'react-bootstrap/esm/Container';
 
 export default function OrderModal({dataPerson, data,qntys, show, handleClose}){  
 
-  console.log(data.quantity)
+  
   const [orderInfoState, setOrderInfoState] = useState({
     payment_info: "Delivery",
-    qnty: qntys === null ? data.quantity : qntys
+    qnty: !qntys ? data.quantity : qntys
   })
   const handleChange = (event) =>{
     const {name, value} = event.target;
@@ -117,8 +117,8 @@ export default function OrderModal({dataPerson, data,qntys, show, handleClose}){
             <Form.Control
               type='text'
               disabled
-              name='quantity'
-              value={qntys === null ? data.quantity : qntys}
+              name='qnty'
+              value={orderInfoState.qnty}
             >
             </Form.Control>
             </Container>
@@ -128,7 +128,7 @@ export default function OrderModal({dataPerson, data,qntys, show, handleClose}){
               type='text'
               disabled
               name='totalCost'
-              value={data.price * (qntys === null ? data.quantity : qntys)}
+              value={data.price * (orderInfoState.qnty)}
             >
             </Form.Control>
             </Container>

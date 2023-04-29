@@ -8,15 +8,11 @@ export default function AdminAuthRequired(){
 
         if(!ac){
             if(authState.RoleId !== 1){
-                return (
-                    redirect("*")
-                )
+                redirect("*")
             }
         }else if(ac){
             if(authState.RoleId !== 1){
-                return (
-                    redirect("*")
-                )
+                redirect("*")
             }
         }
 

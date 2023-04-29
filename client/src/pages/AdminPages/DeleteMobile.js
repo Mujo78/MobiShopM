@@ -8,18 +8,21 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Alert from "react-bootstrap/Alert";
 import Paginate from "../../components/Paginate";
 import useResponsive from "../../components/useResponsive";
+import { useSearchParams } from "react-router-dom";
 
 export default function DeleteMobile(){
 
+    const [searchParams, setSearchParams] = useSearchParams();
     const [mobileData, setMobileData] = useState([]);
     const [brandsData, setBrandsData] = useState([]);
+    const page = searchParams.get("page");
 
     const [errorsMobile, setErrorsMobile] = useState([]);
     const [errorsBrands, setErrorsBrands] = useState([]);
 
     const {isMobile, isTablet} = useResponsive();
     const [perPage] = useState(isTablet ? 3 : 4);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(parseInt(page) ? parseInt(page) : 1);
     const indexOfLastRecord = currentPage * perPage;
     const indexOfFirstRecord = indexOfLastRecord - perPage;
     const nPages = Math.ceil(brandsData.length / perPage);
@@ -75,6 +78,25 @@ export default function DeleteMobile(){
         .catch(err => console.log(err));
     }
 
+    const genNewSearcParam = (key, value) =>{
+        const sp = new URLSearchParams(searchParams)
+        if (value === null) {
+            sp.delete(key)
+        } else {
+            sp.set(key, value)
+        }
+
+        return `?${sp.toString()}`
+    }
+
+    const refreshSearchParam = (n) => {
+        setSearchParams(n);
+    }
+
+    const refreshPageNumber = (m) => {
+        setCurrentPage(m)
+    }
+
     const activeKeys = ["0", "1", "2", "3"]
     return(
         <Container className="d-flex flex-column flex-grow-1">
@@ -108,14 +130,18 @@ export default function DeleteMobile(){
                 </Accordion.Item>
               </Accordion>)) : <Alert variant="danger">{errorsBrands}</Alert>}
          </Container>
-         <Container className="d-flex justify-content-center mt-1">
-         <Paginate
-            nPages = { nPages }
-            currentPage = { currentPage } 
-            setCurrentPage = { setCurrentPage }
-         />
+         {brandsData.length > 0 && (
+            <Container className="d-flex justify-content-center mt-1">
+            <Paginate
+                nPages = { nPages }
+                currentPage = { currentPage } 
+                refreshPageNumber = { refreshPageNumber }
+                genNewSearcParam = {genNewSearcParam}
+                refreshSearchParam = {refreshSearchParam}
+                />
 
-         </Container>
+            </Container>
+         )}
 
         </Container>
     )

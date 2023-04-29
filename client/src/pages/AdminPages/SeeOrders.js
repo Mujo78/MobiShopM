@@ -6,13 +6,18 @@ import Table from "react-bootstrap/esm/Table";
 import Alert from "react-bootstrap/Alert";
 import useResponsive from "../../components/useResponsive";
 import Paginate from "../../components/Paginate";
+import { useSearchParams } from "react-router-dom";
+
 
 export default function SeeOrders(){
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = searchParams.get("page");
 
     const [ordersState, setOrdersState] = useState([]);
     const {isMobile, isTablet} = useResponsive();
     const [perPage] = useState(isTablet ? 8 : 6);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(parseInt(page) ? parseInt(page) : 1);
     const indexOfLastRecord = currentPage * perPage;
     const indexOfFirstRecord = indexOfLastRecord - perPage;
     const nPages = Math.ceil(ordersState.length / perPage);
@@ -56,6 +61,25 @@ export default function SeeOrders(){
         border: "none"
     }
 
+    const genNewSearcParam = (key, value) =>{
+        const sp = new URLSearchParams(searchParams)
+        if (value === null) {
+            sp.delete(key)
+        } else {
+            sp.set(key, value)
+        }
+
+        return `?${sp.toString()}`
+    }
+
+    const refreshSearchParam = (n) => {
+        setSearchParams(n);
+    }
+
+    const refreshPageNumber = (m) => {
+        setCurrentPage(m)
+    }
+
     return(
         <Container className={isMobile ? "w-100 p-1" : "p-0"}>
             <h1>Orders</h1>
@@ -90,12 +114,17 @@ export default function SeeOrders(){
             ))}
             </Table> </Container> : <Alert variant="info">0 orders left</Alert>}
             
-            <Container className="d-flex justify-content-center">
-            <Paginate
-                nPages = { nPages }
-                currentPage = { currentPage } 
-                setCurrentPage = { setCurrentPage }/>
-                </Container>
+            {ordersState.length > 0 && (
+                <Container className="d-flex justify-content-center">
+                <Paginate
+                    nPages = { nPages }
+                    currentPage = { currentPage } 
+                    refreshPageNumber = { refreshPageNumber }
+                    genNewSearcParam = {genNewSearcParam}
+                    refreshSearchParam = {refreshSearchParam}
+                />
+                    </Container>
+            )}
         </Container>
     )
 }

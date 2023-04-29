@@ -9,15 +9,11 @@ export default function UserRequired(){
 
         if(!ac){
             if(authState.RoleId !== 2){
-                return (
-                    redirect("*")
-                )
+                redirect("*")
             }
         }else if(ac){
             if(authState.RoleId !== 2){
-                return (
-                    redirect("*")
-                )
+                redirect("*")
             }
         }
 

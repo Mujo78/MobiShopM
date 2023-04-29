@@ -5,9 +5,7 @@ export default function AuthRequired(){
     const isLoggedIn = localStorage.getItem("accessToken");
 
     if(!isLoggedIn){
-        return(
-            redirect("*")
-        )
+        redirect("*")
     }
 
     return <Outlet />

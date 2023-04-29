@@ -15,7 +15,8 @@ import Alert from "react-bootstrap/esm/Alert";
 export default function Models(){
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const brandIdFilter = searchParams.get("brand_id"); 
+    const brandIdFilter = searchParams.get("brand_id");
+    const page = searchParams.get("page");
 
     const {isMobile, isTablet, isDesktop} = useResponsive();
     const [showOffMobile, setShowOffMobile] = useState(false);
@@ -24,7 +25,7 @@ export default function Models(){
     let num = isTablet ? 6 : 8
 
     const [perPage] = useState(num);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(parseInt(page) ? parseInt(page) : 1);
     const indexOfLastRecord = currentPage * perPage;
     const indexOfFirstRecord = indexOfLastRecord - perPage;
 
@@ -38,7 +39,6 @@ export default function Models(){
         axios.get(`http://localhost:3001/mobiles`)
         .then(response => {
             setMobileData(response.data);
-            setCurrentPage(1);
             isMobile && closeIt();
         }).catch(error =>{
             console.log(error);
@@ -62,7 +62,16 @@ export default function Models(){
         } else {
             sp.set(key, value)
         }
+
         return `?${sp.toString()}`
+    }
+
+    const refreshSearchParam = (n) => {
+        setSearchParams(n);
+    }
+
+    const refreshPageNumber = (m) => {
+        setCurrentPage(m)
     }
 
     const handleShowOff = () =>{
@@ -71,6 +80,7 @@ export default function Models(){
     const closeIt = () =>{
         setShowOffMobile(false);
     }
+
     return(
         <>
         <Container className={`d-flex p-0  ${isMobile ? `ms-0` : `ms-4`} me-0 w-100 flex-row mt-4 mb-4`}>
@@ -84,7 +94,8 @@ export default function Models(){
                         as={Link} 
                         to="." 
                         style={{borderRadius: "0px", border:"none"}} 
-                        variant="secondary" 
+                        variant="secondary"
+                        onClick={() => refreshPageNumber(1)}
                         action>
                             All
                     </ListGroup.Item>
@@ -92,10 +103,11 @@ export default function Models(){
                         <ListGroup.Item key={n.id}
                                 style={{borderRadius: "0px", border:"none"}} 
                                 variant="secondary" 
-                                action 
+                                action
+                                to={genNewSearcParam("brand_id", n.id)} 
                                 className="mb-2 text-center w-50" 
-                                as={Link} 
-                                to={genNewSearcParam("brand_id", n.id)} >
+                                onClick={() => refreshPageNumber(1)}
+                                as={Link} >
                                     {n.name}
                         </ListGroup.Item>
                     )}
@@ -113,7 +125,10 @@ export default function Models(){
             <Paginate
                 nPages = { nPages }
                 currentPage = { currentPage } 
-                setCurrentPage = { setCurrentPage }/>
+                refreshPageNumber = { refreshPageNumber }
+                genNewSearcParam = {genNewSearcParam}
+                refreshSearchParam = {refreshSearchParam}
+                />
                 </Container>
             </Container>) : <Alert className={`${isDesktop ? `w-75` : `w-100`} text-center`}>Our store is currently empty!</Alert>}
         </Container>
@@ -128,7 +143,10 @@ export default function Models(){
                         className="mb-2 text-center w-100" 
                         as={Link} 
                         to="."
-                        onClick={closeIt}
+                        onClick={() =>{
+                            refreshPageNumber(1)
+                            closeIt()
+                        }}
                         style={{borderRadius: "0px", border:"none"}} 
                         variant="secondary" 
                         action>
@@ -141,8 +159,12 @@ export default function Models(){
                                 action 
                                 className="mb-2 text-center w-100" 
                                 as={Link}
-                                onClick={closeIt}
-                                to={genNewSearcParam("brand_id", n.id)} >
+                                to={genNewSearcParam("brand_id", n.id)} 
+                                onClick={() =>{
+                                    refreshPageNumber(1)
+                                    closeIt()
+                                }}
+                                >
                                     {n.name}
                         </ListGroup.Item>
                     )}

@@ -6,16 +6,19 @@ import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
 import useResponsive from "../../components/useResponsive";
 import Paginate from "../../components/Paginate";
+import { useSearchParams } from "react-router-dom";
 
 export default function SeeComments(){
 
     const {isMobile, isTablet} = useResponsive();
-
+    const [searchParams, setSearchParams] = useSearchParams();
     const [comments, setComments] = useState([]);
     const [errorComment, setErrorComment] = useState([]);
 
+    const page = searchParams.get("page");
+
     const [perPage] = useState(isTablet ? 9 : 6);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(parseInt(page) ? parseInt(page) : 1);
     const indexOfLastRecord = currentPage * perPage;
     const indexOfFirstRecord = indexOfLastRecord - perPage;
     const nPages = Math.ceil(comments.length / perPage);
@@ -48,6 +51,25 @@ export default function SeeComments(){
     }
 
     let numErr = errorComment.length;
+
+    const genNewSearcParam = (key, value) =>{
+        const sp = new URLSearchParams(searchParams)
+        if (value === null) {
+            sp.delete(key)
+        } else {
+            sp.set(key, value)
+        }
+
+        return `?${sp.toString()}`
+    }
+
+    const refreshSearchParam = (n) => {
+        setSearchParams(n);
+    }
+
+    const refreshPageNumber = (m) => {
+        setCurrentPage(m)
+    }
 
     return(
         <Container fluid className={isMobile ? "w-100 p-0 mt-2" : "w-100 p-0 m-0 mt-2"}>
@@ -93,12 +115,16 @@ export default function SeeComments(){
             ))}
             </Table> </Container> : <Alert variant="danger">{errorComment}</Alert>}
 
+{comments.length > 0 && (
             <Container className="d-flex justify-content-center">
                 <Paginate
                     nPages = { nPages }
                     currentPage = { currentPage } 
-                    setCurrentPage = { setCurrentPage }/>
+                    refreshPageNumber = { refreshPageNumber }
+                    genNewSearcParam = {genNewSearcParam}
+                    refreshSearchParam = {refreshSearchParam} />
             </Container>
+)}
         </Container>
     )
 }

@@ -10,9 +10,12 @@ import { toast } from "react-toastify";
 import OrderInfo from "./OrderInfo";
 import useResponsive from "./useResponsive";
 import Container from "react-bootstrap/esm/Container";
+import {useSearchParams} from "react-router-dom";
 
 export default function MyOrdersCard() {
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = searchParams.get("page");
 
     const [myOrders, setMyOrders] = useState([]);
     const [modalShow, setModalShow] = useState(false);
@@ -28,7 +31,7 @@ export default function MyOrdersCard() {
     const {authState} = useContext(AuthContext);
 
     const [perPage] = useState(4);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(parseInt(page) ? parseInt(page) : 1);
     const indexOfLastRecord = currentPage * perPage;
     const indexOfFirstRecord = indexOfLastRecord - perPage;
     const nPages = Math.ceil(myOrders.length / perPage);
@@ -73,6 +76,26 @@ export default function MyOrdersCard() {
     }
 
     const sortedOrders = myOrders.length > 0 && myOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+
+    const genNewSearcParam = (key, value) =>{
+        const sp = new URLSearchParams(searchParams)
+        if (value === null) {
+            sp.delete(key)
+        } else {
+            sp.set(key, value)
+        }
+
+        return `?${sp.toString()}`
+    }
+
+    const refreshSearchParam = (n) => {
+        setSearchParams(n);
+    }
+
+    const refreshPageNumber = (m) => {
+        setCurrentPage(m)
+    }
 
     return(
         <>
@@ -142,7 +165,10 @@ export default function MyOrdersCard() {
                     <Paginate 
                         nPages = { nPages }
                         currentPage = { currentPage } 
-                        setCurrentPage = { setCurrentPage }/>
+                        refreshPageNumber = { refreshPageNumber }
+                        genNewSearcParam = {genNewSearcParam}
+                        refreshSearchParam = {refreshSearchParam}
+                    />
                  </Container>}
         </>
     )
