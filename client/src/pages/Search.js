@@ -120,7 +120,7 @@ export default function Search(){
                 brands={brands}
                 searchFormDataState={searchFormDataState}
                 setInfo={setInfo}
-                setCurrentPage={setCurrentPage}
+                refreshPageNumber={refreshPageNumber}
                 setSearchResult={setSearchResult}
                 handleCloseFilter={handleCloseFilter}
                 setSearchFormDataState={setSearchFormDataState}
@@ -163,6 +163,7 @@ export default function Search(){
                     setInfo={setInfo}
                     handleShowFilter={handleShowFilter}
                     setSearchResult={setSearchResult}
+                    refreshPageNumber={refreshPageNumber}
                     handleCloseFilter={handleCloseFilter}
                     setSearchFormDataState={setSearchFormDataState}
                     />

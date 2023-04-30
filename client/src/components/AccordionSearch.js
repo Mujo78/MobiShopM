@@ -21,7 +21,7 @@ export default function Accordions(props){
         .then(response => {
             props.setInfo();
             props.setSearchResult(response.data)
-            props.setCurrentPage(1);
+            props.refreshPageNumber(1);
             isMobile && props.handleCloseFilter();
             
             props.setSearchFormDataState({mobile_name: "",ram:{ram16: false,ram12: false,ram8: false,ram6: false,ram4: false},
@@ -29,26 +29,48 @@ export default function Accordions(props){
                                     internal:{internal512: false,internal256: false,internal128: false,internal64: false,
                                             internal32: false,internal16: false,internal8: false, internal4: false},
                                     os:"",price:{from:1,to:3000},BrandId:"All"})}
-            
         )
-        .catch(error => props.setInfo(error.response.data))
+        .catch(error => props.setInfo(error.response.data ? error.response.data : error.response))
 
         isMobile && props.handleCloseFilter();
     }
 
-    const handleChange = (event) =>{
-        const {name,type, value,checked} = event.target;
-        type === "checkbox"? 
-            name.startsWith("ram") ? props.setSearchFormDataState(n => ({...n,
-                ram:{...n.ram, [name]:checked}})) : props.setSearchFormDataState(n => ({...n,
-                                                    internal:{...n.internal, [name]:checked}}))
-                    : 
-            props.setSearchFormDataState(n => ({...n,
-                price:{...n.cijena, [name]: value==='' ? parseInt(0) : parseInt(value)},
-                [name]: type=== "range" ? 
-                                value === "" ? value.toString() : parseInt(value)
-                            : value}))
-    }
+    const handleChange = (event) => {
+        const { name, value, type, checked } = event.target;
+        
+        if (type === "checkbox") {
+          if (name.startsWith("ram")) {
+            props.setSearchFormDataState(prevState => ({
+              ...prevState,
+              ram: {
+                ...prevState.ram,
+                [name]: checked
+              }
+            }));
+          } else {
+            props.setSearchFormDataState(prevState => ({
+              ...prevState,
+              internal: {
+                ...prevState.internal,
+                [name]: checked
+              }
+            }));
+          }
+        } else if (name === "from" || name === "to") {
+            props.setSearchFormDataState(prevState => ({
+            ...prevState,
+            price: {
+              ...prevState.price,
+              [name]: value === "" ? parseInt(0) : parseInt(value)
+            }
+          }));
+        } else {
+            props.setSearchFormDataState(prevState => ({
+            ...prevState,
+            [name]: type === "range" ? value === "" ? value.toString() : parseInt(value) : value
+          }));
+        }
+      };
 
     useEffect(() =>{
         getBrands();
@@ -63,7 +85,7 @@ export default function Accordions(props){
     const uncheckInternal = () => {
         props.setSearchFormDataState(n => ({
             ...n,
-            internal: Object.fromEntries(Object.keys(n.ram).map(k => [k, false]))
+            internal: Object.fromEntries(Object.keys(n.internal).map(k => [k, false]))
         }))
     }
     const screenSizeRestart = () =>{
@@ -85,23 +107,49 @@ export default function Accordions(props){
         }))
     }
 
+    const clearPrice = () =>{
+        props.setSearchFormDataState(n => ({
+            ...n,
+            price:{
+                from :"",
+                to: ""
+            }
+        }))
+    }
+
+
     const styles = {
         backgroundColor: "#219aeb",
         border: "none",
         borderRadius: 0
     }
 
+    const clearForm = () => {
+        uncheckRam();
+        uncheckInternal();
+        screenSizeRestart();
+        batteryRestart();
+        osRestart();
+        clearPrice();
+        props.setSearchFormDataState(n =>({
+            ...n,
+            mobile_name: "",
+            BrandId: "All"
+        }))
+    }
+
     return(
         <Container className='w-100'>
         <FormGroup className='d-flex w-100 ms-auto me-auto mb-4 mt-4 justify-content-center align-items-center'>
             <Form.Control
+            className='w-75'
                 type="text"
                 name="mobile_name"
                 onChange={handleChange}
                 value={props.searchFormDataState.mobile_name}
                 placeholder="Samsung Galaxy S23 Ultra 5G"
             />
-            <Button onClick={searchButton} style={styles}>Search</Button>
+            <Button onClick={searchButton} className='w-25 ms-1' style={styles}>Search</Button>
         </FormGroup>
         <Container className='w-100 fixed-left'>
                 <Accordion defaultActiveKey="0">
@@ -310,8 +358,9 @@ export default function Accordions(props){
                     </Accordion.Item>
                     <Accordion.Item eventKey="6">
                         <Accordion.Header>Price</Accordion.Header>
-                        <Accordion.Body className='d-flex'>
-                            <Form.Group>
+                        <Accordion.Body className='d-flex flex-column'>
+                            <Form.Group className='d-flex'>
+                            <Form.Group className='w-50 me-1'>
                                 <Form.Label>
                                     From:
                                 </Form.Label>
@@ -323,7 +372,7 @@ export default function Accordions(props){
                                     onChange={handleChange}
                                 />
                             </Form.Group>
-                            <Form.Group>
+                            <Form.Group className='w-50'>
                                 <Form.Label>
                                     To:
                                 </Form.Label>
@@ -335,11 +384,20 @@ export default function Accordions(props){
                                     onChange={handleChange}
                                 />
                             </Form.Group>
+                            </Form.Group>
+                            <Container className='d-flex justify-content-end'>
+                                <Button variant='link' className='p-0' onClick={clearPrice}>
+                                    Clear all
+                                </Button>
+                            </Container>
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
-                <Button onClick={searchButton} style={styles} className='mt-3'>Refresh data</Button>
-            </Container>
+                <Container className='d-flex align-items-center justify-content-between mt-3'>
+                    <Button onClick={searchButton} style={styles}>Refresh data</Button>
+                    <Button variant='link' onClick={clearForm}>Clear</Button>
+                </Container>
+                </Container>
             </Container>
     )
 }

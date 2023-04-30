@@ -42,7 +42,7 @@ router.post("/post-comment",createComment, async(req, res) => {
             res.status(200).json(newComment);
         }
     }catch(error){
-        return res.status(401).json(error);
+        return res.json(error);
     }
 })
 

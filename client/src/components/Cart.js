@@ -18,7 +18,6 @@ export default function Cart({show, onHide, personData, refreshData}){
   const [specificPhone, setSpecificPhone] = useState(null);
 
   const deleteItem = (id) =>{
-    console.log("Deleted " + id);
     
     axios.delete(`http://localhost:3001/delete-item/${id}`, {
       headers:{

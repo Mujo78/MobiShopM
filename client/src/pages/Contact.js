@@ -33,6 +33,7 @@ export default function Contact(){
         }).catch(error => {
             setErrors(error.response.data.errors);
         })
+
     }
 
     function handleChange(event){

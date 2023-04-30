@@ -29,7 +29,6 @@ export default function Cards({mob : {photo, mobile_name, price, id}, mob}){
     const {isMobile} = useResponsive();
 
     const handleHeartFillTrue = (id) => {
-      console.log(id);
 
       axios.post(`http://localhost:3001/add-to-wishlist/${id}`, {}, {
         headers:{
