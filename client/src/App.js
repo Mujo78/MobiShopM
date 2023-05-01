@@ -65,9 +65,6 @@ function App(){
           RoleId: response.data.RoleId
         })
       }).catch(error =>{
-        if(axios.isCancel(error)){
-          console.log("canceled")
-        }
         return <Home />
       })
 
