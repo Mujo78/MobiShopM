@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import {useNavigate } from "react-router-dom";
+import {Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 
 export default function UserRequired(){
@@ -15,5 +15,7 @@ export default function UserRequired(){
             navigate("*")
         }
 
-    }, [ac])
+    }, [ac, authState.RoleId])
+
+    return <Outlet />
 }
