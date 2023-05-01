@@ -48,6 +48,8 @@ export default function About(){
     
     const {isMobile} = useResponsive();
 
+    console.log("object")
+
     return(
         <>
             <Container style={{overflow: "hidden", textAlign: "justify"}} className="mb-5 mt-5">

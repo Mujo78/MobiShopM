@@ -8,7 +8,7 @@ import Models from './pages/Models';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import PageNotFound from './pages/PageNotFound';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo, useMemo } from 'react';
 import { AuthContext } from './helpers/AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
 import Profile from './pages/Profile';
@@ -38,8 +38,7 @@ import AdminAuthRequired from './helpers/AdminAuthRequired';
 import UserRequired from './helpers/UserRequired';
 
 
-function App() {
-  
+function App(){
   const [showCart, setShowCart] = useState(false);
   const [errorCarts, setCartsErrors] = useState([]);
   const [cartItemsInfo, setCartItemsInfo] = useState([]);
@@ -51,6 +50,7 @@ function App() {
     RoleId:0
   })
   useEffect(() => {
+
     const accessToken = localStorage.getItem("accessToken");
     if(accessToken !== null){
 
@@ -65,6 +65,9 @@ function App() {
           RoleId: response.data.RoleId
         })
       }).catch(error =>{
+        if(axios.isCancel(error)){
+          console.log("canceled")
+        }
         return <Home />
       })
 
@@ -72,6 +75,7 @@ function App() {
     if(authState.id !== 0){
       getPersonInfo(authState.id);
     } 
+
   }, [authState.id]);
 
   const getPersonInfo = (id) => {
@@ -161,5 +165,7 @@ function App() {
       </AuthContext.Provider>
   );
 }
+  
+ 
 
 export default App;

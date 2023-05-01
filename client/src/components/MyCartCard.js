@@ -40,6 +40,7 @@ export default function MyCartCard(){
     }
 
     const getCartItemsInfo = () => {
+
         if(authState.id !== 0){
           axios.get(`http://localhost:3001/cart/${authState.id}`, {
             headers: {
@@ -67,6 +68,7 @@ export default function MyCartCard(){
 
       useEffect(() =>{
         getCartItemsInfo();
+
       }, [])
 
       const orderSpecificPhone = (n) =>{

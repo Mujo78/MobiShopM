@@ -1,21 +1,19 @@
-import { useContext } from "react";
-import { redirect, Outlet } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import {useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 
 export default function UserRequired(){
 
     const {authState} = useContext(AuthContext);
+    const navigate = useNavigate();
     const ac = localStorage.getItem("accessToken");
 
+    useEffect(() => {
         if(!ac){
-            if(authState.RoleId !== 2){
-                redirect("*")
-            }
-        }else if(ac){
-            if(authState.RoleId !== 2){
-                redirect("*")
-            }
+            navigate("*")
+        }else if(ac && authState.RoleId !== 2){
+            navigate("*")
         }
 
-    return <Outlet />
+    }, [ac])
 }

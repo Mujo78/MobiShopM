@@ -72,6 +72,8 @@ export default function Profile(){
         border:"none"
     }
     let nameOfClass = "text-center w-100";
+    
+    console.log("as")
     return(
         <Container fluid className="p-0">
             <Container fluid className="w-100" style={{backgroundColor:"#DCDCDC", fontFamily:"sans-serif" }}>
