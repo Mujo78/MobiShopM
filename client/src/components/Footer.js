@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import useResponsive from './useResponsive';
 
@@ -17,16 +17,19 @@ const Image = styled.img`
 export default function Footer(){
 
     const {isMobile, isDesktop} = useResponsive();
+    const location = useLocation()
+
+    console.log(location)
     return (
         <Container fluid style={{backgroundColor:"whitesmoke"}}>
            <Container fluid className='d-flex  flex-row flex-wrap'>
                 <Col sm={4} className="col">
                         <Row style={{fontFamily:"Audiowide", fontSize:"30px", color:"#219aeb"}}>MShop</Row>
                         <Row as={Link} to="/">Home</Row>
-                        <Row as={Link} to="search">Search</Row>
-                        <Row as={Link} to="models">Brands</Row>
-                        <Row as={Link} to="about">About</Row>
-                        <Row as={Link} to="contact">Contact</Row>
+                        <Row as={Link} to="/search">Search</Row>
+                        <Row as={Link} to="/models">Brands</Row>
+                        <Row as={Link} to="/about">About</Row>
+                        <Row as={Link} to="/contact">Contact</Row>
                         
                 </Col>
                 <Col  sm={5}>
