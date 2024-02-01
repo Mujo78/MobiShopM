@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "root",
-    "password": "root.2020",
+    "username": "rootuser",
+    "password": "rootpassword2024",
     "database": "mobishopm",
     "host": "localhost",
     "dialect": "mysql"

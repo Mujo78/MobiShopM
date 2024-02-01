@@ -1,8 +1,25 @@
-export default function Alert(){
-    return (
-        <div className="alert alert-secondary d-flex align-items-center justify-content-between" role="alert">
-            <span className="mx-auto" style={{fontWeight:'bold'}}>Unbeatable deals and amazing discounts, shop now and save big!</span>
-            <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    )
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+
+export default function CustomAlert() {
+  return (
+    <Alert
+      variant="secondary"
+      className="d-flex align-items-center justify-content-between"
+      role="alert"
+    >
+      <span className="mx-auto">
+        <strong>
+          Unbeatable deals and amazing discounts, shop now and save big!
+        </strong>
+      </span>
+      <Button
+        variant="light"
+        type="button"
+        className="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></Button>
+    </Alert>
+  );
 }
