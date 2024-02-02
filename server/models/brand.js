@@ -1,19 +1,22 @@
-module.exports = (sequelize, DataTypes) => {
-    const brand = sequelize.define("Brand", {
-        name:{
-            type: DataTypes.STRING(100),
-            allowNull:false
-        }
-    })
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/db.config");
 
-    brand.associate = models => {
-        brand.hasMany(models.Mobile, {
-            onDelete: "cascade",
-            foreignKey: {
-                name: "BrandId"
-            }
-        });
-    }
+module.exports = () => {
+  const brand = sequelize.define("Brand", {
+    name: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+  });
 
-    return brand;
-}
+  brand.associate = (models) => {
+    brand.hasMany(models.Mobile, {
+      onDelete: "cascade",
+      foreignKey: {
+        name: "BrandId",
+      },
+    });
+  };
+
+  return brand;
+};

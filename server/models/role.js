@@ -1,19 +1,20 @@
-module.exports = (sequelize, DataTypes) => {
-    const role = sequelize.define("Role", {
-        name:{
-            type: DataTypes.STRING(20),
-            allowNull:false
-        }
-    }, {
-        timestamps: false
-    })
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/db.config");
 
-    role.associate = models => {
-        role.hasMany(models.User, {
-            foreignKey: {
-                name: "RoleId"
-            }
-        });
-    }
-    return role;
-}
+module.exports = () => {
+  const role = sequelize.define("Role", {
+    name: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
+    },
+  });
+
+  role.associate = (models) => {
+    role.hasMany(models.User, {
+      foreignKey: {
+        name: "RoleId",
+      },
+    });
+  };
+  return role;
+};

@@ -114,7 +114,7 @@ function App() {
         setCartItemsInfo,
       }}
     >
-      <div className="App">
+      <div className="App px-5 pt-2">
         <Router>
           <ToastContainer />
           <Navbars />
