@@ -2,24 +2,32 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db.config");
 
 module.exports = () => {
-  const user = sequelize.define("User", {
-    username: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
+  const user = sequelize.define(
+    "User",
+    {
+      username: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+      },
+      password: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+      },
+      RoleId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      PersonId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
-    password: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-    },
-    RoleId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    PersonId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-  });
+    {
+      defaultScope: {
+        attributes: { exclude: ["password"] },
+      },
+    }
+  );
 
   user.associate = (models) => {
     user.belongsTo(models.Person, {
