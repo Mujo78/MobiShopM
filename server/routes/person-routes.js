@@ -18,7 +18,7 @@ const {
   errorValidationMiddleware,
 } = require("../middlewares/errorValidationMiddleware");
 
-router.get("/users", adminMiddleware, getAllUsers);
+router.get("/users", getAllUsers);
 router.get("/person/:id", adminMiddleware, getUserById);
 router.patch("/edit-profile/:id", authMiddleware, editUserProfile);
 router.delete("/delete-user/:id", authMiddleware, deleteProfile);
@@ -31,6 +31,7 @@ router.post(
 );
 router.post(
   "/add-admin",
+  adminMiddleware,
   createAdminValidator,
   errorValidationMiddleware,
   addNewAdmin

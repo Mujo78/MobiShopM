@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db.config");
+const bcrypt = require("bcrypt");
 
 module.exports = () => {
   const user = sequelize.define(
@@ -26,8 +27,25 @@ module.exports = () => {
       defaultScope: {
         attributes: { exclude: ["password"] },
       },
+      hooks: {
+        beforeCreate: async (user) => {
+          if (user.changed("password")) {
+            user.password = await bcrypt.hash(user.password, 12);
+          }
+        },
+
+        beforeUpdate: async (user) => {
+          if (user.changed("password")) {
+            user.password = await bcrypt.hash(user.password, 12);
+          }
+        },
+      },
     }
   );
+
+  user.prototype.correctPassword = async function (typedPassword) {
+    return await bcrypt.compare(typedPassword, this.password);
+  };
 
   user.associate = (models) => {
     user.belongsTo(models.Person, {

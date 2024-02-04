@@ -1,9 +1,9 @@
 const express = require("express");
+const router = express.Router();
 const { adminMiddleware } = require("../middlewares/admin-check");
 const {
   errorValidationMiddleware,
 } = require("../middlewares/errorValidationMiddleware");
-const router = express.Router();
 const { createNewBrand } = require("../validators/brands");
 const {
   getAllBrands,

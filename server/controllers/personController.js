@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const { User, Person, Cart, sequelize } = require("../models");
-const bcrypt = require("bcrypt");
 
 const getAllUsers = asyncHandler(async (req, res, next) => {
   const data = await User.findAll();
@@ -77,27 +76,25 @@ const registration = asyncHandler(async (req, res, next) => {
     password,
   } = req.body;
 
-  let hash = await bcrypt.hash(password, 10);
-
   try {
     const result = await sequelize.transaction(async (t) => {
       const person = await Person.create(
         {
-          first_name: first_name,
-          last_name: last_name,
-          phone_number: phone_number,
-          address: address,
-          city: city,
-          email: email,
-          gender: gender,
+          first_name,
+          last_name,
+          phone_number,
+          address,
+          city,
+          email,
+          gender,
         },
         { transaction: t }
       );
 
       const user = await User.create(
         {
-          username: username,
-          password: hash,
+          username,
+          password,
           PersonId: person.id,
           RoleId: 2,
         },
@@ -143,7 +140,7 @@ const addNewAdmin = asyncHandler(async (req, res, next) => {
     last_name
   );
 
-  const user = await User.findOne({ where: { username: username } });
+  const user = await User.findOne({ where: { username } });
 
   if (user) {
     res.status(400);
@@ -151,25 +148,24 @@ const addNewAdmin = asyncHandler(async (req, res, next) => {
   }
 
   try {
-    let hash = await bcrypt.hash(password, 10);
     const result = await sequelize.transaction(async (t) => {
       const person = await Person.create(
         {
-          first_name: first_name,
-          last_name: last_name,
-          phone_number: phone_number,
-          address: address,
-          city: city,
-          email: email,
-          gender: gender,
+          first_name,
+          last_name,
+          phone_number,
+          address,
+          city,
+          email,
+          gender,
         },
         { transaction: t }
       );
 
       const user = await User.create(
         {
-          username: username,
-          password: hash,
+          username,
+          password,
           PersonId: person.id,
           RoleId: 1,
         },
