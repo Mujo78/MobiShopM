@@ -26,7 +26,7 @@ const getMobilesByTopPrices = asyncHandler(async (req, res, next) => {
 });
 
 const getMobileById = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
+  const id = req.params.mobileId;
 
   try {
     const mobile = await Mobile.findByPk(id);
@@ -53,7 +53,7 @@ const getMobilesByBrandId = asyncHandler(async (req, res, next) => {
     return next(new Error("Brand not found!"));
   }
 
-  const allMobiles = await Mobile.findAll({ where: { BrandId: brand.id } });
+  const allMobiles = await Mobile.findAll({ where: { brandId: brand.id } });
 
   if (allMobiles) return res.status(200).json(allMobiles);
 

@@ -10,7 +10,7 @@ const getAllUsers = asyncHandler(async (req, res, next) => {
 });
 
 const getUserById = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
+  const id = req.params.userId;
   const user = await User.findByPk(id);
 
   if (!user) {
@@ -18,14 +18,14 @@ const getUserById = asyncHandler(async (req, res, next) => {
     return next(new Error("User not found!"));
   }
 
-  const person = await Person.findByPk(user.PersonId);
+  const person = await Person.findByPk(user.personId);
   return res.status(200).json(person);
 });
 
 const editUserProfile = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
+  const userId = req.user.id;
 
-  const userToUpdate = await Person.findByPk(id);
+  const userToUpdate = await Person.findByPk(userId);
 
   if (!userToUpdate) {
     res.status(404);
@@ -45,8 +45,8 @@ const editUserProfile = asyncHandler(async (req, res, next) => {
 });
 
 const deleteProfile = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
-  const user = await User.findByPk(id);
+  const userId = req.user.id;
+  const user = await User.findByPk(userId);
 
   if (!user) {
     res.status(404);
@@ -54,7 +54,7 @@ const deleteProfile = asyncHandler(async (req, res, next) => {
   }
 
   try {
-    const deleted = await Person.findByPk(user.PersonId);
+    const deleted = await Person.findByPk(user.personId);
     await deleted.destroy();
     return res.status(200).json(deleted);
   } catch (error) {
@@ -95,15 +95,15 @@ const registration = asyncHandler(async (req, res, next) => {
         {
           username,
           password,
-          PersonId: person.id,
-          RoleId: 2,
+          personId: person.id,
+          roleId: 2,
         },
         { transaction: t }
       );
 
       await Cart.create(
         {
-          UserId: user.id,
+          userId: user.id,
         },
         { transaction: t }
       );
@@ -166,8 +166,8 @@ const addNewAdmin = asyncHandler(async (req, res, next) => {
         {
           username,
           password,
-          PersonId: person.id,
-          RoleId: 1,
+          personId: person.id,
+          roleId: 1,
         },
         { transaction: t }
       );

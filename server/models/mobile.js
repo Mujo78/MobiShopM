@@ -47,18 +47,21 @@ module.exports = () => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    BrandId: {
+    brandId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
   });
 
   mobile.associate = (models) => {
-    mobile.belongsTo(models.Brand);
+    mobile.belongsTo(models.Brand, {
+      foreignKey: "brandId",
+      onDelete: "cascade",
+    });
 
     mobile.hasMany(models.Cart_item, {
       foreignKey: {
-        name: "MobileId",
+        name: "mobileId",
       },
       onDelete: "cascade",
     });

@@ -12,7 +12,6 @@ const {
 } = require("../controllers/brandController");
 
 router.get("/brands", getAllBrands);
-router.delete("/delete-brand/:id", adminMiddleware, deleteBrand);
 router.post(
   "/add-brand",
   adminMiddleware,
@@ -20,5 +19,6 @@ router.post(
   errorValidationMiddleware,
   addNewBrand
 );
+router.delete("/delete-brand/:id", adminMiddleware, deleteBrand);
 
 module.exports = router;

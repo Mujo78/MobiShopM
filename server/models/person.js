@@ -35,7 +35,7 @@ module.exports = () => {
   person.associate = (models) => {
     person.hasOne(models.User, {
       foreignKey: {
-        name: "PersonId",
+        name: "personId",
       },
       onDelete: "cascade",
     });

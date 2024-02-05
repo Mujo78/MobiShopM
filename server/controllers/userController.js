@@ -14,7 +14,7 @@ const createToken = async (user, statusCode, res) => {
 
   res.status(statusCode).json({
     token,
-    role: user.RoleId,
+    role: user.roleId,
     username: user.username,
   });
 };
@@ -92,12 +92,13 @@ const getAdmins = asyncHandler(async (req, res, next) => {
 
   const allAdmins = await User.findAll({
     attributes: {
-      exclude: ["PersonId", "createdAt", "updatedAt", "RoleId"],
+      exclude: ["personId", "createdAt", "updatedAt", "roleId"],
     },
     where: {
       id: {
         [Op.ne]: userId,
       },
+      roleId: 1,
     },
     include: [
       {

@@ -3,15 +3,15 @@ const sequelize = require("../config/db.config");
 
 module.exports = () => {
   const order_items = sequelize.define("Order_item", {
-    OrderId: {
+    orderId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    MobileId: {
+    mobileId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    Quantity: {
+    quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -22,9 +22,13 @@ module.exports = () => {
   });
 
   order_items.associate = (models) => {
-    order_items.belongsTo(models.Order);
+    order_items.belongsTo(models.Order, {
+      foreignKey: "orderId",
+      onDelete: "cascade",
+    });
 
     order_items.belongsTo(models.Mobile, {
+      foreignKey: "mobileId",
       onDelete: "cascade",
     });
   };

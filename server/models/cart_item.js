@@ -7,20 +7,24 @@ module.exports = () => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    CartId: {
+    cartId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    MobileId: {
+    mobileId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
   });
 
   cart_items.associate = (models) => {
-    cart_items.belongsTo(models.Cart);
+    cart_items.belongsTo(models.Cart, {
+      foreignKey: "cartId",
+      onDelete: "cascade",
+    });
 
     cart_items.belongsTo(models.Mobile, {
+      foreignKey: "mobileId",
       onDelete: "cascade",
     });
   };

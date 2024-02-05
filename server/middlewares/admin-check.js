@@ -1,18 +1,25 @@
 const { verify } = require("jsonwebtoken");
-const User = require("../models");
+const { User } = require("../models");
 
 exports.adminMiddleware = async (req, res, next) => {
-  const token = req.header("accessToken");
+  let token;
 
-  if (!token) return res.status(401).json();
+  if (req.headers.authorization.startsWith("Bearer")) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+
+  if (!token) {
+    res.status(401);
+    return next(new Error("Not authorized!"));
+  }
 
   try {
-    var payload = await verify(token.split("Bearer ")[1], process.env.SECRET);
-    req.user = payload;
+    const payload = await verify(token, process.env.JWT_SECRET);
 
-    let user = await User.findOne({ where: { id: req.user.id } });
+    let user = await User.findByPk(payload.id);
 
-    if (user.RoleId == 1) {
+    if (user.roleId == 1) {
+      req.user = payload;
       next();
     } else {
       res.status(401).json();

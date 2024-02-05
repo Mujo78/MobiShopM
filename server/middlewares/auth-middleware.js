@@ -1,16 +1,24 @@
-const {verify} = require("jsonwebtoken");
+const asyncHandler = require("express-async-handler");
+const { verify } = require("jsonwebtoken");
 
-exports.authMiddleware = async (req, res, next) =>{
-    const token = req.header("accessToken");
-    if(!token) return res.status(401).json();
+exports.authMiddleware = asyncHandler(async (req, res, next) => {
+  let token;
 
-    try{
+  if (req.headers.authorization.startsWith("Bearer")) {
+    token = req.headers.authorization.split(" ")[1];
+  }
 
-        var payload = await verify(token.split("Bearer ")[1],process.env.SECRET);
+  if (!token) {
+    res.status(401);
+    return next(new Error("Not authorized!"));
+  }
+  try {
+    const payload = await verify(token, process.env.JWT_SECRET);
 
-        req.user = payload;
-        next();
-    }catch(error){
-        return res.status(401).json();
-    }
-}
+    req.user = payload;
+    next();
+  } catch (error) {
+    res.status(401);
+    return next(new Error(error));
+  }
+});

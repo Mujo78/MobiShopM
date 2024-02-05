@@ -2,6 +2,9 @@ const { check } = require("express-validator");
 const {
   POST_USERNAME_USER,
   POST_PASSWORD_USER,
+  USER_OLD_PASSWORD,
+  USER_NEW_PASSWORD,
+  USER_CONFIRM_PASSWORD,
 } = require("../constants/user-constants");
 const { User } = require("../models");
 const { USER_ALREADY_EXISTS } = require("../constants/person-constants");
@@ -25,13 +28,7 @@ exports.editUsername = [
 ];
 
 exports.changePasswordValidator = [
-  check("password").notEmpty().withMessage("Old password is required!").bail(),
-  check("newPassword")
-    .notEmpty()
-    .withMessage("New password is required!")
-    .bail(),
-  check("confirmPassword")
-    .notEmpty()
-    .withMessage("Confirm password is required!")
-    .bail(),
+  check("password").notEmpty().withMessage(USER_OLD_PASSWORD).bail(),
+  check("newPassword").notEmpty().withMessage(USER_NEW_PASSWORD).bail(),
+  check("confirmPassword").notEmpty().withMessage(USER_CONFIRM_PASSWORD).bail(),
 ];

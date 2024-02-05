@@ -8,19 +8,19 @@ const POST_GENDER_PERSON = "Gender is required!";
 const POST_PASSWORD_USER = "Password is required!";
 const POST_USERNAME_USER = "Username is required!";
 const POST_LETTERINPHONE_PERSON = "Phone number must contain only digits!";
-const USER_ALREADY_EXISTS = value => `User with username ${value} already exists`;
+const USER_ALREADY_EXISTS = (value) =>
+  `User with username ${value} already exists`;
 
-
-module.exports ={
-    POST_FIRSTNAME_PERSON,
-    POST_LASTNAME_PERSON,
-    POST_ADDRESS_PERSON,
-    POST_CITY_PERSON,
-    POST_PHONENUMBER_PERSON,
-    POST_EMAIL_PERSON,
-    POST_GENDER_PERSON,
-    POST_USERNAME_USER,
-    USER_ALREADY_EXISTS,
-    POST_PASSWORD_USER,
-    POST_LETTERINPHONE_PERSON
-}
+module.exports = {
+  POST_FIRSTNAME_PERSON,
+  POST_LASTNAME_PERSON,
+  POST_ADDRESS_PERSON,
+  POST_CITY_PERSON,
+  POST_PHONENUMBER_PERSON,
+  POST_EMAIL_PERSON,
+  POST_GENDER_PERSON,
+  POST_USERNAME_USER,
+  USER_ALREADY_EXISTS,
+  POST_PASSWORD_USER,
+  POST_LETTERINPHONE_PERSON,
+};

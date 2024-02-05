@@ -13,7 +13,7 @@ module.exports = () => {
     brand.hasMany(models.Mobile, {
       onDelete: "cascade",
       foreignKey: {
-        name: "BrandId",
+        name: "brandId",
       },
     });
   };

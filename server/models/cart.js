@@ -3,7 +3,7 @@ const sequelize = require("../config/db.config");
 
 module.exports = () => {
   const cart = sequelize.define("Cart", {
-    UserId: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -11,13 +11,13 @@ module.exports = () => {
 
   cart.associate = (models) => {
     cart.belongsTo(models.User, {
-      foreignKey: "UserId",
+      foreignKey: "userId",
       onDelete: "cascade",
     });
 
     cart.hasMany(models.Cart_item, {
       foreignKey: {
-        name: "CartId",
+        name: "cartId",
       },
       onDelete: "cascade",
     });

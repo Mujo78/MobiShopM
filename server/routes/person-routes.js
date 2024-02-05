@@ -19,9 +19,9 @@ const {
 } = require("../middlewares/errorValidationMiddleware");
 
 router.get("/users", getAllUsers);
-router.get("/person/:id", adminMiddleware, getUserById);
-router.patch("/edit-profile/:id", authMiddleware, editUserProfile);
-router.delete("/delete-user/:id", authMiddleware, deleteProfile);
+router.get("/person/:userId", adminMiddleware, getUserById);
+router.patch("/edit-profile", authMiddleware, editUserProfile);
+router.delete("/delete-profile", authMiddleware, deleteProfile);
 
 router.post(
   "/registration",

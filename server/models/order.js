@@ -3,7 +3,7 @@ const sequelize = require("../config/db.config");
 
 module.exports = () => {
   const order = sequelize.define("Order", {
-    UserId: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -31,11 +31,14 @@ module.exports = () => {
   });
 
   order.associate = (models) => {
-    order.belongsTo(models.User);
+    order.belongsTo(models.User, {
+      foreignKey: "userId",
+      onDelete: "cascade",
+    });
 
     order.hasMany(models.Order_item, {
       foreignKey: {
-        name: "OrderId",
+        name: "orderId",
       },
       onDelete: "cascade",
     });

@@ -14,11 +14,11 @@ module.exports = () => {
         type: DataTypes.STRING(100),
         allowNull: false,
       },
-      RoleId: {
+      roleId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      PersonId: {
+      personId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -48,28 +48,33 @@ module.exports = () => {
   };
 
   user.associate = (models) => {
+    user.belongsTo(models.Role, {
+      foreignKey: "roleId",
+      onDelete: "cascade",
+    });
+
     user.belongsTo(models.Person, {
-      foreignKey: "PersonId",
+      foreignKey: "personId",
       onDelete: "cascade",
     });
 
     user.hasMany(models.Cart, {
       foreignKey: {
-        name: "UserId",
+        name: "userId",
       },
       onDelete: "cascade",
     });
 
     user.hasMany(models.Order, {
       foreignKey: {
-        name: "UserId",
+        name: "userId",
       },
       onDelete: "cascade",
     });
 
     user.hasMany(models.Wishlist, {
       foreignKey: {
-        name: "UserId",
+        name: "userId",
       },
       onDelete: "cascade",
     });

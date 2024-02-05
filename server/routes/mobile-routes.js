@@ -17,7 +17,7 @@ const {
 
 router.get("/mobiles", getAllMobiles);
 router.get("/mobiles-top-prices", getMobilesByTopPrices);
-router.get("/mobile-phone/:id", getMobileById);
+router.get("/mobile-phone/:mobileId", getMobileById);
 router.get("/brand-mobiles/:brandId", getMobilesByBrandId);
 
 router.post(

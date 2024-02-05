@@ -10,6 +10,19 @@ const getAllBrands = asyncHandler(async (req, res, next) => {
   return next(new Error("There was an error, please try again later!"));
 });
 
+const addNewBrand = asyncHandler(async (req, res, next) => {
+  try {
+    const { name } = req.body;
+
+    const newBrand = await Brand.create({ name });
+
+    return res.status(200).json(newBrand);
+  } catch (error) {
+    res.status(400);
+    return next(new Error(error));
+  }
+});
+
 const deleteBrand = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
   const brand = await Brand.findByPk(id);
@@ -22,19 +35,6 @@ const deleteBrand = asyncHandler(async (req, res, next) => {
   try {
     await brand.destroy();
     return res.status(200).json(brand);
-  } catch (error) {
-    res.status(400);
-    return next(new Error(error));
-  }
-});
-
-const addNewBrand = asyncHandler(async (req, res, next) => {
-  try {
-    const { name } = req.body;
-
-    const newBrand = await Brand.create({ name });
-
-    return res.status(200).json(newBrand);
   } catch (error) {
     res.status(400);
     return next(new Error(error));
