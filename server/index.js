@@ -24,7 +24,6 @@ const brandRutes = require("./routes/brand-routes");
 const cartRutes = require("./routes/cart-routes");
 const searchRutes = require("./routes/search-routes");
 const orderRutes = require("./routes/order-routes");
-const orderItemRutes = require("./routes/order-items-routes");
 const wishlistRoutes = require("./routes/wishlist-routes");
 const { errorHandler } = require("./middlewares/errorMiddleware");
 
@@ -36,7 +35,6 @@ app.use("/api/", brandRutes);
 app.use("/api/", cartRutes);
 app.use("/api/", searchRutes);
 app.use("/api/", orderRutes);
-app.use("/api/", orderItemRutes);
 app.use("/api/", wishlistRoutes);
 
 app.all("*", (req, res, next) => {

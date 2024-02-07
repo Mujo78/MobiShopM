@@ -14,6 +14,7 @@ const createToken = async (user, statusCode, res) => {
 
   res.status(statusCode).json({
     token,
+    id: user.id,
     role: user.roleId,
     username: user.username,
   });

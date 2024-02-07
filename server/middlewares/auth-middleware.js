@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { verify } = require("jsonwebtoken");
+const { User } = require("../models");
 
 exports.authMiddleware = asyncHandler(async (req, res, next) => {
   let token;
@@ -14,8 +15,9 @@ exports.authMiddleware = asyncHandler(async (req, res, next) => {
   }
   try {
     const payload = await verify(token, process.env.JWT_SECRET);
+    const user = await User.findByPk(payload.id);
 
-    req.user = payload;
+    req.user = user;
     next();
   } catch (error) {
     res.status(401);

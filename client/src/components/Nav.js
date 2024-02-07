@@ -1,109 +1,93 @@
-import { useContext, useState } from "react"
-import Alert from "./Alert"
+import { useEffect, useState } from "react";
+import Alert from "./Alert";
 import LoginModal from "./LoginModal";
-
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import { Link, useNavigate } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import { Link } from "react-router-dom";
 import RegistrationModal from "./RegistrationModal";
-import { AuthContext } from "../helpers/AuthContext";
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import useResponsive from "./useResponsive";
+import { useAuth } from "../context/AuthContext";
 import styled from "styled-components";
+import UserNav from "./UserNav";
 
-export const Image = styled.img
-`
- &:hover{
+export const Image = styled.img`
+  &:hover {
     transform: scale(1.2);
- }
-`
+  }
+`;
 
-export default function Navbars(){
+export default function Navbars() {
+  const [show, setShow] = useState(false);
+  const [showReg, setShowReg] = useState(false);
 
-    const [show, setShow] = useState(false);
-    const [showReg, setShowReg] = useState(false);
-    const {authState, setAuthState} = useContext(AuthContext);
+  const { user } = useAuth();
 
-    const navigate = useNavigate();
-    const {isDesktop} = useResponsive();
-
-    const handleCloseLogin = () => setShow(false);
-    const handleShowLogin = () => setShow(true);
-
-    const handleCloseReg = () => setShowReg(false);
-    const handleShowReg = () => setShowReg(true);
-  
-    function logOutFunction(){
-        localStorage.removeItem("accessToken");
-        setAuthState({
-            id: 0,
-            username: "",
-            RoleId:0
-        });
-        navigate("/");
+  useEffect(() => {
+    if (user) {
+      setShow(false);
     }
+  }, [user]);
 
-    return(
-        <>
-            <Alert />
-            <Navbar expand="lg" style={{backgroundColor: "#219aeb"}}>
-                <Container fluid>
-                    <Navbar.Brand as={Link} to="/"><img src="/images/am.png" alt="logo" style={{height:"40px",   width: "40px"}} /></Navbar.Brand>
-                    <Navbar.Brand as={Link} to="/" style={{fontFamily:"Audiowide", fontSize:"30px", color:"white"}}>MShop</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="navbarScroll" />
-                    <Navbar.Collapse id="navbarScroll">
-                        <Nav
-                            className="me-auto my-2 my-lg-0"
-                            style={{ maxHeight: '120px' }}
-                            navbarScroll
-                        >
-                            <Nav.Link as={Link} to="/">Home</Nav.Link>
-                            <Nav.Link as={Link} to="search">Search</Nav.Link>
-                            <Nav.Link as={Link} to="models">Brands</Nav.Link>
-                            <Nav.Link as={Link} to="about">About</Nav.Link>
-                            <Nav.Link as={Link} to="contact">Contact</Nav.Link>
-                            {authState.RoleId === 1 ? <Nav.Link as={Link} to="admin-menu">System</Nav.Link> : ""}
-                        </Nav>
-                        {authState.id !== 0 ? 
-                        <Nav>
-                            {authState.RoleId === 2 ?
-                            <>
-                                <Nav.Link as={Link} to="/profile/wishlist">
-                                    <Image src="/images/wishlist.png" alt="wishlist" style={{height: "20px"}} />
-                                </Nav.Link>
-                                <Nav.Link as={Link} to="/profile/my-cart">
-                                    <Image src="/images/carts.png" alt="cart" style={{height: "20px"}} />
-                                </Nav.Link>
-                            </>
-                            :
-                            <></>    
-                            }
-                            <Nav.Link as={Link} to="profile">
-                                <Image src="/images/user.png" alt="profile" style={{height: "20px"}} />
-                            </Nav.Link>
-                            <NavDropdown  align={isDesktop ? "end" : "start"} style={{right: 0, left:"auto"}}>
-                                <NavDropdown.Item as={Link} to="/profile" variant="secondary">
-                                    Profile
-                                </NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item>
-                                    <Button style={{width:"inherit", height:"inherit", backgroundColor: "#219aeb", border: "none", borderRadius: 0}} onClick={logOutFunction}>Log Out</Button>
-                                </NavDropdown.Item>
-                            </NavDropdown>
-                        </Nav>
-                             : 
-                            <> 
-                                <Button onClick={handleShowLogin} style={{borderRadius: 0}} variant="btn btn-outline-light me-2 text-nowrap">Log In</Button>
-                                <Button onClick={handleShowReg} style={{borderRadius: 0}} variant="btn btn-outline-light me-2 text-nowrap">Sign Up</Button>
-                            </>
-                        }
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-            <LoginModal show={show} handleClose={handleCloseLogin} />
-            <RegistrationModal show={showReg} handleClose={handleCloseReg} handleOpen={handleShowLogin} />
-        </>
-    )
+  const handleCloseLogin = () => setShow(false);
+  const handleCloseReg = () => setShowReg(false);
+
+  return (
+    <>
+      <Alert />
+      <Navbar expand="lg" style={{ backgroundColor: "#219aeb" }}>
+        <Container fluid>
+          <Navbar.Brand as={Link} to="/">
+            <img
+              src="/images/am.png"
+              alt="logo"
+              style={{ height: "2em", width: "2em" }}
+            />
+          </Navbar.Brand>
+          <Navbar.Brand
+            as={Link}
+            to="/"
+            style={{
+              fontFamily: "Audiowide",
+              fontSize: "30px",
+              color: "white",
+            }}
+          >
+            MShop
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav
+              className="me-auto my-2 my-lg-0"
+              style={{ maxHeight: "120px" }}
+              navbarScroll
+            >
+              <Nav.Link as={Link} to="/">
+                Home
+              </Nav.Link>
+              <Nav.Link as={Link} to="search">
+                Search
+              </Nav.Link>
+              <Nav.Link as={Link} to="models">
+                Brands
+              </Nav.Link>
+              <Nav.Link as={Link} to="about">
+                About
+              </Nav.Link>
+              <Nav.Link as={Link} to="contact">
+                Contact
+              </Nav.Link>
+              {user?.role === 1 && (
+                <Nav.Link as={Link} to="admin-menu">
+                  System
+                </Nav.Link>
+              )}
+            </Nav>
+            <UserNav setShow={setShow} setShowReg={setShowReg} />
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      <LoginModal show={show} handleClose={handleCloseLogin} />
+      <RegistrationModal show={showReg} handleClose={handleCloseReg} />
+    </>
+  );
 }

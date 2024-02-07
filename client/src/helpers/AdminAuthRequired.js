@@ -1,21 +1,20 @@
-import { useContext, useEffect } from "react"
-import { AuthContext } from "./AuthContext"
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-export default function AdminAuthRequired(){
-    const {authState} = useContext(AuthContext);
-    const ac = localStorage.getItem("accessToken");
+export default function AdminAuthRequired() {
+  const { user } = useAuth();
+  const ac = localStorage.getItem("accessToken");
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-        useEffect(() => {
-            if(!ac){
-                navigate("*")
-            }else if(ac && authState.RoleId !== 1){
-                navigate("*")
-            }
-    
-        }, [ac])
+  useEffect(() => {
+    if (!ac) {
+      navigate("*");
+    } else if (ac && user.RoleId !== 1) {
+      navigate("*");
+    }
+  }, [ac]);
 
-        return <Outlet />
+  return <Outlet />;
 }

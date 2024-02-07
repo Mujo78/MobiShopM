@@ -2,12 +2,38 @@ const express = require("express");
 const { adminMiddleware } = require("../middlewares/admin-check");
 const router = express.Router();
 
-const {authMiddleware} = require("../middlewares/auth-middleware")
-const {Persons, User,Order,Order_item, Cart,Cart_item, Mobile} = require("../models")
+const { authMiddleware } = require("../middlewares/auth-middleware");
+const {
+  Persons,
+  User,
+  Order,
+  Order_item,
+  Cart,
+  Cart_item,
+  Mobile,
+} = require("../models");
+const {
+  buyNow,
+  getOrders,
+  makeOrderShipped,
+  cancelOrder,
+  getOrderItem,
+  getMyOrders,
+} = require("../controllers/orderController");
+const { buyNowValidator } = require("../validators/ORDER.JS");
+const {
+  errorValidationMiddleware,
+} = require("../middlewares/errorValidationMiddleware");
 
+router.post(
+  "/buy-now-route/:mobileId",
+  authMiddleware,
+  buyNowValidator,
+  errorValidationMiddleware,
+  buyNow
+);
 
-router.post("/buy-now-route/:id", authMiddleware, async(req, res) =>{
-    try{
+/*
         const id = req.params.id;
         const user = req.user;
         const {
@@ -53,161 +79,121 @@ router.post("/buy-now-route/:id", authMiddleware, async(req, res) =>{
             await mobileWithSpecificId.save(); 
             return res.status(200).json(newOrderItem);
         }
-    }catch(error){
-        console.log(error);
+
+*/
+
+router.post("/order-from-cart/:cartId", authMiddleware, async (req, res) => {
+  try {
+    const cartId = req.params.cartId;
+    const user = req.user;
+
+    const { payment_info } = req.body;
+
+    const loggedInUser = await User.findOne({ where: { id: user.id } });
+    const infoLoggedInUser = await Persons.findOne({
+      where: { id: loggedInUser.PersonId },
+    });
+
+    const cartWithId = await Cart.findOne({ where: { id: cartId } });
+    const allCartItemsFromCart = await Cart_item.findAll({
+      where: {
+        CartId: cartId,
+      },
+      include: [Mobile],
+    });
+    const newOrder = await Order.create({
+      UserId: user.id,
+      total_cost: 0,
+      shipping_address: infoLoggedInUser.address,
+      payment_info: payment_info,
+      order_status: "Pending",
+    });
+
+    let total = 0;
+
+    for (const item of allCartItemsFromCart) {
+      total += item.Mobile.price * item.quantity;
+
+      await Order_item.create({
+        OrderId: newOrder.id,
+        MobileId: item.Mobile.id,
+        Quantity: item.quantity,
+        price: item.quantity * item.Mobile.price,
+      });
     }
-})
+    newOrder.total_cost = total;
+    await newOrder.save();
 
-router.post("/order-from-cart/:cartId", authMiddleware, async (req, res) =>{
-    try{
-        const cartId = req.params.cartId;
-        const user = req.user;
+    for (const toDelete of allCartItemsFromCart) {
+      await toDelete.destroy();
+    }
 
-        const {
-            payment_info
-        } = req.body;
+    return res.status(200).json();
+  } catch (error) {
+    return res.json(error);
+  }
+});
 
-        const loggedInUser = await User.findOne({where: {id: user.id}});
-        const infoLoggedInUser = await Persons.findOne({where: {id: loggedInUser.PersonId}});
-        
-        const cartWithId = await Cart.findOne({where: {id: cartId}});
-        const allCartItemsFromCart = await Cart_item.findAll({
-            where:{ 
-                CartId: cartId
-            },
-            include: [Mobile]
+router.get("/orders", adminMiddleware, getOrders);
+router.get("/my-orders", authMiddleware, getMyOrders);
+
+router.patch("/order/:orderId", adminMiddleware, makeOrderShipped);
+router.put("/cancel-order/:orderId", adminMiddleware, cancelOrder);
+router.get("/order-item/:orderId", authMiddleware, getOrderItem);
+
+/*
+router.get("/order-items/:id", authMiddleware, async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const OrdersUser = await Order.findAll({ where: { UserId: id } });
+    if (OrdersUser) {
+      const allIds = OrdersUser.map((n) => n.id);
+
+      const OrderItems = await Order_item.findAll({
+        where: { OrderId: allIds },
+        include: [Mobile, Order],
+      });
+      if (OrderItems !== null) {
+        const AllInfo = OrderItems.map((m) => {
+          const { Mobile, Order, id, createdAt, updatedAt } = m;
+          const { order_status } = Order;
+          const {
+            mobile_name,
+            ram,
+            internal,
+            camera,
+            processor,
+            os,
+            price,
+            screen_size,
+            battery,
+            photo,
+          } = Mobile;
+          return {
+            id,
+            screen_size,
+            mobile_name,
+            order_status,
+            ram,
+            internal,
+            camera,
+            processor,
+            os,
+            price,
+            battery,
+            createdAt,
+            updatedAt,
+            photo,
+          };
         });
-        const newOrder = await Order.create({
-            UserId: user.id,
-            total_cost: 0,
-            shipping_address: infoLoggedInUser.address,
-            payment_info: payment_info,
-            order_status: "Pending"
-        })
-
-        let total = 0;
-
-        for(const item of allCartItemsFromCart){
-            total += item.Mobile.price * item.quantity;
-
-            await Order_item.create({
-                OrderId: newOrder.id,
-                MobileId: item.Mobile.id,
-                Quantity: item.quantity,
-                price: item.quantity * item.Mobile.price
-           })
-        }
-        newOrder.total_cost = total;
-        await newOrder.save();
-
-        for(const toDelete of allCartItemsFromCart){
-        
-        await toDelete.destroy();
-        }    
-
-        return res.status(200).json();
-    }catch(error){
-        return res.json(error);
+        return res.status(200).json(AllInfo);
+      }
     }
-})
-
-router.get("/orders", adminMiddleware, async (req, res) =>{
-    try{
-
-        const allOrders = await Order.findAll({
-            where:{
-                order_status:"Pending"
-        }});
-        if(allOrders !== null){
-            return res.status(200).json(allOrders);
-        }
-
-    }catch(error){
-        console.log(error);
-    }
-})
-
-router.put("/order/:id", adminMiddleware, async(req, res) =>{
-    try{
-        const ids = req.params.id;
-        const toUpdate = await Order.findOne({where: {id: ids}});
-        if(toUpdate !== null){
-            toUpdate.order_status = "Shipped";
-
-            await toUpdate.save();
-
-            return res.status(200).json();
-        }
-
-    }catch(error){
-        return res.status(401).json(error);
-    }
-})
-router.put("/order-cancel/:id", adminMiddleware, async(req, res) =>{
-    try{
-        const ids = req.params.id;
-        const toUpdate = await Order.findOne({where: {id: ids}});
-        if(toUpdate !== null){
-            toUpdate.order_status = "Cancelled";
-
-            await toUpdate.save();
-
-            return res.status(200).json();
-        }
-
-    }catch(error){
-        return res.status(401).json(error);
-    }
-})
-
-router.get("/order-items/:id",authMiddleware, async(req, res) => {
-    try{
-
-        const id = req.params.id;
-
-        const OrdersUser = await Order.findAll({where: {UserId: id}});
-        if(OrdersUser){
-            const allIds = OrdersUser.map(n => n.id);
-
-            const OrderItems = await Order_item.findAll({where: {OrderId: allIds}, include: [Mobile, Order]});
-            if(OrderItems !== null){
-                const AllInfo = OrderItems.map(m => {
-                    const {Mobile, Order, id, createdAt, updatedAt} = m;
-                    const {order_status} = Order;
-                    const {mobile_name,ram, internal, camera,processor, os,price,screen_size, battery, photo} = Mobile;
-                    return{
-                        id ,screen_size, mobile_name, order_status,ram, internal, camera,processor, os,price, battery ,createdAt, updatedAt, photo
-                    }
-                })
-                return res.status(200).json(AllInfo);
-            }
-
-        }
-
-    }catch(error){
-        return res.status(401).json(error);
-        
-    }
-})
-
-router.delete("/delete-order-item/:id", authMiddleware, async(req, res) => {
-    try{
-
-        const id = req.params.id;
-
-        const OrderUser = await Order.findOne({where: {id: id}});
-        if(OrderUser){
-            const Item = await Order_item.findOne({where: {OrderId : OrderUser.id}});
-
-            await Item.destroy();
-
-            return res.status(200).json();
-        }
-
-    }catch(error){
-        return res.status(401).json(error);
-    }
-})
+  } catch (error) {
+    return res.status(401).json(error);
+  }
+});
+*/
 
 module.exports = router;
-

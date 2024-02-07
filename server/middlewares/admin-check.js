@@ -19,7 +19,7 @@ exports.adminMiddleware = async (req, res, next) => {
     let user = await User.findByPk(payload.id);
 
     if (user.roleId == 1) {
-      req.user = payload;
+      req.user = user;
       next();
     } else {
       res.status(401).json();

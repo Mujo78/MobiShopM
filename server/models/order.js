@@ -21,11 +21,11 @@ module.exports = () => {
       allowNull: false,
     },
     payment_info: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM("Card", "Delivery"),
       allowNull: false,
     },
     order_status: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM("Shipped", "Pending", "Canceled"),
       allowNull: false,
     },
   });

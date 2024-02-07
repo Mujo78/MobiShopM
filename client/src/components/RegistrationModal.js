@@ -1,244 +1,206 @@
-import {useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import axios from "axios";
-import ErrorFinder from './ErrorFinder';
-import Container from 'react-bootstrap/esm/Container';
-export default function RegistrationModal({handleClose, handleOpen, show}){
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import Container from "react-bootstrap/esm/Container";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { registrationValidationSchema } from "../validations/auth/registrationValidation";
+import ErrorMessage from "./ErrorMessage";
+import { useSignup } from "../features/User/useSignup";
 
-  const [errorsLogin, setErrors] = useState([])
-
-  const[registrationData, setRegistrationData] = useState({
-    first_name:"",
-    last_name:"",
-    phone_number:"",
-    address: "",
-    city: "",
-    username:"",
-    email: "",
-    gender:"",
-    password: "",
-    confirmpassword: ""
-  })
-
+export default function RegistrationModal({ handleClose, show }) {
   const [showPassword, setShowPassword] = useState(false);
+  const { register, handleSubmit, formState, reset } = useForm({
+    resolver: yupResolver(registrationValidationSchema),
+  });
+  const { errors } = formState;
+
+  const { signup, error } = useSignup();
 
   const togglePasswordVisibility = () => {
-    setShowPassword(n => !n);
+    setShowPassword((n) => !n);
   };
-  const showHideImagePass = !showPassword ? "/images/see.svg" : "/images/hide.svg";
 
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(n => !n);
-  };
-  const showHideImageConfirm = !showConfirmPassword ? "/images/see.svg" : "/images/hide.svg";
-
-  
-
-  function handleSubmit(event){
-    event.preventDefault();
-
-    axios.post("http://localhost:3001/registration", registrationData)
-    .then(() => {
-        handleClose();
-        console.log(`Username: ${registrationData.username}` );
-        setErrors([]);
-        setRegistrationData({
-          first_name:"",
-          last_name:"",
-          phone_number:"",
-          address: "",
-          city: "",
-          username:"",
-          email: "",
-          gender:"",
-          password: "",
-          confirmpassword: ""
-        })
-        handleOpen();
-    })
-    .catch(error => {
-      setErrors(error.response.data.errors);
-    });
-    
+  function onSubmit(values) {
+    console.log(values);
+    signup(values, { onSuccess: () => reset() });
   }
-  let num = errorsLogin.length;
 
-
-  function handleChange(event){
-    const name = event.target.name;
-    const value = event.target.value;
-
-    setRegistrationData(n => ({
-      ...n,
-      [name]: value
-    }))
-    
-  }
-    return(
-        <>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Body>
+  return (
+    <>
+      <Modal show={show} onHide={handleClose} size="lg">
+        <Modal.Body>
           <Modal.Header closeButton>
             <Modal.Title>Sign Up</Modal.Title>
           </Modal.Header>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="d-flex mb-1">
-                  <Container className="d-flex flex-column p-0 w-100">
-                      <Form.Label>Name</Form.Label>
-                      <Form.Control 
-                        type="text" 
-                        value={registrationData.first_name}
-                        onChange={handleChange}
-                        name='first_name' 
-                        autoFocus />
-                     {num > 0 && <ErrorFinder err={errorsLogin} fieldName="first_name" />}
-                  </Container>
-                  <Container className="d-flex flex-column p-0 ms-2 w-100">
-                      <Form.Label>Last name</Form.Label>
-                      <Form.Control 
-                        type="text" 
-                        value={registrationData.last_name}
-                        onChange={handleChange}
-                        name='last_name' 
-                        autoFocus />
-                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="last_name" />}
-
-                  </Container>
-              </Form.Group>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="d-flex mb-1">
-                <Container className="d-flex flex-column p-0 w-100">
-                    <Form.Label>Phone number</Form.Label>
-                    <Form.Control 
-                      type='text' 
-                      value={registrationData.phone_number}
-                      onChange={handleChange}
-                      name="phone_number"
-                      placeholder="+387** *** ***" 
-                      autoFocus />
-                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="phone_number" />}
-                </Container>
-                <Container className="d-flex flex-column p-0 ms-2 w-50">
-                    <Form.Label>Gender</Form.Label>
-                    <Form.Select 
-                      aria-label="Default select example" 
-                      value={registrationData.gender}
-                      onChange={handleChange}
-                      name="gender">
-                        <option>Choose</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </Form.Select>
-                    {num > 0 && <ErrorFinder err={errorsLogin} fieldName="gender" />}
-                </Container>
-            </Form.Group>
-            <Form.Group className="d-flex mb-1">
-                <Container className="d-flex flex-column p-0 w-100">
-                    <Form.Label>City</Form.Label>
-                    <Form.Control 
-                      type="text" 
-                      name='city'
-                      value={registrationData.city}
-                      onChange={handleChange}
-                      autoFocus />
-                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="city" />}
-                </Container>
-                <Container className="d-flex flex-column p-0 ms-2 w-100">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control 
-                      type="text" 
-                      name="address"
-                      value={registrationData.address}
-                      onChange={handleChange}
-                      autoFocus />
-                      {num > 0 && <ErrorFinder err={errorsLogin} fieldName="address" />}
-                </Container>
-            </Form.Group>
-            <Form.Group className="mb-1">
-                <Form.Label>Username</Form.Label>
+              <Container className="d-flex flex-column p-0 w-100">
+                <Form.Label htmlFor="first_name">Name</Form.Label>
+                <Form.Control
+                  color="danger"
+                  type="text"
+                  {...register("first_name")}
+                  name="first_name"
+                  id="first_name"
+                  autoFocus
+                />
+                <ErrorMessage textError={errors.first_name} />
+              </Container>
+              <Container className="d-flex flex-column p-0 ms-2 w-100">
+                <Form.Label htmlFor="last_name">Last name</Form.Label>
                 <Form.Control
                   type="text"
-                  value={registrationData.username}
-                  name="username"
-                  onChange={handleChange}
+                  id="last_name"
+                  {...register("last_name")}
+                  name="last_name"
                   autoFocus
                 />
-                {num > 0 && <ErrorFinder err={errorsLogin} fieldName="username" />}
-              </Form.Group>
-              <Form.Group className="mb-1">
-                <Form.Label>Email</Form.Label>
+                <ErrorMessage textError={errors.last_name} />
+              </Container>
+            </Form.Group>
+            <Form.Group className="d-flex mb-1">
+              <Container className="d-flex flex-column p-0 w-100">
+                <Form.Label htmlFor="phone_number">Phone number</Form.Label>
                 <Form.Control
-                  type="email"
-                  value={registrationData.email}
-                  name="email"
-                  onChange={handleChange}
-                  placeholder="name@example.com"
+                  type="text"
+                  {...register("phone_number")}
+                  name="phone_number"
+                  id="phone_number"
+                  placeholder="+387** *** ***"
                   autoFocus
                 />
-                {num > 0 && <ErrorFinder err={errorsLogin} fieldName="email" />}
-              </Form.Group>
-              <Form.Group
-                className="mb-1"
-                
-              >
-                <Form.Label>Password</Form.Label>
-                <Container className="input-group p-0">
+                <ErrorMessage textError={errors.phone_number} />
+              </Container>
+              <Container className="d-flex flex-column p-0 ms-2 w-50">
+                <Form.Label htmlFor="gender">Gender</Form.Label>
+                <Form.Select
+                  {...register("gender")}
+                  aria-label="Default select example"
+                  id="gender"
+                  name="gender"
+                >
+                  <option>Choose</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </Form.Select>
+                <ErrorMessage textError={errors.gender} />
+              </Container>
+            </Form.Group>
+            <Form.Group className="d-flex mb-1">
+              <Container className="d-flex flex-column p-0 w-100">
+                <Form.Label htmlFor="city">City</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="city"
+                  id="city"
+                  {...register("city")}
+                  autoFocus
+                />
+                <ErrorMessage textError={errors.city} />
+              </Container>
+              <Container className="d-flex flex-column p-0 ms-2 w-100">
+                <Form.Label htmlFor="address">Address</Form.Label>
+                <Form.Control
+                  id="address"
+                  type="text"
+                  name="address"
+                  {...register("address")}
+                  autoFocus
+                />
+                <ErrorMessage textError={errors.address} />
+              </Container>
+            </Form.Group>
+            <Form.Group className="mb-1">
+              <Form.Label htmlFor="username">Username</Form.Label>
+              <Form.Control
+                type="text"
+                id="username"
+                {...register("username")}
+                name="username"
+                autoFocus
+              />
+              <ErrorMessage textError={errors.username} />
+            </Form.Group>
+            <Form.Group className="mb-1">
+              <Form.Label htmlFor="email">Email</Form.Label>
+              <Form.Control
+                type="email"
+                id="email"
+                name="email"
+                {...register("email")}
+                placeholder="name@example.com"
+                autoFocus
+              />
+              <ErrorMessage textError={errors.email} />
+            </Form.Group>
+            <Form.Group className="mb-1">
+              <Form.Label htmlFor="password">Password</Form.Label>
+              <Container className="input-group p-0">
                 <Form.Control
                   type={showPassword ? "text" : "password"}
-                  value={registrationData.password}
+                  {...register("password")}
                   name="password"
-                  onChange={handleChange}
+                  id="password"
                   placeholder="***********"
                   autoFocus
                 />
-                 <button
+                <button
                   className="btn btn-outline-secondary"
                   type="button"
                   onClick={togglePasswordVisibility}
                 >
-                  <img style={{height:"20px"}} src={showHideImagePass} alt="seehide" />
-                  </button>
-                </Container>
-                {num > 0 && <ErrorFinder err={errorsLogin} fieldName="password" />}
-              </Form.Group>
-              <Form.Group className="mb-1">
-                <Form.Label>Confirm Password</Form.Label>
-                <Container className="input-group p-0">
-                <Form.Control
-                  type={showConfirmPassword ? "text" : "password"}
-                  value={registrationData.confirmpassword}
-                  name="confirmpassword"
-                  onChange={handleChange}
-                  placeholder="***********"
-                  autoFocus
-                />
-                 <button
-                            className="btn btn-outline-secondary"
-                            type="button"
-                            onClick={toggleConfirmPasswordVisibility}
-                            >
-                                <img style={{height:"20px"}} src={showHideImageConfirm} alt="seehide" />
-                            </button>
-                </Container>
-                {registrationData.password === registrationData.confirmpassword ? "" : <p style={{fontSize:"12px", color:"red"}}>Passwords must be the same!</p>}
-              
-              </Form.Group>
+                  {showPassword ? <BsEyeSlash /> : <BsEye />}
+                </button>
+              </Container>
+              <ErrorMessage textError={errors.password} />
+            </Form.Group>
+            <Form.Group className="mb-1">
+              <Form.Label htmlFor="confirmPassword">
+                Confirm Password
+              </Form.Label>
+              <Form.Control
+                {...register("confirmPassword")}
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                placeholder="***********"
+                autoFocus
+              />
+              <ErrorMessage
+                textError={
+                  errors.confirmPassword
+                    ? errors.confirmPassword
+                    : error && error
+                }
+              />
+            </Form.Group>
             <Modal.Footer>
-              
-            <Button variant="secondary" style={{border: "none", borderRadius: 0}} onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" style={{backgroundColor: "#219aeb", border: "none", borderRadius: 0}} type='submit'>
-              Sign Up
-            </Button>
-          </Modal.Footer>
+              <Button
+                variant="secondary"
+                style={{ border: "none", borderRadius: 0 }}
+                onClick={handleClose}
+              >
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                style={{
+                  backgroundColor: "#219aeb",
+                  border: "none",
+                  borderRadius: 0,
+                }}
+                type="submit"
+              >
+                Sign Up
+              </Button>
+            </Modal.Footer>
           </Form>
-          </Modal.Body>
-          
-        </Modal>
-      </>
-    )
+        </Modal.Body>
+      </Modal>
+    </>
+  );
 }

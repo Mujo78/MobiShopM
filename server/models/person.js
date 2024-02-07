@@ -27,7 +27,7 @@ module.exports = () => {
       type: DataTypes.STRING(100),
     },
     gender: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.ENUM("Male", "Female", "Other"),
       allowNull: false,
     },
   });
