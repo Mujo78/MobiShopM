@@ -5,15 +5,12 @@ import { useAuth } from "../context/AuthContext";
 export default function UserRequired() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const ac = localStorage.getItem("accessToken");
 
   useEffect(() => {
-    if (!ac) {
-      navigate("*");
-    } else if (ac && user.RoleId !== 2) {
+    if (!user || user?.role === 1) {
       navigate("*");
     }
-  }, [ac, user.RoleId]);
+  }, [user, navigate]);
 
   return <Outlet />;
 }

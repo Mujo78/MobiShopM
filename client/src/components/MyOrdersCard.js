@@ -38,9 +38,9 @@ export default function MyOrdersCard() {
   const nPages = Math.ceil(myOrders.length / perPage);
 
   const getData = () => {
-    if (user.id !== 0) {
+    if (user && user?.id !== 0) {
       axios
-        .get(`http://localhost:3001/order-items/${user.id}`, {
+        .get(`http://localhost:3001/order-items/${user?.id}`, {
           headers: {
             accessToken: `Bearer ${localStorage.getItem("accessToken")}`,
           },
@@ -66,7 +66,7 @@ export default function MyOrdersCard() {
 
   useEffect(() => {
     getData();
-  }, [user.id]);
+  }, [user]);
 
   const betterLook = (date) => {
     const dates = date.slice(0, 10);

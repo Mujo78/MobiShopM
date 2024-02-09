@@ -15,7 +15,7 @@ root.render(
   <React.StrictMode>
     <ErrorBoundary
       FallbackComponent={ErrorFallback}
-      onReset={() => window.location.replace("/")}
+      onReset={() => window.location.replace(window.location.pathname)}
     >
       <App />
     </ErrorBoundary>

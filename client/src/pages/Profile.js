@@ -24,7 +24,7 @@ const CustomContainer = styled(Container)`
 `;
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   const infoPersonState = {
     first_name: "",
@@ -39,21 +39,16 @@ export default function Profile() {
   const { isMobile, isTablet, isDesktop } = useResponsive();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!localStorage.getItem("accessToken")) {
-      navigate("/");
-    }
-  }, [navigate]);
-
   function logOutFunction() {
-    localStorage.removeItem("accessToken");
-    setAuthState({
-      id: 0,
-      username: "",
-      RoleId: 0,
-    });
+    logout();
     navigate("/");
   }
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate, user]);
 
   const deleteMyAcc = () => {
     try {
@@ -131,7 +126,7 @@ export default function Profile() {
             >
               Edit profile
             </ListGroup.Item>
-            {user.RoleId !== 1 && (
+            {user?.role !== 1 && (
               <>
                 <ListGroup.Item
                   className={nameOfClass}

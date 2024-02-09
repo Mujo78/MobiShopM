@@ -29,7 +29,9 @@ import AdminAuthRequired from "./helpers/AdminAuthRequired";
 import UserRequired from "./helpers/UserRequired";
 import { AuthProvider } from "./context/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AppLayout from "./components/AppLayout";
+import BrandModels from "./components/BrandModels";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,32 +44,34 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen />
       <AuthProvider>
         <Router>
           <Routes>
             <Route path="/" element={<AppLayout />}>
               <Route index element={<Home />} />
               <Route path="search" element={<Search />} />
-              <Route path="models/:brandName?" element={<Models />} />
+              <Route path="models" element={<Models />}>
+                <Route path=":brandId" element={<BrandModels />} />
+              </Route>
               <Route path="about" element={<About />} />
               <Route path="contact" element={<Contact />} />
 
-              <Route element={<AuthRequired />}>
-                <Route path="profile" element={<Profile />}>
-                  <Route index element={<Overview />} />
-                  <Route path="edit-profile" element={<EditProfile />}>
-                    <Route index element={<Info />} />
-                    <Route path="profile-data" element={<ProfileData />} />
-                    <Route
-                      path="change-password"
-                      element={<ChangePassword />}
-                    />
-                  </Route>
-                  <Route element={<UserRequired />}>
-                    <Route path="my-cart" element={<MyCart />} />
-                    <Route path="orders" element={<Orders />} />
-                    <Route path="wishlist" element={<Wishlist />} />
-                  </Route>
+              <Route
+                path="/profile"
+                element={<Profile />}
+                loader={AuthRequired}
+              >
+                <Route index element={<Overview />} />
+                <Route path="edit-profile" element={<EditProfile />}>
+                  <Route index element={<Info />} />
+                  <Route path="profile-data" element={<ProfileData />} />
+                  <Route path="change-password" element={<ChangePassword />} />
+                </Route>
+                <Route element={<UserRequired />}>
+                  <Route path="my-cart" element={<MyCart />} />
+                  <Route path="orders" element={<Orders />} />
+                  <Route path="wishlist" element={<Wishlist />} />
                 </Route>
               </Route>
 

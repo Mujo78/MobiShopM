@@ -48,13 +48,13 @@ export default function MobileModal({ data, onHide, show }) {
   };
 
   useEffect(() => {
-    if (user.id !== 0) {
+    if (user?.id !== 0) {
       axios
-        .get(`http://localhost:3001/person/${user.id}`)
+        .get(`http://localhost:3001/person/${user?.id}`)
         .then((response) => setPersonInfoState(response.data))
         .catch((error) => console.log(error));
     }
-  }, [user.id]);
+  }, [user]);
 
   const btnStyle = {
     backgroundColor: "#219aeb",
@@ -106,8 +106,8 @@ export default function MobileModal({ data, onHide, show }) {
         </ListGroup>
       </Modal.Body>
       <Modal.Footer>
-        {user.id !== 0 ? (
-          user.RoleId !== 1 && (
+        {user?.id !== 0 ? (
+          user?.role !== 1 && (
             <>
               <Form.Control
                 type="number"

@@ -1,7 +1,7 @@
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 
-export default function CustomAlert() {
+export default function CustomAlert({ children }) {
   return (
     <Alert
       variant="secondary"
@@ -9,9 +9,7 @@ export default function CustomAlert() {
       role="alert"
     >
       <span className="mx-auto">
-        <strong>
-          Unbeatable deals and amazing discounts, shop now and save big!
-        </strong>
+        <strong>{children}</strong>
       </span>
       <Button
         variant="light"

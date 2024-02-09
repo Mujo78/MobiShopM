@@ -1,12 +1,17 @@
 import { redirect, Outlet } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-export default function AuthRequired(){
-    
-    const isLoggedIn = localStorage.getItem("accessToken");
+const AuthRequired = () => {
+  const user = localStorage.getItem("user");
+  const userObj = user && JSON.parse(user);
 
-    if(!isLoggedIn){
-        redirect("*")
-    }
+  console.log(user);
 
-    return <Outlet />
-}
+  if (!userObj) {
+    return redirect("/profile");
+  }
+
+  return null;
+};
+
+export default AuthRequired;

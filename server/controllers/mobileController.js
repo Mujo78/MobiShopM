@@ -44,8 +44,15 @@ const getMobileById = asyncHandler(async (req, res, next) => {
 });
 
 const getMobilesByBrandId = asyncHandler(async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const searchQuery = req.query.searchQuery;
+  const limit = 12;
+  const offset = (page - 1) * limit;
+
   const brandId = req.params.brandId;
 
+  let options = {};
+  let resObj = {};
   const brand = await Brand.findByPk(brandId);
 
   if (!brand) {
@@ -53,9 +60,24 @@ const getMobilesByBrandId = asyncHandler(async (req, res, next) => {
     return next(new Error("Brand not found!"));
   }
 
-  const allMobiles = await Mobile.findAll({ where: { brandId: brand.id } });
+  options.brandId = brand.id;
 
-  if (allMobiles) return res.status(200).json(allMobiles);
+  if (searchQuery) {
+    options.mobile_name = {
+      [Op.regexp]: `(?i)${searchQuery}`,
+    };
+  }
+
+  const allMobiles = await Mobile.findAll({ where: options, offset, limit });
+  const total = await Mobile.count({ where: options });
+
+  if (allMobiles) {
+    resObj.data = allMobiles;
+    resObj.numOfPages = Math.ceil(total / limit);
+    resObj.currentPage = page;
+
+    return res.status(200).json(resObj);
+  }
 
   res.status(400);
   return next(new Error("Something went wrong, please try again later!"));

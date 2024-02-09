@@ -10,8 +10,10 @@ const AUTH_ACTION_TYPES = {
   LOGOUT: "LOGOUT",
 };
 
+const userStorage = localStorage.getItem("user");
+
 const initialState = {
-  user: null,
+  user: userStorage ? JSON.parse(userStorage) : null,
   status: "start",
   error: "",
 };
@@ -25,7 +27,7 @@ function reducer(state, action) {
     case AUTH_ACTION_TYPES.LOGIN_SUCCESS:
       return { ...state, user: action.payload, status: "idle", error: "" };
     case AUTH_ACTION_TYPES.LOGOUT:
-      return initialState;
+      return { ...state, user: null };
     default:
       throw new Error("Something went wrong, please try again latter!");
   }
@@ -40,7 +42,7 @@ function AuthProvider({ children }) {
       const user = await userLogin(loginData);
       console.log(typeof user);
       dispatch({ type: AUTH_ACTION_TYPES.LOGIN_SUCCESS, payload: user });
-      localStorage.setItem("user", user);
+      localStorage.setItem("user", JSON.stringify(user));
     } catch (error) {
       dispatch({
         type: AUTH_ACTION_TYPES.LOGIN_FAILURE,
@@ -51,7 +53,7 @@ function AuthProvider({ children }) {
 
   function logout() {
     dispatch({ type: AUTH_ACTION_TYPES.LOGOUT });
-    localStorage.setItem("user", user);
+    localStorage.removeItem("user");
   }
 
   return (

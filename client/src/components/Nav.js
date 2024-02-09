@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Alert from "./Alert";
+import CustomAlert from "./Alert";
 import LoginModal from "./LoginModal";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -33,12 +33,14 @@ export default function Navbars() {
 
   return (
     <>
-      <Alert />
+      <CustomAlert>
+        Unbeatable deals and amazing discounts, shop now and save big!
+      </CustomAlert>
       <Navbar expand="lg" style={{ backgroundColor: "#219aeb" }}>
         <Container fluid>
           <Navbar.Brand as={Link} to="/">
             <img
-              src="/images/am.png"
+              src="/am.png"
               alt="logo"
               style={{ height: "2em", width: "2em" }}
             />

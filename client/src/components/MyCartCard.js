@@ -50,9 +50,9 @@ export default function MyCartCard() {
   };
 
   const getCartItemsInfo = () => {
-    if (user.id !== 0) {
+    if (user && user?.id !== 0) {
       axios
-        .get(`http://localhost:3001/cart/${user.id}`, {
+        .get(`http://localhost:3001/cart/${user?.id}`, {
           headers: {
             accessToken: `Bearer ${localStorage.getItem("accessToken")}`,
           },

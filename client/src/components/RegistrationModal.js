@@ -40,7 +40,7 @@ export default function RegistrationModal({ handleClose, show }) {
               <Container className="d-flex flex-column p-0 w-100">
                 <Form.Label htmlFor="first_name">Name</Form.Label>
                 <Form.Control
-                  color="danger"
+                  className={errors.first_name && " border-danger"}
                   type="text"
                   {...register("first_name")}
                   name="first_name"
@@ -52,6 +52,7 @@ export default function RegistrationModal({ handleClose, show }) {
               <Container className="d-flex flex-column p-0 ms-2 w-100">
                 <Form.Label htmlFor="last_name">Last name</Form.Label>
                 <Form.Control
+                  className={errors.last_name && " border-danger"}
                   type="text"
                   id="last_name"
                   {...register("last_name")}
@@ -66,6 +67,7 @@ export default function RegistrationModal({ handleClose, show }) {
                 <Form.Label htmlFor="phone_number">Phone number</Form.Label>
                 <Form.Control
                   type="text"
+                  className={errors.phone_number && " border-danger"}
                   {...register("phone_number")}
                   name="phone_number"
                   id="phone_number"
@@ -77,6 +79,7 @@ export default function RegistrationModal({ handleClose, show }) {
               <Container className="d-flex flex-column p-0 ms-2 w-50">
                 <Form.Label htmlFor="gender">Gender</Form.Label>
                 <Form.Select
+                  className={errors.gender && " border-danger"}
                   {...register("gender")}
                   aria-label="Default select example"
                   id="gender"
@@ -95,6 +98,7 @@ export default function RegistrationModal({ handleClose, show }) {
                 <Form.Label htmlFor="city">City</Form.Label>
                 <Form.Control
                   type="text"
+                  className={errors.city && " border-danger"}
                   name="city"
                   id="city"
                   {...register("city")}
@@ -107,6 +111,7 @@ export default function RegistrationModal({ handleClose, show }) {
                 <Form.Control
                   id="address"
                   type="text"
+                  className={errors.address && " border-danger"}
                   name="address"
                   {...register("address")}
                   autoFocus
@@ -119,6 +124,7 @@ export default function RegistrationModal({ handleClose, show }) {
               <Form.Control
                 type="text"
                 id="username"
+                className={errors.username && " border-danger"}
                 {...register("username")}
                 name="username"
                 autoFocus
@@ -129,6 +135,7 @@ export default function RegistrationModal({ handleClose, show }) {
               <Form.Label htmlFor="email">Email</Form.Label>
               <Form.Control
                 type="email"
+                className={errors.email && " border-danger"}
                 id="email"
                 name="email"
                 {...register("email")}
@@ -145,6 +152,7 @@ export default function RegistrationModal({ handleClose, show }) {
                   {...register("password")}
                   name="password"
                   id="password"
+                  className={errors.password && " border-danger"}
                   placeholder="***********"
                   autoFocus
                 />
@@ -165,6 +173,7 @@ export default function RegistrationModal({ handleClose, show }) {
               <Form.Control
                 {...register("confirmPassword")}
                 type="password"
+                className={errors.confirmPassword && " border-danger"}
                 name="confirmPassword"
                 id="confirmPassword"
                 placeholder="***********"

@@ -25,6 +25,7 @@ const AppLayout = () => {
   function getCartItemsInfo(id) {
     console.log(id);
   }
+
   return (
     <div className="App px-5 pt-2">
       <ToastContainer />

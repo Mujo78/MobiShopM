@@ -34,7 +34,7 @@ export default function Wishlist() {
   }, [user]);
 
   const getWishItems = () => {
-    if (user.RoleId === 2 && user.id !== 0) {
+    if (user?.role === 2) {
       axios
         .get(`http://localhost:3001/wish-items`, {
           headers: {

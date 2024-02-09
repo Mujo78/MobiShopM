@@ -64,7 +64,7 @@ export default function Cards({ mob: { photo, mobile_name, price, id }, mob }) {
   }, []);
 
   const getWishItems = () => {
-    if (user.id !== 0 && user.RoleId === 2) {
+    if (user?.id !== 0 && user?.role === 2) {
       axios
         .get(`http://localhost:3001/wish-items`, {
           headers: {
@@ -114,7 +114,7 @@ export default function Cards({ mob: { photo, mobile_name, price, id }, mob }) {
                   {price} KM
                 </Card.Text>
               </Col>
-              {user.RoleId === 2 && (
+              {user?.role === 2 && (
                 <Col sm={4} className={isMobile && "w-25 me-3"}>
                   {wishListState.some((n) => n.MobileId === id) ? (
                     <Button

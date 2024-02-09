@@ -1,3 +1,19 @@
-.App{
-    margin: 10px 50px 0px 50px;
+.App {
+  margin: 10px 50px 0px 50px;
+}
+
+/*
+--- BRAND/MODELS PART ---
+*/
+.list-group-item:hover {
+  cursor: pointer;
+  background-color: #219aeb;
+  color: white;
+  transition: all;
+  transition-duration: 400ms;
+}
+
+.bg-custom {
+  background-color: #219aeb !important;
+  color: white !important;
 }

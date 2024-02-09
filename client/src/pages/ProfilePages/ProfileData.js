@@ -39,7 +39,7 @@ export default function ProfileData() {
     event.preventDefault();
 
     axios
-      .put(`http://localhost:3001/edit-username/${user.id}`, user, {
+      .put(`http://localhost:3001/edit-username/${user?.id}`, user, {
         headers: {
           accessToken: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -64,7 +64,7 @@ export default function ProfileData() {
               type="text"
               name="username"
               onChange={handleChange}
-              value={user.username || ""}
+              value={user?.username || ""}
             />
             {num > 0 && <ErrorFinder err={errorState} fieldName="username" />}
           </CustomDiv>

@@ -1,17 +1,15 @@
 import Container from "react-bootstrap/esm/Container";
 import CarouselSlider from "../components/Carousel";
 import Footer from "../components/Footer";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import Cards from "../components/Card";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styled from "styled-components";
-import useResponsive from "../components/useResponsive";
-
+import Spinner from "react-bootstrap/Spinner";
 import { BsShop, BsTruck, BsCashStack } from "react-icons/bs";
+import { useQuery } from "@tanstack/react-query";
+import { fetchTopPrice } from "../api";
 
 const CustomCarousel = styled(Carousel)`
   .carousel .control-dots .dot {
@@ -23,16 +21,12 @@ const CustomCarousel = styled(Carousel)`
 `;
 
 export default function Home() {
-  const { isMobile, isTablet } = useResponsive();
-  const [topPricesState, setTopPricesState] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/mobiles-top-prices")
-      .then((response) => setTopPricesState(response.data))
-      .catch((error) => console.log(error));
-  }, []);
+  const {
+    data: topPricesState,
+    isLoading,
+    isError,
+  } = useQuery({ queryKey: ["topPrices"], queryFn: fetchTopPrice });
 
   const activeStyles = {
     transform: "scale(0.9)",
@@ -49,15 +43,6 @@ export default function Home() {
     opacity: "0.5",
   };
 
-  let number;
-  if (isMobile) {
-    number = 120;
-  } else if (isTablet) {
-    number = 40;
-  } else {
-    number = 20;
-  }
-
   const iconStyles = {
     width: "4em",
     height: "4em",
@@ -65,46 +50,54 @@ export default function Home() {
   };
 
   return (
-    <main className="d-flex flex-column gap-5 align-items-start">
+    <main className="d-flex flex-column gap-5">
       <CarouselSlider />
-      <Container fluid>
-        <Row className="d-flex justify-content-center flex-wrap align-items-center">
-          <Col sm={isTablet ? 0 : 1} className="d-flex justify-content-center">
+      <Container
+        fluid
+        className="d-sm-flex justify-content-around gap-4 flex-wrap align-items-center"
+      >
+        <div className="d-sm-flex gap-3 flex-md-row flex-sm-column align-items-center">
+          <span className="d-flex align-items-center justify-content-center">
             <BsShop style={iconStyles} />
-          </Col>
-          <Col sm={isTablet ? 0 : 2} className="d-flex justify-content-center">
-            <p className="text-center text-sm-start">
-              <strong>Safe online shopping</strong>
-              <br />
-              Device review before purchase
-            </p>
-          </Col>
-          <Col sm={isTablet ? 0 : 1} className="d-flex justify-content-center">
+          </span>
+
+          <p className="text-center">
+            <strong>Safe online shopping</strong>
+            <br />
+            Device review before purchase
+          </p>
+        </div>
+        <div className="d-sm-flex gap-3 flex-md-row flex-sm-column align-items-center">
+          <span className="d-flex align-items-center justify-content-center">
             <BsTruck style={iconStyles} />
-          </Col>
-          <Col sm={isTablet ? 0 : 2} className="d-flex justify-content-center">
-            <p className="text-center text-sm-start">
-              <strong>Free delivery</strong>
-              <br />
-              Delivery in 24/48h
-            </p>
-          </Col>
-          <Col sm={isTablet ? 0 : 1} className="d-flex justify-content-center">
+          </span>
+
+          <p className="text-center">
+            <strong>Free delivery</strong>
+            <br />
+            Delivery in 24/48h
+          </p>
+        </div>
+
+        <div className="d-sm-flex gap-3 flex-md-row flex-sm-column align-items-center">
+          <span className="d-flex align-items-center justify-content-center">
             <BsCashStack style={iconStyles} />
-          </Col>
-          <Col sm={isTablet ? 0 : 3} className="d-flex justify-content-center">
-            <p className="text-center text-sm-start">
-              <strong>Possibility of purchase in installments</strong>
-              <br />
-              Up to 36 installments
-            </p>
-          </Col>
-        </Row>
+          </span>
+          <p className="text-center">
+            <strong>Possibility of purchase in installments</strong>
+            <br />
+            Up to 36 installments
+          </p>
+        </div>
       </Container>
       <br />
-      {topPricesState.length > 0 && (
-        <Container fluid className="mb-5">
-          <h3 className="mt-5 text-decoration-underline">Top prices</h3>
+      <Container fluid className="mb-5">
+        <h3 className="mt-5 text-decoration-underline">Top prices</h3>
+        {isLoading ? (
+          <div className="w-100 mt-5 d-flex justify-content-center align-items-center">
+            <Spinner />
+          </div>
+        ) : topPricesState.length > 0 ? (
           <CustomCarousel
             showArrows={true}
             showStatus={false}
@@ -115,7 +108,7 @@ export default function Home() {
             stopOnHover={true}
             infiniteLoop={true}
             centerMode={true}
-            centerSlidePercentage={number}
+            centerSlidePercentage={120}
             swipeable={true}
             transitionTime={3000}
             showIndicators={true}
@@ -138,8 +131,10 @@ export default function Home() {
                 </Container>
               ))}
           </CustomCarousel>
-        </Container>
-      )}
+        ) : (
+          isError && <p>Something went wrong, we will fix it soon.</p>
+        )}
+      </Container>
 
       <Footer />
     </main>
