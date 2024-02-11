@@ -24,7 +24,6 @@ export default function RegistrationModal({ handleClose, show }) {
   };
 
   function onSubmit(values) {
-    console.log(values);
     signup(values, { onSuccess: () => reset() });
   }
 
@@ -190,18 +189,14 @@ export default function RegistrationModal({ handleClose, show }) {
             <Modal.Footer>
               <Button
                 variant="secondary"
-                style={{ border: "none", borderRadius: 0 }}
+                className="border-0"
                 onClick={handleClose}
               >
                 Close
               </Button>
               <Button
                 variant="primary"
-                style={{
-                  backgroundColor: "#219aeb",
-                  border: "none",
-                  borderRadius: 0,
-                }}
+                className="bg-custom border-0"
                 type="submit"
               >
                 Sign Up

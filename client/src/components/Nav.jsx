@@ -36,7 +36,7 @@ export default function Navbars() {
       <CustomAlert>
         Unbeatable deals and amazing discounts, shop now and save big!
       </CustomAlert>
-      <Navbar expand="lg" style={{ backgroundColor: "#219aeb" }}>
+      <Navbar expand="lg" className=" rounded bg-custom">
         <Container fluid>
           <Navbar.Brand as={Link} to="/">
             <img

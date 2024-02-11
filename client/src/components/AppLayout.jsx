@@ -32,19 +32,21 @@ const AppLayout = () => {
       <Navbars />
       <Outlet />
 
-      <Button
-        onClick={() => handleShowCart()}
-        className="position-fixed mb-5 ms-5 p-4 rounded-pill bg-transparent bottom-0"
-        style={{
-          left: 0,
-          border: "5px solid #219AEB",
-        }}
-      >
-        <BsCart2
-          className=" text-dark"
-          style={{ height: "30px", width: "30px" }}
-        />
-      </Button>
+      {user?.role !== 1 && (
+        <Button
+          onClick={() => handleShowCart()}
+          className="position-fixed mb-5 ms-5 p-4 rounded-pill bg-transparent bottom-0"
+          style={{
+            left: 0,
+            border: "5px solid #219AEB",
+          }}
+        >
+          <BsCart2
+            className=" text-dark"
+            style={{ height: "30px", width: "30px" }}
+          />
+        </Button>
+      )}
 
       <Cart
         show={showCart}

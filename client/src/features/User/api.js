@@ -10,3 +10,13 @@ export async function userSignup(registrationData) {
   const res = await axios.post(`${URL}/registration`, registrationData);
   return res.data;
 }
+
+export async function deleteMyAccount(token) {
+  const res = await axios.delete(`${URL}/delete-profile`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.data;
+}

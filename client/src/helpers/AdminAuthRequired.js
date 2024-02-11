@@ -1,20 +1,13 @@
-import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { redirect } from "react-router-dom";
 
-export default function AdminAuthRequired() {
-  const { user } = useAuth();
-  const ac = localStorage.getItem("accessToken");
+const AdminAuthRequired = () => {
+  const user = localStorage.getItem("user");
+  const adminUserObj = user && JSON.parse(user);
 
-  const navigate = useNavigate();
+  if (adminUserObj?.role !== 1) {
+    return redirect("/");
+  }
 
-  useEffect(() => {
-    if (!ac) {
-      navigate("*");
-    } else if (ac && user.RoleId !== 1) {
-      navigate("*");
-    }
-  }, [ac]);
-
-  return <Outlet />;
-}
+  return null;
+};
+export default AdminAuthRequired;

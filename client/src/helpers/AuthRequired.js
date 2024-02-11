@@ -1,14 +1,11 @@
-import { redirect, Outlet } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { redirect } from "react-router-dom";
 
 const AuthRequired = () => {
   const user = localStorage.getItem("user");
   const userObj = user && JSON.parse(user);
 
-  console.log(user);
-
   if (!userObj) {
-    return redirect("/profile");
+    return redirect("/");
   }
 
   return null;

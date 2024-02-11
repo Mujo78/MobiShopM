@@ -17,3 +17,79 @@
   background-color: #219aeb !important;
   color: white !important;
 }
+
+.text-custom {
+  color: #219aeb !important;
+}
+
+.bg-custom-class:hover {
+  background-color: #218fd9 !important;
+  color: white;
+  transition: all;
+  transition-duration: 400ms;
+}
+
+/*
+--- ABOUT PAGE PART ---
+*/
+
+@keyframes animation-slide {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes animation-slide-in {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.Cols {
+  border: 2px #219aeb solid;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: #219aeb;
+  font-weight: bold;
+}
+
+.Cols.c1 {
+  animation: animation-slide 4.5s forwards;
+}
+
+.Cols.c2 {
+  animation: animation-slide-in 4.5s forwards;
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  .rounded-start-class {
+    border-bottom-left-radius: 0.375rem !important;
+    border-top-left-radius: 0.375rem !important;
+  }
+
+  .rounded-end-class {
+    border-bottom-right-radius: 0.375rem !important;
+    border-top-right-radius: 0.375rem !important;
+  }
+
+  .rounded-end-class.rounded-bottom {
+    border-bottom-left-radius: 0px !important;
+  }
+
+  .rounded-start-class.rounded-top {
+    border-top-right-radius: 0px !important;
+  }
+
+  .margin-class {
+    gap: 1px;
+  }
+}

@@ -1,16 +1,12 @@
-import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { redirect } from "react-router-dom";
 
 export default function UserRequired() {
-  const { user } = useAuth();
-  const navigate = useNavigate();
+  const user = localStorage.getItem("user");
+  const userObj = user && JSON.parse(user);
 
-  useEffect(() => {
-    if (!user || user?.role === 1) {
-      navigate("*");
-    }
-  }, [user, navigate]);
+  if (userObj?.role !== 2) {
+    return redirect("/");
+  }
 
-  return <Outlet />;
+  return null;
 }

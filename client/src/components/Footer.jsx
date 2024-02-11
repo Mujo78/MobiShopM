@@ -9,7 +9,7 @@ export default function Footer() {
     <div className="w-100">
       <Container
         fluid
-        className="d-flex flex-wrap gap-4 justify-content-md-between gap-sm-4 justify-content-center bg-light px-3 py-3"
+        className="d-flex flex-wrap gap-4 justify-content-md-between gap-sm-4 justify-content-center bg-light rounded-top px-3 py-3"
       >
         <div>
           <h2

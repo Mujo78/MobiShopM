@@ -81,20 +81,12 @@ export default function LoginModal({ handleClose, show }) {
             <Modal.Footer className="">
               <Button
                 variant="secondary"
-                style={{ border: "none", borderRadius: 0 }}
+                className="border-0"
                 onClick={handleClose}
               >
                 Close
               </Button>
-              <Button
-                variant="primary"
-                style={{
-                  backgroundColor: "#219aeb",
-                  border: "none",
-                  borderRadius: 0,
-                }}
-                type="submit"
-              >
+              <Button className="bg-custom border-0" type="submit">
                 Log In
               </Button>
             </Modal.Footer>

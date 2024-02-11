@@ -1,5 +1,12 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Models from "./pages/Models";
@@ -41,57 +48,134 @@ const queryClient = new QueryClient({
   },
 });
 
+const routes = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    path: "/",
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "search",
+        element: <Search />,
+      },
+      {
+        path: "models",
+        element: <Models />,
+        children: [
+          {
+            path: ":brandId",
+            element: <BrandModels />,
+          },
+        ],
+      },
+      {
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+        loader: AuthRequired,
+        children: [
+          {
+            path: "",
+            element: <Overview />,
+          },
+          {
+            path: "edit-profile",
+            element: <EditProfile />,
+            children: [
+              {
+                path: "",
+                element: <Info />,
+              },
+              {
+                path: "profile-data",
+                element: <ProfileData />,
+              },
+              {
+                path: "change-password",
+                element: <ChangePassword />,
+              },
+            ],
+          },
+          {
+            path: "my-cart",
+            element: <MyCart />,
+            loader: UserRequired,
+          },
+          {
+            path: "orders",
+            element: <Orders />,
+            loader: UserRequired,
+          },
+          {
+            path: "wishlist",
+            element: <Wishlist />,
+            loader: UserRequired,
+          },
+        ],
+      },
+      {
+        path: "admin-menu",
+        element: <AdminMenu />,
+        loader: AdminAuthRequired,
+        children: [
+          {
+            path: "add-admin",
+            element: <AddAdmin />,
+          },
+          {
+            path: "delete-admin",
+            element: <DeleteAdmin />,
+          },
+          {
+            path: "add-mobile",
+            element: <AddMobile />,
+          },
+          {
+            path: "edit-mobile",
+            element: <EditMobile />,
+          },
+          {
+            path: "delete-mobile",
+            element: <DeleteMobile />,
+          },
+          {
+            path: "add-brand",
+            element: <AddBrand />,
+          },
+          {
+            path: "see-comments",
+            element: <SeeComments />,
+          },
+          {
+            path: "orders",
+            element: <SeeOrders />,
+          },
+        ],
+      },
+      {
+        path: "*",
+        element: <PageNotFound />,
+      },
+    ],
+  },
+]);
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen />
       <AuthProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<AppLayout />}>
-              <Route index element={<Home />} />
-              <Route path="search" element={<Search />} />
-              <Route path="models" element={<Models />}>
-                <Route path=":brandId" element={<BrandModels />} />
-              </Route>
-              <Route path="about" element={<About />} />
-              <Route path="contact" element={<Contact />} />
-
-              <Route
-                path="/profile"
-                element={<Profile />}
-                loader={AuthRequired}
-              >
-                <Route index element={<Overview />} />
-                <Route path="edit-profile" element={<EditProfile />}>
-                  <Route index element={<Info />} />
-                  <Route path="profile-data" element={<ProfileData />} />
-                  <Route path="change-password" element={<ChangePassword />} />
-                </Route>
-                <Route element={<UserRequired />}>
-                  <Route path="my-cart" element={<MyCart />} />
-                  <Route path="orders" element={<Orders />} />
-                  <Route path="wishlist" element={<Wishlist />} />
-                </Route>
-              </Route>
-
-              <Route path="*" element={<PageNotFound />} />
-
-              <Route element={<AdminAuthRequired />}>
-                <Route path="admin-menu" element={<AdminMenu />}>
-                  <Route path="add-admin" element={<AddAdmin />} />
-                  <Route path="delete-admin" element={<DeleteAdmin />} />
-                  <Route path="add-mobile" element={<AddMobile />} />
-                  <Route path="edit-mobile" element={<EditMobile />} />
-                  <Route path="delete-mobile" element={<DeleteMobile />} />
-                  <Route path="add-brand" element={<AddBrand />} />
-                  <Route path="see-comments" element={<SeeComments />} />
-                  <Route path="orders" element={<SeeOrders />} />
-                </Route>
-              </Route>
-            </Route>
-          </Routes>
-        </Router>
+        <RouterProvider router={routes} />
       </AuthProvider>
     </QueryClientProvider>
   );
