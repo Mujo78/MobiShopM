@@ -10,7 +10,7 @@ const getAllUsers = asyncHandler(async (req, res, next) => {
 });
 
 const getUserById = asyncHandler(async (req, res, next) => {
-  const id = req.params.userId;
+  const id = req.user.id;
   const user = await User.findByPk(id);
 
   if (!user) {

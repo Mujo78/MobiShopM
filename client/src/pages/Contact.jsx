@@ -19,16 +19,14 @@ export default function Contact() {
   const { mutate, isError, isPending, error } = useMutation({
     mutationKey: ["comment"],
     mutationFn: (commentData) => postComment(commentData),
+    onSuccess: () => {
+      toast.success("Comment successfully added!");
+      reset();
+    },
   });
 
   function onSubmit(values) {
-    console.log(values);
     mutate(values);
-    console.log(isError);
-    if (!isError) {
-      reset();
-      toast.success("Comment successfully added!");
-    }
   }
 
   return (

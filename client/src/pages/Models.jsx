@@ -87,7 +87,7 @@ export default function Models() {
                         onClick={() => navigateToBrand(n.id)}
                         className={`${
                           parseInt(brandId) === n.id && "bg-custom"
-                        } w-75 text-center border-top-0 border-start-0 border-end-0`}
+                        } w-75 list-group-item-model text-center border-top-0 border-start-0 border-end-0`}
                       >
                         {n.name}
                       </ListGroup.Item>

@@ -1,12 +1,5 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  createBrowserRouter,
-  createRoutesFromElements,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Models from "./pages/Models";
@@ -17,17 +10,12 @@ import Profile from "./pages/Profile";
 import MyCart from "./pages/ProfilePages/MyCart";
 import Wishlist from "./pages/ProfilePages/Wishlist";
 import AdminMenu from "./pages/AdminMenu";
-import AddAdmin from "./pages/AdminPages/AddAdmin";
 import DeleteAdmin from "./pages/AdminPages/DeleteAdmin";
-import AddMobile from "./pages/AdminPages/AddMobile";
-import EditMobile from "./pages/AdminPages/EditMobile";
 import DeleteMobile from "./pages/AdminPages/DeleteMobile";
-import AddBrand from "./pages/AdminPages/AddBrand";
 import SeeComments from "./pages/AdminPages/SeeComments";
 import Overview from "./pages/ProfilePages/Overview";
 import SeeOrders from "./pages/AdminPages/SeeOrders";
 import Orders from "./pages/ProfilePages/Orders";
-import Info from "./pages/ProfilePages/Info";
 import ProfileData from "./pages/ProfilePages/ProfileData";
 import ChangePassword from "./pages/ProfilePages/ChangePassword";
 import EditProfile from "./pages/ProfilePages/EditProfile";
@@ -94,10 +82,6 @@ const routes = createBrowserRouter([
             children: [
               {
                 path: "",
-                element: <Info />,
-              },
-              {
-                path: "profile-data",
                 element: <ProfileData />,
               },
               {
@@ -129,35 +113,19 @@ const routes = createBrowserRouter([
         loader: AdminAuthRequired,
         children: [
           {
-            path: "add-admin",
-            element: <AddAdmin />,
-          },
-          {
-            path: "delete-admin",
+            path: "admins-menu",
             element: <DeleteAdmin />,
           },
           {
-            path: "add-mobile",
-            element: <AddMobile />,
-          },
-          {
-            path: "edit-mobile",
-            element: <EditMobile />,
-          },
-          {
-            path: "delete-mobile",
+            path: "mobiles-menu",
             element: <DeleteMobile />,
           },
           {
-            path: "add-brand",
-            element: <AddBrand />,
-          },
-          {
-            path: "see-comments",
+            path: "comments-menu",
             element: <SeeComments />,
           },
           {
-            path: "orders",
+            path: "orders-menu",
             element: <SeeOrders />,
           },
         ],

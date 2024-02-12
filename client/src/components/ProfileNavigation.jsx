@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/esm/Modal";
@@ -10,6 +10,7 @@ import { deleteMyAccount } from "../features/User/api";
 const ProfileNavigation = () => {
   const [show, setShow] = useState(false);
   const { user, logout } = useAuth();
+  const location = useLocation().pathname;
   const navigate = useNavigate();
 
   const { mutate, isSuccess, isError } = useMutation({
@@ -51,17 +52,18 @@ const ProfileNavigation = () => {
           className="rounded-top rounded-start-class"
           as={NavLink}
           end
-          to={`.`}
+          to="."
           style={styles}
           variant="secondary"
           action
         >
-          Profile
+          General
         </ListGroup.Item>
         <ListGroup.Item
           as={NavLink}
           end
-          to={`edit-profile`}
+          active={location.startsWith("/profile/edit-profile")}
+          to="edit-profile"
           style={styles}
           variant="secondary"
           action
@@ -72,7 +74,7 @@ const ProfileNavigation = () => {
           <>
             <ListGroup.Item
               as={NavLink}
-              to={`my-cart`}
+              to="my-cart"
               style={styles}
               variant="secondary"
               action
@@ -81,7 +83,7 @@ const ProfileNavigation = () => {
             </ListGroup.Item>
             <ListGroup.Item
               as={NavLink}
-              to={`orders`}
+              to="orders"
               style={styles}
               variant="secondary"
               action
@@ -90,7 +92,7 @@ const ProfileNavigation = () => {
             </ListGroup.Item>
             <ListGroup.Item
               as={NavLink}
-              to={`wishlist`}
+              to="wishlist"
               style={styles}
               variant="secondary"
               action

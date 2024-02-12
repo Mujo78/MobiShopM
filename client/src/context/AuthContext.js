@@ -8,6 +8,7 @@ const AUTH_ACTION_TYPES = {
   LOGIN_SUCCESS: "LOGIN_SUCCESS",
   LOGIN_FAILURE: "LOGIN_FAILURE",
   LOGOUT: "LOGOUT",
+  USER_INFO: "USER INFO CHANGE",
 };
 
 const userStorage = localStorage.getItem("user");
@@ -28,6 +29,12 @@ function reducer(state, action) {
       return { ...state, user: action.payload, status: "idle", error: "" };
     case AUTH_ACTION_TYPES.LOGOUT:
       return { ...state, user: null };
+    case AUTH_ACTION_TYPES.USER_INFO:
+      const newState = state.user
+        ? { ...state, user: { ...state.user, username: action.payload } }
+        : state;
+      localStorage.setItem("user", JSON.stringify(newState.user));
+      return newState;
     default:
       throw new Error("Something went wrong, please try again latter!");
   }
@@ -40,7 +47,7 @@ function AuthProvider({ children }) {
     dispatch({ type: AUTH_ACTION_TYPES.LOGIN_START });
     try {
       const user = await userLogin(loginData);
-      console.log(typeof user);
+
       dispatch({ type: AUTH_ACTION_TYPES.LOGIN_SUCCESS, payload: user });
       localStorage.setItem("user", JSON.stringify(user));
     } catch (error) {
@@ -56,8 +63,14 @@ function AuthProvider({ children }) {
     localStorage.removeItem("user");
   }
 
+  function changeMyUsernameFn(value) {
+    dispatch({ type: AUTH_ACTION_TYPES.USER_INFO, payload: value });
+  }
+
   return (
-    <AuthContext.Provider value={{ user, status, error, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, status, error, login, logout, changeMyUsernameFn }}
+    >
       {children}
     </AuthContext.Provider>
   );

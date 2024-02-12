@@ -75,9 +75,11 @@ export default function Navbars() {
               <Nav.Link as={Link} to="about">
                 About
               </Nav.Link>
-              <Nav.Link as={Link} to="contact">
-                Contact
-              </Nav.Link>
+              {user.role !== 1 && (
+                <Nav.Link as={Link} to="contact">
+                  Contact
+                </Nav.Link>
+              )}
               {user?.role === 1 && (
                 <Nav.Link as={Link} to="admin-menu">
                   System

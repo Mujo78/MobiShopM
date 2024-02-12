@@ -5,6 +5,7 @@ const POST_ADDRESS_PERSON = "Address is required!";
 const POST_CITY_PERSON = "City is required!";
 const POST_EMAIL_PERSON = "Eemail is required!";
 const POST_GENDER_PERSON = "Gender is required!";
+const POST_GENDER_PERSON_CORRECT = "Gender must be: Male, Female or Other!";
 const POST_PASSWORD_USER = "Password is required!";
 const POST_USERNAME_USER = "Username is required!";
 const POST_LETTERINPHONE_PERSON = "Phone number must contain only digits!";
@@ -23,4 +24,5 @@ module.exports = {
   USER_ALREADY_EXISTS,
   POST_PASSWORD_USER,
   POST_LETTERINPHONE_PERSON,
+  POST_GENDER_PERSON_CORRECT,
 };

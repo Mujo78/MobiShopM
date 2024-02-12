@@ -20,3 +20,42 @@ export async function deleteMyAccount(token) {
 
   return res.data;
 }
+
+export async function getMyInformations(token) {
+  const res = await axios.get(`${URL}/person`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
+}
+
+export async function editMyInformations(token, values) {
+  const res = await axios.patch(`${URL}/edit-profile`, values, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.data;
+}
+
+export async function changeMyUsername(token, value) {
+  await axios.patch(
+    `${URL}/change-username`,
+    { username: value },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+}
+
+export async function changePassword(token, passwords) {
+  await axios.patch(`${URL}/change-password`, passwords, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

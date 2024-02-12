@@ -19,7 +19,7 @@ const {
 } = require("../middlewares/errorValidationMiddleware");
 
 router.get("/users", getAllUsers);
-router.get("/person/:userId", adminMiddleware, getUserById);
+router.get("/person", authMiddleware, getUserById);
 router.patch("/edit-profile", authMiddleware, editUserProfile);
 router.delete("/delete-profile", authMiddleware, deleteProfile);
 

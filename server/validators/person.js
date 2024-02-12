@@ -11,6 +11,7 @@ const {
   USER_ALREADY_EXISTS,
   POST_PASSWORD_USER,
   POST_LETTERINPHONE_PERSON,
+  POST_GENDER_PERSON_CORRECT,
 } = require("../constants/person-constants");
 const { User } = require("../models");
 
@@ -61,7 +62,16 @@ exports.createAdminValidator = [
     .withMessage(POST_LETTERINPHONE_PERSON)
     .bail(),
   check("city").notEmpty().withMessage(POST_CITY_PERSON).bail(),
-  check("gender").notEmpty().withMessage(POST_GENDER_PERSON).bail(),
+  check("gender")
+    .notEmpty()
+    .withMessage(POST_GENDER_PERSON)
+    .custom((value) => {
+      if (value === "Male" || value === "Female" || value === "Other") {
+        return false;
+      }
+      throw new Error(POST_GENDER_PERSON_CORRECT);
+    })
+    .bail(),
 ];
 
 exports.editProfileValidator = [

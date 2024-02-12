@@ -1,16 +1,6 @@
 .App {
   margin: 10px 50px 0px 50px;
-}
-
-/*
---- BRAND/MODELS PART ---
-*/
-.list-group-item:hover {
-  cursor: pointer;
-  background-color: #219aeb;
-  color: white;
-  transition: all;
-  transition-duration: 400ms;
+  font-family: "Open Sans", sans-serif;
 }
 
 .bg-custom {
@@ -24,6 +14,17 @@
 
 .bg-custom-class:hover {
   background-color: #218fd9 !important;
+  color: white;
+  transition: all;
+  transition-duration: 400ms;
+}
+
+/*
+--- BRAND/MODELS PART ---
+*/
+.list-group-item-model:hover {
+  cursor: pointer;
+  background-color: #219aeb;
   color: white;
   transition: all;
   transition-duration: 400ms;
