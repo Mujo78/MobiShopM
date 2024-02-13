@@ -13,6 +13,7 @@ const {
   getUserById,
   editUserProfile,
   addNewAdmin,
+  deleteAdmin,
 } = require("../controllers/personController");
 const {
   errorValidationMiddleware,
@@ -36,5 +37,7 @@ router.post(
   errorValidationMiddleware,
   addNewAdmin
 );
+
+router.delete("/delete/:adminId", adminMiddleware, deleteAdmin);
 
 module.exports = router;

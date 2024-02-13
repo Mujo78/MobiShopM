@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/esm/Container";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   BsPersonGear,
   BsPhone,
@@ -11,6 +11,7 @@ import {
 } from "react-icons/bs";
 
 const AdminNav = () => {
+  const location = useLocation().pathname;
   const styles = {
     height: "2rem",
     width: "2rem",
@@ -18,25 +19,43 @@ const AdminNav = () => {
   };
   return (
     <Container className="d-flex flex-sm-column flex-row">
-      <Navbar.Brand as={Link} to={"/admin-menu"} className="d-none d-sm-block">
+      <Navbar.Brand as={Link} to="/admin-menu" className="d-none d-sm-block">
         Mshop System
       </Navbar.Brand>
 
       <Nav className="d-flex flex-row flex-sm-column justify-content-between w-100">
-        <Nav.Link as={Link} to="admins-menu">
+        <Nav.Link
+          as={Link}
+          to="/admin-menu"
+          active={
+            location === "/admin-menu" || location === "/admin-menu/add-admin"
+          }
+        >
           <span className="d-none d-sm-block">Admin Menu</span>
           <BsPersonGear style={styles} className="d-block d-sm-none" />
         </Nav.Link>
-        <Nav.Link as={Link} to="mobiles-menu">
+        <Nav.Link
+          as={Link}
+          to="mobiles-menu"
+          active={location.startsWith("/admin-menu/mobiles-menu")}
+        >
           <span className="d-none d-sm-block">Mobile Menu</span>
           <BsPhone style={styles} className="d-block d-sm-none" />
         </Nav.Link>
-        <Nav.Link as={Link} to="comments-menu">
+        <Nav.Link
+          as={Link}
+          to="comments-menu"
+          active={location.startsWith("/admin-menu/comments-menu")}
+        >
           <span className="d-none d-sm-block">Comments Menu</span>
           <BsFileEarmarkText style={styles} className="d-block d-sm-none" />
         </Nav.Link>
 
-        <Nav.Link as={Link} to="orders-menu">
+        <Nav.Link
+          as={Link}
+          to="orders-menu"
+          active={location.startsWith("/admin-menu/orders-menu")}
+        >
           <span className="d-none d-sm-block">Orders Menu</span>
           <BsBox style={styles} className="d-block d-sm-none" />
         </Nav.Link>

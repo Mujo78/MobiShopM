@@ -10,7 +10,6 @@ import Profile from "./pages/Profile";
 import MyCart from "./pages/ProfilePages/MyCart";
 import Wishlist from "./pages/ProfilePages/Wishlist";
 import AdminMenu from "./pages/AdminMenu";
-import DeleteAdmin from "./pages/AdminPages/DeleteAdmin";
 import DeleteMobile from "./pages/AdminPages/DeleteMobile";
 import SeeComments from "./pages/AdminPages/SeeComments";
 import Overview from "./pages/ProfilePages/Overview";
@@ -27,6 +26,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AppLayout from "./components/AppLayout";
 import BrandModels from "./components/BrandModels";
+import AdminMenuLayout from "./pages/AdminPages/AdminMenuLayout";
+import AdminOverview from "./pages/AdminPages/AdminOverview";
+import AddAdmin from "./pages/AdminPages/AddAdmin";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -113,8 +115,18 @@ const routes = createBrowserRouter([
         loader: AdminAuthRequired,
         children: [
           {
-            path: "admins-menu",
-            element: <DeleteAdmin />,
+            path: "",
+            element: <AdminMenuLayout />,
+            children: [
+              {
+                path: "",
+                element: <AdminOverview />,
+              },
+              {
+                path: "add-admin",
+                element: <AddAdmin />,
+              },
+            ],
           },
           {
             path: "mobiles-menu",

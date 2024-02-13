@@ -47,16 +47,8 @@ const ProfileNavigation = () => {
 
   return (
     <>
-      <ListGroup className="d-flex flex-column flex-md-row flex-lg-column mt-5 w-100 margin-class">
-        <ListGroup.Item
-          className="rounded-top rounded-start-class"
-          as={NavLink}
-          end
-          to="."
-          style={styles}
-          variant="secondary"
-          action
-        >
+      <ListGroup className="d-flex flex-column flex-md-row flex-lg-column mt-5 w-100 border-class">
+        <ListGroup.Item as={NavLink} to="." end style={styles} variant="light">
           General
         </ListGroup.Item>
         <ListGroup.Item
@@ -65,8 +57,7 @@ const ProfileNavigation = () => {
           active={location.startsWith("/profile/edit-profile")}
           to="edit-profile"
           style={styles}
-          variant="secondary"
-          action
+          variant="light"
         >
           Edit profile
         </ListGroup.Item>
@@ -76,7 +67,7 @@ const ProfileNavigation = () => {
               as={NavLink}
               to="my-cart"
               style={styles}
-              variant="secondary"
+              variant="light"
               action
             >
               Cart
@@ -85,7 +76,7 @@ const ProfileNavigation = () => {
               as={NavLink}
               to="orders"
               style={styles}
-              variant="secondary"
+              variant="light"
               action
             >
               Orders
@@ -94,7 +85,7 @@ const ProfileNavigation = () => {
               as={NavLink}
               to="wishlist"
               style={styles}
-              variant="secondary"
+              variant="light"
               action
             >
               Wishlist
@@ -102,7 +93,7 @@ const ProfileNavigation = () => {
           </>
         )}
         <ListGroup.Item
-          className="rounded-bottom rounded-end-class"
+          className="rounded-bottom rounded-end-class w-auto"
           onClick={handleShow}
           as={Button}
           style={styles}

@@ -43,7 +43,16 @@ exports.createPersonValidator = [
     })
     .bail(),
   check("email").notEmpty().withMessage(POST_EMAIL_PERSON).bail(),
-  check("gender").notEmpty().withMessage(POST_GENDER_PERSON).bail(),
+  check("gender")
+    .notEmpty()
+    .withMessage(POST_GENDER_PERSON)
+    .custom((value) => {
+      if (value === "Male" || value === "Female" || value === "Other") {
+        return true;
+      }
+      throw new Error(POST_GENDER_PERSON_CORRECT);
+    })
+    .bail(),
 ];
 
 exports.createAdminValidator = [
@@ -67,7 +76,7 @@ exports.createAdminValidator = [
     .withMessage(POST_GENDER_PERSON)
     .custom((value) => {
       if (value === "Male" || value === "Female" || value === "Other") {
-        return false;
+        return true;
       }
       throw new Error(POST_GENDER_PERSON_CORRECT);
     })

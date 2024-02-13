@@ -7,9 +7,12 @@ export default function AdminMenu() {
   return (
     <Container
       fluid
-      className="pt-3 d-flex justify-content-start align-items-start flex-wrap flex-sm-nowrap vh-100"
+      className="pt-3 d-flex justify-content-start align-items-start flex-wrap flex-md-nowrap vh-75"
     >
-      <Navbar expand="lg" className="d-none d-sm-block h-100 border-end">
+      <Navbar
+        expand="lg"
+        className="d-none d-sm-flex mx-sm-auto text-center text-md-start border-class"
+      >
         <AdminNav />
       </Navbar>
 

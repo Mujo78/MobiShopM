@@ -28,8 +28,8 @@ export default function Profile() {
         className="w-100 rounded"
         style={{ backgroundColor: "#DCDCDC" }}
       >
-        <Container className="mt-3 pt-5 pb-5">
-          <h1>{user?.username}</h1>
+        <Container className="mt-3 py-4">
+          <h2>{user?.username}</h2>
           <Container className="p-0 d-flex flex-wrap flex-column flex-md-row align-items-start align-items-md-center">
             <h5>{user?.role === 2 ? "Customer" : "Admin"}</h5>
             <Button
@@ -46,7 +46,7 @@ export default function Profile() {
         <Container className="col-12 col-lg-3">
           <ProfileNavigation />
         </Container>
-        <Container className=" col-12 ms-1 col-lg-9 mt-5 ms-lg-5">
+        <Container className=" col-12 col-lg-8 mt-4 ms-lg-5">
           <Outlet />
         </Container>
       </Container>

@@ -109,7 +109,6 @@ const getAdmins = asyncHandler(async (req, res, next) => {
         },
       },
     ],
-    raw: true,
   });
 
   if (allAdmins) return res.status(200).json(allAdmins);

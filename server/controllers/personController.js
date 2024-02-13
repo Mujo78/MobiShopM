@@ -44,8 +44,7 @@ const editUserProfile = asyncHandler(async (req, res, next) => {
   }
 });
 
-const deleteProfile = asyncHandler(async (req, res, next) => {
-  const userId = req.user.id;
+const deletePersonProfile = async (userId, res, next) => {
   const user = await User.findByPk(userId);
 
   if (!user) {
@@ -61,6 +60,17 @@ const deleteProfile = asyncHandler(async (req, res, next) => {
     res.status(404);
     return next(new Error(error));
   }
+};
+
+const deleteProfile = asyncHandler(async (req, res, next) => {
+  const userId = req.user.id;
+  deletePersonProfile(userId, res, next);
+});
+
+const deleteAdmin = asyncHandler(async (req, res, next) => {
+  const userId = req.params.adminId;
+
+  deletePersonProfile(userId, res, next);
 });
 
 const registration = asyncHandler(async (req, res, next) => {
@@ -191,4 +201,5 @@ module.exports = {
   getUserById,
   editUserProfile,
   addNewAdmin,
+  deleteAdmin,
 };
