@@ -34,7 +34,7 @@ export default function Contact() {
       <Container className="d-flex flex-column row align-items-center mt-5 gap-5">
         <h1 className="text-center">Contact Us</h1>
         <Form onSubmit={handleSubmit(onSubmit)} className="col-12 col-md-6">
-          <Form.Group className="mb-3">
+          <Form.Group className="mb-1">
             <Form.Label htmlFor="name">Name</Form.Label>
             <Form.Control
               type="text"
@@ -48,7 +48,21 @@ export default function Contact() {
             />
             <ErrorMessage textError={errors.name} />
           </Form.Group>
-          <Form.Group className="mb-2">
+          <Form.Group className="mb-1">
+            <Form.Label htmlFor="name">Email</Form.Label>
+            <Form.Control
+              type="text"
+              name="email"
+              className={errors.email && " border-danger"}
+              id="email"
+              disabled={isPending}
+              placeholder="email@example.com"
+              {...register("email")}
+              autoFocus
+            />
+            <ErrorMessage textError={errors.email} />
+          </Form.Group>
+          <Form.Group className="mb-1">
             <Form.Label htmlFor="comment">Comment</Form.Label>
             <Form.Control
               as="textarea"

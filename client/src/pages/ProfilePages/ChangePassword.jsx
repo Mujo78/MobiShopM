@@ -49,8 +49,8 @@ export default function ChangePassword() {
     <Container className="mt-3">
       <h3>Password change</h3>
       <Form className="mb-5" onSubmit={handleSubmit(changePasswordFn)}>
-        <Form.Group className="mb-3">
-          <Container className="mb-3 p-0">
+        <Form.Group>
+          <Container className="mb-1 p-0">
             <Form.Label htmlFor="password">Password</Form.Label>
             <Container className="input-group p-0">
               <Form.Control
@@ -79,7 +79,7 @@ export default function ChangePassword() {
               }
             />
           </Container>
-          <Container className="mb-3 p-0">
+          <Container className="mb-1 p-0">
             <Form.Label htmlFor="newPassword">New Password</Form.Label>
             <Container className="input-group p-0">
               <Form.Control
@@ -100,7 +100,7 @@ export default function ChangePassword() {
             </Container>
             <ErrorMessage textError={errors.newPassword} />
           </Container>
-          <Container className="p-0">
+          <Container className="mb-1 p-0">
             <Form.Label htmlFor="confirmPassword">Confirm Password</Form.Label>
             <Form.Control
               id="confirmPassword"

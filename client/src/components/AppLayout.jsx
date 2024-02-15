@@ -27,7 +27,7 @@ const AppLayout = () => {
   }
 
   return (
-    <div className="App px-5 pt-2">
+    <div className="App px-0 px-sm-5 pt-2">
       <ToastContainer />
       <Navbars />
       <Outlet />

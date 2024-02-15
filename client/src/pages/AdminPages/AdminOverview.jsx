@@ -51,9 +51,9 @@ export default function AdminOverview() {
             <Table striped hover size="sm" className="text-center">
               <thead>
                 <tr>
-                  <th>No.</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
+                  <th className="d-none d-sm-table-cell">No.</th>
+                  <th className="d-none d-sm-table-cell">First Name</th>
+                  <th className="d-none d-sm-table-cell">Last Name</th>
                   <th>Username</th>
                   <th></th>
                 </tr>
@@ -61,9 +61,13 @@ export default function AdminOverview() {
               <tbody>
                 {data.map((m) => (
                   <tr key={m.id} className="align-middle">
-                    <td>{m.id}.</td>
-                    <td>{m.Person.first_name}</td>
-                    <td>{m.Person.last_name}</td>
+                    <td className="d-none d-sm-table-cell">{m.id}.</td>
+                    <td className="d-none d-sm-table-cell">
+                      {m.Person.first_name}
+                    </td>
+                    <td className="d-none d-sm-table-cell">
+                      {m.Person.last_name}
+                    </td>
                     <td>{m.username}</td>
                     <td>
                       <Button

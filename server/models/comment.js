@@ -11,6 +11,10 @@ module.exports = () => {
       type: DataTypes.STRING(1000),
       allowNull: false,
     },
+    email: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
   });
 
   return comments;

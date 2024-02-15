@@ -29,6 +29,9 @@ import BrandModels from "./components/BrandModels";
 import AdminMenuLayout from "./pages/AdminPages/AdminMenuLayout";
 import AdminOverview from "./pages/AdminPages/AdminOverview";
 import AddAdmin from "./pages/AdminPages/AddAdmin";
+import MobileMenuLayout from "./pages/AdminPages/MobileMenuLayout";
+import AddMobile from "./pages/AdminPages/AddMobile";
+import AddBrand from "./pages/AdminPages/AddBrand";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -130,7 +133,21 @@ const routes = createBrowserRouter([
           },
           {
             path: "mobiles-menu",
-            element: <DeleteMobile />,
+            element: <MobileMenuLayout />,
+            children: [
+              {
+                path: "",
+                element: <DeleteMobile />,
+              },
+              {
+                path: "add-mobile",
+                element: <AddMobile />,
+              },
+              {
+                path: "add-brand",
+                element: <AddBrand />,
+              },
+            ],
           },
           {
             path: "comments-menu",

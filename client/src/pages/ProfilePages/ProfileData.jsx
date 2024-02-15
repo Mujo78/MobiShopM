@@ -39,7 +39,7 @@ export default function ProfileData() {
       <h3>Edit profile</h3>
 
       <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
+        <Form.Group>
           <Form.Label htmlFor="username">Username</Form.Label>
           <Form.Control
             id="username"
@@ -49,13 +49,16 @@ export default function ProfileData() {
             value={username}
           />
 
-          <span className="text-danger">
+          <p
+            className="text-danger mt-1"
+            style={{ height: "1rem", fontSize: "0.8rem" }}
+          >
             {username === ""
               ? "Username is required!"
               : isError
               ? error.response.data.errors[0].msg
               : ""}
-          </span>
+          </p>
         </Form.Group>
         <div className="d-flex justify-content-end">
           <Button

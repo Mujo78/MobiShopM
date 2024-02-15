@@ -127,11 +127,11 @@ export default function AddAdmin() {
           </Container>
         </Form.Group>
 
-        <Container className="d-flex justify-content-center justify-content-sm-start col-12 mt-2">
+        <Container className="d-flex justify-content-center justify-content-sm-start col-12 mt-2 mb-5">
           <Container className="col-12 col-lg-8 col-xl-8 d-flex justify-content-sm-end justify-content-center">
             <Button
               type="submit"
-              className="bg-custom border-0 col-12 col-lg-5 col-xl-3 me-1 mt-3"
+              className="bg-custom border-0 col-12 col-lg-5 col-xl-3 me-1 mb-4"
             >
               Save changes
             </Button>
