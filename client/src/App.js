@@ -32,6 +32,7 @@ import AddAdmin from "./pages/AdminPages/AddAdmin";
 import MobileMenuLayout from "./pages/AdminPages/MobileMenuLayout";
 import AddMobile from "./pages/AdminPages/AddMobile";
 import AddBrand from "./pages/AdminPages/AddBrand";
+import MobileDetails from "./pages/MobileDetails";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -63,6 +64,10 @@ const routes = createBrowserRouter([
             element: <BrandModels />,
           },
         ],
+      },
+      {
+        path: "/mobile/:mobileId/:mobileName",
+        element: <MobileDetails />,
       },
       {
         path: "about",

@@ -40,31 +40,51 @@ const addToCart = asyncHandler(async (req, res, next) => {
     return next(new Error("Mobile not found!"));
   }
 
+  if (foundedMobile.quantity === 0) {
+    res.status(400);
+    return next(new Error("Quantity for this mobile is 0."));
+  }
+
   const [usersCart, created] = await Cart.findOrCreate({
     where: { userId },
   });
 
   try {
-    if (foundedMobile.quantity > 0) {
-      const newItemQuantity =
-        quantity > foundedMobile.quantity
-          ? foundedMobile.quantity
-          : quantity === 0
-          ? 1
-          : quantity;
-      const newCartItem = await Cart_item.create({
-        cartId: usersCart.id,
-        mobileId: foundedMobile.id,
-        quantity: newItemQuantity,
+    await sequelize.transaction(async (t) => {
+      const [cartItem, created] = await Cart_item.findOrCreate({
+        where: {
+          cartId: usersCart.id,
+          mobileId: foundedMobile.id,
+        },
+        defaults: {
+          quantity:
+            quantity > foundedMobile.quantity
+              ? foundedMobile.quantity
+              : quantity,
+        },
+        transaction: t,
       });
 
-      await foundedMobile.decrement("quantity", { by: newCartItem.quantity });
+      if (!created) {
+        await cartItem.increment("quantity", {
+          by:
+            quantity > foundedMobile.quantity
+              ? foundedMobile.quantity
+              : quantity,
+          transaction: t,
+        });
+      }
 
-      return res.status(201).json(newCartItem);
-    }
+      await foundedMobile.decrement("quantity", {
+        by:
+          quantity > foundedMobile.quantity ? foundedMobile.quantity : quantity,
+        transaction: t,
+      });
 
-    res.status(400);
-    return next(new Error("Quantity for this mobile is 0."));
+      return cartItem;
+    });
+
+    return res.status(201).json({ message: "Successfully added!" });
   } catch (error) {
     res.status(400);
     return next(new Error(error));

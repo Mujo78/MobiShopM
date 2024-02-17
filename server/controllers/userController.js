@@ -90,8 +90,14 @@ const changeMyPassword = asyncHandler(async (req, res, next) => {
 
 const getAdmins = asyncHandler(async (req, res, next) => {
   const userId = req.user.id;
+  const page = parseInt(req.query.page) || 1;
+  const limit = 5;
+  const offset = (page - 1) * limit;
 
-  const allAdmins = await User.findAll({
+  const { rows, count } = await User.findAndCountAll({
+    order: [["createdAt", "DESC"]],
+    limit,
+    offset,
     attributes: {
       exclude: ["personId", "createdAt", "updatedAt", "roleId"],
     },
@@ -111,7 +117,13 @@ const getAdmins = asyncHandler(async (req, res, next) => {
     ],
   });
 
-  if (allAdmins) return res.status(200).json(allAdmins);
+  let resObj = {
+    data: rows,
+    numOfPages: Math.ceil(count / limit),
+    currentPage: page,
+  };
+
+  if (rows) return res.status(200).json(resObj);
 
   res.status(400);
   return next(new Error("Something went wrong, please try again latter!"));

@@ -13,3 +13,9 @@ export async function fetchMobilesByBrand(brandId, page, searchQuery) {
 
   return res.data;
 }
+
+export async function getMobileByIdFn(mobileId) {
+  const res = await axios.get(`${URL}/mobile-phone/${mobileId}`);
+
+  return res.data;
+}

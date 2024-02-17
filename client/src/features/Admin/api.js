@@ -1,8 +1,11 @@
 import axios from "axios";
 const URL = "http://localhost:3001/api";
 
-export async function getAllAdmins(token) {
+export async function getAllAdmins(token, page) {
   const res = await axios.get(`${URL}/all-admins`, {
+    params: {
+      page,
+    },
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -53,12 +56,17 @@ export async function addNewBrandFn(token, brandData) {
   );
 }
 
-export async function getAllCommentsFn(token) {
+export async function getAllCommentsFn(token, page) {
   const res = await axios.get(`${URL}/comments`, {
+    params: {
+      page,
+    },
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+
+  console.log(res.data);
 
   return res.data;
 }

@@ -5,26 +5,16 @@ import { useState } from "react";
 import Cards from "../components/Card";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import styled from "styled-components";
 import Spinner from "react-bootstrap/Spinner";
 import { BsShop, BsTruck, BsCashStack } from "react-icons/bs";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTopPrice } from "../api";
 
-const CustomCarousel = styled(Carousel)`
-  .carousel .control-dots .dot {
-    background-color: #219aeb;
-  }
-  .carousel .control-dots {
-    margin: -4px 0;
-  }
-`;
-
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const {
-    data: topPricesState,
-    isLoading,
+    data: topPrices,
+    isFetching,
     isError,
   } = useQuery({ queryKey: ["topPrices"], queryFn: fetchTopPrice });
 
@@ -41,6 +31,7 @@ export default function Home() {
     filter:
       "brightness(0.6) contrast(0.8) saturate(0.1) sepia(0.1) hue-rotate(65deg)",
     opacity: "0.5",
+    cursor: "pointer",
   };
 
   const iconStyles = {
@@ -93,44 +84,48 @@ export default function Home() {
       <br />
       <Container fluid className="mb-5">
         <h3 className="mt-5 text-decoration-underline">Top prices</h3>
-        {isLoading ? (
+        {isFetching ? (
           <div className="w-100 mt-5 d-flex justify-content-center align-items-center">
             <Spinner />
           </div>
-        ) : topPricesState.length > 0 ? (
-          <CustomCarousel
-            showArrows={true}
+        ) : topPrices?.length > 0 ? (
+          <Carousel
+            centerMode
+            stopOnHover
+            showIndicators={false}
             showStatus={false}
+            autoPlay
             showThumbs={false}
-            emulateTouch={true}
-            autoPlay={true}
-            interval={3000}
-            stopOnHover={true}
-            infiniteLoop={true}
-            centerMode={true}
-            centerSlidePercentage={120}
-            swipeable={true}
-            transitionTime={3000}
-            showIndicators={true}
+            centerSlidePercentage={10}
+            showArrows
             onChange={(i) =>
-              i === topPricesState.length
-                ? setActiveIndex(
-                    topPricesState.length - 1 - (i % topPricesState.length)
-                  )
+              i === topPrices.length
+                ? setActiveIndex(topPrices.length - 1 - (i % topPrices.length))
                 : setActiveIndex(i)
             }
+            infiniteLoop
+            interval={4000}
             selectedItem={activeIndex}
+            swipeScrollTolerance={50}
+            swipeable
+            onClickItem={(item) => {
+              setActiveIndex(item);
+            }}
+            transitionTime={3000}
+            width="d-block"
           >
-            {topPricesState.length &&
-              topPricesState.map((n, index) => (
+            {topPrices &&
+              topPrices.map((n, index) => (
                 <Container
+                  className="p-0"
+                  fluid
                   key={n.id}
                   style={activeIndex === index ? activeStyles : styles}
                 >
                   <Cards mob={n} />
                 </Container>
               ))}
-          </CustomCarousel>
+          </Carousel>
         ) : (
           isError && <p>Something went wrong, we will fix it soon.</p>
         )}

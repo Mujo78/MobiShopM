@@ -29,6 +29,33 @@
 }
 
 /*
+ ---- MOBILE CARD -----
+*/
+
+.card-class {
+  transition: transform 0.3s ease-in-out !important;
+  cursor: pointer !important;
+}
+
+.card-class:hover {
+  transform: scale(1.06) !important;
+}
+
+.wishlist-btn {
+  width: "fit-content";
+  position: absolute;
+  z-index: 999;
+  top: 5px;
+  right: 10px;
+}
+
+.wishlist-btn:hover {
+  transform: scale(1.2);
+  transition: all;
+  transition-duration: 300ms;
+}
+
+/*
 --- BRAND/MODELS PART ---
 */
 .list-group-item-model:hover {
@@ -108,6 +135,30 @@
   transition-duration: 400ms;
 }
 
+@media (max-width: 576px) {
+  .slide {
+    min-width: 140% !important;
+  }
+
+  .carousel-inner {
+    max-width: 71.5%;
+  }
+
+  .mobile-img-class {
+    max-width: 100% !important;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+  .slide {
+    min-width: 40% !important;
+  }
+
+  .mobile-img-class {
+    max-width: 100% !important;
+  }
+}
+
 @media (min-width: 768px) and (max-width: 992px) {
   .rounded-start-class {
     border-bottom-left-radius: 0.375rem !important;
@@ -126,6 +177,14 @@
   .rounded-start-class.rounded-top {
     border-top-right-radius: 0px !important;
   }
+
+  .slide {
+    min-width: 25% !important;
+  }
+
+  .mobile-img-class {
+    max-width: 100% !important;
+  }
 }
 
 @media (min-width: 768px) {
@@ -137,5 +196,19 @@
 @media (min-width: 992px) {
   .border-class {
     border-right: 1px solid lightgray;
+  }
+
+  .slide {
+    min-width: 10% !important;
+  }
+
+  .mobile-img-class {
+    max-width: 50% !important;
+  }
+}
+
+@media (min-width: 1400px) {
+  .mobile-img-class {
+    max-width: 39% !important;
   }
 }

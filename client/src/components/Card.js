@@ -1,30 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/esm/Button";
-import MobileModal from "./MobileModal";
-import styled from "styled-components";
-import { Image } from "./Nav";
-import Row from "react-bootstrap/esm/Row";
-import Col from "react-bootstrap/esm/Col";
 import axios from "axios";
 import { toast } from "react-toastify";
-import useResponsive from "./useResponsive";
 import { useAuth } from "../context/AuthContext";
+import Container from "react-bootstrap/esm/Container";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
-const CustomCard = styled(Card)`
-  transition: transform 0.3s ease-in-out;
-
-  &:hover {
-    transform: scale(1.06);
-  }
-`;
-
-export default function Cards({ mob: { photo, mobile_name, price, id }, mob }) {
-  const [modalShow, setModalShow] = useState(false);
+export default function Cards({ mob }) {
   const [heartState, setheartState] = useState(false);
   const [wishListState, setWishListState] = useState([]);
   const { user } = useAuth();
-  const { isMobile } = useResponsive();
+  const navigate = useNavigate();
 
   const handleHeartFillTrue = (id) => {
     axios
@@ -59,10 +47,6 @@ export default function Cards({ mob: { photo, mobile_name, price, id }, mob }) {
       .catch((error) => toast.error(error));
   };
 
-  useEffect(() => {
-    getWishItems();
-  }, []);
-
   const getWishItems = () => {
     if (user?.id !== 0 && user?.role === 2) {
       axios
@@ -76,90 +60,45 @@ export default function Cards({ mob: { photo, mobile_name, price, id }, mob }) {
     }
   };
 
-  const handleShow = () => setModalShow(true);
-  const handleClose = () => setModalShow(false);
-
-  const styles = {
-    backgroundColor: "transparent",
-    border: "none",
-    width: "fit-content",
+  const handleNavigate = () => {
+    navigate(`/mobile/${mob.id}/${mob.mobile_name}`);
   };
 
   return (
-    <>
-      <CustomCard
-        style={{ width: "8rem", borderRadius: 0 }}
-        className="ms-4 mb-3"
-      >
-        <Card.Img
-          variant="top"
-          src={photo}
-          alt="photo"
-          style={{ height: "150px", borderBottom: "1px solid #C0C0C0" }}
-        />
-        <Card.Title
-          style={{ fontSize: "11px" }}
-          className="ms-2 me-2 mt-3 mb-0"
-        >
-          {mobile_name}
-        </Card.Title>
-        <Card.Body className="d-flex flex-column pb-0 pt-1">
-          <>
-            <Row className="d-flex align-items-center pb-1">
-              <Col className={isMobile && "w-50"}>
-                <Card.Text
-                  className="p-0"
-                  style={{ color: "red", fontSize: "12px" }}
-                >
-                  {price} KM
-                </Card.Text>
-              </Col>
-              {user?.role === 2 && (
-                <Col sm={4} className={isMobile && "w-25 me-3"}>
-                  {wishListState.some((n) => n.MobileId === id) ? (
-                    <Button
-                      onClick={() => handleHeartEmptyFalse(id)}
-                      style={styles}
-                      className="p-0 mb-1"
-                    >
-                      <Image
-                        src="/images/filled.png"
-                        style={{ height: "20px" }}
-                      />
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={() => handleHeartFillTrue(id)}
-                      style={styles}
-                      className="p-0 mb-1"
-                    >
-                      <Image
-                        src="/images/empty.png"
-                        style={{ height: "20px" }}
-                      />
-                    </Button>
-                  )}
-                </Col>
-              )}
-            </Row>
-          </>
-        </Card.Body>
-        <Card.Footer style={{ padding: 0, border: "none" }}>
+    <Card
+      className="border-0 position-relative text-center"
+      onClick={handleNavigate}
+      style={{ width: "12rem", cursor: "pointer" }}
+    >
+      <Card.Img variant="top" src={mob.photo} alt="photo" />
+      <Card.Title className="mt-2" style={{ fontSize: "0.9rem" }}>
+        {mob.mobile_name}
+      </Card.Title>
+      <Card.Body className="d-flex flex-column pb-0 pt-1">
+        <Container>
+          <Card.Text className="p-0 text-danger">
+            <p style={{ fontSize: "0.9rem" }} className="fw-bold">
+              {mob.price} BAM
+            </p>
+          </Card.Text>
+        </Container>
+      </Card.Body>
+      {user?.role === 2 &&
+        (wishListState.some((n) => n.MobileId === mob.id) ? (
           <Button
-            style={{
-              backgroundColor: "#219aeb",
-              border: "none",
-              borderRadius: 0,
-              fontSize: "10px",
-            }}
-            className="w-100"
-            onClick={handleShow}
+            onClick={() => handleHeartEmptyFalse(mob.id)}
+            className="border-0 bg-transparent wishlist-btn p-0"
           >
-            See more
+            <BsHeartFill fill="red" />
           </Button>
-        </Card.Footer>
-      </CustomCard>
-      <MobileModal data={mob} show={modalShow} onHide={handleClose} />
-    </>
+        ) : (
+          <Button
+            onClick={() => handleHeartFillTrue(mob.id)}
+            className="border-0 bg-transparent wishlist-btn p-0"
+          >
+            <BsHeart fill="white" />
+          </Button>
+        ))}
+    </Card>
   );
 }
