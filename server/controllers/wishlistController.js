@@ -4,13 +4,42 @@ const { Wishlist, Wish_item, Mobile } = require("../models");
 const getWishlist = asyncHandler(async (req, res, next) => {
   const userId = req.user.id;
 
-  const usersWishlist = await Wishlist.findOne({ where: { userId } });
+  const [usersWishlist, created] = await Wishlist.findOrCreate({
+    where: { userId },
+  });
 
   const wishlistItems = await Wish_item.findAll({
     attributes: {
       exclude: ["createdAt", "updatedAt"],
     },
-    where: { WishlistId: usersWishlist.id },
+    where: { wishlistId: usersWishlist.id },
+  });
+
+  if (wishlistItems) return res.status(200).json(wishlistItems);
+
+  res.status(400);
+  return next(new Error("Something went wrong, please try again latter!"));
+});
+
+const getWishlistItemsDetails = asyncHandler(async (req, res, next) => {
+  const userId = req.user.id;
+  const page = parseInt(req.query.page) || 1;
+  const limit = 2;
+  const offset = (page - 1) * limit;
+
+  const [usersWishlist, created] = await Wishlist.findOrCreate({
+    where: { userId },
+  });
+
+  const resObj = {};
+
+  const wishlistItems = await Wish_item.findAll({
+    offset,
+    limit,
+    attributes: {
+      exclude: ["createdAt", "updatedAt"],
+    },
+    where: { wishlistId: usersWishlist.id },
     include: {
       model: Mobile,
       attributes: [
@@ -20,11 +49,22 @@ const getWishlist = asyncHandler(async (req, res, next) => {
         "price",
         "photo",
         "processor",
+        "quantity",
       ],
     },
   });
 
-  if (wishlistItems) return res.status(200).json(wishlistItems);
+  const total = await Wish_item.count({
+    where: { wishlistId: usersWishlist.id },
+  });
+
+  if (wishlistItems) {
+    resObj.data = wishlistItems;
+    resObj.numOfPages = Math.ceil(total / limit);
+    resObj.currentPage = page;
+
+    return res.status(200).json(resObj);
+  }
 
   res.status(400);
   return next(new Error("Something went wrong, please try again latter!"));
@@ -32,19 +72,34 @@ const getWishlist = asyncHandler(async (req, res, next) => {
 
 const addToWishlist = asyncHandler(async (req, res, next) => {
   const userId = req.user.id;
-  const mobileId = req.params.mobileId;
+  const mobileId = parseInt(req.params.mobileId);
+
+  if (!mobileId) {
+    res.status(400);
+    return next(new Error("Mobile not found!"));
+  }
 
   const [usersWishlist, created] = await Wishlist.findOrCreate({
     where: { userId },
   });
 
   try {
-    const newWishItem = await Wish_item.create({
-      wishlistId: usersWishlist.id,
-      mobileId,
+    const [newWishItem, created] = await Wish_item.findOrCreate({
+      where: {
+        wishlistId: usersWishlist.id,
+        mobileId,
+      },
+      defaults: {
+        wishlistId: usersWishlist.id,
+        mobileId,
+      },
     });
 
-    return res.status(200).json(newWishItem);
+    if (created) {
+      return res.status(201).json(newWishItem);
+    }
+
+    return res.status(200).json({ message: "Item already in wishlist." });
   } catch (error) {
     res.status(400);
     return next(new Error(error));
@@ -75,4 +130,5 @@ module.exports = {
   addToWishlist,
   deleteWishItemFromList,
   getWishlist,
+  getWishlistItemsDetails,
 };

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Container from "react-bootstrap/esm/Container";
 import Form from "react-bootstrap/Form";
 import { useNavigate, useParams } from "react-router-dom";
-import useResponsive from "./useResponsive";
 import Alert from "react-bootstrap/Alert";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Button from "react-bootstrap/esm/Button";
@@ -11,26 +10,28 @@ import { useQueryParams } from "../hooks/useQueryParams";
 import { fetchMobilesByBrand } from "../features/Mobiles/api";
 import Cards from "./Card";
 import Spinner from "react-bootstrap/esm/Spinner";
-import Pagination from "react-bootstrap/esm/Pagination";
 import Paginate from "./Paginate";
+import { useWishlist } from "../features/Wishlist/useGetWishlist";
 
 const BrandModels = () => {
-  const { isMobile, isTablet, isDesktop } = useResponsive();
-  const queryClient = useQueryClient();
   const [value, setValue] = useState("");
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { brandId } = useParams();
   const query = useQueryParams();
   const page = parseInt(query.get("page")) || 1;
   const searchQuery = query.get("searchQuery") || "";
 
+  const { data: wishlist } = useWishlist();
   const {
     data: mobileData,
     isLoading,
     isError,
+    isPreviousData,
   } = useQuery({
     queryKey: ["brandMobiles", brandId, page, searchQuery],
     queryFn: () => fetchMobilesByBrand(brandId, page, searchQuery),
+    keepPreviousData: true,
   });
 
   const handleSubmit = async (event) => {
@@ -42,7 +43,10 @@ const BrandModels = () => {
     }
   };
 
-  console.log(mobileData);
+  const handleNavigate = (page) => {
+    queryClient.invalidateQueries("wishlist");
+    navigate(`/models/${brandId}?page=${page}`);
+  };
 
   return (
     <>
@@ -61,7 +65,7 @@ const BrandModels = () => {
                   onChange={(event) => setValue(event.target.value)}
                   type="text"
                   placeholder="name@example.com"
-                  className=" pe-5"
+                  className="pe-5"
                 />
                 <Button
                   type="submit"
@@ -73,14 +77,30 @@ const BrandModels = () => {
             </Form>
 
             {mobileData.data.length > 0 ? (
-              <Container>
-                {mobileData.data.map((m) => (
-                  <Cards mob={m} key={m.id} />
-                ))}
-                <Paginate
-                  numOfPages={mobileData.numOfPages}
-                  currentPage={mobileData.currentPage}
-                />
+              <Container className="w-100 d-flex flex-column gap-3 h-100 p-0">
+                <Container className="row">
+                  <Container className="d-flex flex-row flex-wrap justify-content-center justify-content-lg-start gap-lg-3 gap-3">
+                    {mobileData.data.map((m) => (
+                      <Cards
+                        mob={m}
+                        key={m.id}
+                        wishlist={wishlist}
+                        disabled={false}
+                      />
+                    ))}
+                  </Container>
+                </Container>
+
+                <Container className="row">
+                  <div className="col-12 d-flex justify-content-center">
+                    <Paginate
+                      numOfPages={mobileData.numOfPages}
+                      currentPage={mobileData.currentPage}
+                      isPreviousData={isPreviousData}
+                      handleNavigate={handleNavigate}
+                    />
+                  </div>
+                </Container>
               </Container>
             ) : (
               <Alert className="text-center">
@@ -88,7 +108,6 @@ const BrandModels = () => {
               </Alert>
             )}
           </Container>
-          <Container className="d-flex p-0 mt-auto justify-content-center mt-3"></Container>
         </Container>
       ) : (
         isError && (

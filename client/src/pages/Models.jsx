@@ -1,29 +1,24 @@
 import { useEffect, useState } from "react";
-
-import ListGroup from "react-bootstrap/ListGroup";
+import Alert from "react-bootstrap/Alert";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Container from "react-bootstrap/esm/Container";
-import useResponsive from "../components/useResponsive";
 import Button from "react-bootstrap/esm/Button";
 import { useQuery } from "@tanstack/react-query";
 import { fetchBrands } from "../features/Mobiles/api";
 import Spinner from "react-bootstrap/esm/Spinner";
-import { useQueryParams } from "../hooks/useQueryParams";
+import BrandsList from "../components/BrandsList";
 
 export default function Models() {
   const navigate = useNavigate();
-  const query = useQueryParams();
   const { brandId } = useParams();
 
-  const { isMobile, isTablet, isDesktop } = useResponsive();
   const [showOffMobile, setShowOffMobile] = useState(false);
 
   const {
     data: brands,
-    isLoading,
+    isFetching,
     isError,
-    error,
   } = useQuery({
     queryKey: ["brands"],
     queryFn: fetchBrands,
@@ -46,82 +41,34 @@ export default function Models() {
     }
   }, [brands, navigate, brandId]);
 
-  const navigateToBrand = (id) => {
-    navigate(`/models/${id}`);
-  };
-
   return (
-    <>
-      {isLoading ? (
+    <Container className="p-0 w-100">
+      {isFetching ? (
         <div className="d-flex mt-5 justify-content-center align-items-center">
           <Spinner variant="secondary" />
         </div>
-      ) : (
-        <>
-          <Container
-            className={`d-flex p-0  ${
-              isMobile ? `ms-0` : `ms-4`
-            } me-0 w-100 flex-row mt-4 mb-4`}
-          >
-            {isMobile ? (
-              <Button
-                style={{
-                  position: "fixed",
-                  right: 0,
-                  borderRadius: "120px",
-                  textAlign: "center",
-                  backgroundColor: "#ffffff",
-                  color: "#219aeb",
-                }}
-                onClick={handleShowOff}
-              >
-                B
-              </Button>
-            ) : (
-              <Container className="w-25">
-                <ListGroup className="d-flex gap-2 p-0 flex-column jusify-center">
-                  {brands &&
-                    brands.map((n) => (
-                      <ListGroup.Item
-                        key={n.id}
-                        onClick={() => navigateToBrand(n.id)}
-                        className={`${
-                          parseInt(brandId) === n.id && "bg-custom"
-                        } w-75 list-group-item-model text-center border-top-0 border-start-0 border-end-0`}
-                      >
-                        {n.name}
-                      </ListGroup.Item>
-                    ))}
-                </ListGroup>
-              </Container>
-            )}
-            <Container className="w-75">
+      ) : brands ? (
+        <Container className="d-flex justify-content-end row">
+          <Container className="d-flex justify-content-end row flex-row mt-4">
+            <Button
+              className="col-auto rounded-pill d-sm-none end-0 text-center bg-white text-custom"
+              style={{ position: "fixed" }}
+              onClick={handleShowOff}
+            >
+              B
+            </Button>
+            <Container className="d-none d-sm-flex col-3 p-0">
+              {brands && <BrandsList brands={brands} />}
+            </Container>
+            <Container className="col-12 col-sm-9">
               <Outlet />
             </Container>
           </Container>
           <Offcanvas show={showOffMobile} placement="end" onHide={closeIt}>
             <Offcanvas.Header closeButton>Brands filter</Offcanvas.Header>
             <Offcanvas.Body>
-              <Container className="d-flex flex-column w-100 jusify-center">
-                <ListGroup>
-                  {/* brands.map((n) => (
-                <ListGroup.Item
-                  key={n.id}
-                  style={{ borderRadius: "0px", border: "none" }}
-                  variant="secondary"
-                  action
-                  className="mb-2 text-center w-100"
-                  as={Link}
-                  to={genNewSearcParam("brand_id", n.id)}
-                  onClick={() => {
-                    refreshPageNumber(1);
-                    closeIt();
-                  }}
-                >
-                  {n.name}
-                </ListGroup.Item>
-                )) */}
-                </ListGroup>
+              <Container className="d-flex flex-column w-100">
+                {brands && <BrandsList brands={brands} />}
               </Container>
             </Offcanvas.Body>
             <Offcanvas.Header>
@@ -130,8 +77,14 @@ export default function Models() {
               </Button>
             </Offcanvas.Header>
           </Offcanvas>
-        </>
+        </Container>
+      ) : (
+        isError && (
+          <Alert variant="danger">
+            Something went erong, please try again latter!
+          </Alert>
+        )
       )}
-    </>
+    </Container>
   );
 }

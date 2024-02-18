@@ -135,6 +135,20 @@
   transition-duration: 400ms;
 }
 
+/*
+----- WISHLIST CARD ----
+*/
+
+.wishlist-icon-btn:hover {
+  transition: all;
+  transform: scale(1.2);
+  transition-duration: 400ms;
+}
+
+.wishlist-card-img:hover {
+  cursor: pointer;
+}
+
 @media (max-width: 576px) {
   .slide {
     min-width: 140% !important;

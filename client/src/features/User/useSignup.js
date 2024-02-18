@@ -4,6 +4,7 @@ import { userSignup } from "./api";
 
 export function useSignup() {
   const { mutate: signup, error } = useMutation({
+    mutationKey: ["signup"],
     mutationFn: userSignup,
     onSuccess: (user) => {
       toast.success("Account successfully created!");

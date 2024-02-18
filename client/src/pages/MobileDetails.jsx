@@ -6,15 +6,15 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { useAuth } from "../context/AuthContext";
 import Container from "react-bootstrap/esm/Container";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMobileByIdFn } from "../features/Mobiles/api";
 import Spinner from "react-bootstrap/esm/Spinner";
 import CloseButton from "react-bootstrap/esm/CloseButton";
-import { addToCartFn } from "../features/Cart/api";
-import { toast } from "react-toastify";
+import { useAddToCart } from "../features/Cart/useAddToCart";
 
 export default function MobileDetails() {
+  const queryClient = useQueryClient();
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -38,25 +38,17 @@ export default function MobileDetails() {
     },
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["addToCart"],
-    mutationFn: async () => {
-      if (mobileId) {
-        const token = user.token;
-        await addToCartFn(token, mobileId, quantity);
-      }
-    },
-    onSuccess: () => {
-      toast.success("Product successfully added to cart!");
-      goBack();
-    },
-    onError: () => {
-      toast.error("Something went wrong, please try again latter!");
-    },
-  });
+  const { mutate, isPending } = useAddToCart();
 
   const addToCart = () => {
-    mutate();
+    mutate(
+      { mobileId, quantity },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries("mobileById");
+        },
+      }
+    );
   };
 
   const orderMobile = () => {};

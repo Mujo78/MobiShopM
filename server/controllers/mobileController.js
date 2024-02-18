@@ -44,12 +44,11 @@ const getMobileById = asyncHandler(async (req, res, next) => {
 });
 
 const getMobilesByBrandId = asyncHandler(async (req, res, next) => {
+  const brandId = req.params.brandId;
   const page = parseInt(req.query.page) || 1;
   const searchQuery = req.query.searchQuery;
-  const limit = 12;
+  const limit = 8;
   const offset = (page - 1) * limit;
-
-  const brandId = req.params.brandId;
 
   let options = {};
   let resObj = {};
