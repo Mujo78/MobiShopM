@@ -4,10 +4,9 @@ import { Outlet, useNavigate, useParams } from "react-router-dom";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
-import { useQuery } from "@tanstack/react-query";
-import { fetchBrands } from "../features/Mobiles/api";
 import Spinner from "react-bootstrap/esm/Spinner";
 import BrandsList from "../components/BrandsList";
+import { useBrands } from "../features/Mobiles/useBrands";
 
 export default function Models() {
   const navigate = useNavigate();
@@ -15,14 +14,7 @@ export default function Models() {
 
   const [showOffMobile, setShowOffMobile] = useState(false);
 
-  const {
-    data: brands,
-    isFetching,
-    isError,
-  } = useQuery({
-    queryKey: ["brands"],
-    queryFn: fetchBrands,
-  });
+  const { data: brands, isFetching, isError } = useBrands();
 
   const handleShowOff = () => {
     setShowOffMobile(true);

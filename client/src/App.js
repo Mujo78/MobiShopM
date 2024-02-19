@@ -10,7 +10,7 @@ import Profile from "./pages/Profile";
 import MyCart from "./pages/ProfilePages/MyCart";
 import Wishlist from "./pages/ProfilePages/Wishlist";
 import AdminMenu from "./pages/AdminMenu";
-import DeleteMobile from "./pages/AdminPages/DeleteMobile";
+import MobilesOverview from "./pages/AdminPages/MobilesOverview";
 import SeeComments from "./pages/AdminPages/SeeComments";
 import Overview from "./pages/ProfilePages/Overview";
 import SeeOrders from "./pages/AdminPages/SeeOrders";
@@ -31,8 +31,10 @@ import AdminOverview from "./pages/AdminPages/AdminOverview";
 import AddAdmin from "./pages/AdminPages/AddAdmin";
 import MobileMenuLayout from "./pages/AdminPages/MobileMenuLayout";
 import AddMobile from "./pages/AdminPages/AddMobile";
+import EditMobile from "./pages/AdminPages/EditMobile";
 import AddBrand from "./pages/AdminPages/AddBrand";
 import MobileDetails from "./pages/MobileDetails";
+import BrandsOverview from "./pages/AdminPages/BrandsOverview";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -142,7 +144,17 @@ const routes = createBrowserRouter([
             children: [
               {
                 path: "",
-                element: <DeleteMobile />,
+                element: <MobilesOverview />,
+                children: [
+                  {
+                    path: "edit-mobile/:mobileId",
+                    element: <EditMobile />,
+                  },
+                ],
+              },
+              {
+                path: "brands",
+                element: <BrandsOverview />,
               },
               {
                 path: "add-mobile",

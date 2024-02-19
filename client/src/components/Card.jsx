@@ -8,7 +8,7 @@ import { useAddToWishlist } from "../features/Wishlist/useAddToWishlist";
 import { useDeleteFromWishlist } from "../features/Wishlist/useDeleteWishitem";
 import { useState } from "react";
 
-export default function Cards({ mob, wishlist, disabled }) {
+export default function Cards({ mob, wishlist, disabled, onClickFn }) {
   const { user } = useAuth();
   const [heartState, setHeartState] = useState(
     wishlist?.find((n) => n.mobileId === mob.id)
@@ -40,7 +40,11 @@ export default function Cards({ mob, wishlist, disabled }) {
 
   const handleNavigate = () => {
     if (!disabled) {
-      navigate(`/mobile/${mob.id}/${mob.mobile_name}`);
+      if (onClickFn) {
+        onClickFn();
+      } else {
+        navigate(`/mobile/${mob.id}/${mob.mobile_name}`);
+      }
     }
   };
 

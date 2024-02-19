@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const { Brand } = require("../models");
+const { Brand, sequelize, Mobile } = require("../models");
 
 const getAllBrands = asyncHandler(async (req, res, next) => {
   const allBrands = await Brand.findAll();
@@ -33,7 +33,16 @@ const deleteBrand = asyncHandler(async (req, res, next) => {
   }
 
   try {
-    await brand.destroy();
+    await sequelize.transaction(async (t) => {
+      await brand.destroy({ transaction: t });
+      await Mobile.destroy({
+        where: {
+          brandId: brand.id,
+        },
+        transaction: t,
+      });
+    });
+
     return res.status(200).json(brand);
   } catch (error) {
     res.status(400);

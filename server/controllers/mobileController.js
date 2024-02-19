@@ -15,7 +15,7 @@ const getMobilesByTopPrices = asyncHandler(async (req, res, next) => {
   try {
     const allMobiles = await Mobile.findAll({
       order: [["price", "DESC"]],
-      limit: 5,
+      limit: 8,
     });
 
     if (allMobiles) return res.status(200).json(allMobiles);
@@ -154,6 +154,38 @@ const deleteMobile = asyncHandler(async (req, res, next) => {
   }
 });
 
+const searchMobileByName = asyncHandler(async (req, res, next) => {
+  const searchQuery = req.query.searchQuery;
+  const page = parseInt(req.query.page) || 1;
+  const limit = 5;
+  const offset = (page - 1) * limit;
+
+  let resObj = {};
+
+  const { rows: allMobilesByName, count: total } = await Mobile.findAndCountAll(
+    {
+      where: {
+        mobile_name: {
+          [Op.regexp]: `(?i)${searchQuery}`,
+        },
+      },
+      limit,
+      offset,
+    }
+  );
+
+  if (allMobilesByName) {
+    resObj.data = allMobilesByName;
+    resObj.numOfPages = Math.ceil(total / limit);
+    resObj.currentPage = page;
+
+    return res.status(200).json(resObj);
+  }
+
+  res.status(400);
+  return next(new Error("There was an error, please try again later!"));
+});
+
 module.exports = {
   getAllMobiles,
   getMobilesByTopPrices,
@@ -162,4 +194,5 @@ module.exports = {
   deleteMobile,
   editMobile,
   getMobilesByBrandId,
+  searchMobileByName,
 };

@@ -6,6 +6,14 @@ export async function fetchBrands() {
   return res.data;
 }
 
+export async function deleteBrandFn(token, brandId) {
+  await axios.delete(`${URL}/delete-brand/${brandId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
 export async function fetchMobilesByBrand(brandId, page, searchQuery) {
   const res = await axios.get(`${URL}/brand-mobiles/${brandId}`, {
     params: { page, searchQuery },
@@ -16,6 +24,20 @@ export async function fetchMobilesByBrand(brandId, page, searchQuery) {
 
 export async function getMobileByIdFn(mobileId) {
   const res = await axios.get(`${URL}/mobile-phone/${mobileId}`);
+
+  return res.data;
+}
+
+export async function getMobileByName(token, searchQuery, page) {
+  const res = await axios.get(`${URL}/search-mobile-name`, {
+    params: {
+      searchQuery,
+      page,
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   return res.data;
 }

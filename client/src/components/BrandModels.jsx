@@ -39,13 +39,15 @@ const BrandModels = () => {
 
     if (value !== "") {
       query.set("searchQuery", value);
+      query.set("page", 1);
       navigate(`/models/${brandId}?${query.toString()}`);
     }
   };
 
   const handleNavigate = (page) => {
     queryClient.invalidateQueries("wishlist");
-    navigate(`/models/${brandId}?page=${page}`);
+    query.set("page", page);
+    navigate(`/models/${brandId}?${query.toString()}`);
   };
 
   return (
@@ -64,14 +66,14 @@ const BrandModels = () => {
                   value={value}
                   onChange={(event) => setValue(event.target.value)}
                   type="text"
-                  placeholder="name@example.com"
+                  placeholder="Samsung Galaxy S24"
                   className="pe-5"
                 />
                 <Button
                   type="submit"
                   className="d-flex bg-transparent border-0 position-absolute end-0 me-2 top-0 bottom-0 justify-content-center align-items-center"
                 >
-                  <BsSearch style={{ color: "gray" }} />
+                  <BsSearch color="gray" />
                 </Button>
               </Form.Group>
             </Form>

@@ -17,6 +17,13 @@ const MobileMenuLayout = () => {
       </Nav.Link>
       <Nav.Link
         as={Link}
+        to="brands"
+        active={location === "/admin-menu/mobiles-menu/brands"}
+      >
+        Brands
+      </Nav.Link>
+      <Nav.Link
+        as={Link}
         to="add-mobile"
         active={location === "/admin-menu/mobiles-menu/add-mobile"}
       >

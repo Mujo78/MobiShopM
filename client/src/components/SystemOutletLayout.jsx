@@ -8,10 +8,12 @@ const SystemOutletLayout = ({ children }) => {
   return (
     <Container
       fluid
-      className="d-flex flex-column gap-3 mt-3 justify-content-center justify-content-sm-start align-items-center align-items-md-start"
+      className="d-flex  flex-column gap-3 mt-3 justify-content-center justify-content-sm-start align-items-center align-items-md-start"
     >
       <Navbar className="bg-light p-2 w-100 rounded">
-        <Nav>{children}</Nav>
+        <Nav className="d-flex flex-column mx-auto text-center mx-sm-0 text-sm-start flex-sm-row">
+          {children}
+        </Nav>
       </Navbar>
       <Outlet />
     </Container>
