@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
-import { useQueryParams } from "../../hooks/useQueryParams";
+import { useQueryParams } from "../../../hooks/useQueryParams";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "../../context/AuthContext";
-import { getMobileByName } from "../../features/Mobiles/api";
-import Paginate from "../../components/Paginate";
+import { useAuth } from "../../../context/AuthContext";
+import { getMobileByName } from "../../../features/Mobiles/api";
+import Paginate from "../../../components/Paginate";
 import Container from "react-bootstrap/Container";
 import Spinner from "react-bootstrap/esm/Spinner";
 import Alert from "react-bootstrap/esm/Alert";
-import Cards from "../../components/Card";
+import Cards from "../../../components/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { BsSearch } from "react-icons/bs";
@@ -47,7 +47,7 @@ export default function MobilesOverview() {
   };
 
   const onClickFn = (mobileId) => {
-    navigate(`${location}/edit-mobile/${mobileId}`);
+    navigate(`edit/${mobileId}`);
   };
 
   const handleNavigate = (page) => {

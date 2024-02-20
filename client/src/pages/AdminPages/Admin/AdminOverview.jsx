@@ -2,14 +2,14 @@ import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Container from "react-bootstrap/esm/Container";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "../../context/AuthContext";
-import { deleteAdminFn, getAllAdmins } from "../../features/Admin/api";
+import { useAuth } from "../../../context/AuthContext";
+import { deleteAdminFn, getAllAdmins } from "../../../features/Admin/api";
 import Spinner from "react-bootstrap/esm/Spinner";
 import Table from "react-bootstrap/esm/Table";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
-import Paginate from "../../components/Paginate";
-import { useQueryParams } from "../../hooks/useQueryParams";
+import Paginate from "../../../components/Paginate";
+import { useQueryParams } from "../../../hooks/useQueryParams";
 
 export default function AdminOverview() {
   const { user } = useAuth();

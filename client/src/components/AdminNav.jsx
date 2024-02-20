@@ -36,16 +36,16 @@ const AdminNav = () => {
         </Nav.Link>
         <Nav.Link
           as={Link}
-          to="mobiles-menu"
-          active={location.startsWith("/admin-menu/mobiles-menu")}
+          to="mobiles"
+          active={location.startsWith("/admin-menu/mobiles")}
         >
           <span className="d-none d-sm-block">Mobile Menu</span>
           <BsPhone style={styles} className="d-block d-sm-none" />
         </Nav.Link>
         <Nav.Link
           as={Link}
-          to="comments-menu"
-          active={location.startsWith("/admin-menu/comments-menu")}
+          to="comments"
+          active={location.startsWith("/admin-menu/comments")}
         >
           <span className="d-none d-sm-block">Comments Menu</span>
           <BsFileEarmarkText style={styles} className="d-block d-sm-none" />
@@ -53,8 +53,8 @@ const AdminNav = () => {
 
         <Nav.Link
           as={Link}
-          to="orders-menu"
-          active={location.startsWith("/admin-menu/orders-menu")}
+          to="orders"
+          active={location.startsWith("/admin-menu/orders")}
         >
           <span className="d-none d-sm-block">Orders Menu</span>
           <BsBox style={styles} className="d-block d-sm-none" />

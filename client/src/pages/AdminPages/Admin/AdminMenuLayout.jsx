@@ -1,7 +1,7 @@
 import React from "react";
 import Nav from "react-bootstrap/Nav";
 import { Link, useLocation } from "react-router-dom";
-import SystemOutletLayout from "../../components/SystemOutletLayout";
+import SystemOutletLayout from "../../../components/SystemOutletLayout";
 
 const AdminMenuLayout = () => {
   const location = useLocation().pathname;

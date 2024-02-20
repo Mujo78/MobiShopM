@@ -6,12 +6,12 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { useAuth } from "../context/AuthContext";
 import Container from "react-bootstrap/esm/Container";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { getMobileByIdFn } from "../features/Mobiles/api";
 import Spinner from "react-bootstrap/esm/Spinner";
 import CloseButton from "react-bootstrap/esm/CloseButton";
 import { useAddToCart } from "../features/Cart/useAddToCart";
+import { useFetchMobile } from "../features/Mobiles/useFetchMobile";
 
 export default function MobileDetails() {
   const queryClient = useQueryClient();
@@ -25,18 +25,7 @@ export default function MobileDetails() {
     setQuantity(value);
   };
 
-  const {
-    data: mobile,
-    isFetching,
-    isError,
-  } = useQuery({
-    queryKey: ["mobileById"],
-    queryFn: () => {
-      if (mobileId) {
-        return getMobileByIdFn(mobileId);
-      }
-    },
-  });
+  const { data: mobile, isFetching, isError } = useFetchMobile(mobileId);
 
   const { mutate, isPending } = useAddToCart();
 

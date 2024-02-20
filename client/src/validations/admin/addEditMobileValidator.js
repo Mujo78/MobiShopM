@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const addNewMobileSchema = Yup.object({
+export const addEditMobileSchema = Yup.object({
   mobile_name: Yup.string().required("Mobile name is required!"),
   ram: Yup.string().required("RAM is required!"),
   internal: Yup.string().required("Internal is required!"),

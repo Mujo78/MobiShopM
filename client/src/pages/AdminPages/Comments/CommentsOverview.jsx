@@ -3,18 +3,18 @@ import Alert from "react-bootstrap/Alert";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useQueryParams } from "../../hooks/useQueryParams";
-import { useAuth } from "../../context/AuthContext";
-import { getAllCommentsFn, deleteCommentFn } from "../../features/Admin/api";
+import { useQueryParams } from "../../../hooks/useQueryParams";
+import { useAuth } from "../../../context/AuthContext";
+import { getAllCommentsFn, deleteCommentFn } from "../../../features/Admin/api";
 import Spinner from "react-bootstrap/esm/Spinner";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { BsXLg } from "react-icons/bs";
-import { formatDate } from "../../util";
+import { formatDate } from "../../../util";
 import { toast } from "react-toastify";
-import Paginate from "../../components/Paginate";
+import Paginate from "../../../components/Paginate";
 
-export default function SeeComments() {
+export default function CommentsOverview() {
   const { user } = useAuth();
   const query = useQueryParams();
   const page = parseInt(query.get("page")) || 1;

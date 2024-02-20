@@ -3,8 +3,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "../../context/AuthContext";
-import { addNewBrandFn } from "../../features/Admin/api";
+import { useAuth } from "../../../context/AuthContext";
+import { addNewBrandFn } from "../../../features/Admin/api";
 import { toast } from "react-toastify";
 
 export default function AddBrand() {

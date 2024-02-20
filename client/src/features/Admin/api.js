@@ -38,12 +38,6 @@ export async function addNewMobileFn(token, mobileData) {
   });
 }
 
-export async function getBrandsFn() {
-  const res = await axios.get(`${URL}/brands`);
-
-  return res.data;
-}
-
 export async function addNewBrandFn(token, brandData) {
   await axios.post(
     `${URL}/add-brand`,

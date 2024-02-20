@@ -1,52 +1,33 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { addNewMobileSchema } from "../../validations/admin/addNewMobileValidator";
-import ErrorMessage from "../../components/ErrorMessage";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useAuth } from "../../context/AuthContext";
-import { addNewMobileFn, getBrandsFn } from "../../features/Admin/api";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/esm/Container";
 import Spinner from "react-bootstrap/esm/Spinner";
 import Image from "react-bootstrap/esm/Image";
 import { BsImage } from "react-icons/bs";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import { useBrands } from "../features/Mobiles/useBrands";
+import ErrorMessage from "./ErrorMessage";
 
-export default function AddMobile() {
+const MobileForm = ({
+  isPending,
+  register,
+  errors,
+  isError,
+  error,
+  handleSubmit,
+  onSubmitFn,
+  watch,
+  children,
+}) => {
   const [photoLink, setPhotoLink] = useState("");
-  const { user } = useAuth();
-  const { register, reset, handleSubmit, formState, watch } = useForm({
-    resolver: yupResolver(addNewMobileSchema),
-  });
-  const { errors } = formState;
-
-  const { mutate, isError, isPending, error } = useMutation({
-    mutationKey: ["addMobile"],
-    mutationFn: async (values) => {
-      const token = user.token;
-      await addNewMobileFn(token, values);
-    },
-    onSuccess: () => {
-      toast.success("Successfully added new mobile!");
-      reset();
-    },
-  });
+  let photo = watch("photo");
 
   const {
     data: brands,
     isFetching,
     isSuccess,
     isError: isBrandError,
-  } = useQuery({
-    queryKey: ["brands"],
-    queryFn: () => {
-      return getBrandsFn();
-    },
-  });
-
-  let photo = watch("photo");
+  } = useBrands();
 
   useEffect(() => {
     if (photo) {
@@ -55,12 +36,12 @@ export default function AddMobile() {
   }, [photo]);
 
   const onSubmit = (values) => {
-    mutate(values);
+    onSubmitFn(values);
   };
 
   return (
     <Container className="d-flex flex-column row p-0 align-items-center justify-content-center mt-2 w-100 mb-3">
-      <h3 className="text-center">Add new Mobile</h3>
+      {children}
       {isFetching || isPending ? (
         <div className="d-flex justify-content-center align-items-center mt-4 w-100">
           <Spinner />
@@ -92,7 +73,6 @@ export default function AddMobile() {
               <Container className="col-12 col-lg-7 col-xl-8 p-0">
                 <Form.Label htmlFor="mobile_name">Name</Form.Label>
                 <Form.Control
-                  required
                   id="mobile_name"
                   type="text"
                   autoComplete="mobile_name"
@@ -291,7 +271,7 @@ export default function AddMobile() {
                     errors.photo
                       ? errors.photo
                       : isError
-                      ? error.response.data
+                      ? error?.response?.data
                       : ""
                   }
                 />
@@ -315,4 +295,6 @@ export default function AddMobile() {
       )}
     </Container>
   );
-}
+};
+
+export default MobileForm;

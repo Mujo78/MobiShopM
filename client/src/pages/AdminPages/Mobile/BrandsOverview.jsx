@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteBrandFn } from "../../features/Mobiles/api";
-import { useAuth } from "../../context/AuthContext";
-import { useBrands } from "../../features/Mobiles/useBrands";
-import { formatDate } from "../../util";
+import { deleteBrandFn } from "../../../features/Mobiles/api";
+import { useAuth } from "../../../context/AuthContext";
+import { useBrands } from "../../../features/Mobiles/useBrands";
+import { formatDate } from "../../../util";
 import Container from "react-bootstrap/esm/Container";
 import Table from "react-bootstrap/esm/Table";
 import Spinner from "react-bootstrap/esm/Spinner";

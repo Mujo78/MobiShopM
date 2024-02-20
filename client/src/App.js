@@ -10,8 +10,7 @@ import Profile from "./pages/Profile";
 import MyCart from "./pages/ProfilePages/MyCart";
 import Wishlist from "./pages/ProfilePages/Wishlist";
 import AdminMenu from "./pages/AdminMenu";
-import MobilesOverview from "./pages/AdminPages/MobilesOverview";
-import SeeComments from "./pages/AdminPages/SeeComments";
+import MobilesOverview from "./pages/AdminPages/Mobile/MobilesOverview";
 import Overview from "./pages/ProfilePages/Overview";
 import SeeOrders from "./pages/AdminPages/SeeOrders";
 import Orders from "./pages/ProfilePages/Orders";
@@ -26,15 +25,16 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AppLayout from "./components/AppLayout";
 import BrandModels from "./components/BrandModels";
-import AdminMenuLayout from "./pages/AdminPages/AdminMenuLayout";
-import AdminOverview from "./pages/AdminPages/AdminOverview";
-import AddAdmin from "./pages/AdminPages/AddAdmin";
-import MobileMenuLayout from "./pages/AdminPages/MobileMenuLayout";
-import AddMobile from "./pages/AdminPages/AddMobile";
-import EditMobile from "./pages/AdminPages/EditMobile";
-import AddBrand from "./pages/AdminPages/AddBrand";
+import AdminMenuLayout from "./pages/AdminPages/Admin/AdminMenuLayout";
+import AdminOverview from "./pages/AdminPages/Admin/AdminOverview";
+import AddAdmin from "./pages/AdminPages/Admin/AddAdmin";
+import MobileMenuLayout from "./pages/AdminPages/Mobile/MobileMenuLayout";
+import AddMobile from "./pages/AdminPages/Mobile/AddMobile";
+import EditMobile from "./pages/AdminPages/Mobile/EditMobile";
+import AddBrand from "./pages/AdminPages/Mobile/AddBrand";
 import MobileDetails from "./pages/MobileDetails";
-import BrandsOverview from "./pages/AdminPages/BrandsOverview";
+import BrandsOverview from "./pages/AdminPages/Mobile/BrandsOverview";
+import CommentsOverview from "./pages/AdminPages/Comments/CommentsOverview";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -139,7 +139,7 @@ const routes = createBrowserRouter([
             ],
           },
           {
-            path: "mobiles-menu",
+            path: "mobiles",
             element: <MobileMenuLayout />,
             children: [
               {
@@ -147,7 +147,7 @@ const routes = createBrowserRouter([
                 element: <MobilesOverview />,
                 children: [
                   {
-                    path: "edit-mobile/:mobileId",
+                    path: "edit/:mobileId",
                     element: <EditMobile />,
                   },
                 ],
@@ -167,11 +167,11 @@ const routes = createBrowserRouter([
             ],
           },
           {
-            path: "comments-menu",
-            element: <SeeComments />,
+            path: "comments",
+            element: <CommentsOverview />,
           },
           {
-            path: "orders-menu",
+            path: "orders",
             element: <SeeOrders />,
           },
         ],

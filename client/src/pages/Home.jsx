@@ -122,7 +122,10 @@ export default function Home() {
                   key={n.id}
                   style={activeIndex === index ? activeStyles : styles}
                 >
-                  <Cards mob={n} disabled={true} />
+                  <Cards
+                    mob={n}
+                    disabled={activeIndex === index ? false : true}
+                  />
                 </Container>
               ))}
           </Carousel>

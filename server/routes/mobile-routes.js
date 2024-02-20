@@ -18,7 +18,7 @@ const {
 
 router.get("/mobiles", getAllMobiles);
 router.get("/mobiles-top-prices", getMobilesByTopPrices);
-router.get("/mobile-phone/:mobileId", getMobileById);
+router.get("/mobile/:mobileId", getMobileById);
 router.get("/brand-mobiles/:brandId", getMobilesByBrandId);
 router.get("/search-mobile-name", adminMiddleware, searchMobileByName);
 
