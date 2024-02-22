@@ -5,7 +5,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
 import Spinner from "react-bootstrap/esm/Spinner";
-import BrandsList from "../components/BrandsList";
+import BrandsList from "../components/Mobile/BrandsList";
 import { useBrands } from "../features/Mobiles/useBrands";
 
 export default function Models() {

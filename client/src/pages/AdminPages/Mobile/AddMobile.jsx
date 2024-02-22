@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../../../context/AuthContext";
 import { addNewMobileFn } from "../../../features/Admin/api";
 import { toast } from "react-toastify";
-import MobileForm from "../../../components/MobileForm";
+import MobileForm from "../../../components/Mobile/MobileForm";
 
 export default function AddMobile() {
   const { user } = useAuth();

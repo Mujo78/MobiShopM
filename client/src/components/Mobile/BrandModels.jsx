@@ -6,12 +6,12 @@ import Alert from "react-bootstrap/Alert";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Button from "react-bootstrap/esm/Button";
 import { BsSearch } from "react-icons/bs";
-import { useQueryParams } from "../hooks/useQueryParams";
-import { fetchMobilesByBrand } from "../features/Mobiles/api";
+import { useQueryParams } from "../../hooks/useQueryParams";
+import { fetchMobilesByBrand } from "../../features/Mobiles/api";
 import Cards from "./Card";
 import Spinner from "react-bootstrap/esm/Spinner";
-import Paginate from "./Paginate";
-import { useWishlist } from "../features/Wishlist/useGetWishlist";
+import Paginate from "../UI/Paginate";
+import { useWishlist } from "../../features/Wishlist/useGetWishlist";
 
 const BrandModels = () => {
   const [value, setValue] = useState("");

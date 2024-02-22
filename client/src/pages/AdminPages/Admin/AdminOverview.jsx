@@ -8,7 +8,7 @@ import Spinner from "react-bootstrap/esm/Spinner";
 import Table from "react-bootstrap/esm/Table";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
-import Paginate from "../../../components/Paginate";
+import Paginate from "../../../components/UI/Paginate";
 import { useQueryParams } from "../../../hooks/useQueryParams";
 
 export default function AdminOverview() {

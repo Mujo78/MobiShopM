@@ -67,6 +67,24 @@
 }
 
 /*
+--- CART PART ---
+*/
+
+.cart-list-item:hover {
+  cursor: pointer;
+  background-color: rgb(236, 233, 233);
+  transition: all;
+  transition-duration: 400ms;
+}
+
+.cart-trash-btn:hover {
+  cursor: pointer;
+  transition: all;
+  transition-duration: 300ms;
+  transform: scale(1.4);
+}
+
+/*
 --- ABOUT PAGE PART ---
 */
 

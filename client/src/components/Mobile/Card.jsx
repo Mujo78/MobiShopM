@@ -1,11 +1,11 @@
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/esm/Button";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import Container from "react-bootstrap/esm/Container";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { useAddToWishlist } from "../features/Wishlist/useAddToWishlist";
-import { useDeleteFromWishlist } from "../features/Wishlist/useDeleteWishitem";
+import { useAddToWishlist } from "../../features/Wishlist/useAddToWishlist";
+import { useDeleteFromWishlist } from "../../features/Wishlist/useDeleteWishitem";
 import { useState } from "react";
 
 export default function Cards({ mob, wishlist, disabled, onClickFn }) {

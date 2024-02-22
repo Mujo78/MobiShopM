@@ -3,16 +3,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ListGroup from "react-bootstrap/esm/ListGroup";
 import Button from "react-bootstrap/esm/Button";
-import OrderModal from "./OrderModal";
+import OrderModal from "../Order/OrderModal";
 import Alert from "react-bootstrap/Alert";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import styled from "styled-components";
 import { toast } from "react-toastify";
-import { Image } from "./Nav";
-import useResponsive from "./useResponsive";
+import { Image } from "../UI/Nav";
+import useResponsive from "../useResponsive";
 import Container from "react-bootstrap/esm/Container";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 const CustomListGroupItem = styled(ListGroup.Item)`
   p {

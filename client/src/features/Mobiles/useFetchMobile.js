@@ -3,7 +3,7 @@ import { getMobileByIdFn } from "./api";
 
 export function useFetchMobile(mobileId) {
   const { data, isFetching, isError, isSuccess } = useQuery({
-    queryKey: ["fetchMobile"],
+    queryKey: ["fetchMobile", mobileId],
     queryFn: () => {
       if (mobileId) {
         return getMobileByIdFn(mobileId);

@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
-import ProfileNavigation from "../components/ProfileNavigation";
+import ProfileNavigation from "../components/User/ProfileNavigation";
 
 export default function Profile() {
   const { user, logout } = useAuth();

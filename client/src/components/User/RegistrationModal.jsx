@@ -6,9 +6,9 @@ import Container from "react-bootstrap/esm/Container";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { registrationValidationSchema } from "../validations/auth/registrationValidation";
-import ErrorMessage from "./ErrorMessage";
-import { useSignup } from "../features/User/useSignup";
+import { registrationValidationSchema } from "../../validations/auth/registrationValidation";
+import ErrorMessage from "../UI/ErrorMessage";
+import { useSignup } from "../../features/User/useSignup";
 
 export default function RegistrationModal({ handleClose, show }) {
   const [showPassword, setShowPassword] = useState(false);

@@ -25,6 +25,7 @@ export default function MobileDetails() {
     setQuantity(value);
   };
 
+  console.log(mobileId);
   const { data: mobile, isFetching, isError } = useFetchMobile(mobileId);
 
   const { mutate, isPending } = useAddToCart();

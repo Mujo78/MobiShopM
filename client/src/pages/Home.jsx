@@ -1,8 +1,8 @@
 import Container from "react-bootstrap/esm/Container";
-import CarouselSlider from "../components/Carousel";
-import Footer from "../components/Footer";
+import CarouselSlider from "../components/UI/Carousel";
+import Footer from "../components/UI/Footer";
 import { useState } from "react";
-import Cards from "../components/Card";
+import Cards from "../components/Mobile/Card";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Spinner from "react-bootstrap/Spinner";

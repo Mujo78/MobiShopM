@@ -5,8 +5,8 @@ import Spinner from "react-bootstrap/esm/Spinner";
 import Image from "react-bootstrap/esm/Image";
 import { BsImage } from "react-icons/bs";
 import { useEffect, useState } from "react";
-import { useBrands } from "../features/Mobiles/useBrands";
-import ErrorMessage from "./ErrorMessage";
+import { useBrands } from "../../features/Mobiles/useBrands";
+import ErrorMessage from "../UI/ErrorMessage";
 
 const MobileForm = ({
   isPending,

@@ -1,7 +1,7 @@
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
-import Footer from "../components/Footer";
+import Footer from "../components/UI/Footer";
 
 export default function About() {
   return (

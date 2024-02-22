@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
-import AdminNav from "../components/AdminNav";
+import AdminNav from "../components/Admin/AdminNav";
 
 export default function AdminMenu() {
   return (

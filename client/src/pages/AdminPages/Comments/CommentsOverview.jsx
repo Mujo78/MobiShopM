@@ -12,7 +12,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { BsXLg } from "react-icons/bs";
 import { formatDate } from "../../../util";
 import { toast } from "react-toastify";
-import Paginate from "../../../components/Paginate";
+import Paginate from "../../../components/UI/Paginate";
 
 export default function CommentsOverview() {
   const { user } = useAuth();

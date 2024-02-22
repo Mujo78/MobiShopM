@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import Button from "react-bootstrap/esm/Button";
 import { BsCart2 } from "react-icons/bs";
-import Cart from "./Cart";
+import Cart from "../Cart/Cart";
 import { ToastContainer } from "react-toastify";
-import Navbars from "./Nav";
+import Navbars from "../UI/Nav";
 
 const AppLayout = () => {
-  const [infoPersonState, setInfoPersonState] = useState([]);
   const [showCart, setShowCart] = useState(false);
-  const errorCarts = 1;
 
   const { user } = useAuth();
 
@@ -20,10 +18,6 @@ const AppLayout = () => {
 
   function handleShowCart() {
     setShowCart(true);
-  }
-
-  function getCartItemsInfo(id) {
-    console.log(id);
   }
 
   return (
@@ -48,13 +42,7 @@ const AppLayout = () => {
         </Button>
       )}
 
-      <Cart
-        show={showCart}
-        onHide={handleCloseCart}
-        personData={infoPersonState}
-        refreshData={() => getCartItemsInfo(user.id)}
-        err={errorCarts}
-      />
+      <Cart show={showCart} onHide={handleCloseCart} />
     </div>
   );
 };

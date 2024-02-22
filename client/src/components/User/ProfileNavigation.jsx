@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/esm/Modal";
 import { useMutation } from "@tanstack/react-query";
-import { deleteMyAccount } from "../features/User/api";
+import { deleteMyAccount } from "../../features/User/api";
 
 const ProfileNavigation = () => {
   const [show, setShow] = useState(false);

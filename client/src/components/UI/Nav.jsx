@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import CustomAlert from "./Alert";
-import LoginModal from "./LoginModal";
+import LoginModal from "../User/LoginModal";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
-import RegistrationModal from "./RegistrationModal";
-import { useAuth } from "../context/AuthContext";
+import RegistrationModal from "../User/RegistrationModal";
+import { useAuth } from "../../context/AuthContext";
 import styled from "styled-components";
-import UserNav from "./UserNav";
+import UserNav from "../User/UserNav";
 
 export const Image = styled.img`
   &:hover {

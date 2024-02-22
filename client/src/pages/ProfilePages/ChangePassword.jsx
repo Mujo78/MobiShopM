@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { changePasswordValidationSchema } from "../../validations/profile/changePasswordValidation";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
-import ErrorMessage from "../../components/ErrorMessage";
+import ErrorMessage from "../../components/UI/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
 import { changePassword } from "../../features/User/api";
 

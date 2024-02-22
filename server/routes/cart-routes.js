@@ -21,6 +21,6 @@ router.post(
   addToCart
 );
 
-router.delete("/delete-item/:mobileId", authMiddleware, deleteFromCart);
+router.delete("/delete-item/:itemId", authMiddleware, deleteFromCart);
 
 module.exports = router;

@@ -1,11 +1,11 @@
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/esm/Container";
 import Form from "react-bootstrap/Form";
-import Footer from "../components/Footer";
+import Footer from "../components/UI/Footer";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { commentValidationSchema } from "../validations/commentValidation";
-import ErrorMessage from "../components/ErrorMessage";
+import ErrorMessage from "../components/UI/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
 import { postComment } from "../features/commentApi";
 import { toast } from "react-toastify";

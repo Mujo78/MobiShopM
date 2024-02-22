@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link, useLocation } from "react-router-dom";
-import SystemOutletLayout from "../../components/SystemOutletLayout";
+import SystemOutletLayout from "../../components/Layout/SystemOutletLayout";
 
 export default function EditProfile() {
   const location = useLocation().pathname;

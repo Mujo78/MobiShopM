@@ -12,3 +12,20 @@ export async function addToCartFn(token, mobileId, quantity) {
     }
   );
 }
+
+export async function fetchMyCartFn(token) {
+  const res = await axios.get(`${URL}/cart`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
+}
+
+export async function deleteCartItemFn(token, itemId) {
+  await axios.delete(`${URL}/delete-item/${itemId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

@@ -1,4 +1,4 @@
-import MyCartCard from "../../components/MyCartCard";
+import MyCartCard from "../../components/Cart/MyCartCard";
 
 export default function MyCart() {
   const cartItemsInfo = [];

@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import ListGroup from "react-bootstrap/esm/ListGroup";
 import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
-import Paginate from "./Paginate";
+import Paginate from "../UI/Paginate";
 import { toast } from "react-toastify";
 import OrderInfo from "./OrderInfo";
-import useResponsive from "./useResponsive";
+import useResponsive from "../useResponsive";
 import Container from "react-bootstrap/esm/Container";
 import { useSearchParams } from "react-router-dom";
 

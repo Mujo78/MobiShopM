@@ -7,7 +7,7 @@ import FormGroup from "react-bootstrap/esm/FormGroup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { infoValidationSchema } from "../../validations/profile/infoValidation";
-import ErrorMessage from "../../components/ErrorMessage";
+import ErrorMessage from "../../components/UI/ErrorMessage";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../../context/AuthContext";
 import { editMyInformations, getMyInformations } from "../../features/User/api";

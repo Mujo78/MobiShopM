@@ -2,7 +2,7 @@ import Card from "react-bootstrap/esm/Card";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 import Container from "react-bootstrap/esm/Container";
-import Paginate from "../../components/Paginate";
+import Paginate from "../../components/UI/Paginate";
 import { useAuth } from "../../context/AuthContext";
 import Alert from "react-bootstrap/Alert";
 import { useQueryParams } from "../../hooks/useQueryParams";

@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import MobileForm from "../../../components/MobileForm";
+import MobileForm from "../../../components/Mobile/MobileForm";
 import { useAuth } from "../../../context/AuthContext";
 import { addEditMobileSchema } from "../../../validations/admin/addEditMobileValidator";
 import { yupResolver } from "@hookform/resolvers/yup";

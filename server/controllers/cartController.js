@@ -9,7 +9,7 @@ const getCartItems = asyncHandler(async (req, res, next) => {
   });
 
   const cartItems = await Cart_item.findAll({
-    attributes: ["quantity"],
+    attributes: ["quantity", "id"],
     where: {
       cartId: userCart.id,
     },
@@ -92,9 +92,9 @@ const addToCart = asyncHandler(async (req, res, next) => {
 });
 
 const deleteFromCart = asyncHandler(async (req, res, next) => {
-  const mobileId = req.params.mobileId;
+  const itemId = req.params.itemId;
 
-  const toDelete = await Cart_item.findOne({ where: { mobileId } });
+  const toDelete = await Cart_item.findByPk(itemId);
 
   if (!toDelete) {
     res.status(400);
@@ -105,13 +105,13 @@ const deleteFromCart = asyncHandler(async (req, res, next) => {
     await sequelize.transaction(async (t) => {
       await Mobile.increment("quantity", {
         by: toDelete.quantity,
-        where: { id: mobileId },
+        where: { id: toDelete.mobileId },
         transaction: t,
       });
       await toDelete.destroy({ transaction: t });
     });
 
-    return res.status(200).json({ mobileID: toDelete.mobileId });
+    return res.status(200).json({ itemId: toDelete.id });
   } catch (error) {
     res.status(400);
     return next(new Error(error));

@@ -4,7 +4,7 @@ import Container from "react-bootstrap/esm/Container";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addAdminSchemaValidator } from "../../../validations/admin/addNewAdminValidator";
-import ErrorMessage from "../../../components/ErrorMessage";
+import ErrorMessage from "../../../components/UI/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../../../context/AuthContext";
 import { addNewAdminFn } from "../../../features/Admin/api";

@@ -23,8 +23,8 @@ import UserRequired from "./helpers/UserRequired";
 import { AuthProvider } from "./context/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import AppLayout from "./components/AppLayout";
-import BrandModels from "./components/BrandModels";
+import AppLayout from "./components/Layout/AppLayout";
+import BrandModels from "./components/Mobile/BrandModels";
 import AdminMenuLayout from "./pages/AdminPages/Admin/AdminMenuLayout";
 import AdminOverview from "./pages/AdminPages/Admin/AdminOverview";
 import AddAdmin from "./pages/AdminPages/Admin/AddAdmin";
@@ -35,6 +35,7 @@ import AddBrand from "./pages/AdminPages/Mobile/AddBrand";
 import MobileDetails from "./pages/MobileDetails";
 import BrandsOverview from "./pages/AdminPages/Mobile/BrandsOverview";
 import CommentsOverview from "./pages/AdminPages/Comments/CommentsOverview";
+import { CartProvider } from "./context/CartContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -189,7 +190,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen />
       <AuthProvider>
-        <RouterProvider router={routes} />
+        <CartProvider>
+          <RouterProvider router={routes} />
+        </CartProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

@@ -3,12 +3,12 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Container from "react-bootstrap/esm/Container";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
-import { loginValidationSchema } from "../validations/auth/loginValidation";
+import { loginValidationSchema } from "../../validations/auth/loginValidation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "../UI/ErrorMessage";
 
 export default function LoginModal({ handleClose, show }) {
   const [showPassword, setShowPassword] = useState(false);
