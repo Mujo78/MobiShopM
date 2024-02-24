@@ -7,6 +7,11 @@ module.exports = () => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    /*
+    total: {
+      type: DataTypes.DOUBLE,
+    },
+    */
   });
 
   cart.associate = (models) => {

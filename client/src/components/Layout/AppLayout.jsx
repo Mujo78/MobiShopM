@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Button from "react-bootstrap/esm/Button";
 import { BsCart2 } from "react-icons/bs";
@@ -9,6 +9,7 @@ import Navbars from "../UI/Nav";
 
 const AppLayout = () => {
   const [showCart, setShowCart] = useState(false);
+  const location = useLocation().pathname;
 
   const { user } = useAuth();
 
@@ -20,13 +21,15 @@ const AppLayout = () => {
     setShowCart(true);
   }
 
+  const myCartLocation = location === "/profile/my-cart";
+
   return (
     <div className="App px-0 px-sm-5 pt-2">
       <ToastContainer />
       <Navbars />
       <Outlet />
 
-      {user?.role !== 1 && (
+      {user?.role !== 1 && !myCartLocation && (
         <Button
           onClick={() => handleShowCart()}
           className="position-fixed mb-5 ms-5 p-4 rounded-pill bg-transparent bottom-0"

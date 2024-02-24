@@ -16,7 +16,15 @@ const getCartItems = asyncHandler(async (req, res, next) => {
     include: [
       {
         model: Mobile,
-        attributes: ["price", "internal", "mobile_name", "id", "ram", "photo"],
+        attributes: [
+          "price",
+          "internal",
+          "mobile_name",
+          "id",
+          "ram",
+          "photo",
+          "quantity",
+        ],
       },
     ],
   });
@@ -50,7 +58,7 @@ const addToCart = asyncHandler(async (req, res, next) => {
   });
 
   try {
-    await sequelize.transaction(async (t) => {
+    const result = await sequelize.transaction(async (t) => {
       const [cartItem, created] = await Cart_item.findOrCreate({
         where: {
           cartId: usersCart.id,
@@ -62,6 +70,7 @@ const addToCart = asyncHandler(async (req, res, next) => {
               ? foundedMobile.quantity
               : quantity,
         },
+        returning: true,
         transaction: t,
       });
 
@@ -81,10 +90,28 @@ const addToCart = asyncHandler(async (req, res, next) => {
         transaction: t,
       });
 
-      return cartItem;
+      return cartItem.id;
     });
 
-    return res.status(201).json({ message: "Successfully added!" });
+    const resultToReturn = await Cart_item.findByPk(result, {
+      attributes: ["quantity", "id"],
+      include: [
+        {
+          model: Mobile,
+          attributes: [
+            "price",
+            "internal",
+            "mobile_name",
+            "id",
+            "ram",
+            "photo",
+            "quantity",
+          ],
+        },
+      ],
+    });
+
+    return res.status(201).json(resultToReturn);
   } catch (error) {
     res.status(400);
     return next(new Error(error));

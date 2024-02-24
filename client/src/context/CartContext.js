@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { useCart } from "../features/Cart/useCart";
 import { useDeleteCartItem } from "../features/Cart/useDeleteCartItem";
+import { useAddToCart } from "../features/Cart/useAddToCart";
+import { useQueryClient } from "@tanstack/react-query";
 
 const CartContext = createContext();
 
@@ -9,6 +11,7 @@ const CART_ACTION_TYPES = {
   CART_SUCCESS: "CART_SUCCESS",
   CART_FAILURE: "CART_FAILURE",
   CART_DELETE_SUCCESS: "CART_DELETE_SUCCESS",
+  CART_ADD_SUCCESS: "CART_ADD_SUCCESS",
 };
 
 const initialState = {
@@ -33,6 +36,13 @@ function reducer(state, action) {
         status: "idle",
         error: "",
       };
+    case CART_ACTION_TYPES.CART_ADD_SUCCESS:
+      return {
+        ...state,
+        cartItems: [...state.cartItems, action.payload],
+        status: "idle",
+        error: "",
+      };
     default:
       throw new Error("Something went wrong, please try again later!");
   }
@@ -41,7 +51,9 @@ function reducer(state, action) {
 function CartProvider({ children }) {
   const [{ cartItems, status }, dispatch] = useReducer(reducer, initialState);
 
+  const queryClient = useQueryClient();
   const { data, isError, isFetching, error: cartError } = useCart();
+  const { mutate: addToCartFn } = useAddToCart();
   const { mutate } = useDeleteCartItem();
 
   useEffect(() => {
@@ -79,9 +91,31 @@ function CartProvider({ children }) {
     });
   }
 
+  function addItemToCart(mobileId, quantity) {
+    dispatch({ type: CART_ACTION_TYPES.CART_ITEMS_START });
+    addToCartFn(
+      { mobileId, quantity },
+      {
+        onSuccess: (data) => {
+          dispatch({
+            type: CART_ACTION_TYPES.CART_ADD_SUCCESS,
+            payload: data,
+          });
+          queryClient.invalidateQueries("mobileById");
+        },
+        onError: () => {
+          dispatch({
+            type: CART_ACTION_TYPES.CART_FAILURE,
+            payload: "Something went wrong, please try again later!",
+          });
+        },
+      }
+    );
+  }
+
   return (
     <CartContext.Provider
-      value={{ cartItems, status, isError, deleteCartItem }}
+      value={{ cartItems, status, isError, deleteCartItem, addItemToCart }}
     >
       {children}
     </CartContext.Provider>

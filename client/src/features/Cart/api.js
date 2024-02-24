@@ -2,7 +2,7 @@ import axios from "axios";
 const URL = "http://localhost:3001/api";
 
 export async function addToCartFn(token, mobileId, quantity) {
-  await axios.post(
+  const res = await axios.post(
     `${URL}/add-to-cart/${mobileId}`,
     { quantity },
     {
@@ -11,6 +11,8 @@ export async function addToCartFn(token, mobileId, quantity) {
       },
     }
   );
+
+  return res.data;
 }
 
 export async function fetchMyCartFn(token) {

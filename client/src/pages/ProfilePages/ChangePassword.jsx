@@ -52,22 +52,27 @@ export default function ChangePassword() {
         <Form.Group>
           <Container className="mb-1 p-0">
             <Form.Label htmlFor="password">Password</Form.Label>
-            <Container className="input-group p-0">
+            <Container className="position-relative p-0">
               <Form.Control
                 id="password"
+                className="pe-5"
                 type={showOldPassword ? "text" : "password"}
                 placeholder="Old password"
                 {...register("password")}
                 name="password"
               />
-              <Button
-                className="btn btn-outline-secondary"
+              <button
+                className="bg-transparent position-absolute top-0 bottom-0 border-0"
+                style={{ right: 10 }}
                 type="button"
-                variant="light"
                 onClick={toggleOldPasswordVisibility}
               >
-                {showOldPassword ? <BsEyeSlash /> : <BsEye />}
-              </Button>
+                {showOldPassword ? (
+                  <BsEyeSlash color="gray" />
+                ) : (
+                  <BsEye color="gray" />
+                )}
+              </button>
             </Container>
             <ErrorMessage
               textError={
@@ -81,22 +86,27 @@ export default function ChangePassword() {
           </Container>
           <Container className="mb-1 p-0">
             <Form.Label htmlFor="newPassword">New Password</Form.Label>
-            <Container className="input-group p-0">
+            <Container className=" position-relative p-0">
               <Form.Control
                 id="newPassword"
                 type={showNewPassword ? "text" : "password"}
                 placeholder="New password"
+                className="pe-5"
                 {...register("newPassword")}
                 name="newPassword"
               />
-              <Button
-                className="btn btn-outline-secondary"
+              <button
+                className="bg-transparent position-absolute top-0 bottom-0 border-0"
+                style={{ right: 10 }}
                 type="button"
-                variant="light"
                 onClick={toggleNewPasswordVisibility}
               >
-                {showNewPassword ? <BsEyeSlash /> : <BsEye />}
-              </Button>
+                {showNewPassword ? (
+                  <BsEyeSlash color="gray" />
+                ) : (
+                  <BsEye color="gray" />
+                )}
+              </button>
             </Container>
             <ErrorMessage textError={errors.newPassword} />
           </Container>

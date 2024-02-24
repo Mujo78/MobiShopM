@@ -10,7 +10,7 @@ export function useAddToCart() {
     mutationFn: async ({ mobileId, quantity }) => {
       if (mobileId) {
         const token = user.token;
-        await addToCartFn(token, mobileId, quantity);
+        return await addToCartFn(token, mobileId, quantity);
       }
     },
     onSuccess: () => {

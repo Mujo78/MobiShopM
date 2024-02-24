@@ -70,7 +70,7 @@ export default function RegistrationModal({ handleClose, show }) {
                   {...register("phone_number")}
                   name="phone_number"
                   id="phone_number"
-                  placeholder="+387** *** ***"
+                  placeholder="+387 ** *** ***"
                   autoFocus
                 />
                 <ErrorMessage textError={errors.phone_number} />
@@ -145,22 +145,27 @@ export default function RegistrationModal({ handleClose, show }) {
             </Form.Group>
             <Form.Group className="mb-1">
               <Form.Label htmlFor="password">Password</Form.Label>
-              <Container className="input-group p-0">
+              <Container className="position-relative p-0">
                 <Form.Control
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
                   name="password"
                   id="password"
-                  className={errors.password && " border-danger"}
+                  className={`${errors.password && " border-danger"} pe-5`}
                   placeholder="***********"
                   autoFocus
                 />
                 <button
-                  className="btn btn-outline-secondary"
+                  className="position-absolute top-0 bottom-0 border-0 bg-transparent"
+                  style={{ right: 10 }}
                   type="button"
                   onClick={togglePasswordVisibility}
                 >
-                  {showPassword ? <BsEyeSlash /> : <BsEye />}
+                  {showPassword ? (
+                    <BsEyeSlash color="gray" />
+                  ) : (
+                    <BsEye color="gray" />
+                  )}
                 </button>
               </Container>
               <ErrorMessage textError={errors.password} />

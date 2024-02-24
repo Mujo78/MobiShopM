@@ -6,18 +6,17 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { useAuth } from "../context/AuthContext";
 import Container from "react-bootstrap/esm/Container";
-import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "react-bootstrap/esm/Spinner";
 import CloseButton from "react-bootstrap/esm/CloseButton";
-import { useAddToCart } from "../features/Cart/useAddToCart";
 import { useFetchMobile } from "../features/Mobiles/useFetchMobile";
+import { useCartData } from "../context/CartContext";
 
 export default function MobileDetails() {
-  const queryClient = useQueryClient();
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { addItemToCart, status } = useCartData();
   const { mobileId } = useParams();
 
   const handleQuantity = (event) => {
@@ -25,20 +24,10 @@ export default function MobileDetails() {
     setQuantity(value);
   };
 
-  console.log(mobileId);
   const { data: mobile, isFetching, isError } = useFetchMobile(mobileId);
 
-  const { mutate, isPending } = useAddToCart();
-
   const addToCart = () => {
-    mutate(
-      { mobileId, quantity },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries("mobileById");
-        },
-      }
-    );
+    addItemToCart(mobileId, quantity);
   };
 
   const orderMobile = () => {};
@@ -49,7 +38,7 @@ export default function MobileDetails() {
 
   return (
     <Container className="pb-2 pb-xl-0">
-      {isFetching || isPending ? (
+      {isFetching || status === "pending" ? (
         <div className="d-flex w-100 h-100 justify-content-center mt-12">
           <Spinner />
         </div>
@@ -106,7 +95,7 @@ export default function MobileDetails() {
                     onChange={handleQuantity}
                   />
                   <Button
-                    onClick={() => addToCart(mobile.id)}
+                    onClick={addToCart}
                     variant="light"
                     className="border-secondary col-9 col-md-auto"
                   >

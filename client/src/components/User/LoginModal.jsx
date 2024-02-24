@@ -55,22 +55,27 @@ export default function LoginModal({ handleClose, show }) {
 
             <Form.Group className="mb-0">
               <Form.Label htmlFor="password">Password</Form.Label>
-              <Container className="input-group p-0">
+              <Container className="position-relative p-0">
                 <Form.Control
                   {...register("password")}
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
-                  className={errors.password && " border-danger"}
+                  className={`${errors.password && " border-danger"} pe-5`}
                   placeholder="***********"
                   autoFocus
                 />
                 <button
-                  className="btn btn-outline-secondary"
+                  className="bg-transparent position-absolute top-0 bottom-0 border-0"
+                  style={{ right: 10 }}
                   type="button"
                   onClick={togglePasswordVisibility}
                 >
-                  {showPassword ? <BsEyeSlash /> : <BsEye />}
+                  {showPassword ? (
+                    <BsEyeSlash color="gray" />
+                  ) : (
+                    <BsEye color="gray" />
+                  )}
                 </button>
               </Container>
               <ErrorMessage
