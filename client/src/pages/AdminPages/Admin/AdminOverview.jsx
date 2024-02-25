@@ -1,15 +1,15 @@
 import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
 import Container from "react-bootstrap/esm/Container";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../../../context/AuthContext";
 import { deleteAdminFn, getAllAdmins } from "../../../features/Admin/api";
-import Spinner from "react-bootstrap/esm/Spinner";
 import Table from "react-bootstrap/esm/Table";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import Paginate from "../../../components/UI/Paginate";
 import { useQueryParams } from "../../../hooks/useQueryParams";
+import CustomSpinner from "../../../components/UI/CustomSpinner";
+import CustomAlert from "../../../components/UI/Alert";
 
 export default function AdminOverview() {
   const { user } = useAuth();
@@ -59,9 +59,7 @@ export default function AdminOverview() {
   return (
     <>
       {isFetching ? (
-        <div className="d-flex w-100 mt-4 justify-content-center align-items-center">
-          <Spinner />
-        </div>
+        <CustomSpinner />
       ) : (
         <Container className="d-flex flex-wrap justify-content-center mt-4">
           {admins?.data.length > 0 ? (
@@ -110,14 +108,14 @@ export default function AdminOverview() {
               </Container>
             </Container>
           ) : isError ? (
-            <Alert variant="danger">
+            <CustomAlert variant="danger">
               There was an error, please try again latter
-            </Alert>
+            </CustomAlert>
           ) : (
             admins?.data.length === 0 && (
-              <Alert variant="secondary" className="w-100 text-center">
+              <CustomAlert variant="secondary">
                 There are no admins.
-              </Alert>
+              </CustomAlert>
             )
           )}
         </Container>

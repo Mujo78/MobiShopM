@@ -6,12 +6,12 @@ import { useAuth } from "../../../context/AuthContext";
 import { getMobileByName } from "../../../features/Mobiles/api";
 import Paginate from "../../../components/UI/Paginate";
 import Container from "react-bootstrap/Container";
-import Spinner from "react-bootstrap/esm/Spinner";
-import Alert from "react-bootstrap/esm/Alert";
 import Cards from "../../../components/Mobile/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { BsSearch } from "react-icons/bs";
+import CustomSpinner from "../../../components/UI/CustomSpinner";
+import CustomAlert from "../../../components/UI/Alert";
 
 export default function MobilesOverview() {
   const [value, setValue] = useState("");
@@ -80,9 +80,7 @@ export default function MobilesOverview() {
             </Form.Group>
           </Form>
           {isFetching ? (
-            <div className="w-100 d-flex justify-content-center align-items-center mt-2">
-              <Spinner />
-            </div>
+            <CustomSpinner />
           ) : searchQuery && searchedMobiles.data ? (
             <Container className="d-flex p-0 justify-content-center flex-wrap mb-1 mt-3">
               {searchedMobiles.data.length > 0 ? (
@@ -106,16 +104,16 @@ export default function MobilesOverview() {
                   </Container>
                 </Container>
               ) : (
-                <Alert variant="info">
+                <CustomAlert variant="secondary">
                   There are no mobiles that matches that name!
-                </Alert>
+                </CustomAlert>
               )}
             </Container>
           ) : (
             isError && (
-              <Alert variant="danger">
+              <CustomAlert variant="danger">
                 Something went wrong, please try again later!
-              </Alert>
+              </CustomAlert>
             )
           )}
         </Container>

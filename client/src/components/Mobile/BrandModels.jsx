@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import Container from "react-bootstrap/esm/Container";
 import Form from "react-bootstrap/Form";
 import { useNavigate, useParams } from "react-router-dom";
-import Alert from "react-bootstrap/Alert";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Button from "react-bootstrap/esm/Button";
 import { BsSearch } from "react-icons/bs";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import { fetchMobilesByBrand } from "../../features/Mobiles/api";
 import Cards from "./Card";
-import Spinner from "react-bootstrap/esm/Spinner";
 import Paginate from "../UI/Paginate";
 import { useWishlist } from "../../features/Wishlist/useGetWishlist";
+import CustomSpinner from "../UI/CustomSpinner";
+import CustomAlert from "../UI/Alert";
 
 const BrandModels = () => {
   const [value, setValue] = useState("");
@@ -53,9 +53,7 @@ const BrandModels = () => {
   return (
     <>
       {isLoading ? (
-        <div className="d-flex justify-content-center align-items-center mt-4">
-          <Spinner />
-        </div>
+        <CustomSpinner />
       ) : mobileData ? (
         <Container fluid className="d-flex w-100 p-0 flex-column">
           <Container fluid className="d-flex flex-column gap-4 mb-3">
@@ -105,15 +103,17 @@ const BrandModels = () => {
                 </Container>
               </Container>
             ) : (
-              <Alert className="text-center">
+              <CustomAlert variant="secondary">
                 There are no product's for this model
-              </Alert>
+              </CustomAlert>
             )}
           </Container>
         </Container>
       ) : (
         isError && (
-          <Alert className="text-center">Our store is currently empty!</Alert>
+          <CustomAlert variant="info">
+            Our store is currently empty!
+          </CustomAlert>
         )
       )}
     </>

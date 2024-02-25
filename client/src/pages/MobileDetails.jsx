@@ -1,5 +1,4 @@
 import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
 import Image from "react-bootstrap/Image";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useState } from "react";
@@ -7,13 +6,16 @@ import Form from "react-bootstrap/Form";
 import { useAuth } from "../context/AuthContext";
 import Container from "react-bootstrap/esm/Container";
 import { useNavigate, useParams } from "react-router-dom";
-import Spinner from "react-bootstrap/esm/Spinner";
 import CloseButton from "react-bootstrap/esm/CloseButton";
 import { useFetchMobile } from "../features/Mobiles/useFetchMobile";
 import { useCartData } from "../context/CartContext";
+import { useQueryClient } from "@tanstack/react-query";
+import CustomSpinner from "../components/UI/CustomSpinner";
+import CustomAlert from "../components/UI/Alert";
 
 export default function MobileDetails() {
   const [quantity, setQuantity] = useState(1);
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { user } = useAuth();
   const { addItemToCart, status } = useCartData();
@@ -27,7 +29,9 @@ export default function MobileDetails() {
   const { data: mobile, isFetching, isError } = useFetchMobile(mobileId);
 
   const addToCart = () => {
-    addItemToCart(mobileId, quantity);
+    addItemToCart(mobileId, quantity, () =>
+      queryClient.invalidateQueries("mobileById")
+    );
   };
 
   const orderMobile = () => {};
@@ -39,9 +43,7 @@ export default function MobileDetails() {
   return (
     <Container className="pb-2 pb-xl-0">
       {isFetching || status === "pending" ? (
-        <div className="d-flex w-100 h-100 justify-content-center mt-12">
-          <Spinner />
-        </div>
+        <CustomSpinner />
       ) : mobile ? (
         <Container className="d-flex gap-5 mt-5 flex-wrap flex-xl-nowrap justify-content-center flex-row">
           <Image
@@ -110,14 +112,18 @@ export default function MobileDetails() {
                 </Button>
               </Container>
             ) : (
-              <Alert variant="secondary" className="text-center">
+              <CustomAlert variant="secondary">
                 Product is not available
-              </Alert>
+              </CustomAlert>
             )}
           </Container>
         </Container>
       ) : (
-        isError && <p>Something went wrong, please try again later!</p>
+        isError && (
+          <CustomAlert variant="danger" fromTop={2}>
+            Something went wrong, please try again later!
+          </CustomAlert>
+        )
       )}
     </Container>
   );

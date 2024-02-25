@@ -5,10 +5,11 @@ import { useState } from "react";
 import Cards from "../components/Mobile/Card";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Spinner from "react-bootstrap/Spinner";
 import { BsShop, BsTruck, BsCashStack } from "react-icons/bs";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTopPrice } from "../api";
+import CustomSpinner from "../components/UI/CustomSpinner";
+import CustomAlert from "../components/UI/Alert";
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -16,7 +17,7 @@ export default function Home() {
     data: topPrices,
     isFetching,
     isError,
-  } = useQuery({ queryKey: ["topPrices"], queryFn: fetchTopPrice });
+  } = useQuery({ queryKey: ["topPrices"], queryFn: fetchTopPrice, retry: 2 });
 
   const activeStyles = {
     transform: "scale(0.9)",
@@ -85,9 +86,7 @@ export default function Home() {
       <Container fluid className="mb-5">
         <h3 className="mt-5 text-decoration-underline">Top prices</h3>
         {isFetching ? (
-          <div className="w-100 mt-5 d-flex justify-content-center align-items-center">
-            <Spinner />
-          </div>
+          <CustomSpinner />
         ) : topPrices?.length > 0 ? (
           <Carousel
             centerMode
@@ -112,25 +111,27 @@ export default function Home() {
               setActiveIndex(item);
             }}
             transitionTime={3000}
-            width="d-block"
           >
-            {topPrices &&
-              topPrices.map((n, index) => (
-                <Container
-                  className="p-0"
-                  fluid
-                  key={n.id}
-                  style={activeIndex === index ? activeStyles : styles}
-                >
-                  <Cards
-                    mob={n}
-                    disabled={activeIndex === index ? false : true}
-                  />
-                </Container>
-              ))}
+            {topPrices?.map((n, index) => (
+              <Container
+                className="p-0"
+                fluid
+                key={n.id}
+                style={activeIndex === index ? activeStyles : styles}
+              >
+                <Cards
+                  mob={n}
+                  disabled={activeIndex === index ? false : true}
+                />
+              </Container>
+            ))}
           </Carousel>
         ) : (
-          isError && <p>Something went wrong, we will fix it soon.</p>
+          isError && (
+            <CustomAlert variant="danger">
+              Something went wrong, we will fix it soon.
+            </CustomAlert>
+          )
         )}
       </Container>
 

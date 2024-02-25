@@ -6,10 +6,12 @@ import Form from "react-bootstrap/esm/Form";
 import Image from "react-bootstrap/esm/Image";
 import { BsTrash, BsCheck } from "react-icons/bs";
 import { useCartData } from "../../context/CartContext";
+import IconButton from "../UI/IconButton";
 
 export default function MyCartCard({
   data: {
     quantity,
+    total,
     id: itemId,
     Mobile: { mobile_name, price, photo, quantity: mobileQuantity },
   },
@@ -61,19 +63,16 @@ export default function MyCartCard({
         </Container>
         <span>
           <strong>Total: </strong>
-          {parseInt(price * quantity).toFixed(2)} BAM
+          {total.toFixed(2)} BAM
         </span>
 
         <Container className="d-flex justify-content-between p-0">
           <Button className="bg-custom border-0 rounded bg-custom-class">
             Order
           </Button>
-          <Button
-            onClick={deleteFromCart}
-            className="bg-transparent border-0 cart-trash-btn"
-          >
+          <IconButton onClick={deleteFromCart}>
             <BsTrash color="gray" />
-          </Button>
+          </IconButton>
         </Container>
       </Card.Body>
     </Card>

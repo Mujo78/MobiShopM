@@ -1,12 +1,12 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/esm/Container";
-import Spinner from "react-bootstrap/esm/Spinner";
 import Image from "react-bootstrap/esm/Image";
 import { BsImage } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { useBrands } from "../../features/Mobiles/useBrands";
 import ErrorMessage from "../UI/ErrorMessage";
+import CustomSpinner from "../UI/CustomSpinner";
 
 const MobileForm = ({
   isPending,
@@ -43,9 +43,7 @@ const MobileForm = ({
     <Container className="d-flex flex-column row p-0 align-items-center justify-content-center mt-2 w-100 mb-3">
       {children}
       {isFetching || isPending ? (
-        <div className="d-flex justify-content-center align-items-center mt-4 w-100">
-          <Spinner />
-        </div>
+        <CustomSpinner />
       ) : isSuccess ? (
         <Container className="d-flex col-12 col-xl-11 p-0 flex-column justify-content-center align-items-center flex-xl-row gap-2 mx-auto">
           <Container className="col-12 col-lg-11 col-xl-4 p-0">

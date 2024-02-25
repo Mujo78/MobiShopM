@@ -6,12 +6,15 @@ import { BsCart2 } from "react-icons/bs";
 import Cart from "../Cart/Cart";
 import { ToastContainer } from "react-toastify";
 import Navbars from "../UI/Nav";
+import { useCartData } from "../../context/CartContext";
+import Container from "react-bootstrap/esm/Container";
 
 const AppLayout = () => {
   const [showCart, setShowCart] = useState(false);
   const location = useLocation().pathname;
 
   const { user } = useAuth();
+  const { numOfItems } = useCartData();
 
   function handleCloseCart() {
     setShowCart(false);
@@ -38,10 +41,15 @@ const AppLayout = () => {
             border: "5px solid #219AEB",
           }}
         >
-          <BsCart2
-            className=" text-dark"
-            style={{ height: "30px", width: "30px" }}
-          />
+          <Container className="p-0 position-relative w-100 h-100">
+            <BsCart2 color="black" style={{ height: "30px", width: "30px" }} />
+            <div
+              className="bg-danger text-white px-2 py-1 position-absolute fw-semibold rounded-circle"
+              style={{ fontSize: "0.6rem", right: -10, top: -5 }}
+            >
+              {numOfItems}
+            </div>
+          </Container>
         </Button>
       )}
 

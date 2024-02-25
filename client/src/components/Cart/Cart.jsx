@@ -2,11 +2,13 @@ import Button from "react-bootstrap/esm/Button";
 import ListGroup from "react-bootstrap/esm/ListGroup";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { useAuth } from "../../context/AuthContext";
-import Alert from "react-bootstrap/Alert";
 import { useCartData } from "../../context/CartContext";
-import Spinner from "react-bootstrap/esm/Spinner";
 import { useNavigate } from "react-router-dom";
 import { BsTrash } from "react-icons/bs";
+import MyCartInfo from "./MyCartInfo";
+import IconButton from "../UI/IconButton";
+import CustomSpinner from "../UI/CustomSpinner";
+import CustomAlert from "../UI/Alert";
 
 export default function Cart({ show, onHide }) {
   const navigate = useNavigate();
@@ -26,19 +28,18 @@ export default function Cart({ show, onHide }) {
   return (
     <Offcanvas show={show} onHide={onHide}>
       {!user ? (
-        <Alert variant="secondary" className="m-auto">
+        <CustomAlert variant="secondary">
           You have to be logged in to see your cart!
-        </Alert>
+        </CustomAlert>
       ) : (
         <>
           <Offcanvas.Header closeButton>
             <Offcanvas.Title className="mx-auto">My cart</Offcanvas.Title>
           </Offcanvas.Header>
+          <MyCartInfo size={3} />
           <Offcanvas.Body className="d-flex flex-column">
             {status === "pending" ? (
-              <div className="w-100 d-flex justify-content-center align-items-center mt-4">
-                <Spinner />
-              </div>
+              <CustomSpinner />
             ) : cartItems?.length > 0 ? (
               <ListGroup className="gap-3">
                 {cartItems.map((n) => (
@@ -57,24 +58,21 @@ export default function Cart({ show, onHide }) {
                       <p>
                         Quantity: <strong> {n.quantity} </strong>
                       </p>
-                      <Button
-                        className="bg-transparent border-0 cart-trash-btn"
-                        onClick={(event) => deleteItem(event, n.id)}
-                      >
+                      <IconButton onClick={(event) => deleteItem(event, n.id)}>
                         <BsTrash color="gray" />
-                      </Button>
+                      </IconButton>
                     </div>
                   </ListGroup.Item>
                 ))}
               </ListGroup>
             ) : isError ? (
-              <Alert variant="danger" className="text-center mt-5">
+              <CustomAlert variant="danger" fromTop={5}>
                 Something went wrong, please try again later!
-              </Alert>
+              </CustomAlert>
             ) : (
-              <Alert variant="secondary" className="text-center mt-5">
+              <CustomAlert variant="secondary" fromTop={5}>
                 Empty
-              </Alert>
+              </CustomAlert>
             )}
           </Offcanvas.Body>
           <Offcanvas.Header>

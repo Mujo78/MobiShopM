@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Spinner from "react-bootstrap/Spinner";
 import FormGroup from "react-bootstrap/esm/FormGroup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,6 +12,8 @@ import { useAuth } from "../../context/AuthContext";
 import { editMyInformations, getMyInformations } from "../../features/User/api";
 import { BsPencil } from "react-icons/bs";
 import { toast } from "react-toastify";
+import IconButton from "../../components/UI/IconButton";
+import CustomSpinner from "../../components/UI/CustomSpinner";
 
 export default function Info() {
   const [disabledField, setDisabledField] = useState(true);
@@ -66,21 +67,14 @@ export default function Info() {
       <Container className="d-flex justify-content-between flex-wrap flex-sm-nowrap">
         <h3>Personal info</h3>
         {isSuccess && (
-          <Button
-            variant="secondary"
-            className=" mx-auto mx-sm-0"
-            style={{ backgroundColor: "#b8b9ba", borderColor: "#b8b9ba" }}
-            onClick={handleEditFields}
-          >
-            <BsPencil />
-          </Button>
+          <IconButton onClick={handleEditFields}>
+            <BsPencil color="gray" />
+          </IconButton>
         )}
       </Container>
       <Container>
         {isPending || isEditPending ? (
-          <div className="d-flex justify-content-center align-items-center h-100 w-100">
-            <Spinner />
-          </div>
+          <CustomSpinner />
         ) : isSuccess || isEditSuccess ? (
           <Form className="mb-5" onSubmit={handleSubmit(onSubmit)}>
             <FormGroup className="d-flex flex-wrap row flex-sm-nowrap justify-content-around align--items-center">

@@ -6,11 +6,11 @@ import { useBrands } from "../../../features/Mobiles/useBrands";
 import { formatDate } from "../../../util";
 import Container from "react-bootstrap/esm/Container";
 import Table from "react-bootstrap/esm/Table";
-import Spinner from "react-bootstrap/esm/Spinner";
 import Button from "react-bootstrap/esm/Button";
-import Alert from "react-bootstrap/esm/Alert";
 import Modal from "react-bootstrap/esm/Modal";
 import { toast } from "react-toastify";
+import CustomSpinner from "../../../components/UI/CustomSpinner";
+import CustomAlert from "../../../components/UI/Alert";
 
 const BrandsOverview = () => {
   const [show, setShow] = useState(false);
@@ -55,9 +55,7 @@ const BrandsOverview = () => {
   return (
     <Container className="w-100 p-0">
       {isFetching ? (
-        <div className="d-flex w-100 justify-content-center align-items-center">
-          <Spinner />
-        </div>
+        <CustomSpinner />
       ) : brands ? (
         brands.length > 0 ? (
           <Table hover size="sm">
@@ -95,10 +93,16 @@ const BrandsOverview = () => {
             </tbody>
           </Table>
         ) : (
-          <Alert variant="info">There are no brands, add some!</Alert>
+          <CustomAlert variant="info">
+            There are no brands, add some!
+          </CustomAlert>
         )
       ) : (
-        isError && <Alert>Something went wrong, please try again later!</Alert>
+        isError && (
+          <CustomAlert variant="danger">
+            Something went wrong, please try again later!
+          </CustomAlert>
+        )
       )}
       {show && (
         <Modal show={show} onHide={handleClose}>

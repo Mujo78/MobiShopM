@@ -7,14 +7,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 import RegistrationModal from "../User/RegistrationModal";
 import { useAuth } from "../../context/AuthContext";
-import styled from "styled-components";
 import UserNav from "../User/UserNav";
-
-export const Image = styled.img`
-  &:hover {
-    transform: scale(1.2);
-  }
-`;
 
 export default function Navbars() {
   const [show, setShow] = useState(false);
@@ -33,7 +26,7 @@ export default function Navbars() {
 
   return (
     <>
-      <CustomAlert>
+      <CustomAlert bold variant="secondary" closeButton>
         Unbeatable deals and amazing discounts, shop now and save big!
       </CustomAlert>
       <Navbar expand="lg" className=" rounded bg-custom">

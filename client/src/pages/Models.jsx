@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import Alert from "react-bootstrap/Alert";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
-import Spinner from "react-bootstrap/esm/Spinner";
 import BrandsList from "../components/Mobile/BrandsList";
 import { useBrands } from "../features/Mobiles/useBrands";
+import CustomSpinner from "../components/UI/CustomSpinner";
 
 export default function Models() {
   const navigate = useNavigate();
@@ -36,9 +35,7 @@ export default function Models() {
   return (
     <Container className="p-0 w-100">
       {isFetching ? (
-        <div className="d-flex mt-5 justify-content-center align-items-center">
-          <Spinner variant="secondary" />
-        </div>
+        <CustomSpinner />
       ) : brands ? (
         <Container className="d-flex justify-content-end row">
           <Container className="d-flex justify-content-end row flex-row mt-4">
@@ -72,9 +69,9 @@ export default function Models() {
         </Container>
       ) : (
         isError && (
-          <Alert variant="danger">
+          <CustomSpinner variant="danger">
             Something went erong, please try again latter!
-          </Alert>
+          </CustomSpinner>
         )
       )}
     </Container>

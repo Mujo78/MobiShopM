@@ -1,20 +1,21 @@
 import Card from "react-bootstrap/esm/Card";
 import { useLocation, useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/esm/Button";
 import Container from "react-bootstrap/esm/Container";
 import Paginate from "../../components/UI/Paginate";
 import { useAuth } from "../../context/AuthContext";
-import Alert from "react-bootstrap/Alert";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getMyWishlistDetailsFn } from "../../features/Wishlist/api";
-import Spinner from "react-bootstrap/esm/Spinner";
 import { BsTrash, BsCartPlus } from "react-icons/bs";
 import { useDeleteFromWishlist } from "../../features/Wishlist/useDeleteWishitem";
-import { useAddToCart } from "../../features/Cart/useAddToCart";
+import IconButton from "../../components/UI/IconButton";
+import { useCartData } from "../../context/CartContext";
+import CustomSpinner from "../../components/UI/CustomSpinner";
+import CustomAlert from "../../components/UI/Alert";
 
 export default function Wishlist() {
   const { user } = useAuth();
+  const { addItemToCart } = useCartData();
   const query = useQueryParams();
   const page = parseInt(query.get("page")) || 1;
   const navigate = useNavigate();
@@ -34,11 +35,11 @@ export default function Wishlist() {
         return getMyWishlistDetailsFn(token, page);
       }
     },
+    retry: 2,
     keepPreviousData: true,
   });
 
   const { deleteWishitem } = useDeleteFromWishlist();
-  const { mutate } = useAddToCart();
 
   const handleDeleteWishItem = (mobileId) => {
     deleteWishitem(mobileId, {
@@ -49,14 +50,8 @@ export default function Wishlist() {
   };
 
   const addToCart = (mobileId) => {
-    mutate(
-      { mobileId, quantity: 1 },
-      {
-        onSuccess: () => {
-          handleDeleteWishItem(mobileId);
-        },
-      }
-    );
+    const quantity = 1;
+    addItemToCart(mobileId, quantity, () => handleDeleteWishItem(mobileId));
   };
 
   const handleNavigate = (page) => {
@@ -71,9 +66,7 @@ export default function Wishlist() {
     <Container className="p-0 row mt-4 w-100">
       <h3>Wishlist</h3>
       {isFetching ? (
-        <div className="w-100 d-flex justify-content-center align-items-center">
-          <Spinner />
-        </div>
+        <CustomSpinner />
       ) : wishlistItems.data ? (
         wishlistItems.data.length > 0 ? (
           <>
@@ -108,25 +101,21 @@ export default function Wishlist() {
                       </Container>
                       <Container className="d-flex col-12 justify-content-center gap-3">
                         {m.Mobile.quantity > 0 && (
-                          <Button
-                            className="m-0 border-0 bg-white wishlist-icon-btn"
-                            onClick={() => addToCart(m.mobileId)}
-                          >
+                          <IconButton onClick={() => addToCart(m.mobileId)}>
                             <BsCartPlus
-                              style={{ width: "24px", height: "24px" }}
+                              style={{ width: "18px", height: "18px" }}
                               color="gray"
                             />
-                          </Button>
+                          </IconButton>
                         )}
-                        <Button
-                          className="border-0 bg-white wishlist-icon-btn"
+                        <IconButton
                           onClick={() => handleDeleteWishItem(m.mobileId)}
                         >
                           <BsTrash
-                            style={{ width: "24px", height: "24px" }}
+                            style={{ width: "18px", height: "18px" }}
                             color="red"
                           />
-                        </Button>
+                        </IconButton>
                       </Container>
                     </Card.Body>
                   </Card>
@@ -145,15 +134,15 @@ export default function Wishlist() {
             </Container>
           </>
         ) : (
-          <Alert variant="secondary" className="mt-5">
+          <CustomAlert variant="secondary" fromTop={5}>
             Your wishlist is empty!
-          </Alert>
+          </CustomAlert>
         )
       ) : (
         isError && (
-          <Alert variant="danger">
+          <CustomAlert variant="danger">
             Something went wrong, please try again latter!
-          </Alert>
+          </CustomAlert>
         )
       )}
     </Container>

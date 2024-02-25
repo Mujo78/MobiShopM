@@ -7,6 +7,9 @@ module.exports = () => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    total: {
+      type: DataTypes.DOUBLE,
+    },
     cartId: {
       type: DataTypes.INTEGER,
       allowNull: false,

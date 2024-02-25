@@ -12,7 +12,7 @@ import Button from "react-bootstrap/esm/Button";
 import { deleteMobileFn, editMobileFn } from "../../../features/Mobiles/api";
 import CloseButton from "react-bootstrap/esm/CloseButton";
 import Modal from "react-bootstrap/esm/Modal";
-import Alert from "react-bootstrap/esm/Alert";
+import CustomAlert from "../../../components/UI/Alert";
 
 export default function EditMobile() {
   const [show, setShow] = useState(false);
@@ -139,9 +139,9 @@ export default function EditMobile() {
           </Modal>
         </MobileForm>
       ) : (
-        <Alert variant="danger" className="w-75 mx-auto text-center mt-2">
+        <CustomAlert variant="danger" fromTop={2}>
           Something went wrong, please try again later!
-        </Alert>
+        </CustomAlert>
       )}
     </>
   );

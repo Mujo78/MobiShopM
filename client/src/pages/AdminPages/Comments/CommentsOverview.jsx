@@ -6,13 +6,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useQueryParams } from "../../../hooks/useQueryParams";
 import { useAuth } from "../../../context/AuthContext";
 import { getAllCommentsFn, deleteCommentFn } from "../../../features/Admin/api";
-import Spinner from "react-bootstrap/esm/Spinner";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { BsXLg } from "react-icons/bs";
 import { formatDate } from "../../../util";
 import { toast } from "react-toastify";
 import Paginate from "../../../components/UI/Paginate";
+import CustomSpinner from "../../../components/UI/CustomSpinner";
 
 export default function CommentsOverview() {
   const { user } = useAuth();
@@ -68,9 +68,7 @@ export default function CommentsOverview() {
     <Container fluid className="overflow-y-hidden w-100">
       <h3>Comments</h3>
       {isFetching ? (
-        <div className="w-100 d-flex justify-content-center align-items-center mt-4">
-          <Spinner />
-        </div>
+        <CustomSpinner />
       ) : comments?.data.length > 0 ? (
         <Container
           fluid

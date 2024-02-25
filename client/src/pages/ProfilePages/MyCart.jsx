@@ -1,20 +1,18 @@
 import { useCartData } from "../../context/CartContext";
 import MyCartCard from "../../components/Cart/MyCartCard";
 import Container from "react-bootstrap/esm/Container";
-import Spinner from "react-bootstrap/esm/Spinner";
-import Alert from "react-bootstrap/esm/Alert";
 import Button from "react-bootstrap/esm/Button";
+import MyCartInfo from "../../components/Cart/MyCartInfo";
+import CustomSpinner from "../../components/UI/CustomSpinner";
+import CustomAlert from "../../components/UI/Alert";
 
 export default function MyCart() {
-  const { cartItems, status, isError } = useCartData();
-  const numOfItems = cartItems?.length;
+  const { cartItems, numOfItems, status, isError } = useCartData();
 
   return (
     <Container>
       {status === "pending" ? (
-        <div className="w-100 mt-3 d-flex justify-content-center">
-          <Spinner />
-        </div>
+        <CustomSpinner />
       ) : cartItems ? (
         <>
           <Container className="p-0 d-flex flex-wrap justify-content-between align-items-center">
@@ -25,15 +23,7 @@ export default function MyCart() {
           </Container>
           {numOfItems > 0 ? (
             <>
-              <Container
-                className="p-0 d-flex flex-wrap justify-content-between align-items-center border-bottom"
-                style={{ fontSize: "0.9rem" }}
-              >
-                <p>
-                  {numOfItems} {numOfItems > 1 ? "ITEMS" : "ITEM"}
-                </p>
-                <p>Total: </p>
-              </Container>
+              <MyCartInfo />
               <Container
                 id="content"
                 className="d-flex px-0 py-2 flex-column gap-4"
@@ -49,16 +39,16 @@ export default function MyCart() {
               </Container>
             </>
           ) : (
-            <Alert className="mt-5 text-center" variant="secondary">
+            <CustomAlert fromTop={5} variant="secondary">
               Cart empty
-            </Alert>
+            </CustomAlert>
           )}
         </>
       ) : (
         isError && (
-          <Alert className="mt-5 text-center" variant="danger">
+          <CustomAlert fromTop={5} variant="danger">
             Something went wrong, please try again later!
-          </Alert>
+          </CustomAlert>
         )
       )}
     </Container>

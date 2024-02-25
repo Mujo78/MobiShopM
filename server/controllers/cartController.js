@@ -9,7 +9,7 @@ const getCartItems = asyncHandler(async (req, res, next) => {
   });
 
   const cartItems = await Cart_item.findAll({
-    attributes: ["quantity", "id"],
+    attributes: ["quantity", "id", "total"],
     where: {
       cartId: userCart.id,
     },
@@ -29,7 +29,13 @@ const getCartItems = asyncHandler(async (req, res, next) => {
     ],
   });
 
-  if (cartItems) return res.status(200).json(cartItems);
+  if (cartItems) {
+    const resObj = {
+      total: userCart.total,
+      data: cartItems,
+    };
+    return res.status(200).json(resObj);
+  }
 
   res.status(400);
   return next(new Error("Something went wrong, please try again latter!"));
@@ -57,6 +63,9 @@ const addToCart = asyncHandler(async (req, res, next) => {
     where: { userId },
   });
 
+  const quantityToUse =
+    quantity > foundedMobile.quantity ? foundedMobile.quantity : quantity;
+
   try {
     const result = await sequelize.transaction(async (t) => {
       const [cartItem, created] = await Cart_item.findOrCreate({
@@ -65,23 +74,21 @@ const addToCart = asyncHandler(async (req, res, next) => {
           mobileId: foundedMobile.id,
         },
         defaults: {
-          quantity:
-            quantity > foundedMobile.quantity
-              ? foundedMobile.quantity
-              : quantity,
+          quantity: quantityToUse,
+          total: parseInt(quantityToUse) * foundedMobile.price,
         },
         returning: true,
         transaction: t,
       });
 
       if (!created) {
-        await cartItem.increment("quantity", {
-          by:
-            quantity > foundedMobile.quantity
-              ? foundedMobile.quantity
-              : quantity,
-          transaction: t,
-        });
+        await cartItem.increment(
+          {
+            quantity: quantityToUse,
+            total: parseInt(quantityToUse) * foundedMobile.price,
+          },
+          { transaction: t }
+        );
       }
 
       await foundedMobile.decrement("quantity", {
@@ -90,11 +97,16 @@ const addToCart = asyncHandler(async (req, res, next) => {
         transaction: t,
       });
 
+      await usersCart.increment("total", {
+        by: (parseInt(quantityToUse) * foundedMobile.price).toFixed(2),
+        transaction: t,
+      });
+
       return cartItem.id;
     });
 
     const resultToReturn = await Cart_item.findByPk(result, {
-      attributes: ["quantity", "id"],
+      attributes: ["quantity", "id", "total"],
       include: [
         {
           model: Mobile,
@@ -119,6 +131,7 @@ const addToCart = asyncHandler(async (req, res, next) => {
 });
 
 const deleteFromCart = asyncHandler(async (req, res, next) => {
+  const userId = req.user.id;
   const itemId = req.params.itemId;
 
   const toDelete = await Cart_item.findByPk(itemId);
@@ -133,6 +146,12 @@ const deleteFromCart = asyncHandler(async (req, res, next) => {
       await Mobile.increment("quantity", {
         by: toDelete.quantity,
         where: { id: toDelete.mobileId },
+        transaction: t,
+      });
+
+      await Cart.decrement("total", {
+        by: toDelete.total,
+        where: { userId },
         transaction: t,
       });
       await toDelete.destroy({ transaction: t });

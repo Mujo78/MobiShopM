@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 import { useCart } from "../features/Cart/useCart";
 import { useDeleteCartItem } from "../features/Cart/useDeleteCartItem";
 import { useAddToCart } from "../features/Cart/useAddToCart";
-import { useQueryClient } from "@tanstack/react-query";
 
 const CartContext = createContext();
 
@@ -16,6 +15,8 @@ const CART_ACTION_TYPES = {
 
 const initialState = {
   cartItems: [],
+  total: 0,
+  numOfItems: 0,
   status: "start",
   error: "",
 };
@@ -27,12 +28,21 @@ function reducer(state, action) {
     case CART_ACTION_TYPES.CART_FAILURE:
       return { ...state, status: "failed", error: action.payload };
     case CART_ACTION_TYPES.CART_SUCCESS:
-      return { ...state, cartItems: action.payload, status: "idle", error: "" };
-    case CART_ACTION_TYPES.CART_DELETE_SUCCESS:
-      const itemId = action.payload;
       return {
         ...state,
-        cartItems: state.cartItems.filter((m) => m.id !== itemId),
+        cartItems: action.payload?.data,
+        numOfItems: action.payload?.data?.length,
+        total: action.payload?.total,
+        status: "idle",
+        error: "",
+      };
+    case CART_ACTION_TYPES.CART_DELETE_SUCCESS:
+      const cartItem = state.cartItems.find((m) => m.id === action.payload);
+      return {
+        ...state,
+        cartItems: state.cartItems.filter((m) => m.id !== cartItem.id),
+        total: state.total - cartItem?.total,
+        numOfItems: state.numOfItems - 1,
         status: "idle",
         error: "",
       };
@@ -40,6 +50,8 @@ function reducer(state, action) {
       return {
         ...state,
         cartItems: [...state.cartItems, action.payload],
+        total: state.total + action.payload?.total,
+        numOfItems: state.numOfItems + 1,
         status: "idle",
         error: "",
       };
@@ -49,9 +61,10 @@ function reducer(state, action) {
 }
 
 function CartProvider({ children }) {
-  const [{ cartItems, status }, dispatch] = useReducer(reducer, initialState);
-
-  const queryClient = useQueryClient();
+  const [{ cartItems, status, numOfItems, total }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
   const { data, isError, isFetching, error: cartError } = useCart();
   const { mutate: addToCartFn } = useAddToCart();
   const { mutate } = useDeleteCartItem();
@@ -91,7 +104,7 @@ function CartProvider({ children }) {
     });
   }
 
-  function addItemToCart(mobileId, quantity) {
+  function addItemToCart(mobileId, quantity, additionalFn) {
     dispatch({ type: CART_ACTION_TYPES.CART_ITEMS_START });
     addToCartFn(
       { mobileId, quantity },
@@ -101,7 +114,9 @@ function CartProvider({ children }) {
             type: CART_ACTION_TYPES.CART_ADD_SUCCESS,
             payload: data,
           });
-          queryClient.invalidateQueries("mobileById");
+          if (addItemToCart) {
+            additionalFn();
+          }
         },
         onError: () => {
           dispatch({
@@ -115,7 +130,15 @@ function CartProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{ cartItems, status, isError, deleteCartItem, addItemToCart }}
+      value={{
+        cartItems,
+        status,
+        numOfItems,
+        isError,
+        deleteCartItem,
+        addItemToCart,
+        total,
+      }}
     >
       {children}
     </CartContext.Provider>
