@@ -20,9 +20,9 @@ export default function Cart({ show, onHide }) {
     deleteCartItem(itemId);
   };
 
-  const handleNavigate = (mobileId, mobileName) => {
+  const handleNavigate = (itemId) => {
     onHide();
-    navigate(`/mobile/${mobileId}/${mobileName}`, { replace: true });
+    navigate(`/profile/my-cart?cartItem=${itemId}`, { replace: true });
   };
 
   return (
@@ -46,9 +46,7 @@ export default function Cart({ show, onHide }) {
                   <ListGroup.Item
                     key={n.id}
                     className="border cart-list-item"
-                    onClick={() =>
-                      handleNavigate(n?.Mobile?.id, n?.Mobile?.mobile_name)
-                    }
+                    onClick={() => handleNavigate(n?.id)}
                   >
                     <h6>
                       {n.Mobile.mobile_name} ({n.Mobile.internal}/{n.Mobile.ram}{" "}

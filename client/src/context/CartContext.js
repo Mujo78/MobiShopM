@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 import { useCart } from "../features/Cart/useCart";
 import { useDeleteCartItem } from "../features/Cart/useDeleteCartItem";
 import { useAddToCart } from "../features/Cart/useAddToCart";
+import { useUpdateCartItem } from "../features/Cart/useUpdateCartItem";
 
 const CartContext = createContext();
 
@@ -11,6 +12,7 @@ const CART_ACTION_TYPES = {
   CART_FAILURE: "CART_FAILURE",
   CART_DELETE_SUCCESS: "CART_DELETE_SUCCESS",
   CART_ADD_SUCCESS: "CART_ADD_SUCCESS",
+  CART_ITEM_UPDATED_SUCCESS: "CART_ITEM_UPDATE_SUCCESS",
 };
 
 const initialState = {
@@ -55,6 +57,26 @@ function reducer(state, action) {
         status: "idle",
         error: "",
       };
+    case CART_ACTION_TYPES.CART_ITEM_UPDATED_SUCCESS:
+      const updatedItems = state.cartItems.map((item) => {
+        if (item.id === action.payload?.itemId) {
+          return {
+            ...item,
+            quantity: action.payload?.quantity,
+            total: item.total + action.payload?.total,
+          };
+        }
+        return item;
+      });
+
+      return {
+        ...state,
+        cartItems: updatedItems,
+        total: state.total + action.payload?.total,
+        status: "idle",
+        error: "",
+      };
+
     default:
       throw new Error("Something went wrong, please try again later!");
   }
@@ -67,6 +89,7 @@ function CartProvider({ children }) {
   );
   const { data, isError, isFetching, error: cartError } = useCart();
   const { mutate: addToCartFn } = useAddToCart();
+  const { mutate: updateCartItemFn } = useUpdateCartItem();
   const { mutate } = useDeleteCartItem();
 
   useEffect(() => {
@@ -128,6 +151,27 @@ function CartProvider({ children }) {
     );
   }
 
+  function updateCartItem(itemId, quantity) {
+    dispatch({ type: CART_ACTION_TYPES.CART_ITEMS_START });
+    updateCartItemFn(
+      { itemId, quantity },
+      {
+        onSuccess: (data) => {
+          dispatch({
+            type: CART_ACTION_TYPES.CART_ITEM_UPDATED_SUCCESS,
+            payload: { total: data.total, itemId, quantity },
+          });
+        },
+        onError: () => {
+          dispatch({
+            type: CART_ACTION_TYPES.CART_FAILURE,
+            payload: "Something went wrong, please try again later!",
+          });
+        },
+      }
+    );
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -137,6 +181,7 @@ function CartProvider({ children }) {
         isError,
         deleteCartItem,
         addItemToCart,
+        updateCartItem,
         total,
       }}
     >

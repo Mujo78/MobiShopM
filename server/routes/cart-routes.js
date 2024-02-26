@@ -5,8 +5,12 @@ const {
   addToCart,
   getCartItems,
   deleteFromCart,
+  updateCartItem,
 } = require("../controllers/cartController");
-const { addToCartValidator } = require("../validators/cart");
+const {
+  addToCartValidator,
+  editCartItemQuantityValidator,
+} = require("../validators/cart");
 const {
   errorValidationMiddleware,
 } = require("../middlewares/errorValidationMiddleware");
@@ -19,6 +23,14 @@ router.post(
   addToCartValidator,
   errorValidationMiddleware,
   addToCart
+);
+
+router.patch(
+  "/update-cart-item/:itemId",
+  authMiddleware,
+  editCartItemQuantityValidator,
+  errorValidationMiddleware,
+  updateCartItem
 );
 
 router.delete("/delete-item/:itemId", authMiddleware, deleteFromCart);

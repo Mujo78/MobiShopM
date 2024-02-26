@@ -5,9 +5,24 @@ import Button from "react-bootstrap/esm/Button";
 import MyCartInfo from "../../components/Cart/MyCartInfo";
 import CustomSpinner from "../../components/UI/CustomSpinner";
 import CustomAlert from "../../components/UI/Alert";
+import { useQueryParams } from "../../hooks/useQueryParams";
+import { useEffect } from "react";
+import { Element, scroller } from "react-scroll";
 
 export default function MyCart() {
   const { cartItems, numOfItems, status, isError } = useCartData();
+  const cartItem = useQueryParams().get("cartItem") ?? null;
+
+  useEffect(() => {
+    if (cartItem) {
+      const toProp = `itemCard${cartItem}`;
+      scroller.scrollTo(toProp, {
+        duration: 300,
+        smooth: "easeInOutQuint",
+        containerId: "content",
+      });
+    }
+  }, [cartItem]);
 
   return (
     <Container>
@@ -25,8 +40,8 @@ export default function MyCart() {
             <>
               <MyCartInfo />
               <Container
-                id="content"
                 className="d-flex px-0 py-2 flex-column gap-4"
+                id="content"
                 style={{
                   scrollBehavior: "smooth",
                   maxHeight: "470px",
@@ -34,7 +49,9 @@ export default function MyCart() {
                 }}
               >
                 {cartItems.map((m) => (
-                  <MyCartCard key={m.id} data={m} />
+                  <Element key={m.id} name={`itemCard${m.id}`}>
+                    <MyCartCard data={m} />
+                  </Element>
                 ))}
               </Container>
             </>

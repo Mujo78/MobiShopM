@@ -7,21 +7,34 @@ import Image from "react-bootstrap/esm/Image";
 import { BsTrash, BsCheck } from "react-icons/bs";
 import { useCartData } from "../../context/CartContext";
 import IconButton from "../UI/IconButton";
+import { useQueryParams } from "../../hooks/useQueryParams";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function MyCartCard({
   data: {
     quantity,
     total,
     id: itemId,
-    Mobile: { mobile_name, price, photo, quantity: mobileQuantity },
+    Mobile: { id, mobile_name, price, photo, quantity: mobileQuantity },
   },
 }) {
   const [value, setValue] = useState(quantity);
-
-  const { deleteCartItem } = useCartData();
+  const navigate = useNavigate();
+  const query = useQueryParams();
+  const cartItem = parseInt(query.get("cartItem")) ?? null;
+  const { deleteCartItem, updateCartItem } = useCartData();
 
   const deleteFromCart = () => {
     deleteCartItem(itemId);
+  };
+
+  const handleUpdate = () => {
+    if (parseInt(value) === 0) {
+      toast.error("Quantity cannot be equal or less than 0.");
+    } else {
+      updateCartItem(itemId, value);
+    }
   };
 
   const handleChange = (event) => {
@@ -30,14 +43,33 @@ export default function MyCartCard({
     setValue(value);
   };
 
+  const handleNavigate = () => {
+    navigate(`/mobile/${id}/${mobile_name}`);
+  };
+
+  let showBtn = quantity !== value;
+
   return (
-    <Card className="d-flex flex-column flex-sm-row w-100 align-items-center border-0">
-      <Image src={photo} alt="mobile photo" className="w-25 h-auto" />
+    <Card
+      className={`d-flex flex-column flex-sm-row w-100 align-items-center ${
+        cartItem === parseInt(itemId) ? "border" : "border-0"
+      }`}
+    >
+      <Image
+        src={photo}
+        alt="mobile photo"
+        style={{ cursor: "pointer" }}
+        className="w-25 h-auto"
+        onClick={handleNavigate}
+      />
       <Card.Body className="w-100 d-flex flex-column gap-2">
         <Container className="p-0 d-flex justify-content-between align-items-center">
           <Card.Title>{mobile_name}</Card.Title>
-          {quantity !== value && (
-            <Button className="bg-custom border-0 rounded px-2 py-1">
+          {showBtn && (
+            <Button
+              onClick={handleUpdate}
+              className="bg-custom border-0 rounded px-2 py-1"
+            >
               <BsCheck />
             </Button>
           )}
