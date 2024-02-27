@@ -9,19 +9,27 @@ import { toast } from "react-toastify";
 
 export default function AddBrand() {
   const { user } = useAuth();
-  const [name, setName] = useState();
+  const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState();
 
   const { mutate, isError, error, isPending } = useMutation({
     mutationKey: ["addBrand"],
     mutationFn: async () => {
-      const token = user.token;
-      await addNewBrandFn(token, name);
+      if (name !== "") {
+        const token = user?.token;
+        await addNewBrandFn(token, name);
+      }
     },
     onSuccess: () => {
       toast.success("Brand successfully added!");
       setName("");
       setErrorMessage("");
+    },
+    onError: (error) => {
+      setErrorMessage("");
+      if (!error?.response?.data?.errors) {
+        toast.error("Something went wrong, please try again later!");
+      }
     },
   });
 
@@ -37,8 +45,6 @@ export default function AddBrand() {
     const value = event.target.value;
     setName(value);
   };
-
-  console.log(error);
 
   return (
     <Container className="d-flex flex-column justify-content-center align-items-center mt-2">
@@ -65,7 +71,9 @@ export default function AddBrand() {
             {errorMessage
               ? errorMessage
               : isError
-              ? error?.response.data.errors[0].msg
+              ? error?.response?.data?.errors
+                ? error?.response?.data?.errors[0].msg
+                : ""
               : ""}
           </p>
         </Form.Group>

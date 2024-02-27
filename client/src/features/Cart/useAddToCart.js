@@ -9,7 +9,7 @@ export function useAddToCart() {
     mutationKey: ["addToCart"],
     mutationFn: async ({ mobileId, quantity }) => {
       if (mobileId) {
-        const token = user.token;
+        const token = user?.token;
         return await addToCartFn(token, mobileId, quantity);
       }
     },

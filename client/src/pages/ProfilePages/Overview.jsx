@@ -14,6 +14,7 @@ import { BsPencil } from "react-icons/bs";
 import { toast } from "react-toastify";
 import IconButton from "../../components/UI/IconButton";
 import CustomSpinner from "../../components/UI/CustomSpinner";
+import CustomAlert from "../../components/UI/Alert";
 
 export default function Info() {
   const [disabledField, setDisabledField] = useState(true);
@@ -27,6 +28,7 @@ export default function Info() {
   const { data, isError, isSuccess, isPending } = useQuery({
     queryKey: ["personInfo"],
     queryFn: () => getMyInformations(user?.token),
+    retry: 1,
   });
 
   const {
@@ -38,13 +40,18 @@ export default function Info() {
     mutationKey: ["editProfile"],
     mutationFn: (values) => {
       if (user) {
-        const token = user.token;
-        editMyInformations(token, values);
+        const token = user?.token;
+        return editMyInformations(token, values);
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["editProfile"]);
+      queryClient.invalidateQueries("editProfile");
       toast.success("Profile updated!");
+    },
+    onError: () => {
+      toast.error(
+        "There was an error while updating your account, please try again later!"
+      );
     },
   });
 
@@ -177,10 +184,10 @@ export default function Info() {
           </Form>
         ) : (
           (isError || isEditError) && (
-            <p>
+            <CustomAlert variant="danger">
               There was an error while {isEditError ? "editing" : "getting"}{" "}
               your data, please try again latter!
-            </p>
+            </CustomAlert>
           )
         )}
       </Container>

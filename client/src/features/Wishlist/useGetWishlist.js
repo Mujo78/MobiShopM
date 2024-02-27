@@ -8,15 +8,21 @@ export function useWishlist() {
   const { data } = useQuery({
     queryKey: ["wishlist"],
     queryFn: () => {
-      if (user.role === 2) {
+      if (user?.role === 2) {
         const token = user.token;
         return getMyWishlistFn(token);
+      } else {
+        return null;
       }
     },
-    onError: () => {
-      toast.error(
-        "There was an error while loading you wishlist, it will be fixed soon."
-      );
+    retry: 1,
+    onError: (error) => {
+      if (error) {
+        console.log("object");
+        toast.error(
+          "There was an error while loading you wishlist, it will be fixed soon."
+        );
+      }
     },
   });
 

@@ -22,12 +22,19 @@ export default function ChangePassword() {
   const { mutate, isError, error } = useMutation({
     mutationKey: ["changePassword"],
     mutationFn: async (passwords) => {
-      const token = user.token;
+      const token = user?.token;
       await changePassword(token, passwords);
     },
     onSuccess: () => {
       toast.success("Password successfully changed!");
       reset();
+    },
+    onError: (error) => {
+      if (!error.response.data.message) {
+        toast.error(
+          "There was an error while updating your account, please try again later!"
+        );
+      }
     },
   });
 
@@ -78,9 +85,7 @@ export default function ChangePassword() {
               textError={
                 errors.password
                   ? errors.password
-                  : isError
-                  ? error?.response.data
-                  : ""
+                  : isError && error?.response?.data
               }
             />
           </Container>
@@ -123,10 +128,11 @@ export default function ChangePassword() {
               textError={
                 errors.confirmPassword
                   ? errors.confirmPassword
-                  : isError
-                  ? error?.response.data.message.startsWith("New Password") &&
-                    error?.response.data
-                  : ""
+                  : isError &&
+                    error?.response?.data?.message?.startsWith(
+                      "New Password"
+                    ) &&
+                    error?.response?.data
               }
             />
           </Container>

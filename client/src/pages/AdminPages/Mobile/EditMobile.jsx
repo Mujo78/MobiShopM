@@ -43,7 +43,7 @@ export default function EditMobile() {
     mutationKey: ["editMobile"],
     mutationFn: async (values) => {
       if (mobileId) {
-        const token = user.token;
+        const token = user?.token;
         await editMobileFn(token, mobileId, values);
       }
     },
@@ -62,7 +62,7 @@ export default function EditMobile() {
     mutationKey: ["deleteMobile"],
     mutationFn: async () => {
       if (mobileId) {
-        const token = user.token;
+        const token = user?.token;
         await deleteMobileFn(token, mobileId);
       }
     },
@@ -71,6 +71,7 @@ export default function EditMobile() {
       handleNavigateBack();
     },
     onError: () => {
+      setShow(false);
       toast.error(
         "Something went wrong while deleting mobile data, please try again later!"
       );

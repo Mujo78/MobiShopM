@@ -3,13 +3,22 @@ import { toast } from "react-toastify";
 import { userSignup } from "./api";
 
 export function useSignup() {
-  const { mutate: signup, error } = useMutation({
+  const {
+    mutate: signup,
+    error,
+    isError,
+  } = useMutation({
     mutationKey: ["signup"],
     mutationFn: userSignup,
-    onSuccess: (user) => {
+    onSuccess: () => {
       toast.success("Account successfully created!");
+    },
+    onError: (error) => {
+      if (!error.response.data.errors) {
+        toast.error("Something went wrong, please try again later!");
+      }
     },
   });
 
-  return { signup, error };
+  return { signup, error, isError };
 }

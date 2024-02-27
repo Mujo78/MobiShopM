@@ -10,6 +10,12 @@ module.exports = () => {
     total: {
       type: DataTypes.DOUBLE,
       defaultValue: 0,
+      get() {
+        return parseFloat(this.getDataValue("total")).toFixed(2);
+      },
+      set(value) {
+        this.setDataValue("total", parseFloat(value).toFixed(2));
+      },
     },
   });
 

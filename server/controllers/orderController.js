@@ -1,19 +1,157 @@
 const asyncHandler = require("express-async-handler");
-const { Order, Order_item, Mobile } = require("../models");
+const {
+  Order,
+  Order_item,
+  Mobile,
+  Person,
+  sequelize,
+  Cart,
+  Cart_item,
+} = require("../models");
 const { Op } = require("sequelize");
 
-const buyNow = asyncHandler(async (req, res) => {
+const buyNow = asyncHandler(async (req, res, next) => {
   const mobileId = req.params.mobileId;
   const user = req.user;
 
   const { payment_info, quantity } = req.body;
 
-  return res.status(200).json(user);
+  const foundedMobile = await Mobile.findByPk(mobileId);
+
+  if (!foundedMobile) {
+    res.status(404);
+    return next(new Error("Mobile is not available!"));
+  }
+
+  const person = await Person.findByPk(user.personId);
+
+  if (!person) {
+    res.status(404);
+    return next(new Error("There was an error, please try again later!"));
+  }
+
+  try {
+    const result = await sequelize.transaction(async (t) => {
+      const total_cost = (parseInt(quantity) * foundedMobile.price).toFixed(2);
+
+      const newOrder = await Order.create(
+        {
+          userId: user.id,
+          total_cost,
+          shipping_address: `${person.city}, ${person.address}`,
+          payment_info,
+        },
+        {
+          transaction: t,
+        }
+      );
+
+      const newOrderItem = await Order_item.create(
+        {
+          orderId: newOrder.id,
+          mobileId: foundedMobile.id,
+          quantity,
+          price: total_cost,
+        },
+        { transaction: t }
+      );
+
+      return newOrderItem;
+    });
+
+    if (result) return res.status(201).json(result);
+
+    res.status(404);
+    return next(new Error("There was an error, please try again later!"));
+  } catch (error) {
+    res.status(404);
+    return next(new Error(error.message));
+  }
 });
 
 const orderFromCart = asyncHandler(async (req, res, next) => {
+  const cartItemId = req.params.itemId;
+  const user = req.user;
+
+  const { quantity, payment_info } = req.body;
+
+  const person = await Person.findByPk(user.personId);
+
+  const cartItem = await Cart_item.findByPk(cartItemId);
+
+  if (!cartItem) {
+    res.status(404);
+    return next(new Error("Product not found in the cart!"));
+  }
+
+  try {
+    const result = await sequelize.transaction(async (t) => {
+      await Cart.decrement(
+        {
+          total: cartItem.total,
+        },
+        {
+          where: {
+            userId: user.id,
+          },
+          transaction: t,
+        }
+      );
+
+      const newOrder = await Order.create(
+        {
+          userId: user.id,
+          total_cost: cartItem.total,
+          shipping_address: `${person.city}, ${person.address}`,
+          payment_info,
+        },
+        {
+          transaction: t,
+        }
+      );
+
+      const newOrderItem = await Order_item.create(
+        {
+          orderId: newOrder.id,
+          mobileId: cartItem.mobileId,
+          quantity,
+          price: cartItem.total,
+        },
+        {
+          transaction: t,
+        }
+      );
+
+      await cartItem.destroy({
+        transaction: t,
+      });
+
+      return newOrderItem;
+    });
+
+    if (result) return res.status(201).json(result);
+
+    res.status(404);
+    return next(new Error("There was an error, please try again later!"));
+  } catch (error) {
+    res.status(404);
+    return next(new Error(error.message));
+  }
+});
+
+const orderAllFromCart = asyncHandler(async (req, res, next) => {
   const cartId = req.params.cartId;
   const user = req.user;
+
+  const usersCart = await Cart.findByPk(cartId);
+
+  if (!usersCart) {
+    res.status(404);
+    return next(new Error("Cart not found!"));
+  }
+
+  try {
+  } catch (error) {}
 
   const { payment_info } = req.body;
 });
@@ -122,6 +260,7 @@ const getMyOrders = asyncHandler(async (req, res, next) => {
 
 module.exports = {
   buyNow,
+  orderFromCart,
   getOrders,
   makeOrderShipped,
   cancelOrder,

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useBrands } from "../../features/Mobiles/useBrands";
 import ErrorMessage from "../UI/ErrorMessage";
 import CustomSpinner from "../UI/CustomSpinner";
+import CustomAlert from "../UI/Alert";
 
 const MobileForm = ({
   isPending,
@@ -268,9 +269,7 @@ const MobileForm = ({
                   textError={
                     errors.photo
                       ? errors.photo
-                      : isError
-                      ? error?.response?.data
-                      : ""
+                      : isError && error?.response?.data
                   }
                 />
               </Container>
@@ -289,7 +288,11 @@ const MobileForm = ({
           </Form>
         </Container>
       ) : (
-        isBrandError && <p>Something went wrong, please try again latter!</p>
+        isBrandError && (
+          <CustomAlert variant="danger">
+            Something went wrong, please try again latter!
+          </CustomAlert>
+        )
       )}
     </Container>
   );

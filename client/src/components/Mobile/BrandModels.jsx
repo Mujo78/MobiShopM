@@ -12,9 +12,11 @@ import Paginate from "../UI/Paginate";
 import { useWishlist } from "../../features/Wishlist/useGetWishlist";
 import CustomSpinner from "../UI/CustomSpinner";
 import CustomAlert from "../UI/Alert";
+import { useAuth } from "../../context/AuthContext";
 
 const BrandModels = () => {
   const [value, setValue] = useState("");
+  const { user } = useAuth();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { brandId } = useParams();
@@ -32,6 +34,7 @@ const BrandModels = () => {
     queryKey: ["brandMobiles", brandId, page, searchQuery],
     queryFn: () => fetchMobilesByBrand(brandId, page, searchQuery),
     keepPreviousData: true,
+    retry: 2,
   });
 
   const handleSubmit = async (event) => {
@@ -45,7 +48,9 @@ const BrandModels = () => {
   };
 
   const handleNavigate = (page) => {
-    queryClient.invalidateQueries("wishlist");
+    if (user?.role === 2) {
+      queryClient.invalidateQueries("wishlist");
+    }
     query.set("page", page);
     navigate(`/models/${brandId}?${query.toString()}`);
   };
@@ -76,11 +81,11 @@ const BrandModels = () => {
               </Form.Group>
             </Form>
 
-            {mobileData.data.length > 0 ? (
+            {mobileData?.data?.length > 0 ? (
               <Container className="w-100 d-flex flex-column gap-3 h-100 p-0">
                 <Container className="row">
                   <Container className="d-flex flex-row flex-wrap justify-content-center justify-content-lg-start gap-lg-3 gap-3">
-                    {mobileData.data.map((m) => (
+                    {mobileData?.data.map((m) => (
                       <Cards
                         mob={m}
                         key={m.id}
@@ -104,7 +109,9 @@ const BrandModels = () => {
               </Container>
             ) : (
               <CustomAlert variant="secondary">
-                There are no product's for this model
+                {searchQuery
+                  ? "Not found"
+                  : "There are no product's for this model"}
               </CustomAlert>
             )}
           </Container>

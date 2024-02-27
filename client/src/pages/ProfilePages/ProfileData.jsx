@@ -14,12 +14,19 @@ export default function ProfileData() {
   const { mutate, isError, error } = useMutation({
     mutationKey: ["usernameChange"],
     mutationFn: async (username) => {
-      const token = user.token;
-      await changeMyUsername(token, username);
+      const token = user?.token;
+      return await changeMyUsername(token, username);
     },
     onSuccess: () => {
       toast.success("Successfully updated username!");
       changeMyUsernameFn(username);
+    },
+    onError: (error) => {
+      if (!error.response.data.errors) {
+        toast.error(
+          "There was an error while updating your account, please try again later!"
+        );
+      }
     },
   });
 
@@ -56,7 +63,9 @@ export default function ProfileData() {
             {username === ""
               ? "Username is required!"
               : isError
-              ? error.response.data.errors[0].msg
+              ? error?.response?.data?.errors
+                ? error?.response?.data?.errors[0]?.msg
+                : ""
               : ""}
           </p>
         </Form.Group>

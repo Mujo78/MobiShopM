@@ -17,7 +17,7 @@ export default function RegistrationModal({ handleClose, show }) {
   });
   const { errors } = formState;
 
-  const { signup, error } = useSignup();
+  const { signup, error, isError } = useSignup();
 
   const togglePasswordVisibility = () => {
     setShowPassword((n) => !n);
@@ -26,6 +26,8 @@ export default function RegistrationModal({ handleClose, show }) {
   function onSubmit(values) {
     signup(values, { onSuccess: () => reset() });
   }
+
+  console.log(error);
 
   return (
     <>
@@ -183,13 +185,18 @@ export default function RegistrationModal({ handleClose, show }) {
                 placeholder="***********"
                 autoFocus
               />
-              <ErrorMessage
-                textError={
-                  errors.confirmPassword
-                    ? errors.confirmPassword
-                    : error && error
-                }
-              />
+              <p
+                className="text-danger mt-1"
+                style={{ height: "1rem", fontSize: "0.8rem" }}
+              >
+                {errors.confirmPassword
+                  ? errors.confirmPassword.message
+                  : isError
+                  ? error?.response?.data?.errors
+                    ? error?.response?.data?.errors[0].msg
+                    : ""
+                  : ""}
+              </p>
             </Form.Group>
             <Modal.Footer>
               <Button

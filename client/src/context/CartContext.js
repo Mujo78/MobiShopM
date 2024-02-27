@@ -137,7 +137,7 @@ function CartProvider({ children }) {
             type: CART_ACTION_TYPES.CART_ADD_SUCCESS,
             payload: data,
           });
-          if (addItemToCart) {
+          if (additionalFn) {
             additionalFn();
           }
         },

@@ -1,5 +1,4 @@
 import Card from "react-bootstrap/Card";
-import Alert from "react-bootstrap/Alert";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -8,11 +7,12 @@ import { useAuth } from "../../../context/AuthContext";
 import { getAllCommentsFn, deleteCommentFn } from "../../../features/Admin/api";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { BsXLg } from "react-icons/bs";
+import { BsTrash } from "react-icons/bs";
 import { formatDate } from "../../../util";
 import { toast } from "react-toastify";
 import Paginate from "../../../components/UI/Paginate";
 import CustomSpinner from "../../../components/UI/CustomSpinner";
+import CustomAlert from "../../../components/UI/Alert";
 
 export default function CommentsOverview() {
   const { user } = useAuth();
@@ -30,7 +30,7 @@ export default function CommentsOverview() {
   } = useQuery({
     queryKey: ["comments", page],
     queryFn: () => {
-      const token = user.token;
+      const token = user?.token;
       return getAllCommentsFn(token, page);
     },
     keepPreviousData: true,
@@ -39,7 +39,7 @@ export default function CommentsOverview() {
   const { mutate } = useMutation({
     mutationKey: ["deleteComment"],
     mutationFn: async (id) => {
-      const token = user.token;
+      const token = user?.token;
       await deleteCommentFn(token, id);
     },
     onSuccess: () => {
@@ -69,14 +69,14 @@ export default function CommentsOverview() {
       <h3>Comments</h3>
       {isFetching ? (
         <CustomSpinner />
-      ) : comments?.data.length > 0 ? (
+      ) : comments?.data?.length > 0 ? (
         <Container
           fluid
           id="content"
           className="overflow-y-scroll row pb-5 pb-sm-0 p-0 mt-2 d-flex flex-column justify-content-between"
         >
           <Container className="d-flex flex-column gap-3 pb-5 pb-sm-3 col-12">
-            {comments.data.map((m) => (
+            {comments?.data.map((m) => (
               <Card
                 key={m.id}
                 className="custom-card col-12"
@@ -100,7 +100,7 @@ export default function CommentsOverview() {
                   className=" position-absolute py-1 px-2"
                   style={{ top: "3px", right: "3px" }}
                 >
-                  <BsXLg color="white" />
+                  <BsTrash color="white" />
                 </Button>
               </Card>
             ))}
@@ -116,14 +116,12 @@ export default function CommentsOverview() {
           </Container>
         </Container>
       ) : isError ? (
-        <Alert variant="danger">
+        <CustomAlert variant="danger">
           Something went wrong, please try again latter!
-        </Alert>
+        </CustomAlert>
       ) : (
-        comments?.data.length === 0 && (
-          <Alert variant="secondary" className="text-center">
-            There are no comments.
-          </Alert>
+        comments?.data?.length === 0 && (
+          <CustomAlert variant="secondary">There are no comments.</CustomAlert>
         )
       )}
     </Container>

@@ -31,7 +31,7 @@ export default function MobilesOverview() {
   } = useQuery({
     queryKey: ["searchedMobiles", searchQuery, page],
     queryFn: () => {
-      const token = user.token;
+      const token = user?.token;
       return getMobileByName(token, searchQuery, page);
     },
     keepPreviousData: true,
@@ -81,12 +81,12 @@ export default function MobilesOverview() {
           </Form>
           {isFetching ? (
             <CustomSpinner />
-          ) : searchQuery && searchedMobiles.data ? (
+          ) : searchQuery && searchedMobiles?.data ? (
             <Container className="d-flex p-0 justify-content-center flex-wrap mb-1 mt-3">
-              {searchedMobiles.data.length > 0 ? (
+              {searchedMobiles?.data?.length > 0 ? (
                 <Container className="d-flex flex-column justify-content-center">
                   <Container className="d-flex flex-wrap justify-content-center gap-3">
-                    {searchedMobiles.data.map((m) => (
+                    {searchedMobiles?.data.map((m) => (
                       <Cards
                         mob={m}
                         key={m.id}
@@ -111,7 +111,7 @@ export default function MobilesOverview() {
             </Container>
           ) : (
             isError && (
-              <CustomAlert variant="danger">
+              <CustomAlert variant="danger" fromTop={2}>
                 Something went wrong, please try again later!
               </CustomAlert>
             )

@@ -9,7 +9,7 @@ export function useUpdateCartItem() {
     mutationKey: ["updateCartItem"],
     mutationFn: async ({ itemId, quantity }) => {
       if (itemId) {
-        const token = user.token;
+        const token = user?.token;
         return await updateCartItemFn(token, itemId, quantity);
       }
     },

@@ -7,7 +7,7 @@ export function useCart() {
   const { data, isFetching, isError, error } = useQuery({
     queryKey: ["cart"],
     queryFn: () => {
-      const token = user.token;
+      const token = user?.token;
       if (token) {
         return fetchMyCartFn(token);
       }

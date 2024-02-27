@@ -17,12 +17,15 @@ export default function AddMobile() {
   const { mutate, isError, isPending, error } = useMutation({
     mutationKey: ["addMobile"],
     mutationFn: async (values) => {
-      const token = user.token;
+      const token = user?.token;
       await addNewMobileFn(token, values);
     },
     onSuccess: () => {
       toast.success("Successfully added new mobile!");
       reset();
+    },
+    onError: () => {
+      toast.error("Something went wrong, please try again later!");
     },
   });
 

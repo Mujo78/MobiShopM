@@ -19,6 +19,7 @@ const {
   cancelOrder,
   getOrderItem,
   getMyOrders,
+  orderFromCart,
 } = require("../controllers/orderController");
 const { buyNowValidator } = require("../validators/ORDER.JS");
 const {
@@ -26,61 +27,20 @@ const {
 } = require("../middlewares/errorValidationMiddleware");
 
 router.post(
-  "/buy-now-route/:mobileId",
+  "/buy-now/:mobileId",
   authMiddleware,
   buyNowValidator,
   errorValidationMiddleware,
   buyNow
 );
 
-/*
-        const id = req.params.id;
-        const user = req.user;
-        const {
-            payment_info,
-            qnty
-        } = req.body;
-
-        const mobileWithSpecificId = await Mobile.findOne({where: {id: id}});
-        const loggedInUser = await User.findOne({where: {id: user.id}});
-        const infoLoggedInUser = await Persons.findOne({where: {id: loggedInUser.PersonId}});
-        const CartFromUser = await Cart.findOne({where: {UserId: user.id}});
-        const CartItem = await Cart_item.findOne({
-            where: {
-                CartId: CartFromUser.id, 
-                MobileId: mobileWithSpecificId.id
-            }});
-
-        if(!mobileWithSpecificId){
-            return res.json();
-        }else{
-            const newOrder = await Order.create({
-                UserId: user.id,
-                total_cost: 0,
-                shipping_address: infoLoggedInUser.city + "," + infoLoggedInUser.address,
-                payment_info: payment_info,
-                order_status: "Pending"
-            })
-            
-            const newOrderItem = await Order_item.create({
-                OrderId: newOrder.id,
-                MobileId: id,
-                Quantity: qnty,
-                price: qnty*mobileWithSpecificId.price
-            })
-
-            if(CartItem !== null){
-                await CartItem.destroy();
-            }
-
-            newOrder.total_cost = newOrderItem.price;
-            await newOrder.save();
-            mobileWithSpecificId.quantity = mobileWithSpecificId.quantity - qnty <= 0 ? 10 : mobileWithSpecificId.quantity - qnty;
-            await mobileWithSpecificId.save(); 
-            return res.status(200).json(newOrderItem);
-        }
-
-*/
+router.post(
+  "/buy-cart-item/:itemId",
+  authMiddleware,
+  buyNowValidator,
+  errorValidationMiddleware,
+  orderFromCart
+);
 
 router.post("/order-from-cart/:cartId", authMiddleware, async (req, res) => {
   try {

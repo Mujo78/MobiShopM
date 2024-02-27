@@ -8,8 +8,10 @@ export function useDeleteFromWishlist() {
   const { mutate: deleteWishitem } = useMutation({
     mutationKey: ["deleteFromWishlist"],
     mutationFn: async (mobileId) => {
-      const token = user.token;
-      await deleteWishitemFn(token, mobileId);
+      if (user?.role === 2) {
+        const token = user?.token;
+        await deleteWishitemFn(token, mobileId);
+      }
     },
     onSuccess: () => {
       toast.success("Item successfully deleted from wishlist!");

@@ -40,8 +40,7 @@ export default function Models() {
         <Container className="d-flex justify-content-end row">
           <Container className="d-flex justify-content-end row flex-row mt-4">
             <Button
-              className="col-auto rounded-pill d-sm-none end-0 text-center bg-white text-custom"
-              style={{ position: "fixed" }}
+              className="col-auto rounded-pill position-fixed d-sm-none end-0 text-center bg-white text-custom"
               onClick={handleShowOff}
             >
               B

@@ -31,7 +31,7 @@ export async function deleteAdminFn(token, id) {
 }
 
 export async function addNewMobileFn(token, mobileData) {
-  await axios.post(`${URL}/add-mobile`, mobileData, {
+  await axios.post(`${URL}/add-mobiles`, mobileData, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

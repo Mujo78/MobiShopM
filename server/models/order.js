@@ -26,6 +26,7 @@ module.exports = () => {
     },
     order_status: {
       type: DataTypes.ENUM("Shipped", "Pending", "Canceled"),
+      defaultValue: "Pending",
       allowNull: false,
     },
   });

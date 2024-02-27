@@ -5,6 +5,7 @@ export function useBrands() {
   const { data, isFetching, isError, isSuccess } = useQuery({
     queryKey: ["brands"],
     queryFn: fetchBrands,
+    retry: 2,
   });
 
   return { data, isFetching, isError, isSuccess };

@@ -27,16 +27,17 @@ export default function AdminOverview() {
   } = useQuery({
     queryKey: ["admins", page],
     queryFn: () => {
-      const token = user.token;
+      const token = user?.token;
       return getAllAdmins(token, page);
     },
     keepPreviousData: true,
+    retry: 1,
   });
 
   const { mutate } = useMutation({
     mutationKey: ["adminDelete"],
     mutationFn: async (id) => {
-      const token = user.token;
+      const token = user?.token;
       await deleteAdminFn(token, id);
     },
     onSuccess: () => {
@@ -62,7 +63,7 @@ export default function AdminOverview() {
         <CustomSpinner />
       ) : (
         <Container className="d-flex flex-wrap justify-content-center mt-4">
-          {admins?.data.length > 0 ? (
+          {admins?.data?.length > 0 ? (
             <Container>
               <Table striped hover size="sm" className="text-center">
                 <thead>
@@ -75,7 +76,7 @@ export default function AdminOverview() {
                   </tr>
                 </thead>
                 <tbody>
-                  {admins.data.map((m) => (
+                  {admins?.data.map((m) => (
                     <tr key={m.id} className="align-middle">
                       <td className="d-none d-lg-table-cell">{m.id}.</td>
                       <td className="d-none d-lg-table-cell">
@@ -112,7 +113,7 @@ export default function AdminOverview() {
               There was an error, please try again latter
             </CustomAlert>
           ) : (
-            admins?.data.length === 0 && (
+            admins?.data?.length === 0 && (
               <CustomAlert variant="secondary">
                 There are no admins.
               </CustomAlert>

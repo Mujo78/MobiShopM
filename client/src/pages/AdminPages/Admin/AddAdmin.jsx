@@ -20,12 +20,17 @@ export default function AddAdmin() {
   const { mutate, isError, error } = useMutation({
     mutationKey: ["addAdmin"],
     mutationFn: async (adminData) => {
-      const token = user.token;
+      const token = user?.token;
       await addNewAdminFn(token, adminData);
     },
     onSuccess: () => {
       toast.success("Admin successfully added!");
       reset();
+    },
+    onError: (error) => {
+      if (!error.response.data.message) {
+        toast.error("Something went wrong, please try again later!");
+      }
     },
   });
 
@@ -104,9 +109,7 @@ export default function AddAdmin() {
               textError={
                 errors.phone_number
                   ? errors.phone_number
-                  : isError
-                  ? error?.response.data
-                  : ""
+                  : isError && error?.response?.data
               }
             />
           </Container>

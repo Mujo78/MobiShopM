@@ -31,7 +31,7 @@ export default function Wishlist() {
     queryKey: ["wishlistitems", page],
     queryFn: () => {
       if (user.role === 2) {
-        const token = user.token;
+        const token = user?.token;
         return getMyWishlistDetailsFn(token, page);
       }
     },
@@ -67,8 +67,8 @@ export default function Wishlist() {
       <h3>Wishlist</h3>
       {isFetching ? (
         <CustomSpinner />
-      ) : wishlistItems.data ? (
-        wishlistItems.data.length > 0 ? (
+      ) : wishlistItems?.data ? (
+        wishlistItems?.data?.length > 0 ? (
           <>
             <Container className="row">
               <Container className="d-flex p-0 col-12 justify-content-around flex-wrap mb-4 flex-row gap-4 gap-xl-0">

@@ -8,8 +8,10 @@ export function useAddToWishlist() {
   const { mutate: addToWishlist } = useMutation({
     mutationKey: ["addToWishlist"],
     mutationFn: async (mobileId) => {
-      const token = user.token;
-      await addToWishListFn(token, mobileId);
+      if (user?.role === 2) {
+        const token = user?.token;
+        await addToWishListFn(token, mobileId);
+      }
     },
     onSuccess: () => {
       toast.success("Item successfully added to wishlist!");

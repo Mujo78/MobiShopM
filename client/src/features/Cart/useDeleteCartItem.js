@@ -8,7 +8,7 @@ export function useDeleteCartItem() {
   const { mutate } = useMutation({
     mutationKey: ["deleteItem"],
     mutationFn: async (itemId) => {
-      const token = user.token;
+      const token = user?.token;
       if (token && itemId) {
         await deleteCartItemFn(token, itemId);
       }

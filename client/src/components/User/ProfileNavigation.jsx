@@ -16,6 +16,7 @@ const ProfileNavigation = () => {
   const { mutate, isSuccess, isError } = useMutation({
     mutationKey: ["accountDelete"],
     mutationFn: (token) => deleteMyAccount(token),
+    retry: 1,
   });
 
   const [showErrorModal, setShowShowErrorModal] = useState(isError);
