@@ -41,6 +41,40 @@ const getCartItems = asyncHandler(async (req, res, next) => {
   return next(new Error("Something went wrong, please try again latter!"));
 });
 
+const getCartItem = asyncHandler(async (req, res, next) => {
+  const itemId = req.params.itemId;
+  const userId = req.user.id;
+
+  const usersCart = await Cart.findOne({
+    where: { userId },
+  });
+
+  try {
+    const foundedCartItem = await Cart_item.findOne({
+      attributes: ["quantity", "id", "total"],
+      where: {
+        id: itemId,
+        cartId: usersCart.id,
+      },
+      include: [
+        {
+          model: Mobile,
+        },
+      ],
+    });
+
+    if (foundedCartItem) {
+      return res.status(200).json(foundedCartItem);
+    }
+
+    res.status(404);
+    return next(new Error("Item not found!"));
+  } catch (error) {
+    res.status(404);
+    return next(new Error(error));
+  }
+});
+
 const addToCart = asyncHandler(async (req, res, next) => {
   const mobileId = req.params.mobileId;
   const userId = req.user.id;
@@ -261,4 +295,5 @@ module.exports = {
   getCartItems,
   deleteFromCart,
   updateCartItem,
+  getCartItem,
 };

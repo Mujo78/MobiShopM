@@ -47,6 +47,12 @@ export default function MyCartCard({
     navigate(`/mobile/${id}/${mobile_name}`);
   };
 
+  const handleOrder = () => {
+    if (itemId) {
+      navigate(`/order/cart-item/${itemId}`, { replace: true });
+    }
+  };
+
   let showBtn = quantity !== value;
 
   return (
@@ -68,7 +74,7 @@ export default function MyCartCard({
           {showBtn && (
             <Button
               onClick={handleUpdate}
-              className="bg-custom border-0 rounded px-2 py-1"
+              className="bg-custom bg-custom-class border-0 rounded px-2 py-1"
             >
               <BsCheck />
             </Button>
@@ -99,7 +105,10 @@ export default function MyCartCard({
         </span>
 
         <Container className="d-flex justify-content-between p-0">
-          <Button className="bg-custom border-0 rounded bg-custom-class">
+          <Button
+            onClick={handleOrder}
+            className="bg-custom border-0 rounded bg-custom-class"
+          >
             Order
           </Button>
           <IconButton onClick={deleteFromCart}>

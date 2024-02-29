@@ -3,6 +3,7 @@ import { useCart } from "../features/Cart/useCart";
 import { useDeleteCartItem } from "../features/Cart/useDeleteCartItem";
 import { useAddToCart } from "../features/Cart/useAddToCart";
 import { useUpdateCartItem } from "../features/Cart/useUpdateCartItem";
+import { useOrderFromCart } from "../features/Cart/useOrderFromCart";
 
 const CartContext = createContext();
 
@@ -13,6 +14,7 @@ const CART_ACTION_TYPES = {
   CART_DELETE_SUCCESS: "CART_DELETE_SUCCESS",
   CART_ADD_SUCCESS: "CART_ADD_SUCCESS",
   CART_ITEM_UPDATED_SUCCESS: "CART_ITEM_UPDATE_SUCCESS",
+  CART_ITEM_ORDER_SUCCESS: "CART_ITEM_ORDER_SUCCESS",
 };
 
 const initialState = {
@@ -52,7 +54,7 @@ function reducer(state, action) {
       return {
         ...state,
         cartItems: [...state.cartItems, action.payload],
-        total: state.total + action.payload?.total,
+        total: state.total + action.payload.total,
         numOfItems: state.numOfItems + 1,
         status: "idle",
         error: "",
@@ -76,6 +78,20 @@ function reducer(state, action) {
         status: "idle",
         error: "",
       };
+    case CART_ACTION_TYPES.CART_ITEM_ORDER_SUCCESS:
+      const foundedCartItem = state.cartItems.find(
+        (m) => m.id === action.payload.id
+      );
+      return {
+        ...state,
+        cartItems: state.cartItems.filter(
+          (item) => item.id !== foundedCartItem.id
+        ),
+        total: state.total - action.payload.total,
+        numOfItems: state.numOfItems - 1,
+        status: "idle",
+        error: "",
+      };
 
     default:
       throw new Error("Something went wrong, please try again later!");
@@ -90,6 +106,7 @@ function CartProvider({ children }) {
   const { data, isError, isFetching, error: cartError } = useCart();
   const { mutate: addToCartFn } = useAddToCart();
   const { mutate: updateCartItemFn } = useUpdateCartItem();
+  const { mutate: buyFromCartFn } = useOrderFromCart();
   const { mutate } = useDeleteCartItem();
 
   useEffect(() => {
@@ -151,6 +168,30 @@ function CartProvider({ children }) {
     );
   }
 
+  function orderCartItemFn(itemId, payment_info, additionalFn) {
+    dispatch({ type: CART_ACTION_TYPES.CART_ITEMS_START });
+    buyFromCartFn(
+      { itemId, payment_info },
+      {
+        onSuccess: (data) => {
+          dispatch({
+            type: CART_ACTION_TYPES.CART_ITEM_ORDER_SUCCESS,
+            payload: data,
+          });
+          if (additionalFn) {
+            additionalFn();
+          }
+        },
+        onError: () => {
+          dispatch({
+            type: CART_ACTION_TYPES.CART_FAILURE,
+            payload: "Something went wrong, please try again later!",
+          });
+        },
+      }
+    );
+  }
+
   function updateCartItem(itemId, quantity) {
     dispatch({ type: CART_ACTION_TYPES.CART_ITEMS_START });
     updateCartItemFn(
@@ -182,6 +223,7 @@ function CartProvider({ children }) {
         deleteCartItem,
         addItemToCart,
         updateCartItem,
+        orderCartItemFn,
         total,
       }}
     >

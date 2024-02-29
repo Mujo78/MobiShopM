@@ -80,7 +80,7 @@ export default function AddBrand() {
 
         <Form.Group className="d-flex justify-content-end col-12">
           <Button
-            className="bg-custom border-0 col-12 col-lg-2"
+            className="bg-custom bg-custom-class border-0 col-12 col-lg-2"
             type="submit"
             disabled={isPending}
           >

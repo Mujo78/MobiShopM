@@ -176,7 +176,7 @@ export default function Info() {
               <Button
                 type="submit"
                 disabled={disabledField || !isDirty}
-                className="bg-custom border-0 px-3 py-2"
+                className="bg-custom bg-custom-class border-0 px-3 py-2"
               >
                 Save changes
               </Button>

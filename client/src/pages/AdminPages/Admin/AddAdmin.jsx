@@ -134,7 +134,7 @@ export default function AddAdmin() {
           <Container className="col-12 col-lg-8 col-xl-8 d-flex justify-content-sm-end justify-content-center">
             <Button
               type="submit"
-              className="bg-custom border-0 col-12 col-lg-5 col-xl-3 me-1 mb-4"
+              className="bg-custom bg-custom-class border-0 col-12 col-lg-5 col-xl-3 me-1 mb-4"
             >
               Save changes
             </Button>

@@ -6,6 +6,7 @@ const {
   getCartItems,
   deleteFromCart,
   updateCartItem,
+  getCartItem,
 } = require("../controllers/cartController");
 const {
   addToCartValidator,
@@ -16,6 +17,7 @@ const {
 } = require("../middlewares/errorValidationMiddleware");
 
 router.get("/cart", authMiddleware, getCartItems);
+router.get("/cart-item/:itemId", authMiddleware, getCartItem);
 
 router.post(
   "/add-to-cart/:mobileId",

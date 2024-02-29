@@ -138,7 +138,10 @@ export default function ChangePassword() {
           </Container>
         </Form.Group>
         <div className="d-flex justify-content-end">
-          <Button type="submit" className="bg-custom border-0 px-4 py-2">
+          <Button
+            type="submit"
+            className="bg-custom bg-custom-class border-0 px-4 py-2"
+          >
             Save changes
           </Button>
         </div>

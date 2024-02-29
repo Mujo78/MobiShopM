@@ -76,7 +76,7 @@ export default function Cart({ show, onHide }) {
           <Offcanvas.Header>
             <Button
               onClick={onHide}
-              className="w-100 bg-custom border-0 rounded"
+              className="w-100 bg-custom bg-custom-class border-0 rounded"
             >
               Continue shopping
             </Button>

@@ -73,7 +73,7 @@ export default function ProfileData() {
           <Button
             type="submit"
             disabled={user.username === username}
-            className="px-4 py-2 bg-custom border-0"
+            className="px-4 py-2 bg-custom bg-custom-class border-0"
           >
             Save changes
           </Button>

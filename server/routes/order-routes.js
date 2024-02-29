@@ -21,7 +21,10 @@ const {
   getMyOrders,
   orderFromCart,
 } = require("../controllers/orderController");
-const { buyNowValidator } = require("../validators/ORDER.JS");
+const {
+  buyNowValidator,
+  buyCartItemValidator,
+} = require("../validators/order");
 const {
   errorValidationMiddleware,
 } = require("../middlewares/errorValidationMiddleware");
@@ -37,7 +40,7 @@ router.post(
 router.post(
   "/buy-cart-item/:itemId",
   authMiddleware,
-  buyNowValidator,
+  buyCartItemValidator,
   errorValidationMiddleware,
   orderFromCart
 );

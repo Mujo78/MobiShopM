@@ -34,7 +34,11 @@ export default function MobileDetails() {
     );
   };
 
-  const orderMobile = () => {};
+  const orderMobile = () => {
+    if (quantity > 0 && mobile?.quantity >= quantity) {
+      navigate(`/order/mobile/${mobileId}?quantity=${quantity}`);
+    }
+  };
 
   const goBack = () => {
     navigate(-1);
@@ -106,7 +110,7 @@ export default function MobileDetails() {
                 </Form.Group>
                 <Button
                   className="bg-custom col-11 mx-auto mx-md-0 col-md-auto border-0"
-                  onClick={() => orderMobile()}
+                  onClick={orderMobile}
                 >
                   Buy now
                 </Button>

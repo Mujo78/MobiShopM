@@ -79,7 +79,10 @@ export default function Contact() {
             />
           </Form.Group>
           <Form.Group className="d-flex justify-content-end mb-4">
-            <Button type="submit" className="bg-custom border-0 w-auto">
+            <Button
+              type="submit"
+              className="bg-custom bg-custom-class border-0 w-auto"
+            >
               Submit
             </Button>
           </Form.Group>

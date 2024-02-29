@@ -36,6 +36,8 @@ import MobileDetails from "./pages/MobileDetails";
 import BrandsOverview from "./pages/AdminPages/Mobile/BrandsOverview";
 import CommentsOverview from "./pages/AdminPages/Comments/CommentsOverview";
 import { CartProvider } from "./context/CartContext";
+import OrderCartItem from "./pages/Order/OrderCartItem";
+import OrderMobile from "./pages/Order/OrderMobile";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -176,6 +178,16 @@ const routes = createBrowserRouter([
             element: <SeeOrders />,
           },
         ],
+      },
+      {
+        path: "order/cart-item/:itemId",
+        element: <OrderCartItem />,
+        loader: UserRequired,
+      },
+      {
+        path: "order/mobile/:mobileId",
+        element: <OrderMobile />,
+        loader: UserRequired,
       },
       {
         path: "*",

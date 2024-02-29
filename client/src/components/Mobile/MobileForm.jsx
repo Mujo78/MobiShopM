@@ -279,7 +279,7 @@ const MobileForm = ({
               <Container className="col-12 px-xl-3 px-xxl-4 px-lg-3 d-flex justify-content-sm-end p-0 mb-4 mb-md-0">
                 <Button
                   type="submit"
-                  className="bg-custom border-0 col-12 col-xl-3 mb-4 mb-md-0"
+                  className="bg-custom bg-custom-class border-0 col-12 col-xl-3 mb-4 mb-md-0"
                 >
                   Save changes
                 </Button>

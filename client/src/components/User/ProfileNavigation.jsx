@@ -17,6 +17,10 @@ const ProfileNavigation = () => {
     mutationKey: ["accountDelete"],
     mutationFn: (token) => deleteMyAccount(token),
     retry: 1,
+    onError: () => {
+      handleClose();
+      handleShowErrorModal();
+    },
   });
 
   const [showErrorModal, setShowShowErrorModal] = useState(isError);
@@ -33,6 +37,14 @@ const ProfileNavigation = () => {
 
   const handleClose = () => {
     setShow(false);
+  };
+
+  const handleShowErrorModal = () => {
+    setShowShowErrorModal(true);
+  };
+
+  const handleCloseErrorModal = () => {
+    setShowShowErrorModal(false);
   };
   const deleteMyAcc = () => {
     mutate(user.token);
@@ -118,10 +130,15 @@ const ProfileNavigation = () => {
           <Button variant="danger" onClick={deleteMyAcc}>
             Delete My Account
           </Button>
-          <Button onClick={handleClose}>Close</Button>
+          <Button
+            className="bg-custom bg-custom-class border-0"
+            onClick={handleClose}
+          >
+            Close
+          </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={showErrorModal} onHide={() => setShowShowErrorModal(false)}>
+      <Modal show={showErrorModal} onHide={handleCloseErrorModal}>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
             Delete Account Problem
@@ -134,7 +151,12 @@ const ProfileNavigation = () => {
           </p>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => setShowShowErrorModal(false)}>Close</Button>
+          <Button
+            className="bg-custom bg-custom-class border-0"
+            onClick={handleCloseErrorModal}
+          >
+            Close
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

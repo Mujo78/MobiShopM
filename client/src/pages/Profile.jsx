@@ -34,7 +34,7 @@ export default function Profile() {
             <h5>{user?.role === 2 ? "Customer" : "Admin"}</h5>
             <Button
               onClick={logOutFunction}
-              className="bg-custom border-0 ms-auto px-4 py-2"
+              className="bg-custom bg-custom-class border-0 ms-auto px-4 py-2"
             >
               Log out
             </Button>

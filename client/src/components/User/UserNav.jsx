@@ -48,7 +48,7 @@ const UserNav = ({ setShowReg, setShow }) => {
             <NavDropdown.Divider />
             <NavDropdown.Item>
               <Button
-                className="bg-custom w-100 border-0"
+                className="bg-custom bg-custom-class w-100 border-0"
                 onClick={logOutFunction}
               >
                 Log Out

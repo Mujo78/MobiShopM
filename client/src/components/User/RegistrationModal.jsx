@@ -27,8 +27,6 @@ export default function RegistrationModal({ handleClose, show }) {
     signup(values, { onSuccess: () => reset() });
   }
 
-  console.log(error);
-
   return (
     <>
       <Modal show={show} onHide={handleClose} size="lg">

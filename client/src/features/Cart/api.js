@@ -24,6 +24,15 @@ export async function fetchMyCartFn(token) {
   return res.data;
 }
 
+export async function fetchCartItemFn(token, itemId) {
+  const res = await axios.get(`${URL}/cart-item/${itemId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
+}
+
 export async function updateCartItemFn(token, itemId, quantity) {
   const res = await axios.patch(
     `${URL}/update-cart-item/${itemId}`,

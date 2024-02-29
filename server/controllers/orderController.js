@@ -34,6 +34,15 @@ const buyNow = asyncHandler(async (req, res, next) => {
     const result = await sequelize.transaction(async (t) => {
       const total_cost = (parseInt(quantity) * foundedMobile.price).toFixed(2);
 
+      await foundedMobile.decrement(
+        {
+          quantity,
+        },
+        {
+          transaction: t,
+        }
+      );
+
       const newOrder = await Order.create(
         {
           userId: user.id,
@@ -73,7 +82,7 @@ const orderFromCart = asyncHandler(async (req, res, next) => {
   const cartItemId = req.params.itemId;
   const user = req.user;
 
-  const { quantity, payment_info } = req.body;
+  const { payment_info } = req.body;
 
   const person = await Person.findByPk(user.personId);
 
@@ -110,11 +119,11 @@ const orderFromCart = asyncHandler(async (req, res, next) => {
         }
       );
 
-      const newOrderItem = await Order_item.create(
+      await Order_item.create(
         {
           orderId: newOrder.id,
           mobileId: cartItem.mobileId,
-          quantity,
+          quantity: cartItem.quantity,
           price: cartItem.total,
         },
         {
@@ -126,7 +135,7 @@ const orderFromCart = asyncHandler(async (req, res, next) => {
         transaction: t,
       });
 
-      return newOrderItem;
+      return cartItem;
     });
 
     if (result) return res.status(201).json(result);

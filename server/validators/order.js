@@ -28,3 +28,16 @@ exports.buyNowValidator = [
     })
     .bail(),
 ];
+
+exports.buyCartItemValidator = [
+  check("payment_info")
+    .notEmpty()
+    .withMessage(ORDER_PAYMENT_INFO)
+    .custom((value) => {
+      if (value === "Card" || value === "Delivery") {
+        return true;
+      }
+      throw new Error(PAYMENT_INFO_CHOICE);
+    })
+    .bail(),
+];

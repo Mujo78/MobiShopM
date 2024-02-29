@@ -33,7 +33,9 @@ export default function MyCart() {
           <Container className="p-0 d-flex flex-wrap justify-content-between align-items-center">
             <h3 className="mt-4">My Cart</h3>
             {numOfItems > 0 && (
-              <Button className="bg-custom border-0 rounded">Order All</Button>
+              <Button className="bg-custom border-0 rounded bg-custom-class">
+                Order All
+              </Button>
             )}
           </Container>
           {numOfItems > 0 ? (
