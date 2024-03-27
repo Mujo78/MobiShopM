@@ -34,6 +34,7 @@ const AppLayout = () => {
 
       {user?.role !== 1 && !myCartLocation && (
         <Button
+          id="cart_btn"
           onClick={() => handleShowCart()}
           className="position-fixed mb-5 ms-5 p-4 rounded-pill bg-transparent bottom-0"
           style={{
@@ -43,17 +44,19 @@ const AppLayout = () => {
         >
           <Container className="p-0 position-relative w-100 h-100">
             <BsCart2 color="black" style={{ height: "30px", width: "30px" }} />
-            <div
-              className="bg-danger text-white px-2 py-1 position-absolute fw-semibold rounded-circle"
-              style={{ fontSize: "0.6rem", right: -10, top: -5 }}
-            >
-              {numOfItems}
-            </div>
+            {!isNaN(numOfItems) && (
+              <div
+                className="bg-danger text-white px-2 py-1 position-absolute fw-semibold rounded-circle"
+                style={{ fontSize: "0.6rem", right: -10, top: -5 }}
+              >
+                {numOfItems}
+              </div>
+            )}
           </Container>
         </Button>
       )}
 
-      <Cart show={showCart} onHide={handleCloseCart} />
+      {showCart && <Cart show={showCart} onHide={handleCloseCart} />}
     </div>
   );
 };

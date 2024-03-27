@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { useCart } from "../features/Cart/useCart";
 import { useDeleteCartItem } from "../features/Cart/useDeleteCartItem";
 import { useAddToCart } from "../features/Cart/useAddToCart";
 import { useUpdateCartItem } from "../features/Cart/useUpdateCartItem";
 import { useOrderFromCart } from "../features/Cart/useOrderFromCart";
+import { useCart } from "../features/Cart/useCart";
 
 const CartContext = createContext();
 
@@ -103,27 +103,28 @@ function CartProvider({ children }) {
     reducer,
     initialState
   );
-  const { data, isError, isFetching, error: cartError } = useCart();
+
+  const { data, isFetching, isError, isFetched } = useCart();
   const { mutate: addToCartFn } = useAddToCart();
   const { mutate: updateCartItemFn } = useUpdateCartItem();
   const { mutate: buyFromCartFn } = useOrderFromCart();
   const { mutate } = useDeleteCartItem();
 
   useEffect(() => {
-    async function fetchMyCart() {
+    if (isFetching) {
       dispatch({ type: CART_ACTION_TYPES.CART_ITEMS_START });
-      try {
-        dispatch({ type: CART_ACTION_TYPES.CART_SUCCESS, payload: data });
-      } catch (error) {
-        dispatch({
-          type: CART_ACTION_TYPES.CART_FAILURE,
-          payload: cartError.message,
-        });
-      }
     }
-
-    fetchMyCart();
-  }, [data, isError, isFetching, cartError]);
+    try {
+      if (isFetched && !isError) {
+        dispatch({ type: CART_ACTION_TYPES.CART_SUCCESS, payload: data });
+      }
+    } catch (error) {
+      dispatch({
+        type: CART_ACTION_TYPES.CART_FAILURE,
+        payload: error.message,
+      });
+    }
+  }, [data, isError, isFetched, isFetching]);
 
   function deleteCartItem(itemId) {
     dispatch({ type: CART_ACTION_TYPES.CART_ITEMS_START });
@@ -218,8 +219,8 @@ function CartProvider({ children }) {
       value={{
         cartItems,
         status,
-        numOfItems,
         isError,
+        numOfItems,
         deleteCartItem,
         addItemToCart,
         updateCartItem,

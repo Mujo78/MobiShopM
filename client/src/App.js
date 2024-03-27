@@ -200,7 +200,7 @@ const routes = createBrowserRouter([
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen />
+      <ReactQueryDevtools initialIsOpen={false} />
       <AuthProvider>
         <CartProvider>
           <RouterProvider router={routes} />

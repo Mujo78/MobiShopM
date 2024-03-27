@@ -168,7 +168,7 @@ const orderAllFromCart = asyncHandler(async (req, res, next) => {
 const getOrders = asyncHandler(async (req, res, next) => {
   const allOrders = await Order.findAll({
     where: {
-      ORDER_STATUS: "Pending",
+      order_status: "Pending",
     },
   });
 

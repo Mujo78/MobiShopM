@@ -21,6 +21,7 @@ export async function fetchMyCartFn(token) {
       Authorization: `Bearer ${token}`,
     },
   });
+
   return res.data;
 }
 

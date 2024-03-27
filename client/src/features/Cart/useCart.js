@@ -4,15 +4,18 @@ import { fetchMyCartFn } from "./api";
 
 export function useCart() {
   const { user } = useAuth();
-  const { data, isFetching, isError, error } = useQuery({
-    queryKey: ["cart"],
+
+  const { data, isFetching, isError, error, isFetched } = useQuery({
+    queryKey: ["cart", user],
     queryFn: () => {
-      const token = user?.token;
-      if (token) {
-        return fetchMyCartFn(token);
+      if (user !== null && user.token !== null) {
+        return fetchMyCartFn(user.token);
+      } else {
+        return { data: null };
       }
     },
+    retry: 1,
   });
 
-  return { data, isFetching, isError, error };
+  return { data, isFetching, isError, error, isFetched };
 }

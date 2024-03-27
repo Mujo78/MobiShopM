@@ -7,9 +7,11 @@ export default function CustomAlert({
   bold,
   closeButton,
   fromTop,
+  id,
 }) {
   return (
     <Alert
+      id={id ?? ""}
       variant={variant ?? "info"}
       className={`d-flex text-center align-items-center justify-content-between mt-${fromTop}`}
       role="alert"

@@ -33,6 +33,7 @@ export default function Profile() {
           <Container className="p-0 d-flex flex-wrap flex-column flex-md-row align-items-start align-items-md-center">
             <h5>{user?.role === 2 ? "Customer" : "Admin"}</h5>
             <Button
+              id="logout_btn"
               onClick={logOutFunction}
               className="bg-custom bg-custom-class border-0 ms-auto px-4 py-2"
             >

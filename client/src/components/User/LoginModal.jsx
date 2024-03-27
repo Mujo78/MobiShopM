@@ -91,7 +91,11 @@ export default function LoginModal({ handleClose, show }) {
               >
                 Close
               </Button>
-              <Button className="bg-custom border-0" type="submit">
+              <Button
+                className="bg-custom border-0"
+                type="submit"
+                id="login_btn"
+              >
                 Log In
               </Button>
             </Modal.Footer>

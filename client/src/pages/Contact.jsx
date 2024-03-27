@@ -80,6 +80,7 @@ export default function Contact() {
           </Form.Group>
           <Form.Group className="d-flex justify-content-end mb-4">
             <Button
+              id="comment_btn"
               type="submit"
               className="bg-custom bg-custom-class border-0 w-auto"
             >

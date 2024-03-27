@@ -12,7 +12,7 @@ import CustomAlert from "../UI/Alert";
 
 export default function Cart({ show, onHide }) {
   const navigate = useNavigate();
-  const { cartItems, status, isError, deleteCartItem } = useCartData();
+  const { deleteCartItem, cartItems, status, isError } = useCartData();
   const { user } = useAuth();
 
   const deleteItem = (event, itemId) => {
@@ -28,47 +28,53 @@ export default function Cart({ show, onHide }) {
   return (
     <Offcanvas show={show} onHide={onHide}>
       {!user ? (
-        <CustomAlert variant="secondary">
-          You have to be logged in to see your cart!
-        </CustomAlert>
+        <Offcanvas.Body>
+          <CustomAlert variant="secondary" fromTop={5}>
+            You have to be logged in to see your cart!
+          </CustomAlert>
+        </Offcanvas.Body>
       ) : (
         <>
           <Offcanvas.Header closeButton>
             <Offcanvas.Title className="mx-auto">My cart</Offcanvas.Title>
           </Offcanvas.Header>
-          <MyCartInfo size={3} />
-          <Offcanvas.Body className="d-flex flex-column">
+          <Offcanvas.Body id="cart_modal_body" className="d-flex flex-column">
             {status === "pending" ? (
               <CustomSpinner />
             ) : cartItems?.length > 0 ? (
-              <ListGroup className="gap-3">
-                {cartItems.map((n) => (
-                  <ListGroup.Item
-                    key={n.id}
-                    className="border cart-list-item"
-                    onClick={() => handleNavigate(n?.id)}
-                  >
-                    <h6>
-                      {n.Mobile.mobile_name} ({n.Mobile.internal}/{n.Mobile.ram}{" "}
-                      GB)
-                    </h6>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <p>
-                        Quantity: <strong> {n.quantity} </strong>
-                      </p>
-                      <IconButton onClick={(event) => deleteItem(event, n.id)}>
-                        <BsTrash color="gray" />
-                      </IconButton>
-                    </div>
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
+              <>
+                <MyCartInfo size={3} />
+                <ListGroup className="gap-3 mt-1">
+                  {cartItems.map((n) => (
+                    <ListGroup.Item
+                      key={n.id}
+                      className="border cart-list-item"
+                      onClick={() => handleNavigate(n?.id)}
+                    >
+                      <h6>
+                        {n.Mobile.mobile_name} ({n.Mobile.internal}/
+                        {n.Mobile.ram} GB)
+                      </h6>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <p>
+                          Quantity: <strong> {n.quantity} </strong>
+                        </p>
+                        <IconButton
+                          onClick={(event) => deleteItem(event, n.id)}
+                        >
+                          <BsTrash color="gray" />
+                        </IconButton>
+                      </div>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </>
             ) : isError ? (
               <CustomAlert variant="danger" fromTop={5}>
                 Something went wrong, please try again later!
               </CustomAlert>
             ) : (
-              <CustomAlert variant="secondary" fromTop={5}>
+              <CustomAlert id="alert_message" variant="secondary" fromTop={5}>
                 Empty
               </CustomAlert>
             )}

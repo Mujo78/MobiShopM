@@ -206,6 +206,7 @@ export default function RegistrationModal({ handleClose, show }) {
               </Button>
               <Button
                 variant="primary"
+                id="signup_btn"
                 className="bg-custom border-0"
                 type="submit"
               >

@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { Element, scroller } from "react-scroll";
 
 export default function MyCart() {
-  const { cartItems, numOfItems, status, isError } = useCartData();
+  const { cartItems, status, isError, numOfItems } = useCartData();
   const cartItem = useQueryParams().get("cartItem") ?? null;
 
   useEffect(() => {
@@ -58,9 +58,12 @@ export default function MyCart() {
               </Container>
             </>
           ) : (
-            <CustomAlert fromTop={5} variant="secondary">
-              Cart empty
-            </CustomAlert>
+            status === "idle" &&
+            !isError && (
+              <CustomAlert fromTop={5} variant="secondary">
+                Cart empty
+              </CustomAlert>
+            )
           )}
         </>
       ) : (

@@ -59,12 +59,14 @@ const UserNav = ({ setShowReg, setShow }) => {
       ) : (
         <>
           <Button
+            id="login_btn_modal"
             onClick={handleShowLogin}
             variant="btn btn-outline-light me-2 text-nowrap"
           >
             Log In
           </Button>
           <Button
+            id="signup_btn_modal"
             onClick={handleShowReg}
             variant="btn btn-outline-light me-2 text-nowrap"
           >
