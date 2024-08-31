@@ -4,12 +4,13 @@ import LoginModal from "../User/LoginModal";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import RegistrationModal from "../User/RegistrationModal";
 import { useAuth } from "../../context/AuthContext";
 import UserNav from "../User/UserNav";
 
 export default function Navbars() {
+  const location = useLocation().pathname;
   const [show, setShow] = useState(false);
   const [showReg, setShowReg] = useState(false);
 
@@ -52,29 +53,41 @@ export default function Navbars() {
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
-              className="me-auto my-2 my-lg-0"
+              className="me-auto my-2 my-lg-0 fw-bolder"
               style={{ maxHeight: "120px" }}
               navbarScroll
             >
-              <Nav.Link as={Link} to="/">
+              <Nav.Link as={Link} to="/" active={location === "/"}>
                 Home
               </Nav.Link>
-              <Nav.Link as={Link} to="search">
+              <Nav.Link as={Link} to="search" active={location === "/search"}>
                 Search
               </Nav.Link>
-              <Nav.Link as={Link} to="models">
+              <Nav.Link
+                as={Link}
+                to="models"
+                active={location.startsWith("/models")}
+              >
                 Brands
               </Nav.Link>
-              <Nav.Link as={Link} to="about">
+              <Nav.Link as={Link} to="about" active={location === "/about"}>
                 About
               </Nav.Link>
               {user?.role !== 1 && (
-                <Nav.Link as={Link} to="contact">
+                <Nav.Link
+                  as={Link}
+                  to="contact"
+                  active={location === "/contact"}
+                >
                   Contact
                 </Nav.Link>
               )}
               {user?.role === 1 && (
-                <Nav.Link as={Link} to="admin-menu">
+                <Nav.Link
+                  as={Link}
+                  to="admin-menu"
+                  active={location.startsWith("/admin-menu")}
+                >
                   System
                 </Nav.Link>
               )}

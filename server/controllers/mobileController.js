@@ -67,7 +67,12 @@ const getMobilesByBrandId = asyncHandler(async (req, res, next) => {
     };
   }
 
-  const allMobiles = await Mobile.findAll({ where: options, offset, limit });
+  const allMobiles = await Mobile.findAll({
+    where: options,
+    offset,
+    limit,
+    attributes: ["id", "mobile_name", "internal", "ram", "price", "photo"],
+  });
   const total = await Mobile.count({ where: options });
 
   if (allMobiles) {

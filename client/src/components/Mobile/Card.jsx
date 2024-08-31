@@ -49,17 +49,22 @@ export default function Cards({ mob, wishlist, disabled, onClickFn }) {
 
   return (
     <Card
-      className="border-0 position-relative text-start pb-1"
+      className="border-1 shadow-lg position-relative text-start pb-1"
       onClick={handleNavigate}
       style={{ maxWidth: "12rem", cursor: "pointer" }}
     >
-      <Card.Img variant="top" src={mob.photo} alt="photo" />
-      <Card.Title className="mt-2 mb-1" style={{ fontSize: "0.9rem" }}>
+      <Card.Img
+        variant="top"
+        className="object-fit-cover"
+        src={mob.photo}
+        alt="photo"
+      />
+      <Card.Title className="mt-2 mb-1" style={{ fontSize: "1rem" }}>
         {mob.mobile_name}
       </Card.Title>
       <Card.Body
-        className="d-flex flex-column pb-0 pt-1 px-0"
-        style={{ fontSize: "0.9rem" }}
+        className="d-flex flex-column p-1"
+        style={{ fontSize: "1rem" }}
       >
         <Card.Text className="p-0 fw-medium text-start mb-1">
           {mob.internal}/{mob.ram} GB
@@ -72,14 +77,14 @@ export default function Cards({ mob, wishlist, disabled, onClickFn }) {
         !disabled &&
         (heartState ? (
           <Button
-            onClick={(event) => deleteProductFromWishlist(event)}
+            onClick={deleteProductFromWishlist}
             className="border-0 bg-transparent wishlist-btn p-0"
           >
             <BsHeartFill fill="red" />
           </Button>
         ) : (
           <Button
-            onClick={(event) => addProductToWishlist(event)}
+            onClick={addProductToWishlist}
             className="border-0 bg-transparent wishlist-btn p-0"
           >
             <BsHeart fill="white" />

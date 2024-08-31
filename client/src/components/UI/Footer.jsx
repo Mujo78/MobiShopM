@@ -41,13 +41,13 @@ export default function Footer() {
           <p>Address: Sarajevska 34, 72270 Travnik</p>
           <div className="d-flex gap-4 my-1">
             <Link to={"https://twitter.com/?lang=en"}>
-              <BsTwitterX style={{ width: "25px", height: "25px" }} />
+              <BsTwitterX size="25px" />
             </Link>
             <Link to={"https://hr-hr.facebook.com/"}>
-              <BsFacebook style={{ width: "25px", height: "25px" }} />
+              <BsFacebook size="25px" />
             </Link>
             <Link to={"https://www.instagram.com/"}>
-              <BsInstagram style={{ width: "25px", height: "25px" }} />
+              <BsInstagram size="25px" />
             </Link>
           </div>
         </div>

@@ -1,6 +1,6 @@
 .App {
   margin: 10px 50px 0px 50px;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Mukta", sans-serif;
 }
 
 #content::-webkit-scrollbar {
@@ -14,7 +14,7 @@
 
 .bg-custom {
   background-color: #219aeb !important;
-  color: white !important;
+  color: white;
 }
 
 .text-custom {
