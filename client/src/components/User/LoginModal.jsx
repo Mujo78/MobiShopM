@@ -39,12 +39,18 @@ export default function LoginModal({ handleClose, show }) {
           <Modal.Title>Log In</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group className="mb-2">
-              <Form.Label htmlFor="username">Username</Form.Label>
+          <Form
+            onSubmit={handleSubmit(onSubmit)}
+            className="d-flex flex-column gap-2"
+          >
+            <Form.Group>
+              <Form.Label htmlFor="username" className="mb-1.5">
+                Username *
+              </Form.Label>
               <Form.Control
                 {...register("username")}
                 type="text"
+                required
                 className={errors.username && " border-danger"}
                 id="username"
                 name="username"
@@ -53,14 +59,17 @@ export default function LoginModal({ handleClose, show }) {
               <ErrorMessage textError={errors.username} />
             </Form.Group>
 
-            <Form.Group className="mb-0">
-              <Form.Label htmlFor="password">Password</Form.Label>
+            <Form.Group>
+              <Form.Label className="mb-1.5" htmlFor="password">
+                Password *
+              </Form.Label>
               <Container className="position-relative p-0">
                 <Form.Control
                   {...register("password")}
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
+                  required
                   className={`${errors.password && " border-danger"} pe-5`}
                   placeholder="***********"
                   autoFocus
@@ -83,10 +92,10 @@ export default function LoginModal({ handleClose, show }) {
               />
             </Form.Group>
 
-            <Modal.Footer className="">
+            <Modal.Footer className="px-0">
               <Button
-                variant="secondary"
-                className="border-0"
+                variant="light"
+                className="border me-auto"
                 onClick={handleClose}
               >
                 Close

@@ -31,15 +31,15 @@ const UserNav = ({ setShowReg, setShow }) => {
           {user.role === 2 && (
             <>
               <Nav.Link as={Link} to="/profile/wishlist">
-                <BsCartCheck style={imgStyles} />
+                <BsCartCheck style={imgStyles} className="btn_hover" />
               </Nav.Link>
               <Nav.Link as={Link} to="/profile/my-cart">
-                <BsCart2 style={imgStyles} />
+                <BsCart2 style={imgStyles} className="btn_hover" />
               </Nav.Link>
             </>
           )}
           <Nav.Link as={Link} to="profile">
-            <BsPersonCircle style={imgStyles} />
+            <BsPersonCircle style={imgStyles} className="btn_hover" />
           </Nav.Link>
           <NavDropdown align="end">
             <NavDropdown.Item as={Link} to="/profile" variant="secondary">
@@ -61,14 +61,14 @@ const UserNav = ({ setShowReg, setShow }) => {
           <Button
             id="login_btn_modal"
             onClick={handleShowLogin}
-            variant="btn btn-outline-light me-2 text-nowrap"
+            variant="btn btn-outline-light me-2 text-nowrap fw-bolder"
           >
             Log In
           </Button>
           <Button
             id="signup_btn_modal"
             onClick={handleShowReg}
-            variant="btn btn-outline-light me-2 text-nowrap"
+            variant="btn btn-outline-light me-2 text-nowrap fw-bolder"
           >
             Sign Up
           </Button>

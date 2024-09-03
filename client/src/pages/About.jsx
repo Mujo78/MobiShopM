@@ -8,9 +8,9 @@ export default function About() {
     <>
       <Container
         style={{ overflow: "hidden", textAlign: "justify" }}
-        className="mb-5 mt-5"
+        className="my-5"
       >
-        <Row className="mb-5 mt-5 d-flex flex-wrap flex-column flex-md-row">
+        <Row className="my-5 d-flex flex-column flex-wrap flex-md-row">
           <Col>
             <h2 className="text-center">About Us</h2>
             Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -27,7 +27,7 @@ export default function About() {
             <p>P1</p>
           </Col>
         </Row>
-        <Row className="mb-5 mt-5 d-flex flex-wrap flex-column flex-md-row">
+        <Row className="my-5 d-flex flex-column flex-wrap flex-md-row">
           <Col className="Cols c2">
             <p>P2</p>
           </Col>
@@ -44,7 +44,7 @@ export default function About() {
             PageMaker including versions of Lorem Ipsum.
           </Col>
         </Row>
-        <Row className="mb-5 mt-5 d-flex flex-wrap flex-column flex-md-row">
+        <Row className="my-5 d-flex flex-column flex-wrap flex-md-row">
           <Col>
             <h2 className="text-center">More interesting things</h2>
             Lorem Ipsum is simply dummy text of the printing and typesetting

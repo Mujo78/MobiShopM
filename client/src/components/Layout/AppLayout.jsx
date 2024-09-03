@@ -27,7 +27,7 @@ const AppLayout = () => {
   const myCartLocation = location === "/profile/my-cart";
 
   return (
-    <div className="App px-0 px-sm-5 pt-2">
+    <div className="App">
       <ToastContainer />
       <Navbars />
       <Outlet />

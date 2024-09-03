@@ -1,27 +1,20 @@
 import Container from "react-bootstrap/Container";
 import { Link } from "react-router-dom";
 import { BsInstagram, BsFacebook, BsTwitterX } from "react-icons/bs";
+import Logo from "./Logo";
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <div className="w-100">
+    <div className="w-100 mt-auto">
       <Container
         fluid
-        className="d-flex flex-wrap gap-4 justify-content-md-between gap-sm-4 justify-content-center bg-light rounded-top px-3 py-3"
+        className="d-flex flex-wrap gap-4 justify-content-md-between gap-sm-4 justify-content-center bg-light rounded-top p-3"
       >
         <div>
-          <h2
-            style={{
-              fontFamily: "Audiowide",
-              fontSize: "2rem",
-              color: "#219aeb",
-            }}
-          >
-            MShop
-          </h2>
-          <div className="d-flex flex-column align-items-center align-items-md-start">
+          <Logo />
+          <div className="d-flex flex-column align-items-center align-items-md-start gap-2 mt-1">
             <Link to="/">Home</Link>
             <Link to="/search">Search</Link>
             <Link to="/models">Brands</Link>
@@ -36,7 +29,7 @@ export default function Footer() {
           </span>
           <p>Viber | WhatsApp: 062/432/102</p>
           <p>
-            Email: <Link to="mailto:mshop@gmail.com"> mshop@gmail.com</Link>
+            Email: <Link to="mailto:mshop@example.com"> mshop@example.com</Link>
           </p>
           <p>Address: Sarajevska 34, 72270 Travnik</p>
           <div className="d-flex gap-4 my-1">
@@ -53,7 +46,7 @@ export default function Footer() {
         </div>
         <div>
           <h3 style={{ fontSize: "1.3rem", color: "#219aeb" }}>
-            Payment methods Us
+            Payment methods
           </h3>
           <span style={{ color: "#219aeb" }}>
             __________________________________

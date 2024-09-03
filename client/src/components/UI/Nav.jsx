@@ -8,6 +8,7 @@ import { Link, useLocation } from "react-router-dom";
 import RegistrationModal from "../User/RegistrationModal";
 import { useAuth } from "../../context/AuthContext";
 import UserNav from "../User/UserNav";
+import Logo from "./Logo";
 
 export default function Navbars() {
   const location = useLocation().pathname;
@@ -39,21 +40,13 @@ export default function Navbars() {
               style={{ height: "2em", width: "2em" }}
             />
           </Navbar.Brand>
-          <Navbar.Brand
-            as={Link}
-            to="/"
-            style={{
-              fontFamily: "Audiowide",
-              fontSize: "30px",
-              color: "white",
-            }}
-          >
-            MShop
+          <Navbar.Brand as={Link} to="/">
+            <Logo color="white" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
-              className="me-auto my-2 my-lg-0 fw-bolder"
+              className="me-auto my-2 my-lg-0"
               style={{ maxHeight: "120px" }}
               navbarScroll
             >

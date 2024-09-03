@@ -18,7 +18,7 @@ export default function Contact() {
 
   const { mutate, isError, isPending, error } = useMutation({
     mutationKey: ["comment"],
-    mutationFn: (commentData) => postComment(commentData),
+    mutationFn: postComment,
     onSuccess: () => {
       toast.success("Comment successfully added!");
       reset();
@@ -31,15 +31,20 @@ export default function Contact() {
 
   return (
     <Container className="h-100 w-100 d-flex flex-column">
-      <Container className="d-flex flex-column row align-items-center mt-5 gap-5">
+      <Container className="d-flex flex-column align-items-center gap-2 my-3">
         <h1 className="text-center">Contact Us</h1>
-        <Form onSubmit={handleSubmit(onSubmit)} className="col-12 col-md-6">
-          <Form.Group className="mb-1">
-            <Form.Label htmlFor="name">Name</Form.Label>
+        <Form
+          onSubmit={handleSubmit(onSubmit)}
+          className="col-12 col-md-6 d-flex flex-column gap-2"
+        >
+          <Form.Group>
+            <Form.Label className="mb-1" htmlFor="name">
+              Name *
+            </Form.Label>
             <Form.Control
               type="text"
               name="name"
-              className={errors.name && " border-danger"}
+              className={errors.name && "border-danger"}
               id="name"
               disabled={isPending}
               placeholder="Joe Doe"
@@ -48,12 +53,14 @@ export default function Contact() {
             />
             <ErrorMessage textError={errors.name} />
           </Form.Group>
-          <Form.Group className="mb-1">
-            <Form.Label htmlFor="name">Email</Form.Label>
+          <Form.Group>
+            <Form.Label className="mb-1" htmlFor="name">
+              Email *
+            </Form.Label>
             <Form.Control
               type="text"
               name="email"
-              className={errors.email && " border-danger"}
+              className={errors.email && "border-danger"}
               id="email"
               disabled={isPending}
               placeholder="email@example.com"
@@ -62,13 +69,16 @@ export default function Contact() {
             />
             <ErrorMessage textError={errors.email} />
           </Form.Group>
-          <Form.Group className="mb-1">
-            <Form.Label htmlFor="comment">Comment</Form.Label>
+          <Form.Group>
+            <Form.Label className="mb-1" htmlFor="comment">
+              Comment *
+            </Form.Label>
             <Form.Control
               as="textarea"
               id="comment"
               rows={4}
-              className={errors.comment && " border-danger"}
+              required
+              className={errors.comment && "border-danger"}
               disabled={isPending}
               name="comment"
               {...register("comment")}

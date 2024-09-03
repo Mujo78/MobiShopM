@@ -1,6 +1,6 @@
 .App {
   margin: 10px 50px 0px 50px;
-  font-family: "Mukta", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 #content::-webkit-scrollbar {
@@ -33,6 +33,13 @@
   transition: all;
   transition-duration: 300ms;
   transform: scale(1.4);
+}
+
+.btn_hover:hover {
+  cursor: pointer;
+  transition: all;
+  transition-duration: 300ms;
+  transform: scale(1.2);
 }
 
 /*
@@ -172,6 +179,10 @@
 */
 
 @media (max-width: 576px) {
+  .App {
+    margin: 5px 10px 5px 10px;
+  }
+
   .slide {
     min-width: 140% !important;
   }

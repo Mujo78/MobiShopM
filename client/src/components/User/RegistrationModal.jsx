@@ -34,26 +34,35 @@ export default function RegistrationModal({ handleClose, show }) {
           <Modal.Header closeButton>
             <Modal.Title>Sign Up</Modal.Title>
           </Modal.Header>
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group className="d-flex mb-1">
+          <Form
+            onSubmit={handleSubmit(onSubmit)}
+            className="d-flex flex-column gap-2"
+          >
+            <Form.Group className="d-flex">
               <Container className="d-flex flex-column p-0 w-100">
-                <Form.Label htmlFor="first_name">Name</Form.Label>
+                <Form.Label className="mb-1" htmlFor="first_name">
+                  Name
+                </Form.Label>
                 <Form.Control
                   className={errors.first_name && " border-danger"}
                   type="text"
                   {...register("first_name")}
                   name="first_name"
+                  required
                   id="first_name"
                   autoFocus
                 />
                 <ErrorMessage textError={errors.first_name} />
               </Container>
               <Container className="d-flex flex-column p-0 ms-2 w-100">
-                <Form.Label htmlFor="last_name">Last name</Form.Label>
+                <Form.Label className="mb-1" htmlFor="last_name">
+                  Last name
+                </Form.Label>
                 <Form.Control
                   className={errors.last_name && " border-danger"}
                   type="text"
                   id="last_name"
+                  required
                   {...register("last_name")}
                   name="last_name"
                   autoFocus
@@ -61,27 +70,33 @@ export default function RegistrationModal({ handleClose, show }) {
                 <ErrorMessage textError={errors.last_name} />
               </Container>
             </Form.Group>
-            <Form.Group className="d-flex mb-1">
+            <Form.Group className="d-flex">
               <Container className="d-flex flex-column p-0 w-100">
-                <Form.Label htmlFor="phone_number">Phone number</Form.Label>
+                <Form.Label className="mb-1" htmlFor="phone_number">
+                  Phone number
+                </Form.Label>
                 <Form.Control
                   type="text"
                   className={errors.phone_number && " border-danger"}
                   {...register("phone_number")}
                   name="phone_number"
                   id="phone_number"
+                  required
                   placeholder="+387 ** *** ***"
                   autoFocus
                 />
                 <ErrorMessage textError={errors.phone_number} />
               </Container>
               <Container className="d-flex flex-column p-0 ms-2 w-50">
-                <Form.Label htmlFor="gender">Gender</Form.Label>
+                <Form.Label className="mb-1" htmlFor="gender">
+                  Gender
+                </Form.Label>
                 <Form.Select
                   className={errors.gender && " border-danger"}
                   {...register("gender")}
                   aria-label="Default select example"
                   id="gender"
+                  required
                   name="gender"
                 >
                   <option>Choose</option>
@@ -92,24 +107,30 @@ export default function RegistrationModal({ handleClose, show }) {
                 <ErrorMessage textError={errors.gender} />
               </Container>
             </Form.Group>
-            <Form.Group className="d-flex mb-1">
+            <Form.Group className="d-flex">
               <Container className="d-flex flex-column p-0 w-100">
-                <Form.Label htmlFor="city">City</Form.Label>
+                <Form.Label className="mb-1" htmlFor="city">
+                  City
+                </Form.Label>
                 <Form.Control
                   type="text"
                   className={errors.city && " border-danger"}
                   name="city"
                   id="city"
+                  required
                   {...register("city")}
                   autoFocus
                 />
                 <ErrorMessage textError={errors.city} />
               </Container>
               <Container className="d-flex flex-column p-0 ms-2 w-100">
-                <Form.Label htmlFor="address">Address</Form.Label>
+                <Form.Label htmlFor="address" className="mb-1">
+                  Address
+                </Form.Label>
                 <Form.Control
                   id="address"
                   type="text"
+                  required
                   className={errors.address && " border-danger"}
                   name="address"
                   {...register("address")}
@@ -118,11 +139,14 @@ export default function RegistrationModal({ handleClose, show }) {
                 <ErrorMessage textError={errors.address} />
               </Container>
             </Form.Group>
-            <Form.Group className="mb-1">
-              <Form.Label htmlFor="username">Username</Form.Label>
+            <Form.Group>
+              <Form.Label className="mb-1" htmlFor="username">
+                Username
+              </Form.Label>
               <Form.Control
                 type="text"
                 id="username"
+                required
                 className={errors.username && " border-danger"}
                 {...register("username")}
                 name="username"
@@ -130,12 +154,15 @@ export default function RegistrationModal({ handleClose, show }) {
               />
               <ErrorMessage textError={errors.username} />
             </Form.Group>
-            <Form.Group className="mb-1">
-              <Form.Label htmlFor="email">Email</Form.Label>
+            <Form.Group>
+              <Form.Label className="mb-1" htmlFor="email">
+                Email
+              </Form.Label>
               <Form.Control
                 type="email"
                 className={errors.email && " border-danger"}
                 id="email"
+                required
                 name="email"
                 {...register("email")}
                 placeholder="name@example.com"
@@ -143,14 +170,17 @@ export default function RegistrationModal({ handleClose, show }) {
               />
               <ErrorMessage textError={errors.email} />
             </Form.Group>
-            <Form.Group className="mb-1">
-              <Form.Label htmlFor="password">Password</Form.Label>
+            <Form.Group>
+              <Form.Label className="mb-1" htmlFor="password">
+                Password
+              </Form.Label>
               <Container className="position-relative p-0">
                 <Form.Control
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
                   name="password"
                   id="password"
+                  required
                   className={`${errors.password && " border-danger"} pe-5`}
                   placeholder="***********"
                   autoFocus
@@ -170,8 +200,8 @@ export default function RegistrationModal({ handleClose, show }) {
               </Container>
               <ErrorMessage textError={errors.password} />
             </Form.Group>
-            <Form.Group className="mb-1">
-              <Form.Label htmlFor="confirmPassword">
+            <Form.Group>
+              <Form.Label className="mb-1" htmlFor="confirmPassword">
                 Confirm Password
               </Form.Label>
               <Form.Control
@@ -180,6 +210,7 @@ export default function RegistrationModal({ handleClose, show }) {
                 className={errors.confirmPassword && " border-danger"}
                 name="confirmPassword"
                 id="confirmPassword"
+                required
                 placeholder="***********"
                 autoFocus
               />
@@ -196,10 +227,10 @@ export default function RegistrationModal({ handleClose, show }) {
                   : ""}
               </p>
             </Form.Group>
-            <Modal.Footer>
+            <Modal.Footer className="px-0">
               <Button
-                variant="secondary"
-                className="border-0"
+                variant="light"
+                className="border me-auto"
                 onClick={handleClose}
               >
                 Close
