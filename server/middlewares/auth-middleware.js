@@ -5,7 +5,7 @@ const { User } = require("../models");
 exports.authMiddleware = asyncHandler(async (req, res, next) => {
   let token;
 
-  if (req.headers.authorization.startsWith("Bearer")) {
+  if (req.headers.authorization?.startsWith("Bearer")) {
     token = req.headers.authorization.split(" ")[1];
   }
 
@@ -20,7 +20,7 @@ exports.authMiddleware = asyncHandler(async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    res.status(401);
+    res.status(500);
     return next(new Error(error));
   }
 });

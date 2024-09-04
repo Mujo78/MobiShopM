@@ -12,9 +12,6 @@ const {
   deleteComment,
 } = require("../controllers/commentController");
 
-router.get("/comments", adminMiddleware, getAllComments);
-router.get("/comment/:id", adminMiddleware, getOneComment);
-
 router.post(
   "/add-comment",
   createComment,
@@ -22,5 +19,8 @@ router.post(
   addNewComment
 );
 
+router.get("/comments", adminMiddleware, getAllComments);
+router.get("/comment/:id", adminMiddleware, getOneComment);
 router.delete("/delete-comment/:id", deleteComment);
+
 module.exports = router;

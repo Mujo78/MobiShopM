@@ -19,17 +19,18 @@ const {
   errorValidationMiddleware,
 } = require("../middlewares/errorValidationMiddleware");
 
-router.get("/users", getAllUsers);
-router.get("/person", authMiddleware, getUserById);
-router.patch("/edit-profile", authMiddleware, editUserProfile);
-router.delete("/delete-profile", authMiddleware, deleteProfile);
-
 router.post(
   "/registration",
   createPersonValidator,
   errorValidationMiddleware,
   registration
 );
+
+router.get("/person", authMiddleware, getUserById);
+router.patch("/edit-profile", authMiddleware, editUserProfile);
+router.delete("/delete-profile", authMiddleware, deleteProfile);
+
+router.get("/users", getAllUsers);
 router.post(
   "/add-admin",
   adminMiddleware,

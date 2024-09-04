@@ -13,7 +13,6 @@ app.use(
 );
 
 const PORT = process.env.PORT || 3001;
-//const sequelize = require("./config/db.config");
 const db = require("./models");
 
 const personRutes = require("./routes/person-routes");

@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { Op } = require("sequelize");
-const { Mobile } = require("../models");
+//const { Op } = require("sequelize");
+//const { Mobile } = require("../models");
 
 router.post("/search", async (req, res) => {
+  return res.statusCode(200);
+});
+/*
   try {
     const criteriaSearch = {};
     const {
@@ -108,5 +111,6 @@ router.post("/search", async (req, res) => {
     return res.status(401).json(error);
   }
 });
+*/
 
 module.exports = router;

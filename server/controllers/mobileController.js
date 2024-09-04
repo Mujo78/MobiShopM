@@ -4,43 +4,29 @@ const { Op } = require("sequelize");
 
 const getAllMobiles = asyncHandler(async (req, res, next) => {
   const allMobiles = await Mobile.findAll();
-
-  if (allMobiles) return res.status(200).json(allMobiles);
-
-  res.status(400);
-  return next(new Error("There was an error, please try again later!"));
+  return res.status(200).json(allMobiles);
 });
 
 const getMobilesByTopPrices = asyncHandler(async (req, res, next) => {
-  try {
-    const allMobiles = await Mobile.findAll({
-      order: [["price", "DESC"]],
-      limit: 8,
-    });
+  const allMobiles = await Mobile.findAll({
+    order: [["price", "DESC"]],
+    limit: 8,
+  });
 
-    if (allMobiles) return res.status(200).json(allMobiles);
-  } catch (error) {
-    res.status(400);
-    return next(new Error(error));
-  }
+  return res.status(200).json(allMobiles);
 });
 
 const getMobileById = asyncHandler(async (req, res, next) => {
   const id = req.params.mobileId;
 
-  try {
-    const mobile = await Mobile.findByPk(id);
+  const mobile = await Mobile.findByPk(id);
 
-    if (!mobile) {
-      res.status(404);
-      return next(new Error("Mobile not found!"));
-    }
-
-    return res.status(200).json(mobile);
-  } catch (error) {
+  if (!mobile) {
     res.status(404);
-    return next(new Error(error));
+    return next(new Error("Mobile not found!"));
   }
+
+  return res.status(200).json(mobile);
 });
 
 const getMobilesByBrandId = asyncHandler(async (req, res, next) => {
@@ -75,35 +61,24 @@ const getMobilesByBrandId = asyncHandler(async (req, res, next) => {
   });
   const total = await Mobile.count({ where: options });
 
-  if (allMobiles) {
-    resObj.data = allMobiles;
-    resObj.numOfPages = Math.ceil(total / limit);
-    resObj.currentPage = page;
+  resObj.data = allMobiles;
+  resObj.numOfPages = Math.ceil(total / limit);
+  resObj.currentPage = page;
 
-    return res.status(200).json(resObj);
-  }
-
-  res.status(400);
-  return next(new Error("Something went wrong, please try again later!"));
+  return res.status(200).json(resObj);
 });
 
 const addNewMobile = asyncHandler(async (req, res, next) => {
   const body = req.body;
+  const alreadyExists = await Mobile.findOne({ where: body });
 
-  try {
-    const alreadyExists = await Mobile.findOne({ where: body });
-
-    if (alreadyExists) {
-      res.status(400);
-      return next(new Error("Mobile already exists!"));
-    }
-
-    const newOne = await Mobile.create(body);
-    return res.status(200).json(newOne);
-  } catch (error) {
-    res.status(400);
-    return next(new Error(error));
+  if (alreadyExists) {
+    res.status(409);
+    return next(new Error("Mobile already exists!"));
   }
+
+  const newOne = await Mobile.create(body);
+  return res.status(200).json(newOne);
 });
 
 const editMobile = asyncHandler(async (req, res, next) => {
@@ -116,28 +91,23 @@ const editMobile = asyncHandler(async (req, res, next) => {
     return next(new Error("Mobile not found!"));
   }
 
-  try {
-    const alreadyExists = await Mobile.findOne({
-      where: req.body,
-      id: {
-        [Op.ne]: id,
-      },
-    });
+  const alreadyExists = await Mobile.findOne({
+    where: req.body,
+    id: {
+      [Op.ne]: id,
+    },
+  });
 
-    if (alreadyExists) {
-      res.status(400);
-      return next(new Error("Mobile already exists!"));
-    }
-
-    const updatedAlready = await mobileToUpdate.update(req.body, {
-      returning: true,
-    });
-
-    return res.status(200).json(updatedAlready);
-  } catch (error) {
-    res.status(404);
-    return next(new Error(error));
+  if (alreadyExists) {
+    res.status(409);
+    return next(new Error("Mobile already exists!"));
   }
+
+  const updatedAlready = await mobileToUpdate.update(req.body, {
+    returning: true,
+  });
+
+  return res.status(200).json(updatedAlready);
 });
 
 const deleteMobile = asyncHandler(async (req, res, next) => {
@@ -150,13 +120,8 @@ const deleteMobile = asyncHandler(async (req, res, next) => {
     return next(new Error("Mobile not found!"));
   }
 
-  try {
-    await mobile.destroy();
-    return res.status(200).json(mobile);
-  } catch (error) {
-    res.status(404);
-    return next(new Error(error));
-  }
+  await mobile.destroy();
+  return res.status(200).json(mobile);
 });
 
 const searchMobileByName = asyncHandler(async (req, res, next) => {
@@ -179,16 +144,11 @@ const searchMobileByName = asyncHandler(async (req, res, next) => {
     }
   );
 
-  if (allMobilesByName) {
-    resObj.data = allMobilesByName;
-    resObj.numOfPages = Math.ceil(total / limit);
-    resObj.currentPage = page;
+  resObj.data = allMobilesByName;
+  resObj.numOfPages = Math.ceil(total / limit);
+  resObj.currentPage = page;
 
-    return res.status(200).json(resObj);
-  }
-
-  res.status(400);
-  return next(new Error("There was an error, please try again later!"));
+  return res.status(200).json(resObj);
 });
 
 module.exports = {

@@ -3,24 +3,21 @@ const { Brand, sequelize, Mobile } = require("../models");
 
 const getAllBrands = asyncHandler(async (req, res, next) => {
   const allBrands = await Brand.findAll();
-
-  if (allBrands) return res.status(200).json(allBrands);
-
-  res.status(400);
-  return next(new Error("There was an error, please try again later!"));
+  return res.status(200).json(allBrands);
 });
 
 const addNewBrand = asyncHandler(async (req, res, next) => {
-  try {
-    const { name } = req.body;
+  const { name } = req.body;
 
-    const newBrand = await Brand.create({ name });
+  const alreadyExists = await Brand.findOne({ where: { name } });
 
-    return res.status(200).json(newBrand);
-  } catch (error) {
-    res.status(400);
-    return next(new Error(error));
+  if (alreadyExists) {
+    res.status(409);
+    return next(new Error("Brand already exists."));
   }
+
+  const newBrand = await Brand.create({ name });
+  return res.status(200).json(newBrand);
 });
 
 const deleteBrand = asyncHandler(async (req, res, next) => {
@@ -45,7 +42,7 @@ const deleteBrand = asyncHandler(async (req, res, next) => {
 
     return res.status(200).json(brand);
   } catch (error) {
-    res.status(400);
+    res.status(500);
     return next(new Error(error));
   }
 });

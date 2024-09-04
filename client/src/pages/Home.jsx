@@ -17,7 +17,7 @@ export default function Home() {
     data: topPrices,
     isFetching,
     isError,
-  } = useQuery({ queryKey: ["topPrices"], queryFn: fetchTopPrice, retry: 2 });
+  } = useQuery({ queryKey: ["topPrices"], queryFn: fetchTopPrice, retry: 1 });
 
   const activeStyles = {
     transform: "scale(0.9)",
@@ -119,10 +119,7 @@ export default function Home() {
                 key={n.id}
                 style={activeIndex === index ? activeStyles : styles}
               >
-                <Cards
-                  mob={n}
-                  disabled={activeIndex === index ? false : true}
-                />
+                <Cards mob={n} disabled={!(activeIndex === index)} />
               </Container>
             ))}
           </Carousel>
