@@ -1,3 +1,4 @@
+import { apiClientBase } from "../../helpers/ApiClient";
 import axios from "axios";
 const URL = "http://localhost:3001/api";
 
@@ -7,7 +8,7 @@ export async function userLogin(loginData) {
 }
 
 export async function userSignup(registrationData) {
-  const res = await axios.post(`${URL}/registration`, registrationData);
+  const res = await apiClientBase.post(`/person`, registrationData);
   return res.data;
 }
 

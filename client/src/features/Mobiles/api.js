@@ -1,8 +1,14 @@
 import axios from "axios";
+import { apiClientBase } from "../../helpers/ApiClient";
 const URL = "http://localhost:3001/api";
 
+export async function fetchTopPrice() {
+  const res = await apiClientBase.get("/mobile/top-prices");
+  return res.data;
+}
+
 export async function fetchBrands() {
-  const res = await axios.get(`${URL}/brands`);
+  const res = await apiClientBase.get("brand");
   return res.data;
 }
 
@@ -15,7 +21,7 @@ export async function deleteBrandFn(token, brandId) {
 }
 
 export async function fetchMobilesByBrand(brandId, page, searchQuery) {
-  const res = await axios.get(`${URL}/brand-mobiles/${brandId}`, {
+  const res = await apiClientBase.get(`/mobile/brand/${brandId}`, {
     params: { page, searchQuery },
   });
 
@@ -23,8 +29,7 @@ export async function fetchMobilesByBrand(brandId, page, searchQuery) {
 }
 
 export async function getMobileByIdFn(mobileId) {
-  const res = await axios.get(`${URL}/mobile/${mobileId}`);
-
+  const res = await apiClientBase.get(`/mobile/${mobileId}`);
   return res.data;
 }
 

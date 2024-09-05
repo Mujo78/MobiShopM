@@ -1,8 +1,6 @@
-import axios from "axios";
-const URL = "http://localhost:3001/api";
+import { apiClientBase } from "../helpers/ApiClient";
 
 export async function postComment(commentData) {
-  const res = await axios.post(`${URL}/add-comment`, commentData);
-
+  const res = await apiClientBase.post("/comment", commentData);
   return res.data;
 }

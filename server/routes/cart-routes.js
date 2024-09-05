@@ -16,25 +16,26 @@ const {
   errorValidationMiddleware,
 } = require("../middlewares/errorValidationMiddleware");
 
-router.get("/cart", authMiddleware, getCartItems);
-router.get("/cart-item/:itemId", authMiddleware, getCartItem);
+router.use(authMiddleware);
+
+router.get("/", getCartItems);
+router.get("/:itemId", getCartItem);
 
 router.post(
-  "/add-to-cart/:mobileId",
-  authMiddleware,
+  "/:mobileId",
   addToCartValidator,
   errorValidationMiddleware,
   addToCart
 );
 
 router.patch(
-  "/update-cart-item/:itemId",
+  "/:itemId",
   authMiddleware,
   editCartItemQuantityValidator,
   errorValidationMiddleware,
   updateCartItem
 );
 
-router.delete("/delete-item/:itemId", authMiddleware, deleteFromCart);
+router.delete("/:itemId", authMiddleware, deleteFromCart);
 
 module.exports = router;

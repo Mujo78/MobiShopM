@@ -29,9 +29,13 @@ const {
   errorValidationMiddleware,
 } = require("../middlewares/errorValidationMiddleware");
 
+router.use(authMiddleware);
+
+router.get("/my-orders", getMyOrders);
+router.get("/:orderId", authMiddleware, getOrderItem);
+
 router.post(
   "/buy-now/:mobileId",
-  authMiddleware,
   buyNowValidator,
   errorValidationMiddleware,
   buyNow
@@ -39,18 +43,16 @@ router.post(
 
 router.post(
   "/buy-cart-item/:itemId",
-  authMiddleware,
   buyCartItemValidator,
   errorValidationMiddleware,
   orderFromCart
 );
 
-router.get("/orders", adminMiddleware, getOrders);
-router.get("/my-orders", authMiddleware, getMyOrders);
+router.use(adminMiddleware);
 
-router.patch("/order/:orderId", adminMiddleware, makeOrderShipped);
-router.put("/cancel-order/:orderId", adminMiddleware, cancelOrder);
-router.get("/order-item/:orderId", authMiddleware, getOrderItem);
+router.get("/", getOrders);
+router.patch("/:orderId", makeOrderShipped);
+router.put("/:orderId", cancelOrder);
 
 /*
 router.get("/order-items/:id", authMiddleware, async (req, res) => {

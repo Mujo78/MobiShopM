@@ -12,15 +12,12 @@ const {
   deleteComment,
 } = require("../controllers/commentController");
 
-router.post(
-  "/add-comment",
-  createComment,
-  errorValidationMiddleware,
-  addNewComment
-);
+router.post("/", createComment, errorValidationMiddleware, addNewComment);
 
-router.get("/comments", adminMiddleware, getAllComments);
-router.get("/comment/:id", adminMiddleware, getOneComment);
-router.delete("/delete-comment/:id", deleteComment);
+router.use(adminMiddleware);
+
+router.get("/", getAllComments);
+router.get("/:id", getOneComment);
+router.delete("/:id", deleteComment);
 
 module.exports = router;

@@ -8,13 +8,11 @@ const {
   getWishlistItemsDetails,
 } = require("../controllers/wishlistController");
 
-router.get("/wishlist", authMiddleware, getWishlist);
-router.get("/wishlist-details", authMiddleware, getWishlistItemsDetails);
-router.post("/add-to-wishlist/:mobileId", authMiddleware, addToWishlist);
-router.delete(
-  "/delete-wishitem/:mobileId",
-  authMiddleware,
-  deleteWishItemFromList
-);
+router.use(authMiddleware);
+
+router.get("/", getWishlist);
+router.get("/details", getWishlistItemsDetails);
+router.post("/:mobileId", addToWishlist);
+router.delete("/:mobileId", deleteWishItemFromList);
 
 module.exports = router;

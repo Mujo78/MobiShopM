@@ -20,25 +20,28 @@ const {
 } = require("../middlewares/errorValidationMiddleware");
 
 router.post(
-  "/registration",
+  "/",
   createPersonValidator,
   errorValidationMiddleware,
   registration
 );
 
-router.get("/person", authMiddleware, getUserById);
-router.patch("/edit-profile", authMiddleware, editUserProfile);
-router.delete("/delete-profile", authMiddleware, deleteProfile);
+router.use(authMiddleware);
 
-router.get("/users", getAllUsers);
+router.get("/", getUserById);
+router.patch("/", editUserProfile);
+router.delete("/", deleteProfile);
+
+router.use(adminMiddleware);
+
+router.get("/all", getAllUsers);
 router.post(
-  "/add-admin",
-  adminMiddleware,
+  "/admin",
   createAdminValidator,
   errorValidationMiddleware,
   addNewAdmin
 );
 
-router.delete("/delete/:adminId", adminMiddleware, deleteAdmin);
+router.delete("/:adminId", deleteAdmin);
 
 module.exports = router;

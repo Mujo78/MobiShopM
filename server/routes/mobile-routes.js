@@ -16,21 +16,22 @@ const {
   errorValidationMiddleware,
 } = require("../middlewares/errorValidationMiddleware");
 
-router.get("/mobiles", getAllMobiles);
-router.get("/mobiles-top-prices", getMobilesByTopPrices);
-router.get("/mobile/:mobileId", getMobileById);
-router.get("/brand-mobiles/:brandId", getMobilesByBrandId);
-router.get("/search-mobile-name", adminMiddleware, searchMobileByName);
+router.get("/", getAllMobiles);
+router.get("/top-prices", getMobilesByTopPrices);
+router.get("/:mobileId", getMobileById);
+router.get("/brand/:brandId", getMobilesByBrandId);
+
+router.use(adminMiddleware);
+router.get("/search", searchMobileByName);
 
 router.post(
-  "/add-mobile",
-  adminMiddleware,
+  "/",
   createMobitelValidator,
   errorValidationMiddleware,
   addNewMobile
 );
 
-router.put("/edit-mobile/:mobileId", adminMiddleware, editMobile);
-router.delete("/delete-mobile/:mobileId", adminMiddleware, deleteMobile);
+router.put("/:mobileId", editMobile);
+router.delete("/:mobileId", deleteMobile);
 
 module.exports = router;

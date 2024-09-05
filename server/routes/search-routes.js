@@ -3,7 +3,7 @@ const router = express.Router();
 //const { Op } = require("sequelize");
 //const { Mobile } = require("../models");
 
-router.post("/search", async (req, res) => {
+router.post("/", async (req, res) => {
   return res.statusCode(200);
 });
 /*

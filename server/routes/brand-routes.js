@@ -11,14 +11,10 @@ const {
   deleteBrand,
 } = require("../controllers/brandController");
 
-router.get("/brands", getAllBrands);
-router.post(
-  "/add-brand",
-  adminMiddleware,
-  createNewBrand,
-  errorValidationMiddleware,
-  addNewBrand
-);
-router.delete("/delete-brand/:id", adminMiddleware, deleteBrand);
+router.get("/", getAllBrands);
+
+router.use(adminMiddleware);
+router.post("/", createNewBrand, errorValidationMiddleware, addNewBrand);
+router.delete("/:id", deleteBrand);
 
 module.exports = router;

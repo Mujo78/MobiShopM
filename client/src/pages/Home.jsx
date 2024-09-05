@@ -7,7 +7,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { BsShop, BsTruck, BsCashStack } from "react-icons/bs";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTopPrice } from "../api";
+import { fetchTopPrice } from "../features/Mobiles/api";
 import CustomSpinner from "../components/UI/CustomSpinner";
 import CustomAlert from "../components/UI/Alert";
 

@@ -43,6 +43,7 @@ export default function Contact() {
             </Form.Label>
             <Form.Control
               type="text"
+              required
               name="name"
               className={errors.name && "border-danger"}
               id="name"
@@ -54,14 +55,15 @@ export default function Contact() {
             <ErrorMessage textError={errors.name} />
           </Form.Group>
           <Form.Group>
-            <Form.Label className="mb-1" htmlFor="name">
+            <Form.Label className="mb-1" htmlFor="email_comment">
               Email *
             </Form.Label>
             <Form.Control
-              type="text"
+              type="email"
               name="email"
+              required
               className={errors.email && "border-danger"}
-              id="email"
+              id="email_comment"
               disabled={isPending}
               placeholder="email@example.com"
               {...register("email")}

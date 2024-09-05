@@ -17,24 +17,24 @@ const {
   login,
 } = require("../controllers/userController");
 
-router.post("/login", loginUser, errorValidationMiddleware, login);
+router.post("/", loginUser, errorValidationMiddleware, login);
+
+router.get("/all", adminMiddleware, getAdmins);
+
+router.use(authMiddleware);
 
 router.patch(
-  "/change-username",
-  authMiddleware,
+  "/username",
   editUsername,
   errorValidationMiddleware,
   changeMyUsername
 );
 
 router.patch(
-  "/change-password",
-  authMiddleware,
+  "/password",
   changePasswordValidator,
   errorValidationMiddleware,
   changeMyPassword
 );
-
-router.get("/all-admins", adminMiddleware, getAdmins);
 
 module.exports = router;

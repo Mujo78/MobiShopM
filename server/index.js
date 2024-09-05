@@ -15,26 +15,27 @@ app.use(
 const PORT = process.env.PORT || 3001;
 const db = require("./models");
 
-const personRutes = require("./routes/person-routes");
-const mobileRutes = require("./routes/mobile-routes");
-const userRutes = require("./routes/user-routes");
-const commentRutes = require("./routes/comments-routes");
-const brandRutes = require("./routes/brand-routes");
-const cartRutes = require("./routes/cart-routes");
-const searchRutes = require("./routes/search-routes");
-const orderRutes = require("./routes/order-routes");
+const personRoutes = require("./routes/person-routes");
+const mobileRoutes = require("./routes/mobile-routes");
+const userRoutes = require("./routes/user-routes");
+const commentRoutes = require("./routes/comments-routes");
+const brandRoutes = require("./routes/brand-routes");
+const cartRoutes = require("./routes/cart-routes");
+const searchRoutes = require("./routes/search-routes");
+const orderRoutes = require("./routes/order-routes");
 const wishlistRoutes = require("./routes/wishlist-routes");
+
 const { errorHandler } = require("./middlewares/errorMiddleware");
 
-app.use("/api/", personRutes);
-app.use("/api/", mobileRutes);
-app.use("/api/", userRutes);
-app.use("/api/", commentRutes);
-app.use("/api/", brandRutes);
-app.use("/api/", cartRutes);
-app.use("/api/", searchRutes);
-app.use("/api/", orderRutes);
-app.use("/api/", wishlistRoutes);
+app.use("/api/v1/brand", brandRoutes);
+app.use("/api/v1/cart", cartRoutes);
+app.use("/api/v1/comment", commentRoutes);
+app.use("/api/v1/mobile", mobileRoutes);
+app.use("/api/v1/order", orderRoutes);
+app.use("/api/v1/person", personRoutes);
+app.use("/api/v1/search", searchRoutes);
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/wishlist", wishlistRoutes);
 
 app.all("*", (req, res, next) => {
   res.status(404).json(`Can't find ${req.originalUrl} on this server!`);
