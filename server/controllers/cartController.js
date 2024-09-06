@@ -169,7 +169,11 @@ const updateCartItem = asyncHandler(async (req, res, next) => {
   const userId = req.user.id;
   const { quantity } = req.body;
 
-  const usersCart = await Cart.findOne({ where: userId });
+  const usersCart = await Cart.findOne({
+    where: {
+      userId: userId,
+    },
+  });
 
   const foundedItem = await Cart_item.findByPk(itemId);
   const foundedMobile = await Mobile.findByPk(foundedItem.mobileId);

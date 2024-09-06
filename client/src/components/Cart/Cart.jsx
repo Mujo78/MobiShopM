@@ -25,6 +25,8 @@ export default function Cart({ show, onHide }) {
     navigate(`/profile/my-cart?cartItem=${itemId}`, { replace: true });
   };
 
+  console.log(status);
+
   return (
     <Offcanvas show={show} onHide={onHide}>
       {!user ? (

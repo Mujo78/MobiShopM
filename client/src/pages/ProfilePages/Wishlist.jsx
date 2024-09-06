@@ -31,8 +31,7 @@ export default function Wishlist() {
     queryKey: ["wishlistitems", page],
     queryFn: () => {
       if (user.role === 2) {
-        const token = user?.token;
-        return getMyWishlistDetailsFn(token, page);
+        return getMyWishlistDetailsFn(page);
       }
     },
     retry: 2,

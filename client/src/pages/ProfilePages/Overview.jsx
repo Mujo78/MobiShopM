@@ -8,7 +8,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { infoValidationSchema } from "../../validations/profile/infoValidation";
 import ErrorMessage from "../../components/UI/ErrorMessage";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "../../context/AuthContext";
 import { editMyInformations, getMyInformations } from "../../features/User/api";
 import { BsPencil } from "react-icons/bs";
 import { toast } from "react-toastify";
@@ -18,7 +17,6 @@ import CustomAlert from "../../components/UI/Alert";
 
 export default function Info() {
   const [disabledField, setDisabledField] = useState(true);
-  const { user } = useAuth();
   const queryClient = useQueryClient();
   const { register, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(infoValidationSchema),
@@ -27,7 +25,7 @@ export default function Info() {
 
   const { data, isError, isSuccess, isPending } = useQuery({
     queryKey: ["personInfo"],
-    queryFn: () => getMyInformations(user?.token),
+    queryFn: getMyInformations,
     retry: 1,
   });
 
@@ -38,12 +36,7 @@ export default function Info() {
     isPending: isEditPending,
   } = useMutation({
     mutationKey: ["editProfile"],
-    mutationFn: (values) => {
-      if (user) {
-        const token = user?.token;
-        return editMyInformations(token, values);
-      }
-    },
+    mutationFn: editMyInformations,
     onSuccess: () => {
       queryClient.invalidateQueries("editProfile");
       toast.success("Profile updated!");
@@ -86,10 +79,11 @@ export default function Info() {
           <Form className="mb-5" onSubmit={handleSubmit(onSubmit)}>
             <FormGroup className="d-flex flex-wrap row flex-sm-nowrap justify-content-around align--items-center">
               <Container className="col-12 col-sm-6">
-                <Form.Label htmlFor="first_name">First name</Form.Label>
+                <Form.Label htmlFor="first_name">First name *</Form.Label>
                 <Form.Control
                   disabled={disabledField}
                   id="first_name"
+                  required
                   type="text"
                   name="first_name"
                   {...register("first_name")}
@@ -97,10 +91,11 @@ export default function Info() {
                 <ErrorMessage textError={errors.first_name} />
               </Container>
               <Container className="col-12 col-sm-6">
-                <Form.Label htmlFor="last_name">Last name</Form.Label>
+                <Form.Label htmlFor="last_name">Last name *</Form.Label>
                 <Form.Control
                   disabled={disabledField}
                   id="last_name"
+                  required
                   type="text"
                   name="last_name"
                   {...register("last_name")}
@@ -110,10 +105,11 @@ export default function Info() {
             </FormGroup>
             <Form.Group className="d-flex flex-wrap row flex-sm-nowrap justify-content-around align-items-center">
               <Container className="col-12 col-sm-4">
-                <Form.Label htmlFor="city">City</Form.Label>
+                <Form.Label htmlFor="city">City *</Form.Label>
                 <Form.Control
                   disabled={disabledField}
                   id="city"
+                  required
                   type="text"
                   name="city"
                   {...register("city")}
@@ -121,10 +117,11 @@ export default function Info() {
                 <ErrorMessage textError={errors.city} />
               </Container>
               <Container className="col-12 col-sm-4">
-                <Form.Label htmlFor="address">Address</Form.Label>
+                <Form.Label htmlFor="address">Address *</Form.Label>
                 <Form.Control
                   disabled={disabledField}
                   id="address"
+                  required
                   type="text"
                   name="address"
                   {...register("address")}
@@ -132,10 +129,11 @@ export default function Info() {
                 <ErrorMessage textError={errors.address} />
               </Container>
               <Container className="col-12 col-sm-4">
-                <Form.Label htmlFor="gender">Gender</Form.Label>
+                <Form.Label htmlFor="gender">Gender *</Form.Label>
                 <Form.Select
                   disabled={disabledField}
                   id="gender"
+                  required
                   name="gender"
                   {...register("gender")}
                 >
@@ -149,10 +147,11 @@ export default function Info() {
             </Form.Group>
             <Form.Group className="d-flex flex-wrap flex-sm-nowrap justify-content-around align-items-center row">
               <Container className="col-12 col-sm-6">
-                <Form.Label htmlFor="email">Email</Form.Label>
+                <Form.Label htmlFor="email">Email *</Form.Label>
                 <Form.Control
                   disabled={disabledField}
                   id="email"
+                  required
                   type="email"
                   name="email"
                   {...register("email")}
@@ -160,11 +159,12 @@ export default function Info() {
                 <ErrorMessage textError={errors.email} />
               </Container>
               <Container className="col-12 col-sm-6">
-                <Form.Label htmlFor="phone_number">Phone number</Form.Label>
+                <Form.Label htmlFor="phone_number">Phone number *</Form.Label>
                 <Form.Control
                   disabled={disabledField}
                   id="phone_number"
                   type="text"
+                  required
                   name="phone_number"
                   {...register("phone_number")}
                 />

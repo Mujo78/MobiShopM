@@ -9,12 +9,8 @@ export function useDeleteFromWishlist() {
     mutationKey: ["deleteFromWishlist"],
     mutationFn: async (mobileId) => {
       if (user?.role === 2) {
-        const token = user?.token;
-        await deleteWishitemFn(token, mobileId);
+        return await deleteWishitemFn(mobileId);
       }
-    },
-    onSuccess: () => {
-      toast.success("Item successfully deleted from wishlist!");
     },
     onError: () => {
       toast.error("Something went wrong, please try again latter!");

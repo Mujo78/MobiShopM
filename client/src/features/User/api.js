@@ -1,62 +1,36 @@
-import { apiClientBase } from "../../helpers/ApiClient";
-import axios from "axios";
-const URL = "http://localhost:3001/api";
+import { apiClientBase, apiClientAuth } from "../../helpers/ApiClient";
 
 export async function userLogin(loginData) {
-  const res = await axios.post(`${URL}/login`, loginData);
+  const res = await apiClientBase.post("/user", loginData);
   return res.data;
 }
 
 export async function userSignup(registrationData) {
-  const res = await apiClientBase.post(`/person`, registrationData);
+  const res = await apiClientBase.post("/person", registrationData);
   return res.data;
 }
 
-export async function deleteMyAccount(token) {
-  const res = await axios.delete(`${URL}/delete-profile`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
+export async function deleteMyAccount() {
+  const res = await apiClientAuth.delete("/person");
   return res.data;
 }
 
-export async function getMyInformations(token) {
-  const res = await axios.get(`${URL}/person`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export async function getMyInformations() {
+  const res = await apiClientAuth.get("/person");
   return res.data;
 }
 
-export async function editMyInformations(token, values) {
-  const res = await axios.patch(`${URL}/edit-profile`, values, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
+export async function editMyInformations(values) {
+  const res = await apiClientAuth.patch("/person", values);
   return res.data;
 }
 
-export async function changeMyUsername(token, value) {
-  await axios.patch(
-    `${URL}/change-username`,
-    { username: value },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+export async function changeMyUsername(value) {
+  const res = await apiClientAuth.patch("/user/username", { username: value });
+  return res.data;
 }
 
-export async function changePassword(token, passwords) {
-  await axios.patch(`${URL}/change-password`, passwords, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export async function changePassword(passwords) {
+  const res = await apiClientAuth.patch("/user/password", passwords);
+  return res.data;
 }

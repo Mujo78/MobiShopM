@@ -30,12 +30,11 @@ router.post(
 
 router.patch(
   "/:itemId",
-  authMiddleware,
   editCartItemQuantityValidator,
   errorValidationMiddleware,
   updateCartItem
 );
 
-router.delete("/:itemId", authMiddleware, deleteFromCart);
+router.delete("/:itemId", deleteFromCart);
 
 module.exports = router;

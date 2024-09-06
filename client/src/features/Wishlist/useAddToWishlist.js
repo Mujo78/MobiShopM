@@ -9,8 +9,7 @@ export function useAddToWishlist() {
     mutationKey: ["addToWishlist"],
     mutationFn: async (mobileId) => {
       if (user?.role === 2) {
-        const token = user?.token;
-        await addToWishListFn(token, mobileId);
+        await addToWishListFn(mobileId);
       }
     },
     onSuccess: () => {

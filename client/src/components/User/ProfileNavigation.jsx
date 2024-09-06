@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -13,10 +13,15 @@ const ProfileNavigation = () => {
   const location = useLocation().pathname;
   const navigate = useNavigate();
 
-  const { mutate, isSuccess, isError } = useMutation({
+  const { mutate, isError } = useMutation({
     mutationKey: ["accountDelete"],
-    mutationFn: (token) => deleteMyAccount(token),
+    mutationFn: deleteMyAccount,
     retry: 1,
+    onSuccess: () => {
+      handleClose();
+      logout();
+      navigate("/");
+    },
     onError: () => {
       handleClose();
       handleShowErrorModal();
@@ -47,16 +52,8 @@ const ProfileNavigation = () => {
     setShowShowErrorModal(false);
   };
   const deleteMyAcc = () => {
-    mutate(user.token);
+    mutate();
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      handleClose();
-      logout();
-      navigate("/");
-    }
-  }, [isSuccess, logout, navigate]);
 
   return (
     <>
@@ -127,14 +124,15 @@ const ProfileNavigation = () => {
           <p>By deleting your account, you will lose access forever!</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={deleteMyAcc}>
-            Delete My Account
-          </Button>
           <Button
-            className="bg-custom bg-custom-class border-0"
+            variant="light"
+            className="border me-auto"
             onClick={handleClose}
           >
             Close
+          </Button>
+          <Button variant="danger" onClick={deleteMyAcc}>
+            Confirm
           </Button>
         </Modal.Footer>
       </Modal>

@@ -2,7 +2,6 @@ import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,7 +12,6 @@ import { useMutation } from "@tanstack/react-query";
 import { changePassword } from "../../features/User/api";
 
 export default function ChangePassword() {
-  const { user } = useAuth();
   const { register, handleSubmit, reset, formState } = useForm({
     resolver: yupResolver(changePasswordValidationSchema),
   });
@@ -21,10 +19,7 @@ export default function ChangePassword() {
 
   const { mutate, isError, error } = useMutation({
     mutationKey: ["changePassword"],
-    mutationFn: async (passwords) => {
-      const token = user?.token;
-      await changePassword(token, passwords);
-    },
+    mutationFn: changePassword,
     onSuccess: () => {
       toast.success("Password successfully changed!");
       reset();
@@ -58,11 +53,12 @@ export default function ChangePassword() {
       <Form className="mb-5" onSubmit={handleSubmit(changePasswordFn)}>
         <Form.Group>
           <Container className="mb-1 p-0">
-            <Form.Label htmlFor="password">Password</Form.Label>
+            <Form.Label htmlFor="password">Password *</Form.Label>
             <Container className="position-relative p-0">
               <Form.Control
                 id="password"
                 className="pe-5"
+                required
                 type={showOldPassword ? "text" : "password"}
                 placeholder="Old password"
                 {...register("password")}
@@ -90,13 +86,14 @@ export default function ChangePassword() {
             />
           </Container>
           <Container className="mb-1 p-0">
-            <Form.Label htmlFor="newPassword">New Password</Form.Label>
+            <Form.Label htmlFor="newPassword">New Password *</Form.Label>
             <Container className=" position-relative p-0">
               <Form.Control
                 id="newPassword"
                 type={showNewPassword ? "text" : "password"}
                 placeholder="New password"
                 className="pe-5"
+                required
                 {...register("newPassword")}
                 name="newPassword"
               />
@@ -116,10 +113,13 @@ export default function ChangePassword() {
             <ErrorMessage textError={errors.newPassword} />
           </Container>
           <Container className="mb-1 p-0">
-            <Form.Label htmlFor="confirmPassword">Confirm Password</Form.Label>
+            <Form.Label htmlFor="confirmPassword">
+              Confirm Password *
+            </Form.Label>
             <Form.Control
               id="confirmPassword"
               type="password"
+              required
               {...register("confirmPassword")}
               placeholder="New password"
               name="confirmPassword"

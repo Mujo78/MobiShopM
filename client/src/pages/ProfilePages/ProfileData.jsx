@@ -13,10 +13,7 @@ export default function ProfileData() {
 
   const { mutate, isError, error } = useMutation({
     mutationKey: ["usernameChange"],
-    mutationFn: async (username) => {
-      const token = user?.token;
-      return await changeMyUsername(token, username);
-    },
+    mutationFn: changeMyUsername,
     onSuccess: () => {
       toast.success("Successfully updated username!");
       changeMyUsernameFn(username);
@@ -32,7 +29,6 @@ export default function ProfileData() {
 
   const handleChange = (event) => {
     const { value } = event.target;
-
     setUsername(value);
   };
 
@@ -47,10 +43,11 @@ export default function ProfileData() {
 
       <Form onSubmit={handleSubmit}>
         <Form.Group>
-          <Form.Label htmlFor="username">Username</Form.Label>
+          <Form.Label htmlFor="username">Username *</Form.Label>
           <Form.Control
             id="username"
             type="text"
+            required
             name="username"
             onChange={handleChange}
             value={username}
