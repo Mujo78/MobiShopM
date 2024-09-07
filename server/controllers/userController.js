@@ -26,8 +26,8 @@ const login = asyncHandler(async (req, res, next) => {
   const user = await User.unscoped().findOne({ where: { username } });
 
   if (!user) {
-    res.status(400);
-    return next(new Error("Incorrect username or password!"));
+    res.status(404);
+    return next(new Error("Account doesn't exist."));
   }
 
   const isValid = await user.correctPassword(password, user.password);
@@ -50,14 +50,9 @@ const changeMyUsername = asyncHandler(async (req, res, next) => {
     return next(new Error("User not found!"));
   }
 
-  try {
-    await user.update({ username });
+  await user.update({ username });
 
-    return res.status(200).json(user);
-  } catch (error) {
-    res.status(400);
-    return next(new Error(error));
-  }
+  return res.status(200).json(user);
 });
 
 const changeMyPassword = asyncHandler(async (req, res, next) => {
@@ -67,7 +62,7 @@ const changeMyPassword = asyncHandler(async (req, res, next) => {
   const user = await User.unscoped().findByPk(userId);
 
   if (!user) {
-    res.status(400);
+    res.status(404);
     return next(new Error("User not found!"));
   }
 
@@ -117,16 +112,11 @@ const getAdmins = asyncHandler(async (req, res, next) => {
     ],
   });
 
-  let resObj = {
+  return res.status(200).json({
     data: rows,
     numOfPages: Math.ceil(count / limit),
     currentPage: page,
-  };
-
-  if (rows) return res.status(200).json(resObj);
-
-  res.status(400);
-  return next(new Error("Something went wrong, please try again latter!"));
+  });
 });
 
 module.exports = {

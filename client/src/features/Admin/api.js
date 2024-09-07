@@ -1,74 +1,36 @@
-import axios from "axios";
-const URL = "http://localhost:3001/api";
+import { apiClientAuth } from "../../helpers/ApiClient";
 
-export async function getAllAdmins(token, page) {
-  const res = await axios.get(`${URL}/all-admins`, {
-    params: {
-      page,
-    },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
+export async function getAllAdmins(page) {
+  const res = await apiClientAuth.get("/user/all", { params: { page } });
   return res.data;
 }
 
-export async function addNewAdminFn(token, adminData) {
-  await axios.post(`${URL}/add-admin`, adminData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-}
-
-export async function deleteAdminFn(token, id) {
-  await axios.delete(`${URL}/delete/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-}
-
-export async function addNewMobileFn(token, mobileData) {
-  await axios.post(`${URL}/add-mobiles`, mobileData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-}
-
-export async function addNewBrandFn(token, brandData) {
-  await axios.post(
-    `${URL}/add-brand`,
-    { name: brandData },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-}
-
-export async function getAllCommentsFn(token, page) {
-  const res = await axios.get(`${URL}/comments`, {
-    params: {
-      page,
-    },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  console.log(res.data);
-
+export async function addNewAdminFn(adminData) {
+  const res = await apiClientAuth.post("person/admin", adminData);
   return res.data;
 }
 
-export async function deleteCommentFn(token, id) {
-  await axios.delete(`${URL}/delete-comment/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export async function deleteAdminFn(id) {
+  const res = await apiClientAuth.delete(`/person/${id}`);
+  return res.data;
+}
+
+export async function addNewMobileFn(mobileData) {
+  const res = await apiClientAuth.post("/mobile", mobileData);
+  return res.data;
+}
+
+export async function addNewBrandFn(brandData) {
+  const res = await apiClientAuth.post("/brand/", { name: brandData });
+  return res.data;
+}
+
+export async function getAllCommentsFn(page) {
+  const res = await apiClientAuth.get("/comment", { params: { page } });
+  return res.data;
+}
+
+export async function deleteCommentFn(id) {
+  const res = await apiClientAuth.delete(`/comment/${id}`);
+  return res.data;
 }

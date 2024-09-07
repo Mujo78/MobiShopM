@@ -6,12 +6,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { addAdminSchemaValidator } from "../../../validations/admin/addNewAdminValidator";
 import ErrorMessage from "../../../components/UI/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "../../../context/AuthContext";
 import { addNewAdminFn } from "../../../features/Admin/api";
 import { toast } from "react-toastify";
 
 export default function AddAdmin() {
-  const { user } = useAuth();
   const { register, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(addAdminSchemaValidator),
   });
@@ -19,10 +17,7 @@ export default function AddAdmin() {
 
   const { mutate, isError, error } = useMutation({
     mutationKey: ["addAdmin"],
-    mutationFn: async (adminData) => {
-      const token = user?.token;
-      await addNewAdminFn(token, adminData);
-    },
+    mutationFn: addNewAdminFn,
     onSuccess: () => {
       toast.success("Admin successfully added!");
       reset();
@@ -47,10 +42,11 @@ export default function AddAdmin() {
       >
         <Form.Group className="d-flex col-12 col-lg-8 justify-content-around flex-wrap flex-lg-nowrap mt-2">
           <Container>
-            <Form.Label htmlFor="first_name">First name</Form.Label>
+            <Form.Label htmlFor="first_name">First name *</Form.Label>
             <Form.Control
               id="first_name"
               type="text"
+              required
               autoFocus
               {...register("first_name")}
               name="first_name"
@@ -58,10 +54,11 @@ export default function AddAdmin() {
             <ErrorMessage textError={errors.first_name} />
           </Container>
           <Container>
-            <Form.Label htmlFor="last_name">Last name</Form.Label>
+            <Form.Label htmlFor="last_name">Last name *</Form.Label>
             <Form.Control
               id="last_name"
               type="text"
+              required
               autoFocus
               {...register("last_name")}
               name="last_name"
@@ -72,10 +69,11 @@ export default function AddAdmin() {
 
         <Form.Group className="d-flex col-12 col-lg-8 justify-content-around flex-wrap flex-lg-nowrap mt-2">
           <Container>
-            <Form.Label htmlFor="address">Address</Form.Label>
+            <Form.Label htmlFor="address">Address *</Form.Label>
             <Form.Control
               id="address"
               type="text"
+              required
               autoFocus
               {...register("address")}
               name="address"
@@ -83,10 +81,11 @@ export default function AddAdmin() {
             <ErrorMessage textError={errors.address} />
           </Container>
           <Container>
-            <Form.Label htmlFor="city">City</Form.Label>
+            <Form.Label htmlFor="city">City *</Form.Label>
             <Form.Control
               type="text"
               autoFocus
+              required
               name="city"
               id="city"
               {...register("city")}
@@ -97,10 +96,11 @@ export default function AddAdmin() {
 
         <Form.Group className="d-flex col-12 col-lg-8 justify-content-around flex-wrap flex-lg-nowrap mt-2">
           <Container className="col-12 col-lg-8">
-            <Form.Label htmlFor="phone_number">Phone number</Form.Label>
+            <Form.Label htmlFor="phone_number">Phone number *</Form.Label>
             <Form.Control
               id="phone_number"
               type="text"
+              required
               autoFocus
               name="phone_number"
               {...register("phone_number")}
@@ -114,9 +114,10 @@ export default function AddAdmin() {
             />
           </Container>
           <Container className="col-12 col-lg-4">
-            <Form.Label htmlFor="gender">Gender</Form.Label>
+            <Form.Label htmlFor="gender">Gender *</Form.Label>
             <Form.Select
               id="gender"
+              required
               aria-label="Default select example"
               {...register("gender")}
               name="gender"

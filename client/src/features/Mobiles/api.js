@@ -1,6 +1,4 @@
-import axios from "axios";
-import { apiClientBase } from "../../helpers/ApiClient";
-const URL = "http://localhost:3001/api";
+import { apiClientAuth, apiClientBase } from "../../helpers/ApiClient";
 
 export async function fetchTopPrice() {
   const res = await apiClientBase.get("/mobile/top-prices");
@@ -8,16 +6,13 @@ export async function fetchTopPrice() {
 }
 
 export async function fetchBrands() {
-  const res = await apiClientBase.get("brand");
+  const res = await apiClientBase.get("/brand");
   return res.data;
 }
 
-export async function deleteBrandFn(token, brandId) {
-  await axios.delete(`${URL}/delete-brand/${brandId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export async function deleteBrandFn(brandId) {
+  const res = await apiClientAuth.delete(`/brand/${brandId}`);
+  return res.data;
 }
 
 export async function fetchMobilesByBrand(brandId, page, searchQuery) {
@@ -33,32 +28,19 @@ export async function getMobileByIdFn(mobileId) {
   return res.data;
 }
 
-export async function getMobileByName(token, searchQuery, page) {
-  const res = await axios.get(`${URL}/search-mobile-name`, {
-    params: {
-      searchQuery,
-      page,
-    },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+export async function getMobileByName(searchQuery, page) {
+  const res = await apiClientAuth.get("/mobile/admin/search", {
+    params: { searchQuery, page },
   });
-
   return res.data;
 }
 
-export async function editMobileFn(token, mobileId, mobileData) {
-  await axios.put(`${URL}/edit-mobile/${mobileId}`, mobileData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export async function editMobileFn(mobileId, mobileData) {
+  const res = await apiClientAuth.put(`/mobile/${mobileId}`, mobileData);
+  return res.data;
 }
 
-export async function deleteMobileFn(token, mobileId) {
-  await axios.delete(`${URL}/delete-mobile/${mobileId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export async function deleteMobileFn(mobileId) {
+  const res = await apiClientAuth.delete(`/mobile/${mobileId}`);
+  return res.data;
 }

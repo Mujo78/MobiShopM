@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQueryParams } from "../../../hooks/useQueryParams";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "../../../context/AuthContext";
 import { getMobileByName } from "../../../features/Mobiles/api";
 import Paginate from "../../../components/UI/Paginate";
 import Container from "react-bootstrap/Container";
@@ -15,13 +14,12 @@ import CustomAlert from "../../../components/UI/Alert";
 
 export default function MobilesOverview() {
   const [value, setValue] = useState("");
-  const { user } = useAuth();
   const { mobileId } = useParams();
   const navigate = useNavigate();
   const location = useLocation().pathname;
   const query = useQueryParams();
   const page = parseInt(query.get("page")) || 1;
-  const searchQuery = query.get("searchQuery");
+  const searchQuery = query.get("searchQuery") || "";
 
   const {
     data: searchedMobiles,
@@ -31,8 +29,7 @@ export default function MobilesOverview() {
   } = useQuery({
     queryKey: ["searchedMobiles", searchQuery, page],
     queryFn: () => {
-      const token = user?.token;
-      return getMobileByName(token, searchQuery, page);
+      return getMobileByName(searchQuery, page);
     },
     keepPreviousData: true,
   });
@@ -57,7 +54,7 @@ export default function MobilesOverview() {
 
   return (
     <>
-      {mobileId ? (
+      {mobileId !== undefined ? (
         <Outlet />
       ) : (
         <Container className="d-flex flex-column p-0">

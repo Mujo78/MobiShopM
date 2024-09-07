@@ -1,7 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/esm/Container";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "../../../context/AuthContext";
 import { deleteAdminFn, getAllAdmins } from "../../../features/Admin/api";
 import Table from "react-bootstrap/esm/Table";
 import { toast } from "react-toastify";
@@ -12,7 +11,6 @@ import CustomSpinner from "../../../components/UI/CustomSpinner";
 import CustomAlert from "../../../components/UI/Alert";
 
 export default function AdminOverview() {
-  const { user } = useAuth();
   const queryClient = useQueryClient();
   const query = useQueryParams();
   const page = parseInt(query.get("page")) || 1;
@@ -27,8 +25,7 @@ export default function AdminOverview() {
   } = useQuery({
     queryKey: ["admins", page],
     queryFn: () => {
-      const token = user?.token;
-      return getAllAdmins(token, page);
+      return getAllAdmins(page);
     },
     keepPreviousData: true,
     retry: 1,
@@ -36,10 +33,7 @@ export default function AdminOverview() {
 
   const { mutate } = useMutation({
     mutationKey: ["adminDelete"],
-    mutationFn: async (id) => {
-      const token = user?.token;
-      await deleteAdminFn(token, id);
-    },
+    mutationFn: deleteAdminFn,
     onSuccess: () => {
       toast.success("Admin successfully deleted!");
       queryClient.invalidateQueries("admins");

@@ -3,12 +3,10 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "../../../context/AuthContext";
 import { addNewBrandFn } from "../../../features/Admin/api";
 import { toast } from "react-toastify";
 
 export default function AddBrand() {
-  const { user } = useAuth();
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState();
 
@@ -16,8 +14,7 @@ export default function AddBrand() {
     mutationKey: ["addBrand"],
     mutationFn: async () => {
       if (name !== "") {
-        const token = user?.token;
-        await addNewBrandFn(token, name);
+        await addNewBrandFn(name);
       }
     },
     onSuccess: () => {

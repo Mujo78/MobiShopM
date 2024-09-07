@@ -17,7 +17,12 @@ export default function Home() {
     data: topPrices,
     isFetching,
     isError,
-  } = useQuery({ queryKey: ["topPrices"], queryFn: fetchTopPrice, retry: 1 });
+  } = useQuery({
+    queryKey: ["topPrices"],
+    queryFn: fetchTopPrice,
+    retry: 1,
+    keepPreviousData: true,
+  });
 
   const activeStyles = {
     transform: "scale(0.9)",

@@ -124,7 +124,7 @@ const deleteMobile = asyncHandler(async (req, res, next) => {
   return res.status(200).json(mobile);
 });
 
-const searchMobileByName = asyncHandler(async (req, res, next) => {
+const getMobileByName = asyncHandler(async (req, res, next) => {
   const searchQuery = req.query.searchQuery;
   const page = parseInt(req.query.page) || 1;
   const limit = 5;
@@ -159,5 +159,5 @@ module.exports = {
   deleteMobile,
   editMobile,
   getMobilesByBrandId,
-  searchMobileByName,
+  getMobileByName,
 };

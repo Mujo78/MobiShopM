@@ -38,6 +38,7 @@ const MobileForm = ({
 
   const onSubmit = (values) => {
     onSubmitFn(values);
+    setPhotoLink("");
   };
 
   return (
@@ -70,10 +71,11 @@ const MobileForm = ({
           >
             <Form.Group className="d-flex col-12 col-xl-10 flex-wrap flex-lg-nowrap p-0 align-items-center justify-content-around">
               <Container className="col-12 col-lg-7 col-xl-8 p-0">
-                <Form.Label htmlFor="mobile_name">Name</Form.Label>
+                <Form.Label htmlFor="mobile_name">Name *</Form.Label>
                 <Form.Control
                   id="mobile_name"
                   type="text"
+                  required
                   autoComplete="mobile_name"
                   autoFocus
                   name="mobile_name"
@@ -82,11 +84,12 @@ const MobileForm = ({
                 <ErrorMessage textError={errors.mobile_name} />
               </Container>
               <Container className="col-12 col-lg-4 col-xl-3 p-0">
-                <Form.Label htmlFor="brandId">Brand</Form.Label>
+                <Form.Label htmlFor="brandId">Brand *</Form.Label>
                 <Form.Select
                   id="brandId"
                   aria-label="Default select example"
                   name="brandId"
+                  required
                   autoComplete="brand"
                   {...register("brandId")}
                 >
@@ -105,10 +108,11 @@ const MobileForm = ({
 
             <Form.Group className="d-flex col-12 col-xl-10 flex-wrap flex-lg-nowrap p-0 justify-content-between">
               <Container className="col-12 col-lg-5 p-0">
-                <Form.Label htmlFor="ram">RAM</Form.Label>
+                <Form.Label htmlFor="ram">RAM *</Form.Label>
                 <Form.Select
                   autoComplete="ram"
                   id="ram"
+                  required
                   aria-label="Default select example"
                   name="ram"
                   {...register("ram")}
@@ -125,10 +129,11 @@ const MobileForm = ({
                 <ErrorMessage textError={errors.ram} />
               </Container>
               <Container className="col-12 col-lg-6 p-0">
-                <Form.Label htmlFor="internal">Memory</Form.Label>
+                <Form.Label htmlFor="internal">Memory *</Form.Label>
                 <Form.Select
                   autoComplete="internal"
                   id="internal"
+                  required
                   aria-label="Default select example"
                   name="internal"
                   {...register("internal")}
@@ -151,10 +156,11 @@ const MobileForm = ({
 
             <Form.Group className="d-flex p-0 col-12 col-xl-10">
               <Container className="col-12 p-0 px-xl-3 px-xxl-4 px-lg-3">
-                <Form.Label htmlFor="camera">Camera</Form.Label>
+                <Form.Label htmlFor="camera">Camera *</Form.Label>
                 <Form.Control
                   id="camera"
                   autoComplete="camera"
+                  required
                   type="text"
                   autoFocus
                   name="camera"
@@ -166,10 +172,11 @@ const MobileForm = ({
 
             <Form.Group className="d-flex col-12 col-xl-10 flex-wrap flex-lg-nowrap p-0 align-items-center justify-content-around">
               <Container className="col-12 col-lg-7 col-xl-8 p-0">
-                <Form.Label htmlFor="processor">Processor</Form.Label>
+                <Form.Label htmlFor="processor">Processor *</Form.Label>
                 <Form.Control
                   autoComplete="processor"
                   id="processor"
+                  required
                   type="text"
                   autoFocus
                   name="processor"
@@ -178,10 +185,11 @@ const MobileForm = ({
                 <ErrorMessage textError={errors.processor} />
               </Container>
               <Container className="col-12 col-lg-4 col-xl-3 p-0">
-                <Form.Label htmlFor="screen_size">Screen size</Form.Label>
+                <Form.Label htmlFor="screen_size">Screen size *</Form.Label>
                 <Form.Control
                   id="screen_size"
                   type="number"
+                  required
                   max={10}
                   min={1}
                   step={0.1}
@@ -197,11 +205,12 @@ const MobileForm = ({
 
             <Form.Group className="d-flex col-12 col-xl-10 flex-wrap flex-lg-nowrap p-0 justify-content-between">
               <Container className="col-12 col-lg-6 p-0">
-                <Form.Label htmlFor="battery">Baterry (mAh)</Form.Label>
+                <Form.Label htmlFor="battery">Baterry (mAh) *</Form.Label>
                 <Form.Control
                   id="battery"
                   type="number"
                   autoComplete="battery"
+                  required
                   min={1000}
                   max={5000}
                   step={100}
@@ -213,9 +222,10 @@ const MobileForm = ({
                 <ErrorMessage textError={errors.battery} />
               </Container>
               <Container className="col-12 col-lg-5 p-0">
-                <Form.Label htmlFor="os">OS</Form.Label>
+                <Form.Label htmlFor="os">OS *</Form.Label>
                 <Form.Control
                   id="os"
+                  required
                   autoComplete="os"
                   type="text"
                   autoFocus
@@ -229,10 +239,11 @@ const MobileForm = ({
 
             <Form.Group className="d-flex col-12 col-xl-10 flex-wrap flex-lg-nowrap p-0 justify-content-between">
               <Container className="col-12 col-lg-6 p-0">
-                <Form.Label htmlFor="quantity">Quantity</Form.Label>
+                <Form.Label htmlFor="quantity">Quantity *</Form.Label>
                 <Form.Control
                   id="quantity"
                   autoComplete="quantity"
+                  required
                   type="number"
                   autoFocus
                   name="quantity"
@@ -241,10 +252,11 @@ const MobileForm = ({
                 <ErrorMessage textError={errors.quantity} />
               </Container>
               <Container className="col-12 col-lg-5 p-0">
-                <Form.Label htmlFor="price">Price</Form.Label>
+                <Form.Label htmlFor="price">Price *</Form.Label>
                 <Form.Control
                   id="price"
                   autoComplete="price"
+                  required
                   type="number"
                   autoFocus
                   placeholder="3000"
@@ -256,10 +268,11 @@ const MobileForm = ({
             </Form.Group>
             <Form.Group className="d-flex p-0 col-12 col-xl-10">
               <Container className="col-12 p-0 px-xl-3 px-xxl-4 px-lg-3">
-                <Form.Label htmlFor="photo">Photo link</Form.Label>
+                <Form.Label htmlFor="photo">Photo link *</Form.Label>
                 <Form.Control
                   id="photo"
                   autoComplete="photo"
+                  required
                   type="text"
                   autoFocus
                   name="photo"

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteBrandFn } from "../../../features/Mobiles/api";
-import { useAuth } from "../../../context/AuthContext";
 import { useBrands } from "../../../features/Mobiles/useBrands";
 import { formatDate } from "../../../util";
 import Container from "react-bootstrap/esm/Container";
@@ -15,17 +14,13 @@ import CustomAlert from "../../../components/UI/Alert";
 const BrandsOverview = () => {
   const [show, setShow] = useState(false);
   const [brand, setBrand] = useState();
-  const { user } = useAuth();
   const queryClient = useQueryClient();
 
   const { data: brands, isFetching, isError } = useBrands();
 
   const { mutate } = useMutation({
     mutationKey: ["deleteBrand"],
-    mutationFn: async (brandId) => {
-      const token = user.token;
-      await deleteBrandFn(token, brandId);
-    },
+    mutationFn: deleteBrandFn,
     onSuccess: () => {
       queryClient.invalidateQueries("brands");
       setShow(false);
@@ -111,15 +106,19 @@ const BrandsOverview = () => {
           </Modal.Header>
           <Modal.Body>
             Are you sure you want to delete <strong> {brand?.brandName}</strong>{" "}
-            ? <br /> By deleting brand, you will also delete all mobiles from
-            your store, are you still sure?
+            ? <br /> By deleting brand, you will also delete all of its mobiles
+            from your store, are you still sure?
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button
+              variant="light"
+              className="me-auto border"
+              onClick={handleClose}
+            >
               Close
             </Button>
             <Button variant="danger" onClick={deleteBrand}>
-              Delete Brand
+              Confirm
             </Button>
           </Modal.Footer>
         </Modal>

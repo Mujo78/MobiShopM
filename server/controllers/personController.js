@@ -3,10 +3,7 @@ const { User, Person, Cart, sequelize } = require("../models");
 
 const getAllUsers = asyncHandler(async (req, res, next) => {
   const data = await User.findAll();
-
-  if (data) return res.status(200).json(data);
-  res.status(400);
-  return next(new Error("There was an error, please try again later!"));
+  return res.status(200).json(data);
 });
 
 const getUserById = asyncHandler(async (req, res, next) => {
@@ -19,6 +16,11 @@ const getUserById = asyncHandler(async (req, res, next) => {
   }
 
   const person = await Person.findByPk(user.personId);
+  if (!person) {
+    res.status(404);
+    return next(new Error("User not found!"));
+  }
+
   return res.status(200).json(person);
 });
 
@@ -32,16 +34,11 @@ const editUserProfile = asyncHandler(async (req, res, next) => {
     return next(new Error("User not found!"));
   }
 
-  try {
-    const updated = await userToUpdate.update(req.body, {
-      returning: true,
-    });
+  const updated = await userToUpdate.update(req.body, {
+    returning: true,
+  });
 
-    return res.status(200).json(updated);
-  } catch (error) {
-    res.status(400);
-    return next(new Error(error));
-  }
+  return res.status(200).json(updated);
 });
 
 const deletePersonProfile = async (userId, res, next) => {
@@ -52,14 +49,14 @@ const deletePersonProfile = async (userId, res, next) => {
     return next(new Error("User not found!"));
   }
 
-  try {
-    const deleted = await Person.findByPk(user.personId);
-    await deleted.destroy();
-    return res.status(200).json(deleted);
-  } catch (error) {
+  const deleted = await Person.findByPk(user.personId);
+  if (!deleted) {
     res.status(404);
-    return next(new Error(error));
+    return next(new Error("User not found!"));
   }
+
+  await deleted.destroy();
+  return res.status(200).json(deleted);
 };
 
 const deleteProfile = asyncHandler(async (req, res, next) => {
@@ -121,9 +118,9 @@ const registration = asyncHandler(async (req, res, next) => {
       return user;
     });
 
-    return res.status(201).json(`Registration successful: ${result.username}.`);
+    return res.status(200).json(`Registration successful: ${result.username}.`);
   } catch (error) {
-    res.status(400);
+    res.status(500);
     return next(new Error(error));
   }
 });
@@ -153,7 +150,7 @@ const addNewAdmin = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ where: { username } });
 
   if (user) {
-    res.status(400);
+    res.status(409);
     return next(new Error(`User with username: ${username} already exists!`));
   }
 
@@ -186,10 +183,10 @@ const addNewAdmin = asyncHandler(async (req, res, next) => {
     });
 
     return res
-      .status(201)
+      .status(200)
       .json({ message: `New Admin: ${result.username}, successfully added.` });
   } catch (error) {
-    res.status(400);
+    res.status(500);
     return next(new Error(error));
   }
 });

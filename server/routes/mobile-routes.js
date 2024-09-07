@@ -10,7 +10,7 @@ const {
   deleteMobile,
   editMobile,
   getMobilesByBrandId,
-  searchMobileByName,
+  getMobileByName,
 } = require("../controllers/mobileController");
 const {
   errorValidationMiddleware,
@@ -22,8 +22,8 @@ router.get("/:mobileId", getMobileById);
 router.get("/brand/:brandId", getMobilesByBrandId);
 
 router.use(adminMiddleware);
-router.get("/search", searchMobileByName);
 
+router.get("/admin/search", getMobileByName);
 router.post(
   "/",
   createMobitelValidator,

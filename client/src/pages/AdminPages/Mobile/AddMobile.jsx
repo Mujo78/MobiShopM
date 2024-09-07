@@ -2,13 +2,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addEditMobileSchema } from "../../../validations/admin/addEditMobileValidator";
 import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "../../../context/AuthContext";
 import { addNewMobileFn } from "../../../features/Admin/api";
 import { toast } from "react-toastify";
 import MobileForm from "../../../components/Mobile/MobileForm";
 
 export default function AddMobile() {
-  const { user } = useAuth();
   const { register, reset, handleSubmit, formState, watch } = useForm({
     resolver: yupResolver(addEditMobileSchema),
   });
@@ -16,10 +14,7 @@ export default function AddMobile() {
 
   const { mutate, isError, isPending, error } = useMutation({
     mutationKey: ["addMobile"],
-    mutationFn: async (values) => {
-      const token = user?.token;
-      await addNewMobileFn(token, values);
-    },
+    mutationFn: addNewMobileFn,
     onSuccess: () => {
       toast.success("Successfully added new mobile!");
       reset();

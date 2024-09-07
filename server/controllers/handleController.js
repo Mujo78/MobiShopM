@@ -1,5 +1,4 @@
 const asyncHandler = require("express-async-handler");
-const { Model } = require("sequelize");
 
 const getAll = (Model) =>
   asyncHandler(async (req, res, next) => {

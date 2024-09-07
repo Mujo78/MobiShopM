@@ -3,10 +3,8 @@ import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useQueryParams } from "../../../hooks/useQueryParams";
-import { useAuth } from "../../../context/AuthContext";
 import { getAllCommentsFn, deleteCommentFn } from "../../../features/Admin/api";
 import { useLocation, useNavigate } from "react-router-dom";
-
 import { BsTrash } from "react-icons/bs";
 import { formatDate } from "../../../util";
 import { toast } from "react-toastify";
@@ -15,7 +13,6 @@ import CustomSpinner from "../../../components/UI/CustomSpinner";
 import CustomAlert from "../../../components/UI/Alert";
 
 export default function CommentsOverview() {
-  const { user } = useAuth();
   const query = useQueryParams();
   const page = parseInt(query.get("page")) || 1;
   const queryClient = useQueryClient();
@@ -30,18 +27,14 @@ export default function CommentsOverview() {
   } = useQuery({
     queryKey: ["comments", page],
     queryFn: () => {
-      const token = user?.token;
-      return getAllCommentsFn(token, page);
+      return getAllCommentsFn(page);
     },
     keepPreviousData: true,
   });
 
   const { mutate } = useMutation({
     mutationKey: ["deleteComment"],
-    mutationFn: async (id) => {
-      const token = user?.token;
-      await deleteCommentFn(token, id);
-    },
+    mutationFn: deleteCommentFn,
     onSuccess: () => {
       queryClient.invalidateQueries(["comments"]);
       toast.success("Sucessfully deleted comment!");

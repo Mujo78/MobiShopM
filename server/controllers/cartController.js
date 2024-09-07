@@ -29,16 +29,10 @@ const getCartItems = asyncHandler(async (req, res, next) => {
     ],
   });
 
-  if (cartItems) {
-    const resObj = {
-      total: userCart.total,
-      data: cartItems,
-    };
-    return res.status(200).json(resObj);
-  }
-
-  res.status(400);
-  return next(new Error("Something went wrong, please try again latter!"));
+  return res.status(200).json({
+    total: userCart?.total,
+    data: cartItems,
+  });
 });
 
 const getCartItem = asyncHandler(async (req, res, next) => {
@@ -49,30 +43,25 @@ const getCartItem = asyncHandler(async (req, res, next) => {
     where: { userId },
   });
 
-  try {
-    const foundedCartItem = await Cart_item.findOne({
-      attributes: ["quantity", "id", "total"],
-      where: {
-        id: itemId,
-        cartId: usersCart.id,
+  const foundedCartItem = await Cart_item.findOne({
+    attributes: ["quantity", "id", "total"],
+    where: {
+      id: itemId,
+      cartId: usersCart.id,
+    },
+    include: [
+      {
+        model: Mobile,
       },
-      include: [
-        {
-          model: Mobile,
-        },
-      ],
-    });
+    ],
+  });
 
-    if (foundedCartItem) {
-      return res.status(200).json(foundedCartItem);
-    }
-
+  if (!foundedCartItem) {
     res.status(404);
     return next(new Error("Item not found!"));
-  } catch (error) {
-    res.status(404);
-    return next(new Error(error));
   }
+
+  return res.status(200).json(foundedCartItem);
 });
 
 const addToCart = asyncHandler(async (req, res, next) => {
@@ -157,9 +146,9 @@ const addToCart = asyncHandler(async (req, res, next) => {
       ],
     });
 
-    return res.status(201).json(resultToReturn);
+    return res.status(200).json(resultToReturn);
   } catch (error) {
-    res.status(400);
+    res.status(500);
     return next(new Error(error));
   }
 });
@@ -244,19 +233,12 @@ const updateCartItem = asyncHandler(async (req, res, next) => {
       return totalToDecInc;
     });
 
-    if (result) {
-      return res.status(200).json({
-        total: result,
-      });
-    }
-
-    res.status(400);
-    return next(
-      new Error("Something went wrong while updating your cart quantity!")
-    );
+    return res.status(200).json({
+      total: result,
+    });
   } catch (error) {
-    res.status(400);
-    return next(new Error(error.message));
+    res.status(500);
+    return next(new Error(error));
   }
 });
 
@@ -267,8 +249,8 @@ const deleteFromCart = asyncHandler(async (req, res, next) => {
   const toDelete = await Cart_item.findByPk(itemId);
 
   if (!toDelete) {
-    res.status(400);
-    return next(new Error("There was an error, please try again latter!"));
+    res.status(404);
+    return next(new Error("Product not found in the cart!"));
   }
 
   try {
@@ -289,7 +271,7 @@ const deleteFromCart = asyncHandler(async (req, res, next) => {
 
     return res.status(200).json({ itemId: toDelete.id });
   } catch (error) {
-    res.status(400);
+    res.status(500);
     return next(new Error(error));
   }
 });

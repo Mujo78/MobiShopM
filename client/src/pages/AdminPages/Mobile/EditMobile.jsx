@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import MobileForm from "../../../components/Mobile/MobileForm";
-import { useAuth } from "../../../context/AuthContext";
 import { addEditMobileSchema } from "../../../validations/admin/addEditMobileValidator";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
@@ -16,7 +15,6 @@ import CustomAlert from "../../../components/UI/Alert";
 
 export default function EditMobile() {
   const [show, setShow] = useState(false);
-  const { user } = useAuth();
   const navigate = useNavigate();
   const { mobileId } = useParams();
 
@@ -42,10 +40,7 @@ export default function EditMobile() {
   const { mutate, isPending, error } = useMutation({
     mutationKey: ["editMobile"],
     mutationFn: async (values) => {
-      if (mobileId) {
-        const token = user?.token;
-        await editMobileFn(token, mobileId, values);
-      }
+      return await editMobileFn(mobileId, values);
     },
     onSuccess: () => {
       toast.success("Successfully edited mobile!");
@@ -60,12 +55,7 @@ export default function EditMobile() {
 
   const { mutate: deleteMobile, isPending: isLoading } = useMutation({
     mutationKey: ["deleteMobile"],
-    mutationFn: async () => {
-      if (mobileId) {
-        const token = user?.token;
-        await deleteMobileFn(token, mobileId);
-      }
-    },
+    mutationFn: deleteMobileFn,
     onSuccess: () => {
       toast.success("Successfully deleted mobile!");
       handleNavigateBack();
@@ -79,7 +69,9 @@ export default function EditMobile() {
   });
 
   const onSubmit = (values) => {
-    mutate(values);
+    if (mobileId) {
+      mutate(values);
+    }
   };
 
   const handleDeleteModalShow = () => {
@@ -87,7 +79,10 @@ export default function EditMobile() {
   };
 
   const handleDeleteMobile = () => {
-    deleteMobile(mobileId);
+    console.log(mobileId);
+    if (mobileId) {
+      deleteMobile(mobileId);
+    }
   };
 
   const handleNavigateBack = () => {
@@ -130,7 +125,11 @@ export default function EditMobile() {
               <strong> {getValues("mobile_name")}</strong> ?
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
+              <Button
+                variant="light"
+                className="me-auto border"
+                onClick={handleClose}
+              >
                 Close
               </Button>
               <Button variant="danger" onClick={handleDeleteMobile}>
