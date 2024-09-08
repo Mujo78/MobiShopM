@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { authMiddleware } = require("../middlewares/auth-middleware");
+const { authorized, restrictTo } = require("../middlewares/auth-middleware");
 const {
   addToWishlist,
   deleteWishItemFromList,
@@ -8,7 +8,7 @@ const {
   getWishlistItemsDetails,
 } = require("../controllers/wishlistController");
 
-router.use(authMiddleware);
+router.use(authorized, restrictTo("USER"));
 
 router.get("/", getWishlist);
 router.get("/details", getWishlistItemsDetails);

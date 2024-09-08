@@ -1,8 +1,7 @@
 const express = require("express");
-const { adminMiddleware } = require("../middlewares/admin-check");
 const router = express.Router();
 
-const { authMiddleware } = require("../middlewares/auth-middleware");
+const { authorized, restrictTo } = require("../middlewares/auth-middleware");
 const {
   Persons,
   User,
@@ -29,10 +28,10 @@ const {
   errorValidationMiddleware,
 } = require("../middlewares/errorValidationMiddleware");
 
-router.use(authMiddleware);
+router.use(authorized);
 
 router.get("/my-orders", getMyOrders);
-router.get("/:orderId", authMiddleware, getOrderItem);
+router.get("/:orderId", getOrderItem);
 
 router.post(
   "/buy-now/:mobileId",
@@ -48,7 +47,7 @@ router.post(
   orderFromCart
 );
 
-router.use(adminMiddleware);
+router.use(restrictTo("ADMIN"));
 
 router.get("/", getOrders);
 router.patch("/:orderId", makeOrderShipped);

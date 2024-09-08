@@ -1,5 +1,5 @@
 const express = require("express");
-const { authMiddleware } = require("../middlewares/auth-middleware");
+const { authorized, restrictTo } = require("../middlewares/auth-middleware");
 const router = express.Router();
 const {
   addToCart,
@@ -16,7 +16,7 @@ const {
   errorValidationMiddleware,
 } = require("../middlewares/errorValidationMiddleware");
 
-router.use(authMiddleware);
+router.use(authorized, restrictTo("USER"));
 
 router.get("/", getCartItems);
 router.get("/:itemId", getCartItem);

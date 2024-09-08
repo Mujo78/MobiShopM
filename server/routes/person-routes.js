@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { adminMiddleware } = require("../middlewares/admin-check");
-const { authMiddleware } = require("../middlewares/auth-middleware");
+const { authorized, restrictTo } = require("../middlewares/auth-middleware");
 const {
   createPersonValidator,
   createAdminValidator,
@@ -26,13 +25,13 @@ router.post(
   registration
 );
 
-router.use(authMiddleware);
+router.use(authorized);
 
 router.get("/", getUserById);
 router.patch("/", editUserProfile);
 router.delete("/", deleteProfile);
 
-router.use(adminMiddleware);
+router.use(restrictTo("ADMIN"));
 
 router.get("/all", getAllUsers);
 router.post(

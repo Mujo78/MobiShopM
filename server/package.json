@@ -1,8 +1,8 @@
 {
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --inspect index.js",
-    "start:seed": "npx sequelize db:seed:all"
+    "dev": "nodemon --inspect index.js",
+    "dev:seed": "npx sequelize db:seed:all"
   },
   "dependencies": {
     "@types/sequelize": "^4.28.20",

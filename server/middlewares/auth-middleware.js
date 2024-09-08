@@ -2,7 +2,12 @@ const asyncHandler = require("express-async-handler");
 const { verify } = require("jsonwebtoken");
 const { User } = require("../models");
 
-exports.authMiddleware = asyncHandler(async (req, res, next) => {
+const roles = {
+  ADMIN: 1,
+  USER: 2,
+};
+
+const authorized = asyncHandler(async (req, res, next) => {
   let token;
 
   if (req.headers.authorization?.startsWith("Bearer")) {
@@ -24,3 +29,19 @@ exports.authMiddleware = asyncHandler(async (req, res, next) => {
     return next(new Error(error));
   }
 });
+
+const restrictTo = (roleKey) => {
+  const role = roles[roleKey];
+  return (req, res, next) => {
+    if (req.user?.roleId !== role) {
+      res.status(403);
+      return next(new Error("You are not authorized for this action!"));
+    }
+    next();
+  };
+};
+
+module.exports = {
+  restrictTo,
+  authorized,
+};

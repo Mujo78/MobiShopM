@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { createMobitelValidator } = require("../validators/mobile");
-const { adminMiddleware } = require("../middlewares/admin-check");
 const {
   getAllMobiles,
   getMobilesByTopPrices,
@@ -15,13 +14,14 @@ const {
 const {
   errorValidationMiddleware,
 } = require("../middlewares/errorValidationMiddleware");
+const { authorized, restrictTo } = require("../middlewares/auth-middleware");
 
 router.get("/", getAllMobiles);
 router.get("/top-prices", getMobilesByTopPrices);
 router.get("/:mobileId", getMobileById);
 router.get("/brand/:brandId", getMobilesByBrandId);
 
-router.use(adminMiddleware);
+router.use(authorized, restrictTo("ADMIN"));
 
 router.get("/admin/search", getMobileByName);
 router.post(

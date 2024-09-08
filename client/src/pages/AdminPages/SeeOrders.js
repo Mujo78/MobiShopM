@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import Container from "react-bootstrap/esm/Container";
@@ -7,6 +6,7 @@ import Alert from "react-bootstrap/Alert";
 import useResponsive from "../../components/useResponsive";
 import Paginate from "../../components/UI/Paginate";
 import { useSearchParams } from "react-router-dom";
+import { apiClientAuth } from "../../helpers/ApiClient";
 
 export default function SeeOrders() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,41 +27,21 @@ export default function SeeOrders() {
   }, []);
 
   const getOrders = () => {
-    axios
-      .get("http://localhost:3001/orders", {
-        headers: {
-          accessToken: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      })
+    apiClientAuth
+      .get("/order/")
       .then((response) => setOrdersState(response.data))
       .catch((error) => console.log(error));
   };
 
   const AcceptOrder = (id) => {
-    axios
-      .put(
-        `http://localhost:3001/order/${id}`,
-        {},
-        {
-          headers: {
-            accessToken: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      )
+    apiClientAuth
+      .patch(`/order/${id}`, {})
       .then(() => getOrders())
       .catch((error) => console.log(error));
   };
   const CancelOrder = (id) => {
-    axios
-      .put(
-        `http://localhost:3001/order-cancel/${id}`,
-        {},
-        {
-          headers: {
-            accessToken: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      )
+    apiClientAuth
+      .put(`/order/${id}`, {})
       .then(() => getOrders())
       .catch((error) => console.log(error));
   };

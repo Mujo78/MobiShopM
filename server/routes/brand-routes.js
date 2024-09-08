@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const { adminMiddleware } = require("../middlewares/admin-check");
 const {
   errorValidationMiddleware,
 } = require("../middlewares/errorValidationMiddleware");
@@ -10,10 +9,11 @@ const {
   addNewBrand,
   deleteBrand,
 } = require("../controllers/brandController");
+const { restrictTo, authorized } = require("../middlewares/auth-middleware");
 
 router.get("/", getAllBrands);
 
-router.use(adminMiddleware);
+router.use(authorized, restrictTo("ADMIN"));
 router.post("/", createNewBrand, errorValidationMiddleware, addNewBrand);
 router.delete("/:id", deleteBrand);
 

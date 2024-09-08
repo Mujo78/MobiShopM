@@ -5,8 +5,7 @@ const {
   editUsername,
   changePasswordValidator,
 } = require("../validators/user");
-const { authMiddleware } = require("../middlewares/auth-middleware");
-const { adminMiddleware } = require("../middlewares/admin-check");
+const { authorized, restrictTo } = require("../middlewares/auth-middleware");
 const {
   errorValidationMiddleware,
 } = require("../middlewares/errorValidationMiddleware");
@@ -19,9 +18,9 @@ const {
 
 router.post("/", loginUser, errorValidationMiddleware, login);
 
-router.get("/all", adminMiddleware, getAdmins);
+router.use(authorized);
 
-router.use(authMiddleware);
+router.get("/all", restrictTo("ADMIN"), getAdmins);
 
 router.patch(
   "/username",

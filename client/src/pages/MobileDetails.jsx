@@ -87,7 +87,7 @@ export default function MobileDetails() {
                 <strong>Price:</strong> {mobile.price} KM
               </ListGroup.Item>
             </ListGroup>
-            {user && mobile.quantity > 0 ? (
+            {user?.role === 2 && mobile.quantity > 0 ? (
               <Container className="d-flex flex-row row flex-wrap gap-3 mt-3">
                 <Form.Group className="d-flex flex-wrap justify-content-around gap-md-4 col-12 col-md-auto">
                   <Form.Control
@@ -117,7 +117,9 @@ export default function MobileDetails() {
               </Container>
             ) : (
               <CustomAlert variant="secondary">
-                Product is not available
+                {user?.role === 1 && mobile.quantity > 0
+                  ? `Available: ${mobile.quantity}`
+                  : "Product is not available"}
               </CustomAlert>
             )}
           </Container>

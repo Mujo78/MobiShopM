@@ -11,6 +11,7 @@ export function useWishlist() {
       if (user?.role === 2) {
         return getMyWishlistFn();
       }
+      return null;
     },
     retry: 1,
     onError: () => {
