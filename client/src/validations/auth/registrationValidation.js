@@ -1,30 +1,34 @@
 import * as Yup from "yup";
+import { genders } from "../utils";
 
 export const registrationValidationSchema = Yup.object({
   first_name: Yup.string()
-    .required("First name is required")
-    .min(3, "ERROR Min characters 3"),
+    .required("First name is required!")
+    .min(3, "First name must be at least 3 characters long."),
   last_name: Yup.string()
-    .required("Last name is required")
-    .min(3, "ERROR Min characters 3"),
+    .required("Last name is required!")
+    .min(3, "Last name must be at least 3 characters long."),
   phone_number: Yup.string()
     .required("Phone number is required!")
     .matches(/^[0-9]+$/, "Phone number must contain only numbers!")
-    .max(12, "Length error! (max 12)"),
-  address: Yup.string().required("Address is required"),
-  city: Yup.string().required("City is required"),
+    .length(12, "Phone number must be 12 digits long."),
+  address: Yup.string().required("Address is required!"),
+  city: Yup.string().required("City is required!"),
   email: Yup.string()
-    .required("Email is required")
+    .required("Email is required!")
     .email("Email must be valid!"),
   gender: Yup.string()
     .required("Gender is required!")
-    .test("gender-valid", "Gender is not valid!", (value) => {
-      if (value === "Male" || value === "Female" || value === "Other") {
+    .test("gender-valid", "Gender must be: Male, Female or Other!", (value) => {
+      if (genders.includes(value)) {
         return true;
       }
       return false;
     }),
-  username: Yup.string().required("Username is required!"),
+  username: Yup.string()
+    .required("Username is required!")
+    .min(6, "Username must be at least 6 characters long.")
+    .max(32, "Username cannot exceed 32 characters."),
   password: Yup.string().required("Password is required!"),
   confirmPassword: Yup.string()
     .required("Confirm password is required!")

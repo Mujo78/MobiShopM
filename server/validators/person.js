@@ -1,23 +1,39 @@
 const { check } = require("express-validator");
 const {
   POST_FIRSTNAME_PERSON,
+  POST_FIRSTNAME_PERSON_LENGTH,
   POST_LASTNAME_PERSON,
+  POST_LASTNAME_PERSON_LENGTH,
   POST_ADDRESS_PERSON,
   POST_CITY_PERSON,
   POST_PHONENUMBER_PERSON,
   POST_EMAIL_PERSON,
   POST_GENDER_PERSON,
   POST_USERNAME_USER,
-  USER_ALREADY_EXISTS,
   POST_PASSWORD_USER,
   POST_LETTERINPHONE_PERSON,
+  POST_PHONENUMBER_PERSON_LENGTH,
   POST_GENDER_PERSON_CORRECT,
+  POST_EMAILVALID_PERSON,
+  POST_USERNAME_USER_LENGTH_MIN,
+  POST_USERNAME_USER_LENGTH_MAX,
 } = require("../constants/person-constants");
-const { User } = require("../models");
+
+const genders = ["Male", "Female", "Other"];
 
 exports.createPersonValidator = [
-  check("first_name").notEmpty().withMessage(POST_FIRSTNAME_PERSON).bail(),
-  check("last_name").notEmpty().withMessage(POST_LASTNAME_PERSON).bail(),
+  check("first_name")
+    .notEmpty()
+    .withMessage(POST_FIRSTNAME_PERSON)
+    .isLength({ min: 3 })
+    .withMessage(POST_FIRSTNAME_PERSON_LENGTH)
+    .bail(),
+  check("last_name")
+    .notEmpty()
+    .withMessage(POST_LASTNAME_PERSON)
+    .isLength({ min: 3 })
+    .withMessage(POST_LASTNAME_PERSON_LENGTH)
+    .bail(),
   check("address").notEmpty().withMessage(POST_ADDRESS_PERSON).bail(),
   check("phone_number")
     .notEmpty()
@@ -29,25 +45,30 @@ exports.createPersonValidator = [
       return /^[0-9]+$/.test(value);
     })
     .withMessage(POST_LETTERINPHONE_PERSON)
+    .isLength(12)
+    .withMessage(POST_PHONENUMBER_PERSON_LENGTH)
     .bail(),
   check("password").notEmpty().withMessage(POST_PASSWORD_USER).bail(),
   check("city").notEmpty().withMessage(POST_CITY_PERSON).bail(),
   check("username")
     .notEmpty()
     .withMessage(POST_USERNAME_USER)
-    .custom(async (n) => {
-      const users = await User.findOne({ where: { username: n } });
-      if (users != null) {
-        return Promise.reject(USER_ALREADY_EXISTS(n));
-      }
-    })
+    .isLength({ min: 6 })
+    .withMessage(POST_USERNAME_USER_LENGTH_MIN)
+    .isLength({ max: 32 })
+    .withMessage(POST_USERNAME_USER_LENGTH_MAX)
     .bail(),
-  check("email").notEmpty().withMessage(POST_EMAIL_PERSON).bail(),
+  check("email")
+    .notEmpty()
+    .withMessage(POST_EMAIL_PERSON)
+    .isEmail()
+    .withMessage(POST_EMAILVALID_PERSON)
+    .bail(),
   check("gender")
     .notEmpty()
     .withMessage(POST_GENDER_PERSON)
     .custom((value) => {
-      if (value === "Male" || value === "Female" || value === "Other") {
+      if (genders.includes(value)) {
         return true;
       }
       throw new Error(POST_GENDER_PERSON_CORRECT);

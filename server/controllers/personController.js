@@ -83,6 +83,12 @@ const registration = asyncHandler(async (req, res, next) => {
     password,
   } = req.body;
 
+  const alreadyExist = await User.findOne({ where: { username } });
+  if (alreadyExist) {
+    res.status(409);
+    return next(new Error(`User with username: ${username} already exists!`));
+  }
+
   try {
     const result = await sequelize.transaction(async (t) => {
       const person = await Person.create(
