@@ -21,7 +21,7 @@ export async function getMyInformations() {
 }
 
 export async function editMyInformations(values) {
-  const res = await apiClientAuth.patch("/person", values);
+  const res = await apiClientAuth.put("/person", values);
   return res.data;
 }
 

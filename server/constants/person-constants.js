@@ -12,6 +12,10 @@ const POST_EMAILVALID_PERSON = "Email must be valid!";
 const POST_GENDER_PERSON = "Gender is required!";
 const POST_GENDER_PERSON_CORRECT = "Gender must be: Male, Female or Other!";
 const POST_PASSWORD_USER = "Password is required!";
+const POST_PASSWORD_LENGTH = "Password must be at least 8 characters long.";
+const POST_PASSWORD_WEAK =
+  "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.";
+
 const POST_USERNAME_USER = "Username is required!";
 const POST_USERNAME_USER_LENGTH_MIN =
   "Username must be at least 6 characters long.";
@@ -37,4 +41,6 @@ module.exports = {
   POST_PASSWORD_USER,
   POST_LETTERINPHONE_PERSON,
   POST_GENDER_PERSON_CORRECT,
+  POST_PASSWORD_LENGTH,
+  POST_PASSWORD_WEAK,
 };

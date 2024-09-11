@@ -39,6 +39,7 @@ export default function Info() {
     mutationFn: editMyInformations,
     onSuccess: () => {
       queryClient.invalidateQueries("editProfile");
+      setDisabledField(true);
       toast.success("Profile updated!");
     },
     onError: () => {

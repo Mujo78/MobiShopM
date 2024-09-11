@@ -10,12 +10,14 @@ import { changeMyUsername } from "../../features/User/api";
 export default function ProfileData() {
   const { user, changeMyUsernameFn } = useAuth();
   const [username, setUsername] = useState(user.username);
+  const [usernameError, setUsernameError] = useState("");
 
   const { mutate, isError, error } = useMutation({
     mutationKey: ["usernameChange"],
     mutationFn: changeMyUsername,
     onSuccess: () => {
       toast.success("Successfully updated username!");
+      setUsernameError("");
       changeMyUsernameFn(username);
     },
     onError: (error) => {
@@ -34,6 +36,21 @@ export default function ProfileData() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (username === "") {
+      setUsernameError("Username is required!");
+      return;
+    }
+
+    if (username.length < 6) {
+      setUsernameError("Username must be at least 6 characters long.");
+      return;
+    }
+
+    if (username.length > 32) {
+      setUsernameError("Username cannot exceed 32 characters.");
+      return;
+    }
     mutate(username);
   };
 
@@ -47,7 +64,6 @@ export default function ProfileData() {
           <Form.Control
             id="username"
             type="text"
-            required
             name="username"
             onChange={handleChange}
             value={username}
@@ -57,12 +73,11 @@ export default function ProfileData() {
             className="text-danger mt-1"
             style={{ height: "1rem", fontSize: "0.8rem" }}
           >
-            {username === ""
-              ? "Username is required!"
+            {usernameError
+              ? usernameError
               : isError
-              ? error?.response?.data?.errors
-                ? error?.response?.data?.errors[0]?.msg
-                : ""
+              ? error?.response?.data?.errors &&
+                error?.response?.data?.errors[0]?.msg
               : ""}
           </p>
         </Form.Group>

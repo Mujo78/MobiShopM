@@ -36,11 +36,8 @@ const AppLayout = () => {
         <Button
           id="cart_btn"
           onClick={handleShowCart}
-          className="position-fixed mb-5 ms-5 p-4 rounded-pill bg-transparent bottom-0"
-          style={{
-            left: 0,
-            border: "5px solid #219AEB",
-          }}
+          className="position-fixed mb-5 ms-5 p-4 z-3 rounded-pill bg-transparent bottom-0 start-0"
+          style={{ border: "5px solid #219AEB" }}
         >
           <Container className="p-0 position-relative w-100 h-100">
             <BsCart2 color="black" size="30px" />

@@ -3,6 +3,7 @@ const router = express.Router();
 const { authorized, restrictTo } = require("../middlewares/auth-middleware");
 const {
   createPersonValidator,
+  editProfileValidator,
   createAdminValidator,
 } = require("../validators/person");
 const {
@@ -28,7 +29,12 @@ router.post(
 router.use(authorized);
 
 router.get("/", getUserById);
-router.patch("/", editUserProfile);
+router.put(
+  "/",
+  editProfileValidator,
+  errorValidationMiddleware,
+  editUserProfile
+);
 router.delete("/", deleteProfile);
 
 router.use(restrictTo("ADMIN"));

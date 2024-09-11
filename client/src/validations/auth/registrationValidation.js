@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { genders } from "../utils";
+import { genders, regPattern } from "../utils";
 
 export const registrationValidationSchema = Yup.object({
   first_name: Yup.string()
@@ -29,7 +29,13 @@ export const registrationValidationSchema = Yup.object({
     .required("Username is required!")
     .min(6, "Username must be at least 6 characters long.")
     .max(32, "Username cannot exceed 32 characters."),
-  password: Yup.string().required("Password is required!"),
+  password: Yup.string()
+    .required("Password is required!")
+    .min(8, "Password must be at least 8 characters long.")
+    .matches(regPattern, {
+      message:
+        "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+    }),
   confirmPassword: Yup.string()
     .required("Confirm password is required!")
     .test("password-match", "Passwords must match!", function (value) {

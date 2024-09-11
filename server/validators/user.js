@@ -5,9 +5,12 @@ const {
   USER_OLD_PASSWORD,
   USER_NEW_PASSWORD,
   USER_CONFIRM_PASSWORD,
+  POST_USERNAME_USER_LENGTH_MAX,
+  POST_USERNAME_USER_LENGTH_MIN,
+  POST_NEW_PASSWORD_LENGTH,
+  POST_NEW_PASSWORD_WEAK,
 } = require("../constants/user-constants");
-const { User } = require("../models");
-const { USER_ALREADY_EXISTS } = require("../constants/person-constants");
+const { regPattern } = require("./utils");
 
 exports.loginUser = [
   check("username").notEmpty().withMessage(POST_USERNAME_USER).bail(),
@@ -18,17 +21,27 @@ exports.editUsername = [
   check("username")
     .notEmpty()
     .withMessage(POST_USERNAME_USER)
-    .custom(async (n) => {
-      const users = await User.findOne({ where: { username: n } });
-      if (users != null) {
-        return Promise.reject(USER_ALREADY_EXISTS(n));
-      }
-    })
+    .isLength({ min: 6 })
+    .withMessage(POST_USERNAME_USER_LENGTH_MIN)
+    .isLength({ max: 32 })
+    .withMessage(POST_USERNAME_USER_LENGTH_MAX)
     .bail(),
 ];
 
 exports.changePasswordValidator = [
   check("password").notEmpty().withMessage(USER_OLD_PASSWORD).bail(),
-  check("newPassword").notEmpty().withMessage(USER_NEW_PASSWORD).bail(),
+  check("newPassword")
+    .notEmpty()
+    .withMessage(USER_NEW_PASSWORD)
+    .isLength({ min: 8 })
+    .withMessage(POST_NEW_PASSWORD_LENGTH)
+    .custom((value) => {
+      if (value === "") {
+        return true;
+      }
+      return regPattern.test(value);
+    })
+    .withMessage(POST_NEW_PASSWORD_WEAK)
+    .bail(),
   check("confirmPassword").notEmpty().withMessage(USER_CONFIRM_PASSWORD).bail(),
 ];
