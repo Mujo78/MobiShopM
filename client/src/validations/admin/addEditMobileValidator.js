@@ -1,9 +1,14 @@
 import * as Yup from "yup";
+import { ram, memory } from "../utils";
 
 export const addEditMobileSchema = Yup.object({
-  mobile_name: Yup.string().required("Mobile name is required!"),
-  ram: Yup.string().required("RAM is required!"),
-  internal: Yup.string().required("Internal is required!"),
+  mobile_name: Yup.string().required("Name is required!"),
+  ram: Yup.string()
+    .required("RAM is required!")
+    .notOneOf(ram, "Invalid RAM value provided."),
+  internal: Yup.string()
+    .required("Internal is required!")
+    .notOneOf(memory, "Invalid Memory value provided."),
   processor: Yup.string().required("Processor is required!"),
   screen_size: Yup.string().required("Screen size is required!"),
   battery: Yup.string().required("Battery is required!"),

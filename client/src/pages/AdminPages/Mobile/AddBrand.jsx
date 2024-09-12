@@ -12,11 +12,7 @@ export default function AddBrand() {
 
   const { mutate, isError, error, isPending } = useMutation({
     mutationKey: ["addBrand"],
-    mutationFn: async () => {
-      if (name !== "") {
-        await addNewBrandFn(name);
-      }
-    },
+    mutationFn: addNewBrandFn,
     onSuccess: () => {
       toast.success("Brand successfully added!");
       setName("");
@@ -32,11 +28,13 @@ export default function AddBrand() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    if (!name) {
-      setErrorMessage("Brand name is required!");
-    } else {
-      mutate();
+    setErrorMessage("");
+
+    if (name === "") {
+      setErrorMessage("Name is required!");
+      return;
     }
+    mutate(name);
   }
   const handleChangeName = (event) => {
     const value = event.target.value;
@@ -67,10 +65,8 @@ export default function AddBrand() {
           >
             {errorMessage
               ? errorMessage
-              : isError
-              ? error?.response?.data?.errors
-                ? error?.response?.data?.errors[0].msg
-                : ""
+              : isError && error?.response?.data?.errors
+              ? error?.response?.data?.errors[0].msg
               : ""}
           </p>
         </Form.Group>

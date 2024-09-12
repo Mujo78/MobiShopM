@@ -257,6 +257,7 @@ const MobileForm = ({
                   id="price"
                   autoComplete="price"
                   required
+                  min={1}
                   type="number"
                   autoFocus
                   placeholder="3000"

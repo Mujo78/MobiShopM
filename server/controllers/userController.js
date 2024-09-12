@@ -72,10 +72,10 @@ const changeMyPassword = asyncHandler(async (req, res, next) => {
     if (isValid) {
       await user.update({ password: newPassword });
 
-      createToken(user, 200, res);
+      return res.status(200).json("Successfully updated password.");
     } else {
       res.status(400);
-      return next(new Error("Wrong password"));
+      return next(new Error("Wrong old password."));
     }
   } else {
     res.status(400);

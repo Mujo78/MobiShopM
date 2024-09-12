@@ -90,8 +90,18 @@ exports.createPersonValidator = [
 ];
 
 exports.createAdminValidator = [
-  check("first_name").notEmpty().withMessage(POST_FIRSTNAME_PERSON).bail(),
-  check("last_name").notEmpty().withMessage(POST_LASTNAME_PERSON).bail(),
+  check("first_name")
+    .notEmpty()
+    .withMessage(POST_FIRSTNAME_PERSON)
+    .isLength({ min: 3 })
+    .withMessage(POST_FIRSTNAME_PERSON_LENGTH)
+    .bail(),
+  check("last_name")
+    .notEmpty()
+    .withMessage(POST_LASTNAME_PERSON)
+    .isLength({ min: 3 })
+    .withMessage(POST_LASTNAME_PERSON_LENGTH)
+    .bail(),
   check("address").notEmpty().withMessage(POST_ADDRESS_PERSON).bail(),
   check("phone_number")
     .notEmpty()
@@ -103,13 +113,15 @@ exports.createAdminValidator = [
       return /^[0-9]+$/.test(value);
     })
     .withMessage(POST_LETTERINPHONE_PERSON)
+    .isLength(12)
+    .withMessage(POST_PHONENUMBER_PERSON_LENGTH)
     .bail(),
   check("city").notEmpty().withMessage(POST_CITY_PERSON).bail(),
   check("gender")
     .notEmpty()
     .withMessage(POST_GENDER_PERSON)
     .custom((value) => {
-      if (value === "Male" || value === "Female" || value === "Other") {
+      if (genders.includes(value)) {
         return true;
       }
       throw new Error(POST_GENDER_PERSON_CORRECT);

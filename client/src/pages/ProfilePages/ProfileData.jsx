@@ -15,10 +15,10 @@ export default function ProfileData() {
   const { mutate, isError, error } = useMutation({
     mutationKey: ["usernameChange"],
     mutationFn: changeMyUsername,
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Successfully updated username!");
       setUsernameError("");
-      changeMyUsernameFn(username);
+      changeMyUsernameFn(data.username);
     },
     onError: (error) => {
       if (!error.response.data.errors) {

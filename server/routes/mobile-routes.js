@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { createMobitelValidator } = require("../validators/mobile");
+const { createOrEditMobitelValidator } = require("../validators/mobile");
 const {
   getAllMobiles,
   getMobilesByTopPrices,
@@ -26,12 +26,17 @@ router.use(authorized, restrictTo("ADMIN"));
 router.get("/admin/search", getMobileByName);
 router.post(
   "/",
-  createMobitelValidator,
+  createOrEditMobitelValidator,
   errorValidationMiddleware,
   addNewMobile
 );
 
-router.put("/:mobileId", editMobile);
+router.put(
+  "/:mobileId",
+  createOrEditMobitelValidator,
+  errorValidationMiddleware,
+  editMobile
+);
 router.delete("/:mobileId", deleteMobile);
 
 module.exports = router;
