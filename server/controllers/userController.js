@@ -50,6 +50,20 @@ const changeMyUsername = asyncHandler(async (req, res, next) => {
     return next(new Error("User not found!"));
   }
 
+  const userExists = await User.findOne({
+    where: {
+      id: {
+        [Op.ne]: userId,
+      },
+      username,
+    },
+  });
+
+  if (userExists) {
+    res.status(409);
+    return next(new Error("Username already taken!"));
+  }
+
   await user.update({ username });
 
   return res.status(200).json(user);

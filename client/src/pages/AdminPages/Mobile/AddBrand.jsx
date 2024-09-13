@@ -5,30 +5,28 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { addNewBrandFn } from "../../../features/Admin/api";
 import { toast } from "react-toastify";
+import { formatError, formatFieldError } from "../../../helpers/utils";
 
 export default function AddBrand() {
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState();
 
-  const { mutate, isError, error, isPending } = useMutation({
+  const { mutate, error, isPending } = useMutation({
     mutationKey: ["addBrand"],
     mutationFn: addNewBrandFn,
     onSuccess: () => {
       toast.success("Brand successfully added!");
       setName("");
-      setErrorMessage("");
+      setErrorMessage();
     },
-    onError: (error) => {
-      setErrorMessage("");
-      if (!error?.response?.data?.errors) {
-        toast.error("Something went wrong, please try again later!");
-      }
+    onError: () => {
+      setErrorMessage();
     },
   });
 
   function handleSubmit(event) {
     event.preventDefault();
-    setErrorMessage("");
+    setErrorMessage();
 
     if (name === "") {
       setErrorMessage("Name is required!");
@@ -63,11 +61,9 @@ export default function AddBrand() {
             className="text-danger mt-1"
             style={{ height: "1rem", fontSize: "0.8rem" }}
           >
-            {errorMessage
-              ? errorMessage
-              : isError && error?.response?.data?.errors
-              ? error?.response?.data?.errors[0].msg
-              : ""}
+            {errorMessage ??
+              formatFieldError(error, "name")?.msg ??
+              formatError(error)?.message}
           </p>
         </Form.Group>
 

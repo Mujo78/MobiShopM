@@ -9,6 +9,7 @@ import ErrorMessage from "../components/UI/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
 import { postComment } from "../features/commentApi";
 import { toast } from "react-toastify";
+import { formatFieldError, isErrorField } from "../helpers/utils";
 
 export default function Contact() {
   const { register, handleSubmit, formState, reset } = useForm({
@@ -16,7 +17,7 @@ export default function Contact() {
   });
   const { errors } = formState;
 
-  const { mutate, isError, isPending, error } = useMutation({
+  const { mutate, isPending, error } = useMutation({
     mutationKey: ["comment"],
     mutationFn: postComment,
     onSuccess: () => {
@@ -25,6 +26,7 @@ export default function Contact() {
     },
   });
 
+  console.log(error);
   function onSubmit(values) {
     mutate(values);
   }
@@ -43,16 +45,18 @@ export default function Contact() {
             </Form.Label>
             <Form.Control
               type="text"
-              required
               name="name"
               className={errors.name && "border-danger"}
               id="name"
+              required
               disabled={isPending}
               placeholder="Joe Doe"
               {...register("name")}
               autoFocus
             />
-            <ErrorMessage textError={errors.name} />
+            <ErrorMessage
+              textError={errors.name ?? formatFieldError(error, "name")}
+            />
           </Form.Group>
           <Form.Group>
             <Form.Label className="mb-1" htmlFor="email_comment">
@@ -61,15 +65,17 @@ export default function Contact() {
             <Form.Control
               type="email"
               name="email"
-              required
               className={errors.email && "border-danger"}
+              required
               id="email_comment"
               disabled={isPending}
               placeholder="email@example.com"
               {...register("email")}
               autoFocus
             />
-            <ErrorMessage textError={errors.email} />
+            <ErrorMessage
+              textError={errors.email ?? formatFieldError(error, "email")}
+            />
           </Form.Group>
           <Form.Group>
             <Form.Label className="mb-1" htmlFor="comment">
@@ -87,7 +93,11 @@ export default function Contact() {
               autoFocus
             />
             <ErrorMessage
-              textError={errors.comment ? errors.comment : isError && error}
+              textError={
+                errors.comment ??
+                formatFieldError(error, "comment") ??
+                (!isErrorField(error) && error)
+              }
             />
           </Form.Group>
           <Form.Group className="d-flex justify-content-end mb-4">

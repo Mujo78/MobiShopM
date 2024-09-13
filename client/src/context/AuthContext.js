@@ -53,7 +53,7 @@ function AuthProvider({ children }) {
     } catch (error) {
       dispatch({
         type: AUTH_ACTION_TYPES.LOGIN_FAILURE,
-        payload: error.response.data,
+        payload: error,
       });
     }
   }

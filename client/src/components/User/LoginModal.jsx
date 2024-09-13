@@ -9,6 +9,11 @@ import { loginValidationSchema } from "../../validations/auth/loginValidation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ErrorMessage from "../UI/ErrorMessage";
+import {
+  formatError,
+  formatFieldError,
+  isErrorField,
+} from "../../helpers/utils";
 
 export default function LoginModal({ handleClose, show }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -50,13 +55,17 @@ export default function LoginModal({ handleClose, show }) {
               <Form.Control
                 {...register("username")}
                 type="text"
-                required
                 className={errors.username && " border-danger"}
                 id="username"
+                required
                 name="username"
                 autoFocus
               />
-              <ErrorMessage textError={errors.username} />
+              <ErrorMessage
+                textError={
+                  errors.username ?? formatFieldError(error, "username")
+                }
+              />
             </Form.Group>
 
             <Form.Group>
@@ -68,8 +77,8 @@ export default function LoginModal({ handleClose, show }) {
                   {...register("password")}
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  id="password"
                   required
+                  id="password"
                   className={`${errors.password && " border-danger"} pe-5`}
                   placeholder="***********"
                   autoFocus
@@ -88,7 +97,11 @@ export default function LoginModal({ handleClose, show }) {
                 </button>
               </Container>
               <ErrorMessage
-                textError={errors.password ? errors.password : error && error}
+                textError={
+                  errors.password ??
+                  formatFieldError(error, "password") ??
+                  (!isErrorField(error) && formatError(error))
+                }
               />
             </Form.Group>
 
