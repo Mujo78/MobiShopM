@@ -7,10 +7,9 @@ export function useCart() {
   const { data, isFetching, isError, error, isFetched } = useQuery({
     queryKey: ["cart"],
     queryFn: () => {
-      if (user.roleId === 2) {
+      if (user.role === 2) {
         return fetchMyCartFn();
       }
-      return null;
     },
     retry: 1,
   });

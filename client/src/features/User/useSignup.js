@@ -13,11 +13,6 @@ export function useSignup() {
     onSuccess: () => {
       toast.success("Account successfully created!");
     },
-    onError: (error) => {
-      if (!error.response.data.errors) {
-        toast.error("Something went wrong, please try again later!");
-      }
-    },
   });
 
   return { signup, error, isError };

@@ -9,6 +9,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { registrationValidationSchema } from "../../validations/auth/registrationValidation";
 import ErrorMessage from "../UI/ErrorMessage";
 import { useSignup } from "../../features/User/useSignup";
+import {
+  formatError,
+  formatFieldError,
+  isErrorForKey,
+} from "../../helpers/utils";
 
 export default function RegistrationModal({ handleClose, show }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,7 +22,7 @@ export default function RegistrationModal({ handleClose, show }) {
   });
   const { errors } = formState;
 
-  const { signup, error, isError } = useSignup();
+  const { signup, error } = useSignup();
 
   const togglePasswordVisibility = () => {
     setShowPassword((n) => !n);
@@ -41,7 +46,7 @@ export default function RegistrationModal({ handleClose, show }) {
             <Form.Group className="d-flex">
               <Container className="d-flex flex-column p-0 w-100">
                 <Form.Label className="mb-1" htmlFor="first_name">
-                  Name
+                  First Name *
                 </Form.Label>
                 <Form.Control
                   className={errors.first_name && " border-danger"}
@@ -52,11 +57,15 @@ export default function RegistrationModal({ handleClose, show }) {
                   id="first_name"
                   autoFocus
                 />
-                <ErrorMessage textError={errors.first_name} />
+                <ErrorMessage
+                  textError={
+                    errors.first_name ?? formatFieldError(error, "first_name")
+                  }
+                />
               </Container>
               <Container className="d-flex flex-column p-0 ms-2 w-100">
                 <Form.Label className="mb-1" htmlFor="last_name">
-                  Last name
+                  Last name *
                 </Form.Label>
                 <Form.Control
                   className={errors.last_name && " border-danger"}
@@ -67,29 +76,38 @@ export default function RegistrationModal({ handleClose, show }) {
                   name="last_name"
                   autoFocus
                 />
-                <ErrorMessage textError={errors.last_name} />
+                <ErrorMessage
+                  textError={
+                    errors.last_name ?? formatFieldError(error, "last_name")
+                  }
+                />
               </Container>
             </Form.Group>
             <Form.Group className="d-flex">
               <Container className="d-flex flex-column p-0 w-100">
                 <Form.Label className="mb-1" htmlFor="phone_number">
-                  Phone number
+                  Phone number *
                 </Form.Label>
                 <Form.Control
                   type="text"
                   className={errors.phone_number && " border-danger"}
                   {...register("phone_number")}
+                  required
                   name="phone_number"
                   id="phone_number"
-                  required
-                  placeholder="+387 ** *** ***"
                   autoFocus
                 />
-                <ErrorMessage textError={errors.phone_number} />
+                <ErrorMessage
+                  textError={
+                    errors.phone_number ??
+                    formatFieldError(error, "phone_number") ??
+                    formatFieldError(error, "phone number")
+                  }
+                />
               </Container>
               <Container className="d-flex flex-column p-0 ms-2 w-50">
                 <Form.Label className="mb-1" htmlFor="gender">
-                  Gender
+                  Gender *
                 </Form.Label>
                 <Form.Select
                   className={errors.gender && " border-danger"}
@@ -104,13 +122,15 @@ export default function RegistrationModal({ handleClose, show }) {
                   <option value="Female">Female</option>
                   <option value="Other">Other</option>
                 </Form.Select>
-                <ErrorMessage textError={errors.gender} />
+                <ErrorMessage
+                  textError={errors.gender ?? formatFieldError(error, "gender")}
+                />
               </Container>
             </Form.Group>
             <Form.Group className="d-flex">
               <Container className="d-flex flex-column p-0 w-100">
                 <Form.Label className="mb-1" htmlFor="city">
-                  City
+                  City *
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -121,11 +141,13 @@ export default function RegistrationModal({ handleClose, show }) {
                   {...register("city")}
                   autoFocus
                 />
-                <ErrorMessage textError={errors.city} />
+                <ErrorMessage
+                  textError={errors.city ?? formatFieldError(error, "city")}
+                />
               </Container>
               <Container className="d-flex flex-column p-0 ms-2 w-100">
                 <Form.Label htmlFor="address" className="mb-1">
-                  Address
+                  Address *
                 </Form.Label>
                 <Form.Control
                   id="address"
@@ -136,43 +158,53 @@ export default function RegistrationModal({ handleClose, show }) {
                   {...register("address")}
                   autoFocus
                 />
-                <ErrorMessage textError={errors.address} />
+                <ErrorMessage
+                  textError={
+                    errors.address ?? formatFieldError(error, "address")
+                  }
+                />
               </Container>
             </Form.Group>
             <Form.Group>
               <Form.Label className="mb-1" htmlFor="username">
-                Username
+                Username *
               </Form.Label>
               <Form.Control
                 type="text"
-                id="username"
                 required
+                id="username"
                 className={errors.username && " border-danger"}
                 {...register("username")}
                 name="username"
                 autoFocus
               />
-              <ErrorMessage textError={errors.username} />
+              <ErrorMessage
+                textError={
+                  errors.username ?? formatFieldError(error, "username")
+                }
+              />
             </Form.Group>
             <Form.Group>
               <Form.Label className="mb-1" htmlFor="email">
-                Email
+                Email *
               </Form.Label>
               <Form.Control
                 type="email"
+                required
                 className={errors.email && " border-danger"}
                 id="email"
-                required
                 name="email"
                 {...register("email")}
                 placeholder="name@example.com"
                 autoFocus
               />
-              <ErrorMessage textError={errors.email} />
+              <ErrorMessage
+                textError={errors.email ?? formatFieldError(error, "email")}
+              />
             </Form.Group>
             <Form.Group>
               <Form.Label className="mb-1" htmlFor="password">
-                Password
+                Password *
               </Form.Label>
               <Container className="position-relative p-0">
                 <Form.Control
@@ -198,11 +230,17 @@ export default function RegistrationModal({ handleClose, show }) {
                   )}
                 </button>
               </Container>
-              <ErrorMessage textError={errors.password} />
+              <ErrorMessage
+                textError={
+                  errors.password ??
+                  (!isErrorForKey(error, "passwords") &&
+                    formatFieldError(error, "password"))
+                }
+              />
             </Form.Group>
             <Form.Group>
               <Form.Label className="mb-1" htmlFor="confirmPassword">
-                Confirm Password
+                Confirm Password *
               </Form.Label>
               <Form.Control
                 {...register("confirmPassword")}
@@ -214,18 +252,13 @@ export default function RegistrationModal({ handleClose, show }) {
                 placeholder="***********"
                 autoFocus
               />
-              <p
-                className="text-danger mt-1"
-                style={{ height: "1rem", fontSize: "0.8rem" }}
-              >
-                {errors.confirmPassword
-                  ? errors.confirmPassword.message
-                  : isError
-                  ? error?.response?.data?.errors
-                    ? error?.response?.data?.errors[0].msg
-                    : ""
-                  : ""}
-              </p>
+              <ErrorMessage
+                textError={
+                  errors.confirmPassword ??
+                  formatFieldError(error, "confirmPassword") ??
+                  (error?.response?.status === 500 && formatError(error))
+                }
+              />
             </Form.Group>
             <Modal.Footer className="px-0">
               <Button

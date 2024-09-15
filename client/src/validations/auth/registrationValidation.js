@@ -11,7 +11,8 @@ export const registrationValidationSchema = Yup.object({
   phone_number: Yup.string()
     .required("Phone number is required!")
     .matches(/^[0-9]+$/, "Phone number must contain only numbers!")
-    .length(12, "Phone number must be 12 digits long."),
+    .min(9, "Phone number must be at least 9 digits long.")
+    .max(12, "Phone number cannot exceed 12 digits."),
   address: Yup.string().required("Address is required!"),
   city: Yup.string().required("City is required!"),
   email: Yup.string()

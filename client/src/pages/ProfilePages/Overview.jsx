@@ -14,6 +14,11 @@ import { toast } from "react-toastify";
 import IconButton from "../../components/UI/IconButton";
 import CustomSpinner from "../../components/UI/CustomSpinner";
 import CustomAlert from "../../components/UI/Alert";
+import {
+  formatError,
+  formatFieldError,
+  isErrorForKey,
+} from "../../helpers/utils";
 
 export default function Info() {
   const [disabledField, setDisabledField] = useState(true);
@@ -23,7 +28,13 @@ export default function Info() {
   });
   const { errors, isDirty } = formState;
 
-  const { data, isError, isSuccess, isPending } = useQuery({
+  const {
+    data,
+    isError,
+    isSuccess,
+    error: getError,
+    isPending,
+  } = useQuery({
     queryKey: ["personInfo"],
     queryFn: getMyInformations,
     retry: 1,
@@ -31,8 +42,8 @@ export default function Info() {
 
   const {
     mutate,
+    error,
     isSuccess: isEditSuccess,
-    isError: isEditError,
     isPending: isEditPending,
   } = useMutation({
     mutationKey: ["editProfile"],
@@ -41,11 +52,6 @@ export default function Info() {
       queryClient.invalidateQueries("editProfile");
       setDisabledField(true);
       toast.success("Profile updated!");
-    },
-    onError: () => {
-      toast.error(
-        "There was an error while updating your account, please try again later!"
-      );
     },
   });
 
@@ -89,19 +95,27 @@ export default function Info() {
                   name="first_name"
                   {...register("first_name")}
                 />
-                <ErrorMessage textError={errors.first_name} />
+                <ErrorMessage
+                  textError={
+                    errors.first_name ?? formatFieldError(error, "first_name")
+                  }
+                />
               </Container>
               <Container className="col-12 col-sm-6">
                 <Form.Label htmlFor="last_name">Last name *</Form.Label>
                 <Form.Control
                   disabled={disabledField}
                   id="last_name"
-                  required
                   type="text"
+                  required
                   name="last_name"
                   {...register("last_name")}
                 />
-                <ErrorMessage textError={errors.last_name} />
+                <ErrorMessage
+                  textError={
+                    errors.last_name ?? formatFieldError(error, "last_name")
+                  }
+                />
               </Container>
             </FormGroup>
             <Form.Group className="d-flex flex-wrap row flex-sm-nowrap justify-content-around align-items-center">
@@ -110,12 +124,14 @@ export default function Info() {
                 <Form.Control
                   disabled={disabledField}
                   id="city"
-                  required
                   type="text"
+                  required
                   name="city"
                   {...register("city")}
                 />
-                <ErrorMessage textError={errors.city} />
+                <ErrorMessage
+                  textError={errors.city ?? formatFieldError(error, "city")}
+                />
               </Container>
               <Container className="col-12 col-sm-4">
                 <Form.Label htmlFor="address">Address *</Form.Label>
@@ -127,7 +143,11 @@ export default function Info() {
                   name="address"
                   {...register("address")}
                 />
-                <ErrorMessage textError={errors.address} />
+                <ErrorMessage
+                  textError={
+                    errors.address ?? formatFieldError(error, "address")
+                  }
+                />
               </Container>
               <Container className="col-12 col-sm-4">
                 <Form.Label htmlFor="gender">Gender *</Form.Label>
@@ -143,7 +163,9 @@ export default function Info() {
                   <option value="Female">Female</option>
                   <option value="Other">Other</option>
                 </Form.Select>
-                <ErrorMessage textError={errors.gender} />
+                <ErrorMessage
+                  textError={errors.gender ?? formatFieldError(error, "gender")}
+                />
               </Container>
             </Form.Group>
             <Form.Group className="d-flex flex-wrap flex-sm-nowrap justify-content-around align-items-center row">
@@ -152,24 +174,37 @@ export default function Info() {
                 <Form.Control
                   disabled={disabledField}
                   id="email"
-                  required
                   type="email"
+                  required
                   name="email"
                   {...register("email")}
                 />
-                <ErrorMessage textError={errors.email} />
+                <ErrorMessage
+                  textError={
+                    errors.email ??
+                    formatFieldError(error, "email") ??
+                    (!isErrorForKey(error, "phone number") &&
+                      formatError(error))
+                  }
+                />
               </Container>
               <Container className="col-12 col-sm-6">
                 <Form.Label htmlFor="phone_number">Phone number *</Form.Label>
                 <Form.Control
                   disabled={disabledField}
                   id="phone_number"
-                  type="text"
                   required
+                  type="text"
                   name="phone_number"
                   {...register("phone_number")}
                 />
-                <ErrorMessage textError={errors.phone_number} />
+                <ErrorMessage
+                  textError={
+                    errors.phone_number ??
+                    formatFieldError(error, "phone_number") ??
+                    formatFieldError(error, "phone number")
+                  }
+                />
               </Container>
             </Form.Group>
 
@@ -184,10 +219,10 @@ export default function Info() {
             </div>
           </Form>
         ) : (
-          (isError || isEditError) && (
+          isError && (
             <CustomAlert variant="danger">
-              There was an error while {isEditError ? "editing" : "getting"}{" "}
-              your data, please try again latter!
+              {formatError(getError)?.message ??
+                "Something went wrong! Please try again later."}
             </CustomAlert>
           )
         )}

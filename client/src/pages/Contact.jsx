@@ -26,7 +26,6 @@ export default function Contact() {
     },
   });
 
-  console.log(error);
   function onSubmit(values) {
     mutate(values);
   }

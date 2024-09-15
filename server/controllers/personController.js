@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { User, Person, Cart, sequelize } = require("../models");
+const { Op } = require("sequelize");
 
 const getAllUsers = asyncHandler(async (req, res, next) => {
   const data = await User.findAll();
@@ -25,13 +26,36 @@ const getUserById = asyncHandler(async (req, res, next) => {
 });
 
 const editUserProfile = asyncHandler(async (req, res, next) => {
-  const userId = req.user.id;
+  const personId = req.user.id;
 
-  const userToUpdate = await Person.findByPk(userId);
+  const userToUpdate = await Person.findByPk(personId);
 
   if (!userToUpdate) {
     res.status(404);
     return next(new Error("User not found!"));
+  }
+
+  const userExists = await Person.findOne({
+    where: {
+      id: {
+        [Op.ne]: personId,
+      },
+      [Op.or]: [
+        { email: req.body.email },
+        { phone_number: req.body.phone_number },
+      ],
+    },
+  });
+
+  if (userExists) {
+    if (userExists.email === req.body.email) {
+      res.status(409);
+      return next(new Error("Email already used!"));
+    }
+    if (userExists.phone_number === req.body.phone_number) {
+      res.status(409);
+      return next(new Error("Phone number already used!"));
+    }
   }
 
   const updated = await userToUpdate.update(req.body, {
@@ -81,12 +105,35 @@ const registration = asyncHandler(async (req, res, next) => {
     gender,
     username,
     password,
+    confirmPassword,
   } = req.body;
 
-  const alreadyExist = await User.findOne({ where: { username } });
-  if (alreadyExist) {
+  if (password !== confirmPassword) {
+    res.status(400);
+    return next(new Error("Password and Confirm Password must match!"));
+  }
+
+  const usernameTaken = await User.findOne({ where: { username } });
+  if (usernameTaken) {
     res.status(409);
-    return next(new Error(`User with username: ${username} already exists!`));
+    return next(new Error("User with this username already exists!"));
+  }
+
+  const userExists = await Person.findOne({
+    where: {
+      [Op.or]: [{ email }, { phone_number }],
+    },
+  });
+
+  if (userExists) {
+    if (userExists.email === email) {
+      res.status(409);
+      return next(new Error("Email already used!"));
+    }
+    if (userExists.phone_number === phone_number) {
+      res.status(409);
+      return next(new Error("Phone number already used!"));
+    }
   }
 
   try {

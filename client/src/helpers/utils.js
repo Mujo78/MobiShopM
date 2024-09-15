@@ -1,15 +1,20 @@
 export const formatFieldError = (error, keyParam) => {
   if (error?.response?.data?.errors) {
     return error?.response?.data?.errors.find((key) => key.param === keyParam);
-  } else {
-    return null;
+  } else if (error?.response?.data?.message?.toLowerCase().includes(keyParam)) {
+    return error.response.data;
   }
+  return null;
 };
 
-export const isErrorForKey = (error, keyParam) => {
+export const isValidationErrorForKey = (error, keyParam) => {
   return (
     error?.response?.data?.errors.find((key) => key.param === keyParam) ?? null
   );
+};
+
+export const isErrorForKey = (error, keyParam) => {
+  return error?.response?.data?.message?.toLowerCase().includes(keyParam);
 };
 
 export const isErrorField = (error) => {

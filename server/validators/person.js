@@ -19,6 +19,8 @@ const {
   POST_USERNAME_USER_LENGTH_MAX,
   POST_PASSWORD_LENGTH,
   POST_PASSWORD_WEAK,
+  POST_PHONENUMBER_PERSON_LENGTH_MAX,
+  POST_CONFIRM_PASSWORD_USER,
 } = require("../constants/person-constants");
 const { genders, regPattern } = require("./utils");
 
@@ -46,8 +48,10 @@ exports.createPersonValidator = [
       return /^[0-9]+$/.test(value);
     })
     .withMessage(POST_LETTERINPHONE_PERSON)
-    .isLength(12)
+    .isLength({ min: 9 })
     .withMessage(POST_PHONENUMBER_PERSON_LENGTH)
+    .isLength({ max: 12 })
+    .withMessage(POST_PHONENUMBER_PERSON_LENGTH_MAX)
     .bail(),
   check("password")
     .notEmpty()
@@ -62,6 +66,7 @@ exports.createPersonValidator = [
     })
     .withMessage(POST_PASSWORD_WEAK)
     .bail(),
+  check("confirmPassword").notEmpty().withMessage(POST_CONFIRM_PASSWORD_USER),
   check("city").notEmpty().withMessage(POST_CITY_PERSON).bail(),
   check("username")
     .notEmpty()
@@ -113,8 +118,10 @@ exports.createAdminValidator = [
       return /^[0-9]+$/.test(value);
     })
     .withMessage(POST_LETTERINPHONE_PERSON)
-    .isLength(12)
+    .isLength({ min: 9 })
     .withMessage(POST_PHONENUMBER_PERSON_LENGTH)
+    .isLength({ max: 12 })
+    .withMessage(POST_PHONENUMBER_PERSON_LENGTH_MAX)
     .bail(),
   check("city").notEmpty().withMessage(POST_CITY_PERSON).bail(),
   check("gender")
@@ -153,8 +160,10 @@ exports.editProfileValidator = [
       return /^[0-9]+$/.test(value);
     })
     .withMessage(POST_LETTERINPHONE_PERSON)
-    .isLength(12)
+    .isLength({ min: 9 })
     .withMessage(POST_PHONENUMBER_PERSON_LENGTH)
+    .isLength({ max: 12 })
+    .withMessage(POST_PHONENUMBER_PERSON_LENGTH_MAX)
     .bail(),
   check("city").notEmpty().withMessage(POST_CITY_PERSON).bail(),
   check("gender")

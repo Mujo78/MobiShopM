@@ -44,9 +44,11 @@ export default function MobileDetails() {
     navigate(-1);
   };
 
+  console.log(status);
+
   return (
     <Container className="pb-2 pb-xl-0">
-      {isFetching || status === "pending" ? (
+      {isFetching ? (
         <CustomSpinner />
       ) : mobile ? (
         <Container className="d-flex gap-5 mt-5 flex-wrap flex-xl-nowrap justify-content-center flex-row">
@@ -102,6 +104,7 @@ export default function MobileDetails() {
                   />
                   <Button
                     onClick={addToCart}
+                    disabled={status === "pending"}
                     variant="light"
                     className="border-secondary col-9 col-md-auto"
                   >

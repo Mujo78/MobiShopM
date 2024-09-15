@@ -10,6 +10,11 @@ import { BsEye, BsEyeSlash } from "react-icons/bs";
 import ErrorMessage from "../../components/UI/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
 import { changePassword } from "../../features/User/api";
+import {
+  formatError,
+  formatFieldError,
+  isErrorForKey,
+} from "../../helpers/utils";
 
 export default function ChangePassword() {
   const { register, handleSubmit, reset, formState } = useForm({
@@ -17,19 +22,12 @@ export default function ChangePassword() {
   });
   const { errors } = formState;
 
-  const { mutate, isError, error } = useMutation({
+  const { mutate, error } = useMutation({
     mutationKey: ["changePassword"],
     mutationFn: changePassword,
     onSuccess: () => {
       toast.success("Password successfully changed!");
       reset();
-    },
-    onError: (error) => {
-      if (!error.response.data.message) {
-        toast.error(
-          "There was an error while updating your account, please try again later!"
-        );
-      }
     },
   });
 
@@ -79,9 +77,9 @@ export default function ChangePassword() {
             </Container>
             <ErrorMessage
               textError={
-                errors.password
-                  ? errors.password
-                  : isError && error?.response?.data
+                errors.password ??
+                (!isErrorForKey(error, "new password") &&
+                  formatFieldError(error, "password"))
               }
             />
           </Container>
@@ -110,7 +108,11 @@ export default function ChangePassword() {
                 )}
               </button>
             </Container>
-            <ErrorMessage textError={errors.newPassword} />
+            <ErrorMessage
+              textError={
+                errors.newPassword ?? formatFieldError(error, "newPassword")
+              }
+            />
           </Container>
           <Container className="mb-1 p-0">
             <Form.Label htmlFor="confirmPassword">
@@ -126,13 +128,9 @@ export default function ChangePassword() {
             />
             <ErrorMessage
               textError={
-                errors.confirmPassword
-                  ? errors.confirmPassword
-                  : isError &&
-                    error?.response?.data?.message?.startsWith(
-                      "New Password"
-                    ) &&
-                    error?.response?.data
+                errors.confirmPassword ??
+                formatFieldError(error, "confirmPassword") ??
+                (!isErrorForKey(error, "old password") && formatError(error))
               }
             />
           </Container>

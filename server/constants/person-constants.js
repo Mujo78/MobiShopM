@@ -15,13 +15,16 @@ const POST_PASSWORD_USER = "Password is required!";
 const POST_PASSWORD_LENGTH = "Password must be at least 8 characters long.";
 const POST_PASSWORD_WEAK =
   "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.";
-
+const POST_CONFIRM_PASSWORD_USER = "Confirm Password is required!";
 const POST_USERNAME_USER = "Username is required!";
 const POST_USERNAME_USER_LENGTH_MIN =
   "Username must be at least 6 characters long.";
 const POST_USERNAME_USER_LENGTH_MAX = "Username cannot exceed 32 characters.";
 const POST_LETTERINPHONE_PERSON = "Phone number must contain only numbers!";
-const POST_PHONENUMBER_PERSON_LENGTH = "Phone number must be 12 digits long.";
+const POST_PHONENUMBER_PERSON_LENGTH =
+  "Phone number must be at least 9 digits long.";
+const POST_PHONENUMBER_PERSON_LENGTH_MAX =
+  "Phone number cannot exceed 12 digits.";
 
 module.exports = {
   POST_FIRSTNAME_PERSON,
@@ -32,6 +35,7 @@ module.exports = {
   POST_CITY_PERSON,
   POST_PHONENUMBER_PERSON,
   POST_PHONENUMBER_PERSON_LENGTH,
+  POST_PHONENUMBER_PERSON_LENGTH_MAX,
   POST_EMAIL_PERSON,
   POST_EMAILVALID_PERSON,
   POST_GENDER_PERSON,
@@ -39,6 +43,7 @@ module.exports = {
   POST_USERNAME_USER_LENGTH_MIN,
   POST_USERNAME_USER_LENGTH_MAX,
   POST_PASSWORD_USER,
+  POST_CONFIRM_PASSWORD_USER,
   POST_LETTERINPHONE_PERSON,
   POST_GENDER_PERSON_CORRECT,
   POST_PASSWORD_LENGTH,
