@@ -8,12 +8,18 @@ import { useBrands } from "../../features/Mobiles/useBrands";
 import ErrorMessage from "../UI/ErrorMessage";
 import CustomSpinner from "../UI/CustomSpinner";
 import CustomAlert from "../UI/Alert";
+import {
+  formatError,
+  formatFieldError,
+  isErrorForKey,
+} from "../../helpers/utils";
+import { memory, ram } from "../../validations/utils";
 
 const MobileForm = ({
   isPending,
   register,
   errors,
-  isError,
+  isDirty,
   error,
   handleSubmit,
   onSubmitFn,
@@ -25,6 +31,7 @@ const MobileForm = ({
 
   const {
     data: brands,
+    error: brandError,
     isFetching,
     isSuccess,
     isError: isBrandError,
@@ -41,10 +48,12 @@ const MobileForm = ({
     setPhotoLink("");
   };
 
+  const isLoading = isFetching || isPending;
+
   return (
     <Container className="d-flex flex-column row p-0 align-items-center justify-content-center mt-2 w-100 mb-3">
       {children}
-      {isFetching || isPending ? (
+      {isLoading ? (
         <CustomSpinner />
       ) : isSuccess ? (
         <Container className="d-flex col-12 col-xl-11 p-0 flex-column justify-content-center align-items-center flex-xl-row gap-2 mx-auto">
@@ -81,7 +90,13 @@ const MobileForm = ({
                   name="mobile_name"
                   {...register("mobile_name")}
                 />
-                <ErrorMessage textError={errors.mobile_name} />
+                <ErrorMessage
+                  textError={
+                    errors.mobile_name ??
+                    formatFieldError(error, "mobile_name") ??
+                    formatFieldError(error, "mobile")
+                  }
+                />
               </Container>
               <Container className="col-12 col-lg-4 col-xl-3 p-0">
                 <Form.Label htmlFor="brandId">Brand *</Form.Label>
@@ -94,7 +109,7 @@ const MobileForm = ({
                   {...register("brandId")}
                 >
                   <option value="" defaultChecked>
-                    - Choose one option -
+                    - Choose -
                   </option>
                   {brands.map((n) => (
                     <option key={n.id} value={n.id}>
@@ -102,7 +117,11 @@ const MobileForm = ({
                     </option>
                   ))}
                 </Form.Select>
-                <ErrorMessage textError={errors.brandId} />
+                <ErrorMessage
+                  textError={
+                    errors.brandId ?? formatFieldError(error, "brandId")
+                  }
+                />
               </Container>
             </Form.Group>
 
@@ -118,15 +137,17 @@ const MobileForm = ({
                   {...register("ram")}
                 >
                   <option value="" defaultChecked>
-                    - Choose one option -
+                    - Choose -
                   </option>
-                  <option value="16">16</option>
-                  <option value="12">12</option>
-                  <option value="8">8</option>
-                  <option value="6">6</option>
-                  <option value="4">4</option>
+                  {ram.map((ram) => (
+                    <option key={ram} value={ram}>
+                      {ram}
+                    </option>
+                  ))}
                 </Form.Select>
-                <ErrorMessage textError={errors.ram} />
+                <ErrorMessage
+                  textError={errors.ram ?? formatFieldError(error, "ram")}
+                />
               </Container>
               <Container className="col-12 col-lg-6 p-0">
                 <Form.Label htmlFor="internal">Memory *</Form.Label>
@@ -139,18 +160,19 @@ const MobileForm = ({
                   {...register("internal")}
                 >
                   <option value="" defaultChecked>
-                    - Choose one option -
+                    - Choose -
                   </option>
-                  <option value="512">512</option>
-                  <option value="256">256</option>
-                  <option value="128">128</option>
-                  <option value="64">64</option>
-                  <option value="32">32</option>
-                  <option value="16">16</option>
-                  <option value="8">8</option>
-                  <option value="4">4</option>
+                  {memory.map((memory) => (
+                    <option key={memory} value={memory}>
+                      {memory}
+                    </option>
+                  ))}
                 </Form.Select>
-                <ErrorMessage textError={errors.internal} />
+                <ErrorMessage
+                  textError={
+                    errors.internal ?? formatFieldError(error, "internal")
+                  }
+                />
               </Container>
             </Form.Group>
 
@@ -160,13 +182,14 @@ const MobileForm = ({
                 <Form.Control
                   id="camera"
                   autoComplete="camera"
-                  required
                   type="text"
-                  autoFocus
+                  required
                   name="camera"
                   {...register("camera")}
                 />
-                <ErrorMessage textError={errors.camera} />
+                <ErrorMessage
+                  textError={errors.camera ?? formatFieldError(error, "camera")}
+                />
               </Container>
             </Form.Group>
 
@@ -176,30 +199,36 @@ const MobileForm = ({
                 <Form.Control
                   autoComplete="processor"
                   id="processor"
-                  required
                   type="text"
-                  autoFocus
+                  required
                   name="processor"
                   {...register("processor")}
                 />
-                <ErrorMessage textError={errors.processor} />
+                <ErrorMessage
+                  textError={
+                    errors.processor ?? formatFieldError(error, "processor")
+                  }
+                />
               </Container>
               <Container className="col-12 col-lg-4 col-xl-3 p-0">
                 <Form.Label htmlFor="screen_size">Screen size *</Form.Label>
                 <Form.Control
                   id="screen_size"
                   type="number"
-                  required
                   max={10}
                   min={1}
                   step={0.1}
-                  autoFocus
+                  required
                   autoComplete="screen_size"
                   placeholder="6.8"
                   name="screen_size"
                   {...register("screen_size")}
                 />
-                <ErrorMessage textError={errors.screen_size} />
+                <ErrorMessage
+                  textError={
+                    errors.screen_size ?? formatFieldError(error, "screen_size")
+                  }
+                />
               </Container>
             </Form.Group>
 
@@ -210,30 +239,34 @@ const MobileForm = ({
                   id="battery"
                   type="number"
                   autoComplete="battery"
-                  required
                   min={1000}
                   max={5000}
                   step={100}
-                  autoFocus
+                  required
                   placeholder="5000"
                   name="battery"
                   {...register("battery")}
                 />
-                <ErrorMessage textError={errors.battery} />
+                <ErrorMessage
+                  textError={
+                    errors.battery ?? formatFieldError(error, "battery")
+                  }
+                />
               </Container>
               <Container className="col-12 col-lg-5 p-0">
                 <Form.Label htmlFor="os">OS *</Form.Label>
                 <Form.Control
                   id="os"
-                  required
                   autoComplete="os"
                   type="text"
-                  autoFocus
+                  required
                   placeholder="Android 13"
                   name="os"
                   {...register("os")}
                 />
-                <ErrorMessage textError={errors.os} />
+                <ErrorMessage
+                  textError={errors.os ?? formatFieldError(error, "os")}
+                />
               </Container>
             </Form.Group>
 
@@ -243,28 +276,32 @@ const MobileForm = ({
                 <Form.Control
                   id="quantity"
                   autoComplete="quantity"
-                  required
                   type="number"
-                  autoFocus
+                  required
                   name="quantity"
                   {...register("quantity")}
                 />
-                <ErrorMessage textError={errors.quantity} />
+                <ErrorMessage
+                  textError={
+                    errors.quantity ?? formatFieldError(error, "quantity")
+                  }
+                />
               </Container>
               <Container className="col-12 col-lg-5 p-0">
                 <Form.Label htmlFor="price">Price *</Form.Label>
                 <Form.Control
                   id="price"
                   autoComplete="price"
-                  required
                   min={1}
                   type="number"
-                  autoFocus
+                  required
                   placeholder="3000"
                   name="price"
                   {...register("price")}
                 />
-                <ErrorMessage textError={errors.price} />
+                <ErrorMessage
+                  textError={errors.price ?? formatFieldError(error, "price")}
+                />
               </Container>
             </Form.Group>
             <Form.Group className="d-flex p-0 col-12 col-xl-10">
@@ -273,17 +310,15 @@ const MobileForm = ({
                 <Form.Control
                   id="photo"
                   autoComplete="photo"
-                  required
                   type="text"
-                  autoFocus
                   name="photo"
                   {...register("photo")}
                 />
                 <ErrorMessage
                   textError={
-                    errors.photo
-                      ? errors.photo
-                      : isError && error?.response?.data
+                    errors.photo ??
+                    formatFieldError(error, "photo") ??
+                    (!isErrorForKey(error, "mobile") && formatError(error))
                   }
                 />
               </Container>
@@ -292,6 +327,7 @@ const MobileForm = ({
             <Container className="col-12 col-xl-10 mt-2 p-0 mb-4 mb-md-0">
               <Container className="col-12 px-xl-3 px-xxl-4 px-lg-3 d-flex justify-content-sm-end p-0 mb-4 mb-md-0">
                 <Button
+                  disabled={isDirty}
                   type="submit"
                   className="bg-custom bg-custom-class border-0 col-12 col-xl-3 mb-4 mb-md-0"
                 >
@@ -302,9 +338,11 @@ const MobileForm = ({
           </Form>
         </Container>
       ) : (
-        isBrandError && (
+        isBrandError &&
+        !isLoading && (
           <CustomAlert variant="danger">
-            Something went wrong, please try again latter!
+            {formatError(brandError) ??
+              "Something went wrong, please try again later!"}
           </CustomAlert>
         )
       )}

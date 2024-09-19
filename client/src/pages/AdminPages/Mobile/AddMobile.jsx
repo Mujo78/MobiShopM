@@ -10,7 +10,7 @@ export default function AddMobile() {
   const { register, reset, handleSubmit, formState, watch } = useForm({
     resolver: yupResolver(addEditMobileSchema),
   });
-  const { errors } = formState;
+  const { errors, isDirty } = formState;
 
   const { mutate, isError, isPending, error } = useMutation({
     mutationKey: ["addMobile"],
@@ -18,9 +18,6 @@ export default function AddMobile() {
     onSuccess: () => {
       toast.success("Successfully added new mobile!");
       reset();
-    },
-    onError: () => {
-      toast.error("Something went wrong, please try again later!");
     },
   });
 
@@ -38,6 +35,7 @@ export default function AddMobile() {
       handleSubmit={handleSubmit}
       onSubmitFn={onSubmit}
       watch={watch}
+      isDirty={isDirty}
     >
       <h3 className="text-center mb-4">Add new Mobile</h3>
     </MobileForm>

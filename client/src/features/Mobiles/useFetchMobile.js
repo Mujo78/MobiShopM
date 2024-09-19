@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getMobileByIdFn } from "./api";
 
 export function useFetchMobile(mobileId) {
-  const { data, isFetching, isError, isSuccess } = useQuery({
-    retry: 2,
+  const { data, isFetching, isError, isSuccess, error } = useQuery({
+    retry: 1,
     queryKey: ["fetchMobile", mobileId],
     queryFn: () => {
       if (mobileId) {
@@ -12,5 +12,5 @@ export function useFetchMobile(mobileId) {
     },
   });
 
-  return { data, isFetching, isError, isSuccess };
+  return { data, isFetching, isError, isSuccess, error };
 }

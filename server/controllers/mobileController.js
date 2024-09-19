@@ -83,6 +83,7 @@ const addNewMobile = asyncHandler(async (req, res, next) => {
 
 const editMobile = asyncHandler(async (req, res, next) => {
   const id = req.params.mobileId;
+  const { mobile_name, ram, internal, processor } = req.body;
 
   const mobileToUpdate = await Mobile.findByPk(id);
 
@@ -92,9 +93,14 @@ const editMobile = asyncHandler(async (req, res, next) => {
   }
 
   const alreadyExists = await Mobile.findOne({
-    where: req.body,
-    id: {
-      [Op.ne]: id,
+    where: {
+      id: {
+        [Op.ne]: id,
+      },
+      mobile_name,
+      ram,
+      internal,
+      processor,
     },
   });
 

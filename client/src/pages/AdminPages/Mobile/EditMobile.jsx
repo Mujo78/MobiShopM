@@ -12,6 +12,7 @@ import { deleteMobileFn, editMobileFn } from "../../../features/Mobiles/api";
 import CloseButton from "react-bootstrap/esm/CloseButton";
 import Modal from "react-bootstrap/esm/Modal";
 import CustomAlert from "../../../components/UI/Alert";
+import { formatError } from "../../../helpers/utils";
 
 export default function EditMobile() {
   const [show, setShow] = useState(false);
@@ -22,11 +23,12 @@ export default function EditMobile() {
     useForm({
       resolver: yupResolver(addEditMobileSchema),
     });
-  const { errors } = formState;
+  const { errors, isDirty } = formState;
 
   const {
     data: mobile,
     isFetching,
+    error: fetchError,
     isError,
     isSuccess,
   } = useFetchMobile(mobileId);
@@ -45,11 +47,6 @@ export default function EditMobile() {
     onSuccess: () => {
       toast.success("Successfully edited mobile!");
       handleNavigateBack();
-    },
-    onError: () => {
-      toast.error(
-        "Something went wrong while updating mobile data, please try again later!"
-      );
     },
   });
 
@@ -79,7 +76,6 @@ export default function EditMobile() {
   };
 
   const handleDeleteMobile = () => {
-    console.log(mobileId);
     if (mobileId) {
       deleteMobile(mobileId);
     }
@@ -105,6 +101,7 @@ export default function EditMobile() {
           handleSubmit={handleSubmit}
           onSubmitFn={onSubmit}
           watch={watch}
+          isDirty={isDirty}
         >
           <div className="d-flex flex-column-reverse flex-sm-row mb-4 mb-sm-2">
             <Button variant="danger" onClick={handleDeleteModalShow}>
@@ -139,9 +136,12 @@ export default function EditMobile() {
           </Modal>
         </MobileForm>
       ) : (
-        <CustomAlert variant="danger" fromTop={2}>
-          Something went wrong, please try again later!
-        </CustomAlert>
+        isError && (
+          <CustomAlert variant="danger" fromTop={2}>
+            {formatError(fetchError) ??
+              "Something went wrong, please try again later!"}
+          </CustomAlert>
+        )
       )}
     </>
   );

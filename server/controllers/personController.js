@@ -178,14 +178,18 @@ const registration = asyncHandler(async (req, res, next) => {
   }
 });
 
-const generateInfoAdmin = (first_name, last_name) => {
+const generateInfoAdmin = (first_name, last_name, phone_number) => {
   let password =
     first_name.charAt(0).toUpperCase() +
     first_name.slice(1) +
     "." +
     last_name.charAt(0).toUpperCase() +
     last_name.slice(1);
-  let username = first_name.toLowerCase() + "." + last_name.toLowerCase();
+  let username =
+    first_name.toLowerCase() +
+    "." +
+    last_name.toLowerCase() +
+    phone_number.slice(-3);
   let email = `${username}@mobishopm.com`;
 
   return { username, password, email };
@@ -197,18 +201,19 @@ const addNewAdmin = asyncHandler(async (req, res, next) => {
 
   const { username, password, email } = generateInfoAdmin(
     first_name,
-    last_name
+    last_name,
+    phone_number
   );
 
   const user = await User.findOne({ where: { username } });
 
   if (user) {
     res.status(409);
-    return next(new Error(`User with username: ${username} already exists!`));
+    return next(new Error("User with this username already exists!"));
   }
 
   try {
-    const result = await sequelize.transaction(async (t) => {
+    await sequelize.transaction(async (t) => {
       const person = await Person.create(
         {
           first_name,
@@ -235,9 +240,7 @@ const addNewAdmin = asyncHandler(async (req, res, next) => {
       return user;
     });
 
-    return res
-      .status(200)
-      .json({ message: `New Admin: ${result.username}, successfully added.` });
+    return res.status(201).json();
   } catch (error) {
     res.status(500);
     return next(new Error(error));

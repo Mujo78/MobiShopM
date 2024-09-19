@@ -14,6 +14,7 @@ import {
   formatFieldError,
   isErrorForKey,
 } from "../../helpers/utils";
+import { genders } from "../../validations/utils";
 
 export default function RegistrationModal({ handleClose, show }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -118,9 +119,11 @@ export default function RegistrationModal({ handleClose, show }) {
                   name="gender"
                 >
                   <option>Choose</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
+                  {genders.map((gender) => (
+                    <option key={gender} value={gender}>
+                      {gender}
+                    </option>
+                  ))}
                 </Form.Select>
                 <ErrorMessage
                   textError={errors.gender ?? formatFieldError(error, "gender")}

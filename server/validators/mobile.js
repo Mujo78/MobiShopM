@@ -30,7 +30,7 @@ exports.createOrEditMobitelValidator = [
     .isNumeric()
     .withMessage(POST_RAM_MOBILE_TYPE)
     .custom((value) => {
-      if (ram.includes(value)) {
+      if (ram.includes(parseInt(value))) {
         return true;
       }
       throw new Error(POST_RAM_MOBILE_VALID);
@@ -42,7 +42,7 @@ exports.createOrEditMobitelValidator = [
     .isNumeric()
     .withMessage(POST_MEMORY_MOBILE_TYPE)
     .custom((value) => {
-      if (memory.includes(value)) {
+      if (memory.includes(parseInt(value))) {
         return true;
       }
       throw new Error(POST_MEMORY_MOBILE_VALID);
