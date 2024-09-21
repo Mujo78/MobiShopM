@@ -64,7 +64,10 @@ const ProfileNavigation = () => {
         <ListGroup.Item
           as={NavLink}
           end
-          active={location.startsWith("/profile/edit-profile")}
+          active={
+            location.includes("edit-profile") ||
+            location.includes("change-password")
+          }
           to="edit-profile"
           style={styles}
           variant="light"
@@ -78,7 +81,6 @@ const ProfileNavigation = () => {
               to="my-cart"
               style={styles}
               variant="light"
-              action
             >
               Cart
             </ListGroup.Item>
@@ -87,7 +89,6 @@ const ProfileNavigation = () => {
               to="orders"
               style={styles}
               variant="light"
-              action
             >
               Orders
             </ListGroup.Item>
@@ -96,7 +97,6 @@ const ProfileNavigation = () => {
               to="wishlist"
               style={styles}
               variant="light"
-              action
             >
               Wishlist
             </ListGroup.Item>

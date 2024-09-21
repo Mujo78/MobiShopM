@@ -44,8 +44,6 @@ export default function MobileDetails() {
     navigate(-1);
   };
 
-  console.log(status);
-
   return (
     <Container className="pb-2 pb-xl-0">
       {isFetching ? (

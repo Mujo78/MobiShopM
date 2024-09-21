@@ -1,6 +1,6 @@
 import React from "react";
 import Nav from "react-bootstrap/Nav";
-import SystemOutletLayout from "../../../components/Layout/SystemOutletLayout";
+import SystemOutletLayout from "./SystemOutletLayout";
 import { Link, useLocation } from "react-router-dom";
 
 const MobileMenuLayout = () => {

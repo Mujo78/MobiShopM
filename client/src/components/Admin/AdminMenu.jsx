@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
-import AdminNav from "../components/Admin/AdminNav";
+import AdminNav from "./AdminNav";
 
 export default function AdminMenu() {
   return (
@@ -11,7 +11,7 @@ export default function AdminMenu() {
     >
       <Navbar
         expand="lg"
-        className="d-none d-sm-flex mx-sm-auto text-center text-md-start border-class"
+        className="d-none sm-position-static d-sm-flex mx-sm-auto text-center text-md-start border-class"
       >
         <AdminNav />
       </Navbar>

@@ -13,13 +13,7 @@ export default function PageNotFound() {
       className="d-flex p-0 m-0 flex-column justify-content-center align-items-center"
       style={{ height: "60vh" }}
     >
-      <h1
-        class="display-1 fw-bold d-none d-md-block"
-        style={{ color: "#DCDCDD" }}
-      >
-        404
-      </h1>
-      <h1 class="display-2 d-md-none" style={{ color: "#DCDCDD" }}>
+      <h1 className="display-1" style={{ color: "#bababa" }}>
         404
       </h1>
       <h1 className="fw-bold">OOPS! PAGE NOT FOUND</h1>

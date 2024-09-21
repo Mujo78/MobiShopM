@@ -34,7 +34,7 @@ const BrandModels = () => {
     queryKey: ["brandMobiles", brandId, page, searchQuery],
     queryFn: () => fetchMobilesByBrand(brandId, page, searchQuery),
     keepPreviousData: true,
-    retry: 2,
+    retry: 1,
   });
 
   const handleSubmit = async (event) => {
@@ -55,6 +55,10 @@ const BrandModels = () => {
     navigate(`/models/${brandId}?${query.toString()}`);
   };
 
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
   return (
     <>
       {isLoading ? (
@@ -67,7 +71,7 @@ const BrandModels = () => {
                 <Form.Control
                   name="value"
                   value={value}
-                  onChange={(event) => setValue(event.target.value)}
+                  onChange={handleChange}
                   type="text"
                   placeholder="Samsung Galaxy S24"
                   className="pe-5"

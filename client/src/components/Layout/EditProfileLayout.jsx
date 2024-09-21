@@ -2,9 +2,9 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link, useLocation } from "react-router-dom";
-import SystemOutletLayout from "../../components/Layout/SystemOutletLayout";
+import SystemOutletLayout from "./SystemOutletLayout";
 
-export default function EditProfile() {
+export default function EditProfileLayout() {
   const location = useLocation().pathname;
 
   return (
@@ -15,7 +15,7 @@ export default function EditProfile() {
           <Nav className="d-flex flex-column flex-sm-row me-auto">
             <Nav.Link
               as={Link}
-              to="."
+              to="edit-profile"
               active={location === "/profile/edit-profile"}
             >
               Profile
@@ -23,7 +23,7 @@ export default function EditProfile() {
             <Nav.Link
               as={Link}
               to="change-password"
-              active={location === "/profile/edit-profile/change-password"}
+              active={location === "/profile/change-password"}
             >
               Password
             </Nav.Link>

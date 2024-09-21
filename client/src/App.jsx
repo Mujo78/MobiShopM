@@ -1,4 +1,3 @@
-import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
@@ -6,29 +5,29 @@ import Models from "./pages/Models";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import PageNotFound from "./pages/PageNotFound";
-import Profile from "./pages/Profile";
+import Profile from "./components/User/Profile";
 import MyCart from "./pages/ProfilePages/MyCart";
 import Wishlist from "./pages/ProfilePages/Wishlist";
-import AdminMenu from "./pages/AdminMenu";
+import AdminMenu from "./components/Admin/AdminMenu";
 import MobilesOverview from "./pages/AdminPages/Mobile/MobilesOverview";
 import Overview from "./pages/ProfilePages/Overview";
 import SeeOrders from "./pages/AdminPages/SeeOrders";
 import Orders from "./pages/ProfilePages/Orders";
 import ProfileData from "./pages/ProfilePages/ProfileData";
 import ChangePassword from "./pages/ProfilePages/ChangePassword";
-import EditProfile from "./pages/ProfilePages/EditProfile";
+import EditProfileLayout from "./components/Layout/EditProfileLayout";
 import AuthRequired from "./helpers/AuthRequired";
 import AdminAuthRequired from "./helpers/AdminAuthRequired";
 import UserRequired from "./helpers/UserRequired";
 import { AuthProvider } from "./context/AuthContext";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AppLayout from "./components/Layout/AppLayout";
 import BrandModels from "./components/Mobile/BrandModels";
-import AdminMenuLayout from "./pages/AdminPages/Admin/AdminMenuLayout";
+import AdminMenuLayout from "./components/Layout/AdminMenuLayout";
 import AdminOverview from "./pages/AdminPages/Admin/AdminOverview";
 import AddAdmin from "./pages/AdminPages/Admin/AddAdmin";
-import MobileMenuLayout from "./pages/AdminPages/Mobile/MobileMenuLayout";
+import MobileMenuLayout from "./components/Layout/MobileMenuLayout";
 import AddMobile from "./pages/AdminPages/Mobile/AddMobile";
 import EditMobile from "./pages/AdminPages/Mobile/EditMobile";
 import AddBrand from "./pages/AdminPages/Mobile/AddBrand";
@@ -38,14 +37,7 @@ import CommentsOverview from "./pages/AdminPages/Comments/CommentsOverview";
 import { CartProvider } from "./context/CartContext";
 import OrderCartItem from "./pages/Order/OrderCartItem";
 import OrderMobile from "./pages/Order/OrderMobile";
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 0,
-    },
-  },
-});
+import { queryClient } from "./queryClient";
 
 const routes = createBrowserRouter([
   {
@@ -92,11 +84,11 @@ const routes = createBrowserRouter([
             element: <Overview />,
           },
           {
-            path: "edit-profile",
-            element: <EditProfile />,
+            path: "",
+            element: <EditProfileLayout />,
             children: [
               {
-                path: "",
+                path: "edit-profile",
                 element: <ProfileData />,
               },
               {

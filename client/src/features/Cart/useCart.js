@@ -9,7 +9,7 @@ export function useCart() {
     queryFn: () => {
       if (user.role === 2) {
         return fetchMyCartFn();
-      }
+      } else if (user.role === 1) return [];
     },
     retry: 1,
   });

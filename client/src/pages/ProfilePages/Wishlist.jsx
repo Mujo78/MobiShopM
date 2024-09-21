@@ -34,7 +34,7 @@ export default function Wishlist() {
         return getMyWishlistDetailsFn(page);
       }
     },
-    retry: 2,
+    retry: 1,
     keepPreviousData: true,
   });
 

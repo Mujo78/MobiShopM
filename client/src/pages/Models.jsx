@@ -8,10 +8,9 @@ import { useBrands } from "../features/Mobiles/useBrands";
 import CustomSpinner from "../components/UI/CustomSpinner";
 
 export default function Models() {
+  const [showOffMobile, setShowOffMobile] = useState(false);
   const navigate = useNavigate();
   const { brandId } = useParams();
-
-  const [showOffMobile, setShowOffMobile] = useState(false);
 
   const { data: brands, isFetching, isError } = useBrands();
 
