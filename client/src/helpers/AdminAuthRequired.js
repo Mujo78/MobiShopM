@@ -5,7 +5,7 @@ const AdminAuthRequired = () => {
   const adminUserObj = user && JSON.parse(user);
 
   if (adminUserObj?.role !== 1) {
-    return redirect("/");
+    return redirect("/login");
   }
 
   return null;

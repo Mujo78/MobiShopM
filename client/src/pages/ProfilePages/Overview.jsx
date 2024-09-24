@@ -91,6 +91,7 @@ export default function Info() {
                   disabled={disabledField}
                   id="first_name"
                   required
+                  autoComplete="true"
                   type="text"
                   name="first_name"
                   {...register("first_name")}
@@ -139,6 +140,7 @@ export default function Info() {
                   disabled={disabledField}
                   id="address"
                   required
+                  autoComplete="true"
                   type="text"
                   name="address"
                   {...register("address")}
@@ -175,6 +177,7 @@ export default function Info() {
                   disabled={disabledField}
                   id="email"
                   type="email"
+                  autoComplete="true"
                   required
                   name="email"
                   {...register("email")}

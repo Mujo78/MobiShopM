@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Models from "./pages/Models";
@@ -38,6 +42,9 @@ import { CartProvider } from "./context/CartContext";
 import OrderCartItem from "./pages/Order/OrderCartItem";
 import OrderMobile from "./pages/Order/OrderMobile";
 import { queryClient } from "./queryClient";
+import Login from "./pages/Login";
+import Registration from "./pages/Registration";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const routes = createBrowserRouter([
   {
@@ -47,6 +54,28 @@ const routes = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "",
+        loader: () => {
+          let res = AuthRequired();
+          if (!res) return redirect("/");
+          return null;
+        },
+        children: [
+          {
+            path: "/login",
+            element: <Login />,
+          },
+          {
+            path: "/signup",
+            element: <Registration />,
+          },
+          {
+            path: "/forgot-password",
+            element: <ForgotPassword />,
+          },
+        ],
       },
       {
         path: "search",
@@ -98,19 +127,22 @@ const routes = createBrowserRouter([
             ],
           },
           {
-            path: "my-cart",
-            element: <MyCart />,
+            path: "",
             loader: UserRequired,
-          },
-          {
-            path: "orders",
-            element: <Orders />,
-            loader: UserRequired,
-          },
-          {
-            path: "wishlist",
-            element: <Wishlist />,
-            loader: UserRequired,
+            children: [
+              {
+                path: "my-cart",
+                element: <MyCart />,
+              },
+              {
+                path: "orders",
+                element: <Orders />,
+              },
+              {
+                path: "wishlist",
+                element: <Wishlist />,
+              },
+            ],
           },
         ],
       },

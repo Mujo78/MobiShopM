@@ -63,6 +63,7 @@ export default function ProfileData() {
           <Form.Control
             id="username"
             color="danger"
+            autoComplete="true"
             type="text"
             name="username"
             onChange={handleChange}

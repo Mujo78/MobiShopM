@@ -85,7 +85,7 @@ const MobileForm = ({
                   id="mobile_name"
                   type="text"
                   required
-                  autoComplete="mobile_name"
+                  autoComplete="true"
                   autoFocus
                   name="mobile_name"
                   {...register("mobile_name")}

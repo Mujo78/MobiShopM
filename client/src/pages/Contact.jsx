@@ -47,6 +47,7 @@ export default function Contact() {
               name="name"
               className={errors.name && "border-danger"}
               id="name"
+              autoComplete="true"
               required
               disabled={isPending}
               placeholder="Joe Doe"
@@ -64,6 +65,7 @@ export default function Contact() {
             <Form.Control
               type="email"
               name="email"
+              autoComplete="true"
               className={errors.email && "border-danger"}
               required
               id="email_comment"

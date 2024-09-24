@@ -43,6 +43,7 @@ export default function AddAdmin() {
             <Form.Control
               id="first_name"
               type="text"
+              autoComplete="true"
               autoFocus
               {...register("first_name")}
               name="first_name"
@@ -75,6 +76,7 @@ export default function AddAdmin() {
             <Form.Control
               id="address"
               type="text"
+              autoComplete="true"
               {...register("address")}
               name="address"
             />

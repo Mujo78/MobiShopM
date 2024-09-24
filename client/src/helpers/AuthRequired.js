@@ -5,7 +5,7 @@ const AuthRequired = () => {
   const userObj = user && JSON.parse(user);
 
   if (!userObj) {
-    return redirect("/");
+    return redirect("/login");
   }
 
   return null;

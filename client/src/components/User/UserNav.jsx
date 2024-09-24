@@ -6,7 +6,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Nav from "react-bootstrap/Nav";
 import { BsPersonCircle, BsCart2, BsCartCheck } from "react-icons/bs";
 
-const UserNav = ({ setShowReg, setShow }) => {
+const UserNav = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -21,8 +21,8 @@ const UserNav = ({ setShowReg, setShow }) => {
     color: "white",
   };
 
-  const handleShowReg = () => setShowReg(true);
-  const handleShowLogin = () => setShow(true);
+  const handleNavigateReg = () => navigate("/signup");
+  const handleNavigateLogin = () => navigate("/login");
 
   return (
     <>
@@ -60,14 +60,14 @@ const UserNav = ({ setShowReg, setShow }) => {
         <>
           <Button
             id="login_btn_modal"
-            onClick={handleShowLogin}
+            onClick={handleNavigateLogin}
             variant="btn btn-outline-light me-2 text-nowrap fw-bolder"
           >
             Log In
           </Button>
           <Button
             id="signup_btn_modal"
-            onClick={handleShowReg}
+            onClick={handleNavigateReg}
             variant="btn btn-outline-light me-2 text-nowrap fw-bolder"
           >
             Sign Up

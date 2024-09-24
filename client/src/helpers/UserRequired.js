@@ -5,7 +5,7 @@ export default function UserRequired() {
   const userObj = user && JSON.parse(user);
 
   if (userObj?.role !== 2) {
-    return redirect("/");
+    return redirect("/login");
   }
 
   return null;

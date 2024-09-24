@@ -1,30 +1,16 @@
-import { useEffect, useState } from "react";
 import CustomAlert from "./Alert";
-import LoginModal from "../User/LoginModal";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link, useLocation } from "react-router-dom";
-import RegistrationModal from "../User/RegistrationModal";
 import { useAuth } from "../../context/AuthContext";
 import UserNav from "../User/UserNav";
 import Logo from "./Logo";
+import Image from "react-bootstrap/esm/Image";
 
 export default function Navbars() {
-  const location = useLocation().pathname;
-  const [show, setShow] = useState(false);
-  const [showReg, setShowReg] = useState(false);
-
   const { user } = useAuth();
-
-  useEffect(() => {
-    if (user) {
-      setShow(false);
-    }
-  }, [user]);
-
-  const handleCloseLogin = () => setShow(false);
-  const handleCloseReg = () => setShowReg(false);
+  const location = useLocation().pathname;
 
   return (
     <>
@@ -34,7 +20,7 @@ export default function Navbars() {
       <Navbar expand="lg" className=" rounded bg-custom">
         <Container fluid>
           <Navbar.Brand as={Link} to="/">
-            <img
+            <Image
               src="/am.png"
               alt="logo"
               style={{ height: "2em", width: "2em" }}
@@ -85,12 +71,10 @@ export default function Navbars() {
                 </Nav.Link>
               )}
             </Nav>
-            <UserNav setShow={setShow} setShowReg={setShowReg} />
+            <UserNav />
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <LoginModal show={show} handleClose={handleCloseLogin} />
-      <RegistrationModal show={showReg} handleClose={handleCloseReg} />
     </>
   );
 }
