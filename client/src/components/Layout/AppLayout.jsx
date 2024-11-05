@@ -5,7 +5,7 @@ import Button from "react-bootstrap/esm/Button";
 import { BsCart2 } from "react-icons/bs";
 import Cart from "../Cart/Cart";
 import { ToastContainer } from "react-toastify";
-import Navbars from "../UI/Nav";
+import AppNavbar from "../UI/AppNavbar";
 import { useCartData } from "../../context/CartContext";
 import Container from "react-bootstrap/esm/Container";
 
@@ -29,8 +29,12 @@ const AppLayout = () => {
   return (
     <div className="App">
       <ToastContainer />
-      <Navbars />
-      <Outlet />
+      <div className="container w-100 min-vh-100 d-flex flex-column gap-2">
+        <AppNavbar />
+        <div className="d-flex flex-grow-1">
+          <Outlet />
+        </div>
+      </div>
 
       {user?.role !== 1 && !myCartLocation && (
         <Button

@@ -8,12 +8,12 @@ import UserNav from "../User/UserNav";
 import Logo from "./Logo";
 import Image from "react-bootstrap/esm/Image";
 
-export default function Navbars() {
+export default function AppNavbar() {
   const { user } = useAuth();
   const location = useLocation().pathname;
 
   return (
-    <>
+    <div className="d-flex flex-column py-2">
       <CustomAlert bold variant="secondary" closeButton>
         Unbeatable deals and amazing discounts, shop now and save big!
       </CustomAlert>
@@ -31,11 +31,7 @@ export default function Navbars() {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
-            <Nav
-              className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: "120px" }}
-              navbarScroll
-            >
+            <Nav className="me-auto my-2 my-lg-0" navbarScroll>
               <Nav.Link as={Link} to="/" active={location === "/"}>
                 Home
               </Nav.Link>
@@ -75,6 +71,6 @@ export default function Navbars() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </>
+    </div>
   );
 }

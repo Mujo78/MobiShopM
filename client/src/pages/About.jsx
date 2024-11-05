@@ -5,7 +5,7 @@ import Footer from "../components/UI/Footer";
 
 export default function About() {
   return (
-    <>
+    <div className="d-flex flex-column">
       <Container className="my-5 overflow-hidden text-center">
         <Row className="my-5 d-flex flex-column flex-wrap flex-md-row">
           <Col>
@@ -60,6 +60,6 @@ export default function About() {
         </Row>
       </Container>
       <Footer />
-    </>
+    </div>
   );
 }

@@ -11,7 +11,7 @@ import { genders } from "../validations/utils";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import Button from "react-bootstrap/esm/Button";
 
-const Registration = () => {
+const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { register, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(registrationValidationSchema),
@@ -29,11 +29,11 @@ const Registration = () => {
   }
 
   return (
-    <Container>
-      <h1>Sign Up</h1>
+    <Container className="d-flex flex-column align-items-center pb-2">
+      <h1 className="text-center">Sign Up Today!</h1>
       <Form
         onSubmit={handleSubmit(onSubmit)}
-        className="d-flex flex-column gap-2"
+        className="d-flex flex-column gap-2 w-75"
       >
         <Form.Group className="d-flex">
           <Container className="d-flex flex-column p-0 w-100">
@@ -268,4 +268,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default SignUp;

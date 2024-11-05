@@ -43,8 +43,8 @@ import OrderCartItem from "./pages/Order/OrderCartItem";
 import OrderMobile from "./pages/Order/OrderMobile";
 import { queryClient } from "./queryClient";
 import Login from "./pages/Login";
-import Registration from "./pages/Registration";
 import ForgotPassword from "./pages/ForgotPassword";
+import SignUp from "./pages/SignuUp";
 
 const routes = createBrowserRouter([
   {
@@ -69,7 +69,7 @@ const routes = createBrowserRouter([
           },
           {
             path: "/signup",
-            element: <Registration />,
+            element: <SignUp />,
           },
           {
             path: "/forgot-password",

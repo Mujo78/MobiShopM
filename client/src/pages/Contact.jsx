@@ -31,8 +31,8 @@ export default function Contact() {
   }
 
   return (
-    <Container className="h-100 w-100 d-flex flex-column">
-      <Container className="d-flex flex-column align-items-center gap-2 my-3">
+    <Container className="flex-grow-1 w-100 d-flex flex-column">
+      <Container className="d-flex flex-grow-1 flex-column align-items-center gap-2 my-3">
         <h1 className="text-center">Contact Us</h1>
         <Form
           onSubmit={handleSubmit(onSubmit)}

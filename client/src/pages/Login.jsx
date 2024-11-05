@@ -34,11 +34,11 @@ const Login = () => {
   }, [status, reset]);
 
   return (
-    <Container>
-      <h1>Log In</h1>
+    <Container className="d-flex flex-column justify-content-center align-items-center gap-4">
+      <h1 className="text-center">Log In To Your Account</h1>
       <Form
         onSubmit={handleSubmit(onSubmit)}
-        className="d-flex flex-column gap-2"
+        className="d-flex flex-column gap-2 w-50"
       >
         <Form.Group>
           <Form.Label htmlFor="username" className="mb-1.5">
