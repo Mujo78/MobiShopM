@@ -11,7 +11,7 @@ import {
 } from "react-icons/bs";
 
 const AdminNav = () => {
-  const location = useLocation().pathname;
+  const { pathname } = useLocation();
   const styles = {
     height: "2rem",
     width: "2rem",
@@ -28,7 +28,7 @@ const AdminNav = () => {
           as={Link}
           to="/admin-menu"
           active={
-            location === "/admin-menu" || location === "/admin-menu/add-admin"
+            pathname === "/admin-menu" || pathname === "/admin-menu/add-admin"
           }
         >
           <span className="d-none d-sm-block">Admin Menu</span>
@@ -37,7 +37,7 @@ const AdminNav = () => {
         <Nav.Link
           as={Link}
           to="mobiles"
-          active={location.startsWith("/admin-menu/mobiles")}
+          active={pathname.startsWith("/admin-menu/mobiles")}
         >
           <span className="d-none d-sm-block">Mobile Menu</span>
           <BsPhone style={styles} className="d-block d-sm-none" />
@@ -45,7 +45,7 @@ const AdminNav = () => {
         <Nav.Link
           as={Link}
           to="comments"
-          active={location.startsWith("/admin-menu/comments")}
+          active={pathname.startsWith("/admin-menu/comments")}
         >
           <span className="d-none d-sm-block">Comments Menu</span>
           <BsFileEarmarkText style={styles} className="d-block d-sm-none" />
@@ -54,7 +54,7 @@ const AdminNav = () => {
         <Nav.Link
           as={Link}
           to="orders"
-          active={location.startsWith("/admin-menu/orders")}
+          active={pathname.startsWith("/admin-menu/orders")}
         >
           <span className="d-none d-sm-block">Orders Menu</span>
           <BsBox style={styles} className="d-block d-sm-none" />

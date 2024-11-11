@@ -51,7 +51,7 @@ export default function Home() {
       <CarouselSlider />
       <Container
         fluid
-        className="d-sm-flex justify-content-around gap-4 flex-wrap align-items-center"
+        className="d-sm-flex justify-content-around gap-4 flex-wrap align-items-center py-3"
       >
         <div className="d-sm-flex gap-3 flex-md-row flex-sm-column align-items-center">
           <span className="d-flex align-items-center justify-content-center">
@@ -75,7 +75,6 @@ export default function Home() {
             Delivery in 24/48h
           </p>
         </div>
-
         <div className="d-sm-flex gap-3 flex-md-row flex-sm-column align-items-center">
           <span className="d-flex align-items-center justify-content-center">
             <BsCashStack style={iconStyles} />
@@ -87,9 +86,8 @@ export default function Home() {
           </p>
         </div>
       </Container>
-      <br />
-      <Container fluid className="mb-5">
-        <h3 className="mt-5 text-decoration-underline">Top prices</h3>
+      <Container fluid>
+        <h3 className="text-decoration-underline">Top prices</h3>
         {isFetching ? (
           <CustomSpinner />
         ) : topPrices?.length > 0 ? (
@@ -136,7 +134,6 @@ export default function Home() {
           )
         )}
       </Container>
-
       <Footer />
     </main>
   );

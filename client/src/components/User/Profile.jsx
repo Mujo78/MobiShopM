@@ -22,7 +22,7 @@ export default function Profile() {
   }, [navigate, user]);
 
   return (
-    <Container fluid className="p-0">
+    <Container>
       <Container
         fluid
         className="w-100 rounded"

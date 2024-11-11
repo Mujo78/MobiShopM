@@ -11,7 +11,7 @@ import Container from "react-bootstrap/esm/Container";
 
 const AppLayout = () => {
   const [showCart, setShowCart] = useState(false);
-  const location = useLocation().pathname;
+  const { pathname } = useLocation();
 
   const { user } = useAuth();
   const { numOfItems } = useCartData();
@@ -24,7 +24,7 @@ const AppLayout = () => {
     setShowCart(true);
   }
 
-  const myCartLocation = location === "/profile/my-cart";
+  const myCartLocation = pathname === "/profile/my-cart";
 
   return (
     <div className="App">

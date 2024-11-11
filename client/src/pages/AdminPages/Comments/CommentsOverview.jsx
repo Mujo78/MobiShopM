@@ -16,7 +16,7 @@ export default function CommentsOverview() {
   const query = useQueryParams();
   const page = parseInt(query.get("page")) || 1;
   const queryClient = useQueryClient();
-  const location = useLocation().pathname;
+  const { pathname } = useLocation();
   const navigate = useNavigate();
 
   const {
@@ -45,7 +45,7 @@ export default function CommentsOverview() {
   });
 
   const handleNavigate = (page) => {
-    navigate(`${location}?page=${page}`);
+    navigate(`${pathname}?page=${page}`);
   };
 
   const replyComment = (email) => {

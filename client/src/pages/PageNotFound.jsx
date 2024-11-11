@@ -1,8 +1,12 @@
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function PageNotFound() {
+  const {
+    user: { role },
+  } = useAuth();
   const stylesBtn = {
     borderColor: "#219aeb",
   };
@@ -10,8 +14,7 @@ export default function PageNotFound() {
   return (
     <Container
       fluid
-      className="d-flex p-0 m-0 flex-column justify-content-center align-items-center"
-      style={{ height: "60vh" }}
+      className="d-flex flex-column justify-content-center align-items-center"
     >
       <h1 className="display-1" style={{ color: "#bababa" }}>
         404
@@ -30,14 +33,16 @@ export default function PageNotFound() {
         >
           RETURN HOME
         </Button>
-        <Button
-          as={Link}
-          to={"/contact"}
-          className="bg-light text-custom rounded-pill fw-bold text-center px-4 py-3"
-          style={stylesBtn}
-        >
-          REPORT PROBLEM
-        </Button>
+        {role !== 1 && (
+          <Button
+            as={Link}
+            to={"/contact"}
+            className="bg-light text-custom rounded-pill fw-bold text-center px-4 py-3"
+            style={stylesBtn}
+          >
+            REPORT PROBLEM
+          </Button>
+        )}
       </Container>
     </Container>
   );

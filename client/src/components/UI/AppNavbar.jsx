@@ -10,7 +10,7 @@ import Image from "react-bootstrap/esm/Image";
 
 export default function AppNavbar() {
   const { user } = useAuth();
-  const location = useLocation().pathname;
+  const { pathname } = useLocation();
 
   return (
     <div className="d-flex flex-column py-2">
@@ -32,27 +32,27 @@ export default function AppNavbar() {
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav className="me-auto my-2 my-lg-0" navbarScroll>
-              <Nav.Link as={Link} to="/" active={location === "/"}>
+              <Nav.Link as={Link} to="/" active={pathname === "/"}>
                 Home
               </Nav.Link>
-              <Nav.Link as={Link} to="search" active={location === "/search"}>
+              <Nav.Link as={Link} to="search" active={pathname === "/search"}>
                 Search
               </Nav.Link>
               <Nav.Link
                 as={Link}
                 to="models"
-                active={location.startsWith("/models")}
+                active={pathname.startsWith("/models")}
               >
                 Brands
               </Nav.Link>
-              <Nav.Link as={Link} to="about" active={location === "/about"}>
+              <Nav.Link as={Link} to="about" active={pathname === "/about"}>
                 About
               </Nav.Link>
               {user?.role !== 1 && (
                 <Nav.Link
                   as={Link}
                   to="contact"
-                  active={location === "/contact"}
+                  active={pathname === "/contact"}
                 >
                   Contact
                 </Nav.Link>
@@ -61,7 +61,7 @@ export default function AppNavbar() {
                 <Nav.Link
                   as={Link}
                   to="admin-menu"
-                  active={location.startsWith("/admin-menu")}
+                  active={pathname.startsWith("/admin-menu")}
                 >
                   System
                 </Nav.Link>

@@ -4,16 +4,16 @@ import { Link, useLocation } from "react-router-dom";
 import SystemOutletLayout from "./SystemOutletLayout";
 
 const AdminMenuLayout = () => {
-  const location = useLocation().pathname;
+  const { pathname } = useLocation();
   return (
     <SystemOutletLayout>
-      <Nav.Link as={Link} to="." active={location === "/admin-menu"}>
+      <Nav.Link as={Link} to="." active={pathname === "/admin-menu"}>
         Overview
       </Nav.Link>
       <Nav.Link
         as={Link}
         to="add-admin"
-        active={location === "/admin-menu/add-admin"}
+        active={pathname === "/admin-menu/add-admin"}
       >
         Add Admin
       </Nav.Link>
