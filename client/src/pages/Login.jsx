@@ -72,7 +72,6 @@ const Login = () => {
               id="password"
               className={`${errors.password && " border-danger"} pe-5`}
               placeholder="***********"
-              autoFocus
             />
             <button
               className="bg-transparent position-absolute top-0 bottom-0 border-0"

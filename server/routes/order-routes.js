@@ -47,7 +47,7 @@ router.post(
   orderFromCart
 );
 
-router.use(restrictTo("ADMIN"));
+//router.use(restrictTo("ADMIN"));
 
 router.get("/", getOrders);
 router.patch("/:orderId", makeOrderShipped);

@@ -70,11 +70,11 @@ export default function Wishlist() {
         wishlistItems?.data?.length > 0 ? (
           <>
             <Container className="row">
-              <Container className="d-flex p-0 col-12 justify-content-around flex-wrap mb-4 flex-row gap-4 gap-xl-0">
+              <Container className="d-flex p-0 col-12 justify-content-around flex-wrap mb-4 flex-row gap-5 gap-xl-0">
                 {wishlistItems.data.map((m) => (
                   <Card
                     key={m.id}
-                    className="col-12 d-flex flex-column flex-sm-row gap-3 gap-sm-0 border-0"
+                    className="col-12 d-flex flex-column flex-sm-row gap-3 gap-sm-0 border-0 my-2"
                     style={{ maxWidth: "25rem" }}
                   >
                     <Card.Img

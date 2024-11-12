@@ -3,7 +3,7 @@ import Spinner from "react-bootstrap/esm/Spinner";
 
 const CustomSpinner = ({ size }) => {
   return (
-    <div className="w-100 mt-3 d-flex justify-content-center">
+    <div className="w-100 h-100 d-flex justify-content-center align-items-center">
       <Spinner size={size} />
     </div>
   );

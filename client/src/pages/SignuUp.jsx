@@ -67,7 +67,6 @@ const SignUp = () => {
               required
               {...register("last_name")}
               name="last_name"
-              autoFocus
             />
             <ErrorMessage
               textError={
@@ -88,7 +87,6 @@ const SignUp = () => {
               required
               name="phone_number"
               id="phone_number"
-              autoFocus
             />
             <ErrorMessage
               textError={
@@ -134,7 +132,6 @@ const SignUp = () => {
               id="city"
               required
               {...register("city")}
-              autoFocus
             />
             <ErrorMessage
               textError={errors.city ?? formatFieldError(error, "city")}
@@ -152,7 +149,6 @@ const SignUp = () => {
               className={errors.address && " border-danger"}
               name="address"
               {...register("address")}
-              autoFocus
             />
             <ErrorMessage
               textError={errors.address ?? formatFieldError(error, "address")}
@@ -171,7 +167,6 @@ const SignUp = () => {
             className={errors.username && " border-danger"}
             {...register("username")}
             name="username"
-            autoFocus
           />
           <ErrorMessage
             textError={errors.username ?? formatFieldError(error, "username")}
@@ -190,7 +185,6 @@ const SignUp = () => {
             name="email"
             {...register("email")}
             placeholder="name@example.com"
-            autoFocus
           />
           <ErrorMessage
             textError={errors.email ?? formatFieldError(error, "email")}
@@ -209,7 +203,6 @@ const SignUp = () => {
               required
               className={`${errors.password && " border-danger"} pe-5`}
               placeholder="***********"
-              autoFocus
             />
             <button
               className="position-absolute top-0 bottom-0 border-0 bg-transparent"
@@ -244,7 +237,6 @@ const SignUp = () => {
             id="confirmPassword"
             required
             placeholder="***********"
-            autoFocus
           />
           <ErrorMessage
             textError={

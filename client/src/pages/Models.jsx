@@ -36,8 +36,8 @@ export default function Models() {
       {isFetching ? (
         <CustomSpinner />
       ) : brands ? (
-        <Container className="d-flex justify-content-end row">
-          <Container className="d-flex justify-content-end row flex-row mt-4">
+        <Container className="d-flex justify-content-end">
+          <Container className="d-flex justify-content-end row flex-row">
             <Button
               className="col-auto rounded-pill position-fixed d-sm-none end-0 text-center bg-white text-custom"
               onClick={handleShowOff}

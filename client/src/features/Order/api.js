@@ -1,12 +1,10 @@
 import axios from "axios";
+import { apiClientAuth } from "../../helpers/ApiClient";
 const URL = "http://localhost:3001/api";
 
-export async function buyNowMobileFn(token, mobileId, data) {
-  await axios.post(`${URL}/buy-now/${mobileId}`, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export async function buyNowMobileFn(mobileId, data) {
+  const res = await apiClientAuth.post(`/order/buy-now/${mobileId}`, data);
+  return res.data;
 }
 
 export async function buyCartItemFn(token, itemId, payment_info) {

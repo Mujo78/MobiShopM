@@ -20,14 +20,14 @@ const buyNow = asyncHandler(async (req, res, next) => {
 
   if (!foundedMobile) {
     res.status(404);
-    return next(new Error("Mobile is not available!"));
+    return next(new Error("Mobile not found!"));
   }
 
   const person = await Person.findByPk(user.personId);
 
   if (!person) {
     res.status(404);
-    return next(new Error("There was an error, please try again later!"));
+    return next(new Error("Profile not found!"));
   }
 
   try {
@@ -68,12 +68,9 @@ const buyNow = asyncHandler(async (req, res, next) => {
       return newOrderItem;
     });
 
-    if (result) return res.status(201).json(result);
-
-    res.status(404);
-    return next(new Error("There was an error, please try again later!"));
+    if (result) return res.status(200).json(result);
   } catch (error) {
-    res.status(404);
+    res.status(500);
     return next(new Error(error.message));
   }
 });

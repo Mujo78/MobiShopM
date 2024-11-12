@@ -25,7 +25,7 @@ const OrderLayout = ({
       {isFetching || isPending ? (
         <CustomSpinner />
       ) : mobile && quantity ? (
-        <Container className="d-flex gap-5 mt-5 flex-wrap flex-xl-nowrap justify-content-center flex-row">
+        <Container className="d-flex gap-5 flex-wrap flex-xl-nowrap justify-content-center flex-row">
           <Image
             src={mobile?.photo}
             alt="photo"
@@ -48,15 +48,17 @@ const OrderLayout = ({
               {mobile?.screen_size}", {mobile?.camera}
             </ListGroup.Item>
             <ListGroup.Item>
-              <h4 className="text-danger">{mobile?.price} BAM</h4>
+              <h4>
+                Price: <span className="text-danger">{mobile?.price} BAM</span>
+              </h4>
             </ListGroup.Item>
             {children}
             <ListGroup.Item style={{ fontSize: "0.9rem" }}>
-              <i>
+              <em>
                 <strong>Note:</strong> All information needed for this order
                 will be taken from your profile data (address, city,
                 phone_number etc.).
-              </i>
+              </em>
             </ListGroup.Item>
           </Container>
         </Container>

@@ -27,7 +27,7 @@ const UserNav = () => {
   return (
     <>
       {user ? (
-        <Nav>
+        <Nav className="text-center">
           {user.role === 2 && (
             <>
               <Nav.Link as={Link} to="/profile/wishlist">

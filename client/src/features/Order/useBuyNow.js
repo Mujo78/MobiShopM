@@ -1,16 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "../../context/AuthContext";
 import { buyNowMobileFn } from "./api";
 import { toast } from "react-toastify";
 
-export function useBuyNow(mobileId) {
-  const { user } = useAuth();
+export function useBuyNow() {
   const { mutate, isPending } = useMutation({
     mutationKey: ["buyNowMobile"],
-    mutationFn: async (data) => {
+    mutationFn: async ({ mobileId, data }) => {
       if (mobileId) {
-        const token = user?.token;
-        return await buyNowMobileFn(token, mobileId, data);
+        return await buyNowMobileFn(mobileId, data);
       }
     },
     onSuccess: () => {

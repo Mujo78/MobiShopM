@@ -36,7 +36,7 @@ export default function MobileDetails() {
 
   const orderMobile = () => {
     if (quantity > 0 && mobile?.quantity >= quantity) {
-      navigate(`/order/mobile/${mobileId}?quantity=${quantity}`);
+      navigate(`/order/mobile/${mobileId}`, { state: { quantity } });
     }
   };
 
@@ -49,7 +49,7 @@ export default function MobileDetails() {
       {isFetching ? (
         <CustomSpinner />
       ) : mobile ? (
-        <Container className="d-flex gap-5 mt-5 flex-wrap flex-xl-nowrap justify-content-center flex-row">
+        <Container className="d-flex gap-5 flex-wrap flex-xl-nowrap justify-content-center flex-row">
           <Image
             src={mobile.photo}
             alt="photo"

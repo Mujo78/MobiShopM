@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useFetchMobile } from "../../features/Mobiles/useFetchMobile";
 import Container from "react-bootstrap/esm/Container";
 import ListGroup from "react-bootstrap/esm/ListGroup";
@@ -8,19 +8,17 @@ import Form from "react-bootstrap/esm/Form";
 import FormGroup from "react-bootstrap/esm/FormGroup";
 import CustomAlert from "../../components/UI/Alert";
 import { useAuth } from "../../context/AuthContext";
-import { useQueryParams } from "../../hooks/useQueryParams";
 import { BsTruck, BsCreditCard } from "react-icons/bs";
 import { useBuyNow } from "../../features/Order/useBuyNow";
 import OrderLayout from "../../components/Layout/OrderLayout";
 
 const OrderMobile = () => {
-  const quantity = useQueryParams().get("quantity");
-  const [values, setValues] = useState({
-    payment_info: "Delivery",
-    quantity,
-  });
+  const [paymentInfo, setPaymentInfo] = useState("Delivery");
   const { mobileId } = useParams();
   const navigate = useNavigate();
+  const {
+    state: { quantity },
+  } = useLocation();
 
   const { user } = useAuth();
   const { data: mobile, isFetching, isError } = useFetchMobile(mobileId);
@@ -31,21 +29,25 @@ const OrderMobile = () => {
   };
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const { value } = event.target;
 
-    setValues((n) => ({
-      ...n,
-      [name]: value,
-    }));
+    setPaymentInfo(value);
   };
 
   const makeOrder = (event) => {
     event.preventDefault();
-    mutate(values, {
-      onSuccess: () => {
-        goBack();
-      },
-    });
+    const data = {
+      quantity,
+      payment_info: paymentInfo,
+    };
+    mutate(
+      { mobileId, data },
+      {
+        onSuccess: () => {
+          goBack();
+        },
+      }
+    );
   };
 
   return (
@@ -62,7 +64,7 @@ const OrderMobile = () => {
           {(mobile?.price * parseInt(quantity)).toFixed(2)} BAM
         </h5>
       </ListGroup.Item>
-      {user && mobile.quantity > 0 ? (
+      {user && mobile?.quantity > 0 ? (
         <>
           <ListGroup.Item>
             <strong>Choose payment method:</strong>
@@ -81,7 +83,7 @@ const OrderMobile = () => {
                   name="payment_info"
                   value="Delivery"
                   onChange={handleChange}
-                  checked={values.payment_info === "Delivery"}
+                  checked={paymentInfo === "Delivery"}
                 />
               </Container>
               <Container className="p-0 d-flex flex-column align-items-center">
@@ -94,7 +96,7 @@ const OrderMobile = () => {
                   name="payment_info"
                   value="Card"
                   onChange={handleChange}
-                  checked={values.payment_info === "Card"}
+                  checked={paymentInfo === "Card"}
                 />
               </Container>
             </FormGroup>
