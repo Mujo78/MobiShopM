@@ -22,7 +22,7 @@ export default function Cart({ show, onHide }) {
 
   const handleNavigate = (itemId) => {
     onHide();
-    navigate(`/profile/my-cart?cartItem=${itemId}`, { replace: true });
+    navigate(`/profile/my-cart`, { replace: true, state: itemId });
   };
 
   return (

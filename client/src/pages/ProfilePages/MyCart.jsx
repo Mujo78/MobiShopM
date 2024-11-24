@@ -5,24 +5,23 @@ import Button from "react-bootstrap/esm/Button";
 import MyCartInfo from "../../components/Cart/MyCartInfo";
 import CustomSpinner from "../../components/UI/CustomSpinner";
 import CustomAlert from "../../components/UI/Alert";
-import { useQueryParams } from "../../hooks/useQueryParams";
 import { useEffect } from "react";
 import { Element, scroller } from "react-scroll";
+import { useLocation } from "react-router-dom";
 
 export default function MyCart() {
   const { cartItems, status, isError, numOfItems } = useCartData();
-  const cartItem = useQueryParams().get("cartItem") ?? null;
+  const { state } = useLocation();
 
   useEffect(() => {
-    if (cartItem) {
-      const toProp = `itemCard${cartItem}`;
-      scroller.scrollTo(toProp, {
+    if (state) {
+      scroller.scrollTo(`itemCard${state}`, {
         duration: 300,
         smooth: "easeInOutQuint",
         containerId: "content",
       });
     }
-  }, [cartItem]);
+  }, [state]);
 
   return (
     <Container>

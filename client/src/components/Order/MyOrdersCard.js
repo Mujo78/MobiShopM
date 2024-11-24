@@ -40,9 +40,9 @@ export default function MyOrdersCard() {
   const getData = () => {
     if (user && user?.id !== 0) {
       axios
-        .get(`http://localhost:3001/order-items/${user?.id}`, {
+        .get(`http://localhost:3001/api/v1/order/my-orders`, {
           headers: {
-            accessToken: `Bearer ${localStorage.getItem("accessToken")}`,
+            Authorization: `Bearer ${user.token}`,
           },
         })
         .then((response) => setMyOrders(response.data))

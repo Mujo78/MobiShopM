@@ -254,6 +254,12 @@ const getMyOrders = asyncHandler(async (req, res, next) => {
   const userId = req.user.id;
 
   const myOrders = await Order.findAll({
+    include: [
+      {
+        model: Mobile,
+        attributes: ["mobile_name"],
+      },
+    ],
     where: { userId },
     order: [["createdAt", "DESC"]],
   });

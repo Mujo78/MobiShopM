@@ -10,7 +10,7 @@ import { deleteMyAccount } from "../../features/User/api";
 const ProfileNavigation = () => {
   const [show, setShow] = useState(false);
   const { user, logout } = useAuth();
-  const location = useLocation().pathname;
+  const { pathname } = useLocation();
   const navigate = useNavigate();
 
   const { mutate, isError } = useMutation({
@@ -65,8 +65,8 @@ const ProfileNavigation = () => {
           as={NavLink}
           end
           active={
-            location.includes("edit-profile") ||
-            location.includes("change-password")
+            pathname.includes("edit-profile") ||
+            pathname.includes("change-password")
           }
           to="edit-profile"
           style={styles}
@@ -90,7 +90,7 @@ const ProfileNavigation = () => {
               style={styles}
               variant="light"
             >
-              Orders
+              My Orders
             </ListGroup.Item>
             <ListGroup.Item
               as={NavLink}

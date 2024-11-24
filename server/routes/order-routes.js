@@ -30,7 +30,7 @@ const {
 
 router.use(authorized);
 
-router.get("/my-orders", getMyOrders);
+router.get("/my-orders", router.use(restrictTo("USER")), getMyOrders);
 router.get("/:orderId", getOrderItem);
 
 router.post(

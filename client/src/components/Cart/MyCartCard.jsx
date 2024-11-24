@@ -7,8 +7,7 @@ import Image from "react-bootstrap/esm/Image";
 import { BsTrash, BsCheck } from "react-icons/bs";
 import { useCartData } from "../../context/CartContext";
 import IconButton from "../UI/IconButton";
-import { useQueryParams } from "../../hooks/useQueryParams";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function MyCartCard({
@@ -21,8 +20,7 @@ export default function MyCartCard({
 }) {
   const [value, setValue] = useState(quantity);
   const navigate = useNavigate();
-  const query = useQueryParams();
-  const cartItem = parseInt(query.get("cartItem")) ?? null;
+  const { state } = useLocation();
   const { deleteCartItem, updateCartItem } = useCartData();
 
   const deleteFromCart = () => {
@@ -58,7 +56,7 @@ export default function MyCartCard({
   return (
     <Card
       className={`d-flex flex-column flex-sm-row w-100 align-items-center ${
-        cartItem === parseInt(itemId) ? "border" : "border-0"
+        state === parseInt(itemId) ? "border" : "border-0"
       }`}
     >
       <Image
