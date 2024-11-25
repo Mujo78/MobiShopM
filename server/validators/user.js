@@ -11,10 +11,23 @@ const {
   POST_NEW_PASSWORD_WEAK,
 } = require("../constants/user-constants");
 const { regPattern } = require("./utils");
+const {
+  POST_EMAIL_PERSON,
+  POST_EMAILVALID_PERSON,
+} = require("../constants/person-constants");
 
 exports.loginUser = [
   check("username").notEmpty().withMessage(POST_USERNAME_USER).bail(),
   check("password").notEmpty().withMessage(POST_PASSWORD_USER).bail(),
+];
+
+exports.forgotPasswordUser = [
+  check("email")
+    .notEmpty()
+    .withMessage(POST_EMAIL_PERSON)
+    .isEmail()
+    .withMessage(POST_EMAILVALID_PERSON)
+    .bail(),
 ];
 
 exports.editUsername = [

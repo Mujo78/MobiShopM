@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const { User, Person } = require("../models");
 const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -37,6 +38,31 @@ const login = asyncHandler(async (req, res, next) => {
     return next(new Error("Incorrect username or password!"));
   }
   createToken(user, 200, res);
+});
+
+const forgotPassword = asyncHandler(async (req, res, next) => {
+  const { email } = req.body;
+
+  const personFound = await Person.findOne({ where: { email } });
+
+  if (!personFound) {
+    res.status(404);
+    return next(new Error("Account doesn't exist."));
+  }
+
+  const token = crypto.randomBytes(32).toString("hex");
+
+  try {
+    const url = `${process.env.URL}/reset-password/${token}`;
+
+    return res.status(200).json({
+      email: personFound.email,
+      url,
+    });
+  } catch (error) {
+    res.status(500);
+    return next(new Error(err));
+  }
 });
 
 const changeMyUsername = asyncHandler(async (req, res, next) => {
@@ -138,4 +164,5 @@ module.exports = {
   changeMyPassword,
   changeMyUsername,
   login,
+  forgotPassword,
 };

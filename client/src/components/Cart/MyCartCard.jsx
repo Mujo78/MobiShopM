@@ -51,7 +51,7 @@ export default function MyCartCard({
     }
   };
 
-  let showBtn = quantity !== value;
+  const showBtn = quantity !== value;
 
   return (
     <Card

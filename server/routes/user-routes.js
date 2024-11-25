@@ -4,6 +4,7 @@ const {
   loginUser,
   editUsername,
   changePasswordValidator,
+  forgotPasswordUser,
 } = require("../validators/user");
 const { authorized, restrictTo } = require("../middlewares/auth-middleware");
 const {
@@ -14,9 +15,16 @@ const {
   changeMyPassword,
   changeMyUsername,
   login,
+  forgotPassword,
 } = require("../controllers/userController");
 
 router.post("/", loginUser, errorValidationMiddleware, login);
+router.post(
+  "/forgot-password",
+  forgotPasswordUser,
+  errorValidationMiddleware,
+  forgotPassword
+);
 
 router.use(authorized);
 

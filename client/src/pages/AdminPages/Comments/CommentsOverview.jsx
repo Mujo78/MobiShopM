@@ -6,11 +6,11 @@ import { useQueryParams } from "../../../hooks/useQueryParams";
 import { getAllCommentsFn, deleteCommentFn } from "../../../features/Admin/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BsTrash } from "react-icons/bs";
-import { formatDate } from "../../../util";
 import { toast } from "react-toastify";
 import Paginate from "../../../components/UI/Paginate";
 import CustomSpinner from "../../../components/UI/CustomSpinner";
 import CustomAlert from "../../../components/UI/Alert";
+import { formatDate } from "../../../helpers/utils";
 
 export default function CommentsOverview() {
   const query = useQueryParams();

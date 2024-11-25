@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteBrandFn } from "../../../features/Mobiles/api";
 import { useBrands } from "../../../features/Mobiles/useBrands";
-import { formatDate } from "../../../util";
 import Container from "react-bootstrap/esm/Container";
 import Table from "react-bootstrap/esm/Table";
 import Button from "react-bootstrap/esm/Button";
@@ -10,6 +9,7 @@ import Modal from "react-bootstrap/esm/Modal";
 import { toast } from "react-toastify";
 import CustomSpinner from "../../../components/UI/CustomSpinner";
 import CustomAlert from "../../../components/UI/Alert";
+import { formatDate } from "../../../helpers/utils";
 
 const BrandsOverview = () => {
   const [show, setShow] = useState(false);

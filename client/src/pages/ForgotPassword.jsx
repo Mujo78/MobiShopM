@@ -7,6 +7,9 @@ import { useForm } from "react-hook-form";
 import { forgotPasswordValidationSchema } from "../validations/auth/forgotPasswordValidation";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import { useForgotPassword } from "../features/User/useForgotPassword";
+import CustomSpinner from "../components/UI/CustomSpinner";
+import { formatError } from "../helpers/utils";
 
 const ForgotPassword = () => {
   const { register, handleSubmit, formState, reset } = useForm({
@@ -14,8 +17,10 @@ const ForgotPassword = () => {
   });
   const { errors } = formState;
 
-  const onSubmit = (_emailData) => {
-    reset();
+  const { forgotPassword, isError, isPending, error } = useForgotPassword();
+
+  const onSubmit = (emailData) => {
+    forgotPassword(emailData, { onSuccess: reset() });
   };
 
   return (
@@ -25,21 +30,29 @@ const ForgotPassword = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="w-50 d-flex flex-column gap-3"
       >
-        <Form.Group>
-          <Form.Label htmlFor="email" className="mb-1.5">
-            Email *
-          </Form.Label>
-          <Form.Control
-            {...register("email")}
-            type="email"
-            className={errors.username && " border-danger"}
-            id="email"
-            required
-            autoComplete="true"
-            name="email"
-          />
-          <ErrorMessage textError={errors.username} />
-        </Form.Group>
+        {isPending ? (
+          <CustomSpinner />
+        ) : (
+          <Form.Group>
+            <Form.Label htmlFor="email" className="mb-1.5">
+              Email *
+            </Form.Label>
+            <Form.Control
+              {...register("email")}
+              type="email"
+              className={errors.email && " border-danger"}
+              id="email"
+              required
+              autoComplete="true"
+              name="email"
+            />
+            <ErrorMessage
+              textError={
+                errors.email ? errors.email : isError && formatError(error)
+              }
+            />
+          </Form.Group>
+        )}
         <Container className="w-50 d-flex flex-column gap-4">
           <Button
             className="bg-custom border-0"

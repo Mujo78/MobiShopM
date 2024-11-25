@@ -10,6 +10,11 @@ export async function userSignup(registrationData) {
   return res.data;
 }
 
+export async function forgotPasswordFn(data) {
+  const res = await apiClientBase.post("/user/forgot-password", data);
+  return res.data;
+}
+
 export async function deleteMyAccount() {
   const res = await apiClientAuth.delete("/person");
   return res.data;

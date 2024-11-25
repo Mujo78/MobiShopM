@@ -14,14 +14,14 @@ export default function MyCart() {
   const { state } = useLocation();
 
   useEffect(() => {
-    if (state) {
+    if (state !== null && numOfItems > 0) {
       scroller.scrollTo(`itemCard${state}`, {
         duration: 300,
         smooth: "easeInOutQuint",
         containerId: "content",
       });
     }
-  }, [state]);
+  }, [state, numOfItems]);
 
   return (
     <Container>
