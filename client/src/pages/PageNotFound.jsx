@@ -4,9 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function PageNotFound() {
-  const {
-    user: { role },
-  } = useAuth();
+  const { user } = useAuth();
   const stylesBtn = {
     borderColor: "#219aeb",
   };
@@ -33,7 +31,7 @@ export default function PageNotFound() {
         >
           RETURN HOME
         </Button>
-        {role !== 1 && (
+        {user?.role !== 1 && (
           <Button
             as={Link}
             to={"/contact"}

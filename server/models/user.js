@@ -65,6 +65,14 @@ module.exports = () => {
       onDelete: "cascade",
     });
 
+    user.hasMany(models.UserToken, {
+      foreignKey: {
+        name: "userId",
+      },
+      onDelete: "cascade",
+      as: "tokens",
+    });
+
     user.hasMany(models.Order, {
       foreignKey: {
         name: "userId",

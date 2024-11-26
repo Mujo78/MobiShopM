@@ -45,6 +45,7 @@ import { queryClient } from "./queryClient";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import SignUp from "./pages/SignuUp";
+import ResetPassword from "./pages/ResetPassword";
 
 const routes = createBrowserRouter([
   {
@@ -74,6 +75,10 @@ const routes = createBrowserRouter([
           {
             path: "/forgot-password",
             element: <ForgotPassword />,
+          },
+          {
+            path: "/reset-password/:token",
+            element: <ResetPassword />,
           },
         ],
       },

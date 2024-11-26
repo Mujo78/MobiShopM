@@ -40,6 +40,7 @@ fs.readdirSync(__dirname)
   });
 */
 
+db.UserToken = require("./usertoken")(sequelize, Sequelize.DataTypes);
 db.User = require("./user")(sequelize, Sequelize.DataTypes);
 db.Person = require("./person")(sequelize, Sequelize.DataTypes);
 db.Role = require("./role")(sequelize, Sequelize.DataTypes);

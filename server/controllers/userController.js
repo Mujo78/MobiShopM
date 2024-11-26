@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const { User, Person } = require("../models");
+const { User, Person, UserToken } = require("../models");
 const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
@@ -50,18 +50,36 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
     return next(new Error("Account doesn't exist."));
   }
 
+  const user = await User.findOne({ where: { personId: personFound.id } });
   const token = crypto.randomBytes(32).toString("hex");
 
   try {
-    const url = `${process.env.URL}/reset-password/${token}`;
-
-    return res.status(200).json({
-      email: personFound.email,
-      url,
+    const [resetToken, created] = await UserToken.findOrCreate({
+      where: { userId: user.id, tokenType: "Reset Password" },
+      defaults: {
+        userId: user.id,
+        tokenType: "Reset Password",
+        token,
+      },
     });
+
+    if (created) {
+      const url = `${process.env.URL}/reset-password/${resetToken.token}`;
+
+      return res.status(200).json({
+        email: personFound.email,
+        url,
+      });
+    } else {
+      return res
+        .status(409)
+        .json(
+          "You already made request for reseting password. Please check your inbox."
+        );
+    }
   } catch (error) {
     res.status(500);
-    return next(new Error(err));
+    return next(new Error(error));
   }
 });
 
