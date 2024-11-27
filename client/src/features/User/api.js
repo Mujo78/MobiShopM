@@ -15,6 +15,11 @@ export async function forgotPasswordFn(data) {
   return res.data;
 }
 
+export async function resetPasswordFn({ token, data }) {
+  const res = await apiClientBase.patch(`/user/reset-password/${token}`, data);
+  return res.data;
+}
+
 export async function deleteMyAccount() {
   const res = await apiClientAuth.delete("/person");
   return res.data;

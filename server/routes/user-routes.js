@@ -5,6 +5,7 @@ const {
   editUsername,
   changePasswordValidator,
   forgotPasswordUser,
+  resetPasswordValidator,
 } = require("../validators/user");
 const { authorized, restrictTo } = require("../middlewares/auth-middleware");
 const {
@@ -16,6 +17,7 @@ const {
   changeMyUsername,
   login,
   forgotPassword,
+  resetPassword,
 } = require("../controllers/userController");
 
 router.post("/", loginUser, errorValidationMiddleware, login);
@@ -24,6 +26,12 @@ router.post(
   forgotPasswordUser,
   errorValidationMiddleware,
   forgotPassword
+);
+router.patch(
+  "/reset-password/:token",
+  resetPasswordValidator,
+  errorValidationMiddleware,
+  resetPassword
 );
 
 router.use(authorized);

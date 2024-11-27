@@ -30,6 +30,23 @@ exports.forgotPasswordUser = [
     .bail(),
 ];
 
+exports.resetPasswordValidator = [
+  check("password")
+    .notEmpty()
+    .withMessage(POST_PASSWORD_USER)
+    .isLength({ min: 8 })
+    .withMessage(POST_NEW_PASSWORD_LENGTH)
+    .custom((value) => {
+      if (value === "") {
+        return true;
+      }
+      return regPattern.test(value);
+    })
+    .withMessage(POST_NEW_PASSWORD_WEAK)
+    .bail(),
+  check("confirmPassword").notEmpty().withMessage(USER_CONFIRM_PASSWORD).bail(),
+];
+
 exports.editUsername = [
   check("username")
     .notEmpty()

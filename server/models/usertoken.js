@@ -22,7 +22,5 @@ module.exports = () => {
     { timestamps: true }
   );
 
-  console.log(userTokens);
-
   return userTokens;
 };

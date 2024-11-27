@@ -3,6 +3,7 @@ const { User, Person, UserToken } = require("../models");
 const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const Email = require("../utils/email");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -64,23 +65,32 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
     });
 
     if (created) {
-      const url = `${process.env.URL}/reset-password/${resetToken.token}`;
+      const url = `${process.env.URL}reset-password/${resetToken.token}`;
+      await new Email(personFound.email, personFound.first_name).send(
+        "Reset Password Request",
+        url
+      );
 
       return res.status(200).json({
         email: personFound.email,
         url,
       });
     } else {
-      return res
-        .status(409)
-        .json(
-          "You already made request for reseting password. Please check your inbox."
-        );
+      return res.status(409).json({
+        message:
+          "You already made request for reseting password. Please check your inbox.",
+      });
     }
   } catch (error) {
     res.status(500);
     return next(new Error(error));
   }
+});
+
+const resetPassword = asyncHandler(async (req, res, next) => {
+  //const { token } = req.params;
+
+  return res.status(200).json();
 });
 
 const changeMyUsername = asyncHandler(async (req, res, next) => {
@@ -183,4 +193,5 @@ module.exports = {
   changeMyUsername,
   login,
   forgotPassword,
+  resetPassword,
 };
