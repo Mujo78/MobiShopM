@@ -15,7 +15,11 @@ module.exports = () => {
         allowNull: false,
       },
       tokenType: {
-        type: DataTypes.ENUM("Reset Password"),
+        type: DataTypes.ENUM("Reset Password", "Verification"),
+        allowNull: false,
+      },
+      expiresAt: {
+        type: DataTypes.DATE,
         allowNull: false,
       },
     },

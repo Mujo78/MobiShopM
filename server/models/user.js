@@ -14,6 +14,11 @@ module.exports = () => {
         type: DataTypes.STRING(100),
         allowNull: false,
       },
+      isVerified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       roleId: {
         type: DataTypes.INTEGER,
         allowNull: false,

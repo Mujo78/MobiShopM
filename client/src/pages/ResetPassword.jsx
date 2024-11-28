@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Container from "react-bootstrap/esm/Container";
 import Form from "react-bootstrap/Form";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import CustomSpinner from "../components/UI/CustomSpinner";
 import ErrorMessage from "../components/UI/ErrorMessage";
 import Button from "react-bootstrap/esm/Button";
@@ -24,7 +24,7 @@ const ResetPassword = () => {
     resolver: yupResolver(resetPasswordValidationSchema),
   });
 
-  const { error, isPending, resetPassword } = useResetPassword();
+  const { error, isPending, resetPassword, isSuccess } = useResetPassword();
 
   const onSubmit = (data) => {
     if (token) {
@@ -106,6 +106,11 @@ const ResetPassword = () => {
           >
             Submit
           </Button>
+          {isSuccess && (
+            <Link to="/login" className="text-center">
+              Back to LogIn Page
+            </Link>
+          )}
         </Container>
       </Form>
     </Container>

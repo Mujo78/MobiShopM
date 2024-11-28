@@ -55,17 +55,18 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
   const token = crypto.randomBytes(32).toString("hex");
 
   try {
-    const [resetToken, created] = await UserToken.findOrCreate({
+    const [_resetToken, created] = await UserToken.findOrCreate({
       where: { userId: user.id, tokenType: "Reset Password" },
       defaults: {
         userId: user.id,
         tokenType: "Reset Password",
-        token,
+        token: crypto.createHash("sha256").update(token).digest("hex"),
+        expiresAt: new Date(new Date().getTime() + 60 * 60 * 1000),
       },
     });
 
     if (created) {
-      const url = `${process.env.URL}reset-password/${resetToken.token}`;
+      const url = `${process.env.URL}reset-password/${token}`;
       await new Email(personFound.email, personFound.first_name).send(
         "Reset Password Request",
         url
@@ -88,9 +89,41 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
 });
 
 const resetPassword = asyncHandler(async (req, res, next) => {
-  //const { token } = req.params;
+  const { password, confirmPassword } = req.body;
+  const { token } = req.params;
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
-  return res.status(200).json();
+  const userToken = await UserToken.findOne({
+    where: {
+      [Op.and]: [
+        { token: hashedToken },
+        { expiresAt: { [Op.gt]: new Date() } },
+      ],
+    },
+  });
+
+  if (!userToken) {
+    res.status(404);
+    return next(new Error("Token is invalid or has expired."));
+  }
+
+  if (password !== confirmPassword) {
+    res.status(400);
+    return next(new Error("Passwords must match."));
+  }
+
+  await User.update(
+    { password },
+    {
+      where: {
+        id: userToken.userId,
+      },
+    }
+  );
+
+  await userToken.destroy();
+
+  return res.status(200).json("Password successfully changed.");
 });
 
 const changeMyUsername = asyncHandler(async (req, res, next) => {

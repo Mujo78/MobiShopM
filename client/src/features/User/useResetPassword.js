@@ -9,6 +9,7 @@ export function useResetPassword() {
     error,
     isError,
     isPending,
+    isSuccess,
   } = useMutation({
     mutationKey: ["resetPassword"],
     mutationFn: resetPasswordFn,
@@ -20,5 +21,5 @@ export function useResetPassword() {
     },
   });
 
-  return { resetPassword, error, isError, isPending };
+  return { resetPassword, error, isError, isPending, isSuccess };
 }
