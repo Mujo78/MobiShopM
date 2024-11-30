@@ -11,7 +11,7 @@ export function useSignup() {
     mutationKey: ["signup"],
     mutationFn: userSignup,
     onSuccess: () => {
-      toast.success("Account successfully created!");
+      toast.success("Verification email is sent. Please check your inbox.");
     },
   });
 

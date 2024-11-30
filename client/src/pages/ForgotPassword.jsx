@@ -28,7 +28,7 @@ const ForgotPassword = () => {
       <h1 className="text-center">Forgot Your Password?</h1>
       <Form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-50 d-flex flex-column gap-3"
+        className="custom-responsive-width d-flex flex-column gap-3"
       >
         {isPending ? (
           <CustomSpinner />
@@ -53,7 +53,7 @@ const ForgotPassword = () => {
             />
           </Form.Group>
         )}
-        <Container className="w-50 d-flex flex-column gap-4">
+        <Container className="w-auto d-flex flex-column gap-4">
           <Button
             className="bg-custom border-0"
             type="submit"

@@ -1,6 +1,8 @@
 const asyncHandler = require("express-async-handler");
-const { User, Person, Cart, sequelize } = require("../models");
+const { User, Person, Cart, sequelize, UserToken } = require("../models");
 const { Op } = require("sequelize");
+const crypto = require("crypto");
+const Email = require("../utils/email");
 
 const getAllUsers = asyncHandler(async (req, res, next) => {
   const data = await User.findAll();
@@ -137,6 +139,7 @@ const registration = asyncHandler(async (req, res, next) => {
   }
 
   try {
+    const verificationToken = crypto.randomBytes(32).toString("hex");
     const result = await sequelize.transaction(async (t) => {
       const person = await Person.create(
         {
@@ -168,10 +171,30 @@ const registration = asyncHandler(async (req, res, next) => {
         { transaction: t }
       );
 
-      return user;
+      await UserToken.create(
+        {
+          userId: user.id,
+          token: crypto
+            .createHash("sha256")
+            .update(verificationToken)
+            .digest("hex"),
+          tokenType: "Verification",
+          expiresAt: Date.now() + 2 * 60 * 60 * 1000,
+        },
+        { transaction: t }
+      );
+
+      return person;
     });
 
-    return res.status(200).json(`Registration successful: ${result.username}.`);
+    const url = `${process.env.URL}verify/${verificationToken}`;
+    await new Email(result.email, result.first_name).send(
+      "Verification Email",
+      url
+    );
+    return res
+      .status(200)
+      .json("Verification email is sent. Please check your inbox.");
   } catch (error) {
     res.status(500);
     return next(new Error(error));

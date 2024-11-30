@@ -41,7 +41,7 @@ const ResetPassword = () => {
       <h1 className="text-center">Reset Your Password?</h1>
       <Form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-50 d-flex flex-column gap-3"
+        className="custom-responsive-width d-flex flex-column gap-3"
       >
         {isPending ? (
           <CustomSpinner />

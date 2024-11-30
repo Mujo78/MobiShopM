@@ -3,6 +3,7 @@ const { User, Person, UserToken } = require("../models");
 const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 const Email = require("../utils/email");
 
 const signToken = (id) => {
@@ -32,12 +33,18 @@ const login = asyncHandler(async (req, res, next) => {
     return next(new Error("Account doesn't exist."));
   }
 
+  if (user.isVerified === false) {
+    res.status(400);
+    return next(new Error("Please verify your email address."));
+  }
+
   const isValid = await user.correctPassword(password, user.password);
 
   if (!isValid) {
     res.status(400);
     return next(new Error("Incorrect username or password!"));
   }
+
   createToken(user, 200, res);
 });
 
@@ -112,19 +119,17 @@ const resetPassword = asyncHandler(async (req, res, next) => {
     return next(new Error("Passwords must match."));
   }
 
-  await User.update(
-    { password },
-    {
-      where: {
-        id: userToken.userId,
-      },
-    }
-  );
+  const user = await User.findByPk(userToken.userId);
+  user.password = password;
+
+  await user.save();
 
   await userToken.destroy();
 
   return res.status(200).json("Password successfully changed.");
 });
+
+const emailVerification = asyncHandler(async (req, res, next) => {});
 
 const changeMyUsername = asyncHandler(async (req, res, next) => {
   const userId = req.user.id;

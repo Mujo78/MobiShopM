@@ -46,6 +46,7 @@ import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import SignUp from "./pages/SignuUp";
 import ResetPassword from "./pages/ResetPassword";
+import EmailVerification from "./pages/EmailVerification";
 
 const routes = createBrowserRouter([
   {
@@ -79,6 +80,10 @@ const routes = createBrowserRouter([
           {
             path: "/reset-password/:token",
             element: <ResetPassword />,
+          },
+          {
+            path: "/verify/:token",
+            element: <EmailVerification />,
           },
         ],
       },

@@ -28,7 +28,7 @@ function reducer(state, action) {
     case AUTH_ACTION_TYPES.LOGIN_SUCCESS:
       return { ...state, user: action.payload, status: "idle", error: "" };
     case AUTH_ACTION_TYPES.LOGOUT:
-      return { ...state, user: null };
+      return { ...state, user: null, status: "start" };
     case AUTH_ACTION_TYPES.USER_INFO:
       const newState = state.user
         ? { ...state, user: { ...state.user, username: action.payload } }

@@ -31,8 +31,8 @@ export default function Contact() {
   }
 
   return (
-    <Container className="flex-grow-1 w-100 d-flex flex-column">
-      <Container className="d-flex flex-grow-1 flex-column align-items-center gap-2 my-3">
+    <Container className="flex-grow-1 w-100 d-flex flex-column gap-3">
+      <Container className="d-flex flex-grow-1 flex-column align-items-center gap-2 py-3">
         <h1 className="text-center">Contact Us</h1>
         <Form
           onSubmit={handleSubmit(onSubmit)}
@@ -101,11 +101,11 @@ export default function Contact() {
               }
             />
           </Form.Group>
-          <Form.Group className="d-flex justify-content-end mb-4">
+          <Form.Group className="d-flex justify-content-end">
             <Button
               id="comment_btn"
               type="submit"
-              className="bg-custom bg-custom-class border-0 w-auto"
+              className="bg-custom bg-custom-class border-0"
             >
               Submit
             </Button>
