@@ -15,6 +15,11 @@ export async function forgotPasswordFn(data) {
   return res.data;
 }
 
+export async function verifyFn(token) {
+  const res = await apiClientBase.patch(`/user/verify/${token}`);
+  return res.data;
+}
+
 export async function resetPasswordFn({ token, data }) {
   const res = await apiClientBase.patch(`/user/reset-password/${token}`, data);
   return res.data;

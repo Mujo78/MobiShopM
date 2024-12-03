@@ -125,7 +125,7 @@ const Login = () => {
             Log In
           </Button>
 
-          <Link to="/forgot-password" className="text-center">
+          <Link to="/forgot-password" className="text-center mx-auto">
             Forgot Password?
           </Link>
         </Container>

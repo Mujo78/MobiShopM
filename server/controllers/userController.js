@@ -1,9 +1,8 @@
 const asyncHandler = require("express-async-handler");
-const { User, Person, UserToken } = require("../models");
+const { User, Person, UserToken, sequelize } = require("../models");
 const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const bcrypt = require("bcrypt");
 const Email = require("../utils/email");
 
 const signToken = (id) => {
@@ -129,7 +128,52 @@ const resetPassword = asyncHandler(async (req, res, next) => {
   return res.status(200).json("Password successfully changed.");
 });
 
-const emailVerification = asyncHandler(async (req, res, next) => {});
+const emailVerification = asyncHandler(async (req, res, next) => {
+  const { token } = req.params;
+  const modifiedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+  const tokenFound = await UserToken.findOne({
+    where: { token: modifiedToken, tokenType: "Verification" },
+  });
+
+  if (!tokenFound) {
+    res.status(404);
+    return next(new Error("Invalid token provided. Token not found."));
+  }
+
+  if (tokenFound.expiresAt < new Date()) {
+    res.status(400);
+    return next(new Error("Invalid token provided. Token has expired."));
+  }
+
+  try {
+    await sequelize.transaction(async (t) => {
+      await User.update(
+        {
+          isVerified: true,
+        },
+        {
+          where: {
+            id: tokenFound.userId,
+          },
+          transaction: t,
+        }
+      );
+
+      await UserToken.destroy({
+        where: {
+          userId: tokenFound.userId,
+        },
+        transaction: t,
+      });
+    });
+
+    return res.status(200).json("Successfully verified email address.");
+  } catch (error) {
+    res.status(500);
+    return next(new Error(error));
+  }
+});
 
 const changeMyUsername = asyncHandler(async (req, res, next) => {
   const userId = req.user.id;
@@ -232,4 +276,5 @@ module.exports = {
   login,
   forgotPassword,
   resetPassword,
+  emailVerification,
 };

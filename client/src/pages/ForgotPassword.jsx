@@ -43,6 +43,7 @@ const ForgotPassword = () => {
               className={errors.email && " border-danger"}
               id="email"
               required
+              autoFocus
               autoComplete="true"
               name="email"
             />
