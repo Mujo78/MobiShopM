@@ -14,14 +14,17 @@ module.exports = () => {
     phone_number: {
       type: DataTypes.STRING(12),
       allowNull: false,
+      defaultValue: "",
     },
     address: {
       type: DataTypes.STRING(100),
       allowNull: false,
+      defaultValue: "",
     },
     city: {
       type: DataTypes.STRING(100),
       allowNull: false,
+      defaultValue: "",
     },
     email: {
       type: DataTypes.STRING(100),
@@ -30,6 +33,7 @@ module.exports = () => {
     gender: {
       type: DataTypes.ENUM("Male", "Female", "Other"),
       allowNull: false,
+      defaultValue: "Other",
     },
   });
 

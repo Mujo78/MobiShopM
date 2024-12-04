@@ -97,22 +97,12 @@ const deleteAdmin = asyncHandler(async (req, res, next) => {
 });
 
 const registration = asyncHandler(async (req, res, next) => {
-  const {
-    first_name,
-    last_name,
-    phone_number,
-    address,
-    city,
-    email,
-    gender,
-    username,
-    password,
-    confirmPassword,
-  } = req.body;
+  const { first_name, last_name, email, username, password, confirmPassword } =
+    req.body;
 
   if (password !== confirmPassword) {
     res.status(400);
-    return next(new Error("Password and Confirm Password must match!"));
+    return next(new Error("Passwords must match!"));
   }
 
   const usernameTaken = await User.findOne({ where: { username } });
@@ -122,20 +112,12 @@ const registration = asyncHandler(async (req, res, next) => {
   }
 
   const userExists = await Person.findOne({
-    where: {
-      [Op.or]: [{ email }, { phone_number }],
-    },
+    where: { email },
   });
 
   if (userExists) {
-    if (userExists.email === email) {
-      res.status(409);
-      return next(new Error("Email already used!"));
-    }
-    if (userExists.phone_number === phone_number) {
-      res.status(409);
-      return next(new Error("Phone number already used!"));
-    }
+    res.status(409);
+    return next(new Error("Email already used!"));
   }
 
   try {
@@ -145,11 +127,7 @@ const registration = asyncHandler(async (req, res, next) => {
         {
           first_name,
           last_name,
-          phone_number,
-          address,
-          city,
           email,
-          gender,
         },
         { transaction: t }
       );

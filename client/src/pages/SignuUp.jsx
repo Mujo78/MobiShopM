@@ -7,7 +7,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useSignup } from "../features/User/useSignup";
 import ErrorMessage from "../components/UI/ErrorMessage";
 import { formatError, formatFieldError, isErrorForKey } from "../helpers/utils";
-import { genders } from "../validations/utils";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import Button from "react-bootstrap/esm/Button";
 
@@ -29,14 +28,14 @@ const SignUp = () => {
   }
 
   return (
-    <Container className="d-flex flex-column align-items-center pb-2">
+    <Container className="d-flex flex-column align-items-center justify-content-center pb-2">
       <h1 className="text-center">Sign Up Today!</h1>
       <Form
         onSubmit={handleSubmit(onSubmit)}
-        className="d-flex flex-column gap-2 w-75"
+        className="d-flex flex-column gap-2 custom-responsive-width"
       >
-        <Form.Group className="d-flex">
-          <Container className="d-flex flex-column p-0 w-100">
+        <Form.Group className="d-flex gap-3">
+          <Container className="d-flex flex-column p-0 flex-grow-1">
             <Form.Label className="mb-1" htmlFor="first_name">
               First Name *
             </Form.Label>
@@ -56,7 +55,7 @@ const SignUp = () => {
               }
             />
           </Container>
-          <Container className="d-flex flex-column p-0 ms-2 w-100">
+          <Container className="d-flex flex-column p-0 flex-grow-1">
             <Form.Label className="mb-1" htmlFor="last_name">
               Last name *
             </Form.Label>
@@ -75,86 +74,7 @@ const SignUp = () => {
             />
           </Container>
         </Form.Group>
-        <Form.Group className="d-flex">
-          <Container className="d-flex flex-column p-0 w-100">
-            <Form.Label className="mb-1" htmlFor="phone_number">
-              Phone number *
-            </Form.Label>
-            <Form.Control
-              type="text"
-              className={errors.phone_number && " border-danger"}
-              {...register("phone_number")}
-              required
-              name="phone_number"
-              id="phone_number"
-            />
-            <ErrorMessage
-              textError={
-                errors.phone_number ??
-                formatFieldError(error, "phone_number") ??
-                formatFieldError(error, "phone number")
-              }
-            />
-          </Container>
-          <Container className="d-flex flex-column p-0 ms-2 w-50">
-            <Form.Label className="mb-1" htmlFor="gender">
-              Gender *
-            </Form.Label>
-            <Form.Select
-              className={errors.gender && " border-danger"}
-              {...register("gender")}
-              aria-label="Default select example"
-              id="gender"
-              required
-              name="gender"
-            >
-              <option>Choose</option>
-              {genders.map((gender) => (
-                <option key={gender} value={gender}>
-                  {gender}
-                </option>
-              ))}
-            </Form.Select>
-            <ErrorMessage
-              textError={errors.gender ?? formatFieldError(error, "gender")}
-            />
-          </Container>
-        </Form.Group>
-        <Form.Group className="d-flex">
-          <Container className="d-flex flex-column p-0 w-100">
-            <Form.Label className="mb-1" htmlFor="city">
-              City *
-            </Form.Label>
-            <Form.Control
-              type="text"
-              className={errors.city && " border-danger"}
-              name="city"
-              id="city"
-              required
-              {...register("city")}
-            />
-            <ErrorMessage
-              textError={errors.city ?? formatFieldError(error, "city")}
-            />
-          </Container>
-          <Container className="d-flex flex-column p-0 ms-2 w-100">
-            <Form.Label htmlFor="address" className="mb-1">
-              Address *
-            </Form.Label>
-            <Form.Control
-              id="address"
-              type="text"
-              autoComplete="true"
-              required
-              className={errors.address && " border-danger"}
-              name="address"
-              {...register("address")}
-            />
-            <ErrorMessage
-              textError={errors.address ?? formatFieldError(error, "address")}
-            />
-          </Container>
-        </Form.Group>
+
         <Form.Group>
           <Form.Label className="mb-1" htmlFor="username">
             Username *
@@ -250,7 +170,7 @@ const SignUp = () => {
         <Button
           variant="primary"
           id="signup_btn"
-          className="bg-custom border-0"
+          className="bg-custom border-0 mt-2"
           type="submit"
         >
           Sign Up

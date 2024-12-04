@@ -37,22 +37,6 @@ exports.createPersonValidator = [
     .isLength({ min: 3 })
     .withMessage(POST_LASTNAME_PERSON_LENGTH)
     .bail(),
-  check("address").notEmpty().withMessage(POST_ADDRESS_PERSON).bail(),
-  check("phone_number")
-    .notEmpty()
-    .withMessage(POST_PHONENUMBER_PERSON)
-    .custom((value) => {
-      if (value === "") {
-        return true;
-      }
-      return /^[0-9]+$/.test(value);
-    })
-    .withMessage(POST_LETTERINPHONE_PERSON)
-    .isLength({ min: 9 })
-    .withMessage(POST_PHONENUMBER_PERSON_LENGTH)
-    .isLength({ max: 12 })
-    .withMessage(POST_PHONENUMBER_PERSON_LENGTH_MAX)
-    .bail(),
   check("password")
     .notEmpty()
     .withMessage(POST_PASSWORD_USER)
@@ -67,7 +51,6 @@ exports.createPersonValidator = [
     .withMessage(POST_PASSWORD_WEAK)
     .bail(),
   check("confirmPassword").notEmpty().withMessage(POST_CONFIRM_PASSWORD_USER),
-  check("city").notEmpty().withMessage(POST_CITY_PERSON).bail(),
   check("username")
     .notEmpty()
     .withMessage(POST_USERNAME_USER)
@@ -81,16 +64,6 @@ exports.createPersonValidator = [
     .withMessage(POST_EMAIL_PERSON)
     .isEmail()
     .withMessage(POST_EMAILVALID_PERSON)
-    .bail(),
-  check("gender")
-    .notEmpty()
-    .withMessage(POST_GENDER_PERSON)
-    .custom((value) => {
-      if (genders.includes(value)) {
-        return true;
-      }
-      throw new Error(POST_GENDER_PERSON_CORRECT);
-    })
     .bail(),
 ];
 

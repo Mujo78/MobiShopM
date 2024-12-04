@@ -46,7 +46,7 @@ const ResetPassword = () => {
         {isPending ? (
           <CustomSpinner />
         ) : (
-          <Form.Group>
+          <Form.Group className="d-flex flex-column gap-2">
             <Container className="mb-1 p-0">
               <Form.Label htmlFor="password">Password *</Form.Label>
               <Container className="position-relative p-0">

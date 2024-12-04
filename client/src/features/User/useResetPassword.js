@@ -17,7 +17,7 @@ export function useResetPassword() {
       toast.success("Successfully changed password!");
     },
     onError: (error) => {
-      toast.error(formatError(error));
+      toast.error(formatError(error).message);
     },
   });
 

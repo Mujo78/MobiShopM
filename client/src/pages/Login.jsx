@@ -118,7 +118,7 @@ const Login = () => {
         <Container className="d-flex flex-column gap-3 p-0">
           <Button
             disabled={isLoading}
-            className="bg-custom border-0"
+            className="bg-custom border-0 mt-2"
             type="submit"
             id="login_btn"
           >

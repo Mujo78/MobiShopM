@@ -54,7 +54,7 @@ const ForgotPassword = () => {
             />
           </Form.Group>
         )}
-        <Container className="w-auto d-flex flex-column gap-4">
+        <Container className="w-auto d-flex flex-column gap-3">
           <Button
             className="bg-custom border-0"
             type="submit"
