@@ -19,6 +19,7 @@ const {
   forgotPassword,
   resetPassword,
   emailVerification,
+  resendEmailVerification,
 } = require("../controllers/userController");
 
 router.post("/", loginUser, errorValidationMiddleware, login);
@@ -35,6 +36,7 @@ router.patch(
   resetPassword
 );
 router.patch("/verify/:token", emailVerification);
+router.post("/resend-verification/:token", resendEmailVerification);
 
 router.use(authorized);
 

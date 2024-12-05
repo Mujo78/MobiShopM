@@ -2,15 +2,11 @@ import React from "react";
 import { useVerify } from "../features/User/useVerify";
 import Button from "react-bootstrap/esm/Button";
 import CustomSpinner from "../components/UI/CustomSpinner";
-import { useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const EmailVerification = () => {
-  const navigate = useNavigate();
+  const { token } = useParams();
   const { verify, isPending } = useVerify();
-
-  const handleNavigate = () => {
-    navigate("/contact");
-  };
 
   return (
     <div className="flex-grow-1">
@@ -25,7 +21,7 @@ const EmailVerification = () => {
             variant="success"
             className="py-2 custom-responsive-width"
             disabled={isPending}
-            onClick={verify}
+            onClick={() => verify(token)}
           >
             {isPending ? (
               <CustomSpinner size="xs" />
@@ -37,10 +33,14 @@ const EmailVerification = () => {
           <Button
             variant="light"
             className="py-2 custom-responsive-width"
-            onClick={handleNavigate}
+            onClick={() => console.log("object")}
           >
-            Any problems? Contact Support
+            Resend verification email
           </Button>
+
+          <Link className="text-secondary" to="/contact">
+            Any problems? Contact Support
+          </Link>
         </div>
       </div>
     </div>

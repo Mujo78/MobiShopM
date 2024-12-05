@@ -5,6 +5,7 @@ import { userSignup } from "./api";
 export function useSignup() {
   const {
     mutate: signup,
+    isPending,
     error,
     isError,
   } = useMutation({
@@ -15,5 +16,5 @@ export function useSignup() {
     },
   });
 
-  return { signup, error, isError };
+  return { signup, error, isError, isPending };
 }

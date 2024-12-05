@@ -99,6 +99,11 @@ const resetPassword = asyncHandler(async (req, res, next) => {
   const { token } = req.params;
   const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
+  if (password !== confirmPassword) {
+    res.status(400);
+    return next(new Error("Passwords must match."));
+  }
+
   const userToken = await UserToken.findOne({
     where: {
       [Op.and]: [
@@ -111,11 +116,6 @@ const resetPassword = asyncHandler(async (req, res, next) => {
   if (!userToken) {
     res.status(404);
     return next(new Error("Token is invalid or has expired."));
-  }
-
-  if (password !== confirmPassword) {
-    res.status(400);
-    return next(new Error("Passwords must match."));
   }
 
   const user = await User.findByPk(userToken.userId);
@@ -174,6 +174,8 @@ const emailVerification = asyncHandler(async (req, res, next) => {
     return next(new Error(error));
   }
 });
+
+const resendEmailVerification = asyncHandler(async (req, res, next) => {});
 
 const changeMyUsername = asyncHandler(async (req, res, next) => {
   const userId = req.user.id;
@@ -277,4 +279,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   emailVerification,
+  resendEmailVerification,
 };
